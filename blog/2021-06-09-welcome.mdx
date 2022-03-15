@@ -8,17 +8,13 @@ author_image_url: ../../img/profile.png
 tags: [Welcome!!!]
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export const Experience = () => <span>{new Date().getFullYear() - 2014}</span>;
 
 export const Link = ({ url, style, imageUrl, title }) => (
   <a href={url} target="_blank">
-    <img
-      style={style}
-      src={useBaseUrl(imageUrl)}
-      alt={title}
-    />
+    <img style={style} src={useBaseUrl(imageUrl)} alt={title} />
   </a>
 );
 
@@ -65,4 +61,3 @@ Check out the **<span style={{textDecoration: "underline"}}>[courses](https://al
 
 **<span style={{color: "var(--ifm-color-primary)"}}>By the way, if you have something in common or liked my profile, please, feel free to give me Oiii at <Link url="https://www.linkedin.com/in/alex-bleggi-377907201/" style={{display: "inline-block", width: "16px", margin: "0 0 0 3px", cursor: "pointer"}} imageUrl="img/other/linkedin.svg" title="Contact Alex Bleggi on LinkedIn">></Link>.
 I'm also open for networking and job opportunities!!! cheers 🍻!!!</span>**
-

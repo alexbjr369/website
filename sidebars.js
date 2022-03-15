@@ -6,12 +6,9 @@ module.exports = {
       items: [
         'projects/webpack-guide/introduction',
         {
-          'Styling': [
+          Styling: [
             {
-              'CSS': [
-                'projects/webpack-guide/styling/css/introduction',
-                'projects/webpack-guide/styling/css/implementation',
-              ],
+              CSS: ['projects/webpack-guide/styling/css/introduction', 'projects/webpack-guide/styling/css/implementation'],
             },
           ],
         },
@@ -23,12 +20,9 @@ module.exports = {
       items: [
         'projects/rollup-guide/introduction',
         {
-          'Styling': [
+          Styling: [
             {
-              'CSS': [
-                'projects/rollup-guide/styling/css/introduction',
-                'projects/rollup-guide/styling/css/implementation',
-              ],
+              CSS: ['projects/rollup-guide/styling/css/introduction', 'projects/rollup-guide/styling/css/implementation'],
             },
           ],
         },
@@ -40,12 +34,9 @@ module.exports = {
       items: [
         'projects/npm-build-scripts-guide/introduction',
         {
-          'Styling': [
+          Styling: [
             {
-              'CSS': [
-                'projects/npm-build-scripts-guide/styling/css/introduction',
-                'projects/npm-build-scripts-guide/styling/css/implementation',
-              ],
+              CSS: ['projects/npm-build-scripts-guide/styling/css/introduction', 'projects/npm-build-scripts-guide/styling/css/implementation'],
             },
           ],
         },
@@ -57,12 +48,9 @@ module.exports = {
       items: [
         'projects/linting-code-quality-rules/introduction',
         {
-          'Stylelint': [
+          Stylelint: [
             {
-              'CSS': [
-                'projects/linting-code-quality-rules/stylelint/css/introduction',
-                'projects/linting-code-quality-rules/stylelint/css/implementation',
-              ],
+              CSS: ['projects/linting-code-quality-rules/stylelint/css/introduction', 'projects/linting-code-quality-rules/stylelint/css/implementation'],
             },
           ],
         },
@@ -71,18 +59,12 @@ module.exports = {
     {
       type: 'category',
       label: 'Linting - Commit',
-      items: [
-        'projects/linting-commit/introduction',
-        'projects/linting-commit/implementation',
-      ],
+      items: ['projects/linting-commit/introduction', 'projects/linting-commit/implementation'],
     },
     {
       type: 'category',
       label: 'Linting - Formatting Rules',
-      items: [
-        'projects/linting-formatting-rules/introduction',
-        'projects/linting-formatting-rules/implementation',
-      ],
+      items: ['projects/linting-formatting-rules/introduction', 'projects/linting-formatting-rules/implementation'],
     },
   ],
   courses: [
@@ -92,9 +74,7 @@ module.exports = {
       items: [
         'courses/rocketseat/ignite/react-js/introduction',
         {
-          'Chapter 01': [
-            'courses/rocketseat/ignite/react-js/course/chapter-01/section-01',
-          ],
+          'Chapter 01': ['courses/rocketseat/ignite/react-js/course/chapter-01/section-01'],
         },
       ],
     },
@@ -104,9 +84,7 @@ module.exports = {
       items: [
         'courses/advanced-css-and-sass/advanced-css-and-sass',
         {
-          'Course': [
-            'courses/advanced-css-and-sass/course/section-01',
-          ],
+          Course: ['courses/advanced-css-and-sass/course/section-01', 'courses/advanced-css-and-sass/course/section-02'],
         },
       ],
     },

@@ -7,7 +7,14 @@ const imgPath = '../img/knowledge/css.svg';
 const url = 'https://developer.mozilla.org/en-US/docs/Web/CSS';
 const notes = '/docs/notes/css';
 
-const Courses = [];
+const Courses = [
+  {
+    url: '../docs/advanced-css-and-sass',
+    title: 'Advanced CSS and Sass',
+    imageUrl: '../img/courses/advanced-css-and-sass.jpg',
+    description: (<><a href="https://www.udemy.com/course/advanced-css-and-sass/" target="_blank"><strong>Online course</strong></a> by <a href="https://www.udemy.com/user/jonasschmedtmann/" target="_blank"><strong>Jonas Schmedtmann</strong></a> on <a href="https://www.udemy.com/" target="_blank"><strong>Udemy</strong></a>.</>)
+  },
+];
 
 const Projects = [
   {

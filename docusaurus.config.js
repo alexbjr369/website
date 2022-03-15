@@ -95,6 +95,10 @@ module.exports = {
           title: 'Projects',
           items: [
             {
+              label: 'Webpack Guide',
+              to: 'docs/projects/webpack-guide',
+            },
+            {
               label: 'Rollup Guide',
               to: 'docs/projects/rollup-guide',
             },
@@ -122,6 +126,10 @@ module.exports = {
             {
               label: 'Ignite React.js',
               to: 'docs/ignite/react-js',
+            },
+            {
+              label: 'Advanced CSS and Sass',
+              to: 'docs/advanced-css-and-sass',
             },
           ],
         },

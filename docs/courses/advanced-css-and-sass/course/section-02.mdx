@@ -1,0 +1,94 @@
+---
+id: section-02
+title: Advanced CSS and Sass · Section 02
+sidebar_label: Section 02
+description: Advanced CSS and Sass by Jonas Schmedtmann on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /advanced-css-and-sass/course/section-02
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Natours Project - Setup and First Steps
+
+## [Section Intro](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8312906#overview)
+
+## [Project Overview](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/6968492#overview)
+
+```html {1-17} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Natours | Exciting tours for adventurous people</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body></body>
+</html>
+```
+
+## [Building the Header - Part 1](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8274400#overview)
+
+```html {17} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Natours | Exciting tours for adventurous people</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <header class="header"></header>
+  </body>
+</html>
+```
+
+```css {1-27} title="css/style.css"
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #777;
+  padding: 30px;
+}
+
+.header {
+  height: 95vh;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(126, 213, 111, 0.8),
+      rgba(40, 180, 131, 0.8)
+    ),
+    url(../img/hero.jpg);
+  background-size: cover;
+  background-position: top;
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+}
+```
