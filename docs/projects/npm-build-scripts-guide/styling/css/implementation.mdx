@@ -1,0 +1,486 @@
+---
+id: implementation
+title: npm Build Scripts Guide · Styling · CSS · Implementation
+sidebar_label: Implementation
+description: A compilation of npm Build Scripts configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/npm-build-scripts-guide/styling/css/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Implementation
+
+Step by step **npm Build Scripts** configuration for **CSS**.
+
+## Linting
+
+### Formatting Rules
+
+Follow the steps in **[Linting - Formatting Rules](/docs/projects/linting-formatting-rules/implementation)**.
+
+### Commit
+
+Follow the steps in **[Linting - Commit](/docs/projects/linting-commit/implementation)**.
+
+### Code-quality Rules
+
+Follow the steps in **[Linting - Code-quality Rules](/docs/projects/linting-code-quality-rules/stylelint/css/implementation)**.
+
+## Development
+
+### PostCSS
+
+- **[`postcss`](https://www.npmjs.com/package/postcss)**
+- **[`postcss-cli`](https://www.npmjs.com/package/postcss-cli)**
+
+```bash
+# npm
+npm i -D postcss postcss-cli
+
+# yarn
+yarn add -D postcss postcss-cli
+```
+
+### CSS
+
+- **[`postcss-import`](https://www.npmjs.com/package/postcss-import)**
+- **[`postcss-preset-env`](https://www.npmjs.com/package/postcss-preset-env)**
+- **[`postcss-nested`](https://www.npmjs.com/package/postcss-nested)**
+- **[`postcss-discard-comments`](https://www.npmjs.com/package/postcss-discard-comments)**
+
+```bash
+# npm
+npm i -D postcss-import postcss-preset-env postcss-nested postcss-discard-comments
+
+# yarn
+yarn add -D postcss-import postcss-preset-env postcss-nested postcss-discard-comments
+```
+
+##### Configuration
+
+```txt {3} title=".gitignore"
+node_modules
+.husky/_
+src/main.css
+```
+
+```json {7-9} title="/.vscode/settings.json"
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.css": "postcss"
+  }
+}
+```
+
+```javascript {1-13} title="postcss.config.js"
+const postcssImport = require('postcss-import');
+const postcssPresetEnv = require('postcss-preset-env');
+const postcssNested = require('postcss-nested');
+const postcssDiscardComments = require('postcss-discard-comments');
+
+module.exports = {
+  plugins: [
+    postcssImport(),
+    postcssPresetEnv(),
+    postcssNested(),
+    postcssDiscardComments(),
+  ],
+};
+```
+
+```json {11} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "css:watch": "postcss src/styles/main.css --output src/main.css --watch"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### Server
+
+- **[`live-server`](https://www.npmjs.com/package/live-server)**
+- **[`npm-run-all`](https://www.npmjs.com/package/npm-run-all)**
+
+```bash
+# npm
+npm i -D live-server npm-run-all
+
+# yarn
+yarn add -D live-server npm-run-all
+```
+
+##### Configuration
+
+```json {11,13} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "css:watch": "postcss src/styles/main.css --output src/main.css --watch",
+    "start": "npm-run-all --parallel css:watch server"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### Browserslist
+
+```txt {1-9} title=".browserslistrc"
+>= 0.5%
+last 2 major versions
+not dead
+Chrome >= 60
+Firefox >= 60
+Firefox ESR
+iOS >= 12
+Safari >= 12
+not Explorer <= 11
+```
+
+### Testing
+
+```css {1-18} title="src/styles/base.css"
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+```
+
+```css {1} title="src/styles/main.css"
+@import './base.css';
+```
+
+```bash
+# npm
+npm start
+
+# yarn
+yarn start
+```
+
+## Production
+
+### CSS
+
+##### Configuration
+
+```txt {4} title=".gitignore"
+node_modules
+.husky/_
+src/main.css
+dist
+```
+
+```json {13} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "css:watch": "postcss src/styles/main.css --output src/main.css --watch",
+    "css:build": "postcss src/styles/main.css --output dist/main.css",
+    "start": "npm-run-all --parallel css:watch server"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### CSS Minification
+
+- **[`clean-css-cli`](https://www.npmjs.com/package/clean-css-cli)**
+
+```bash
+# npm
+npm i -D clean-css-cli
+
+# yarn
+yarn add -D clean-css-cli
+```
+
+##### Configuration
+
+```json {14,16} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "css:watch": "postcss src/styles/main.css --output src/main.css --watch",
+    "css:build": "postcss src/styles/main.css --output dist/main.css",
+    "css:minify": "cleancss -O2 --format --with-rebase --source-map --source-map-inline-sources --output dist --batch --batch-suffix .min dist/**/*.css",
+    "start": "npm-run-all --parallel css:watch server",
+    "build": "npm-run-all css:build css:minify"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### HTML
+
+- **[`shx`](https://www.npmjs.com/package/shx)**
+
+```bash
+# npm
+npm i -D shx
+
+# yarn
+yarn add -D shx
+```
+
+##### Configuration
+
+```json {12,17} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "html:copy": "shx cp -r src/**/*.html dist",
+    "css:watch": "postcss src/styles/main.css --output src/main.css --watch",
+    "css:build": "postcss src/styles/main.css --output dist/main.css",
+    "css:minify": "cleancss -O2 --format --with-rebase --source-map --source-map-inline-sources --output dist --batch --batch-suffix .min dist/**/*.css",
+    "start": "npm-run-all --parallel css:watch server",
+    "build": "npm-run-all css:build css:minify html:copy"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### HTML Minification
+
+- **[`html-minifier`](https://www.npmjs.com/package/html-minifier)**
+
+```bash
+# npm
+npm i -D html-minifier
+
+# yarn
+yarn add -D html-minifier
+```
+
+##### Configuration
+
+```json {13,18} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "html:copy": "shx cp -r src/**/*.html dist",
+    "html:minify": "npx html-minifier --collapse-whitespace --file-ext html --input-dir dist --output-dir dist",
+    "css:watch": "postcss src/styles/main.css --output src/main.css --watch",
+    "css:build": "postcss src/styles/main.css --output dist/main.css",
+    "css:minify": "cleancss -O2 --format --with-rebase --source-map --source-map-inline-sources --output dist --batch --batch-suffix .min dist/**/*.css",
+    "start": "npm-run-all --parallel css:watch server",
+    "build": "npm-run-all css:build css:minify html:copy html:minify"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### HTML Replace
+
+- **[`replace-in-file`](https://www.npmjs.com/package/replace-in-file)**
+
+```bash
+# npm
+npm i -D replace-in-file
+
+# yarn
+yarn add -D replace-in-file
+```
+
+##### Configuration
+
+```json {14,19} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "html:copy": "shx cp -r src/**/*.html dist",
+    "html:minify": "npx html-minifier --collapse-whitespace --file-ext html --input-dir dist --output-dir dist",
+    "html:replace": "replace-in-file main.css main.min.css dist/**/*.html",
+    "css:watch": "postcss src/styles/main.css --output src/main.css --watch",
+    "css:build": "postcss src/styles/main.css --output dist/main.css",
+    "css:minify": "cleancss -O2 --format --with-rebase --source-map --source-map-inline-sources --output dist --batch --batch-suffix .min dist/**/*.css",
+    "start": "npm-run-all --parallel css:watch server",
+    "build": "npm-run-all css:build css:minify html:copy html:minify html:replace"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### Cleaning Distribution Folder
+
+##### Configuration
+
+```json {11,20} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "clean": "shx rm -rf dist && shx mkdir dist",
+    "server": "live-server src",
+    "html:copy": "shx cp -r src/**/*.html dist",
+    "html:minify": "npx html-minifier --collapse-whitespace --file-ext html --input-dir dist --output-dir dist",
+    "html:replace": "replace-in-file main.css main.min.css dist/**/*.html",
+    "css:watch": "postcss src/styles/main.css --output src/main.css --watch",
+    "css:build": "postcss src/styles/main.css --output dist/main.css",
+    "css:minify": "cleancss -O2 --format --with-rebase --source-map --source-map-inline-sources --output dist --batch --batch-suffix .min dist/**/*.css",
+    "start": "npm-run-all --parallel css:watch server",
+    "build": "npm-run-all clean css:build css:minify html:copy html:minify html:replace"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### Testing
+
+```bash
+# npm
+npm run build
+
+# yarn
+yarn build
+```

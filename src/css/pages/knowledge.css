@@ -1,0 +1,78 @@
+.knowledge .container {
+  max-width: 1140px;
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.knowledge .row {
+  justify-content: center;
+}
+
+.knowledge-feature {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  margin: 0px 32px 64px;
+  text-align: center;
+}
+
+.knowledge-feature__link {
+  display: block;
+  cursor: pointer;
+}
+
+.knowledge-feature__image {
+  display: block;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.knowledge-feature__image--web-components {
+  height: 125px;
+}
+
+.knowledge-feature__image--parcel {
+  width: 175px;
+}
+
+.knowledge-feature__image--terser {
+  height: auto;
+}
+
+.knowledge-feature__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  padding: 8px 16px;
+  background-color: rgba(130, 87, 230, 0.8);
+  border-radius: 3px;
+  transform: translateX(-50%);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity var(--animation);
+}
+
+.knowledge-feature__heading {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 16px;
+  text-align: center;
+}
+
+/* states */
+
+.knowledge-feature:hover .knowledge-feature__overlay {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* media-queries */
+
+@media (max-width: 996px) {
+  .knowledge-feature__overlay {
+    visibility: visible;
+    opacity: 1;
+  }
+}

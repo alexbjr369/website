@@ -1,0 +1,142 @@
+---
+id: implementation
+title: Linting - Code-quality Rules · Stylelint · CSS · Implementation
+sidebar_label: Implementation
+description: A compilation of Code-quality Rules Linting configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/linting-code-quality-rules/stylelint/css/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Implementation
+
+Step by step **Stylelint** configuration for **CSS**.
+
+## Formatting Rules Linting
+
+Follow the steps in **[Linting - Formatting Rules](/docs/projects/linting-formatting-rules/implementation)**.
+
+## Commit Linting
+
+Follow the steps in **[Linting - Commit](/docs/projects/linting-commit/implementation)**.
+
+## Stylelint
+
+- **[`stylelint`](https://www.npmjs.com/package/stylelint)**
+
+```bash
+# npm
+npm i -D stylelint
+
+# yarn
+yarn add -D stylelint
+```
+
+##### Plugins
+
+- **[`stylelint-config-prettier`](https://www.npmjs.com/package/stylelint-config-prettier)**
+- **[`stylelint-config-rational-order`](https://www.npmjs.com/package/stylelint-config-rational-order)**
+- **[`stylelint-order`](https://www.npmjs.com/package/stylelint-order)**
+
+```bash
+# npm
+npm i -D stylelint-config-prettier stylelint-config-rational-order stylelint-order
+
+# yarn
+yarn add -D stylelint-config-prettier stylelint-config-rational-order stylelint-order
+```
+
+##### Configuration
+
+```json {1-3} title=".stylelintrc.json"
+{
+  "extends": ["stylelint-config-rational-order", "stylelint-config-prettier"]
+}
+```
+
+```json {10} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+## lint-staged
+
+##### Configuration
+
+```json {14} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+## Testing
+
+```css {1-18} title="src/index.css"
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+```
+
+```bash
+# npm
+npm run commit
+
+# yarn
+yarn commit
+```

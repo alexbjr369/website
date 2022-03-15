@@ -1,0 +1,160 @@
+---
+id: implementation
+title: Linting - Formatting Rules · Implementation
+sidebar_label: Implementation
+description: A configuration for Formatting Rules linting.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/linting-formatting-rules/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Implementation
+
+Step by step implementation.
+
+## EditorConfig
+
+```txt {1-9} title=".editorconfig"
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+```
+
+## Prettier
+
+- **[`prettier`](https://www.npmjs.com/package/prettier)**
+
+```bash
+# npm
+npm i -D prettier
+
+# yarn
+yarn add -D prettier
+```
+
+##### Configuration
+
+```txt {1} title=".gitignore"
+node_modules
+```
+
+```json {1-3} title=".prettierrc.json"
+{
+  "singleQuote": true
+}
+```
+
+```json {7} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prettier": "prettier . --write --ignore-unknown"
+  }
+}
+```
+
+## Format on Save
+
+```json {1-7} title=".vscode/settings.json"
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
+}
+```
+
+## lint-staged
+
+- **[`lint-staged`](https://www.npmjs.com/package/lint-staged)**
+
+```bash
+# npm
+npm i -D lint-staged
+
+# yarn
+yarn add -D lint-staged
+```
+
+##### Configuration
+
+```json {9-11} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prettier": "prettier . --write --ignore-unknown"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier"
+  }
+}
+```
+
+## husky
+
+- **[`husky`](https://www.npmjs.com/package/husky)**
+
+```bash
+# npm
+npm i -D husky
+
+# yarn
+yarn add -D husky
+```
+
+```bash
+# npm
+npx husky install
+
+# yarn
+yarn husky install
+```
+
+```bash
+# npm
+npx husky add .husky/pre-commit 'npx lint-staged'
+
+# yarn
+yarn husky add .husky/pre-commit 'yarn lint-staged'
+```
+
+##### Configuration
+
+```txt {2} title=".gitignore"
+node_modules
+.husky/_
+```
+
+```json {7} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier"
+  }
+}
+```

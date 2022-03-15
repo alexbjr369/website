@@ -1,0 +1,106 @@
+---
+id: implementation
+title: Linting - Commit · Implementation
+sidebar_label: Implementation
+description: A configuration for commit linting.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/linting-commit/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Implementation
+
+Step by step implementation.
+
+## Formatting Rules Linting
+
+Follow the steps in **[Linting - Formatting Rules](/docs/projects/linting-formatting-rules/implementation)**.
+
+## commitlint
+
+- **[`@commitlint/cli`](https://www.npmjs.com/package/@commitlint/cli)**
+- **[`@commitlint/config-conventional`](https://www.npmjs.com/package/@commitlint/config-conventional)**
+
+```bash
+# npm
+npm i -D @commitlint/cli @commitlint/config-conventional
+
+# yarn
+yarn add -D @commitlint/cli @commitlint/config-conventional
+```
+
+##### Configuration
+
+```javascript {1-3} title="commitlint.config.js"
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+};
+```
+
+## husk
+
+```bash
+# npm
+npx husky add .husky/commit-msg 'npx --no -- commitlint --edit $1'
+
+# yarn
+yarn husky add .husky/commit-msg 'yarn commitlint --edit $1'
+```
+
+## commitizen
+
+- **[`commitizen`](https://www.npmjs.com/package/commitizen)**
+- **[`cz-conventional-changelog`](https://www.npmjs.com/package/cz-conventional-changelog)**
+
+```bash
+# npm
+npm i -D commitizen
+
+# yarn
+yarn add -D commitizen
+```
+
+```bash
+# npm
+npx commitizen init cz-conventional-changelog --save-dev --save-exact
+
+# yarn
+npx commitizen init cz-conventional-changelog --yarn --dev --exact
+```
+
+```json {9,14-18} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+## Testing
+
+```bash
+# npm
+npm run commit
+
+# yarn
+yarn commit
+```

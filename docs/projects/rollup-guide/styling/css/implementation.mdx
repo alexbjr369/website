@@ -1,0 +1,440 @@
+---
+id: implementation
+title: Rollup Guide · Styling · CSS · Implementation
+sidebar_label: Implementation
+description: A compilation of Rollup configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/project/styling/css/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Implementation
+
+Step by step **Rollup** configuration for **CSS**.
+
+## Linting
+
+### Formatting Rules
+
+Follow the steps in **[Linting - Formatting Rules](/docs/projects/linting-formatting-rules/implementation)**.
+
+### Commit
+
+Follow the steps in **[Linting - Commit](/docs/projects/linting-commit/implementation)**.
+
+### Code-quality Rules
+
+Follow the steps in **[Linting - Code-quality Rules](/docs/projects/linting-code-quality-rules/stylelint/css/implementation)**.
+
+## Development
+
+### Rollup
+
+- **[`rollup`](https://www.npmjs.com/package/rollup)**
+
+```bash
+# npm
+npm i -D rollup
+
+# yarn
+yarn add -D rollup
+```
+
+##### Plugins
+
+- **[`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve)**
+
+```bash
+# npm
+npm i -D @rollup/plugin-node-resolve
+
+# yarn
+yarn add -D @rollup/plugin-node-resolve
+```
+
+##### Configuration
+
+```txt {3} title=".gitignore"
+node_modules
+.husky/_
+src/bundle.js
+```
+
+```javascript {1-11} title="rollup.config.js"
+import { defineConfig } from 'rollup';
+import resolve from '@rollup/plugin-node-resolve';
+
+export default defineConfig({
+  input: 'src/scripts/index.js',
+  output: {
+    file: 'src/bundle.js',
+    format: 'esm',
+  },
+  plugins: [resolve()],
+});
+```
+
+```json {11} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "rollup:watch": "rollup --config --watch",
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### Server
+
+- **[`live-server`](https://www.npmjs.com/package/live-server)**
+- **[`npm-run-all`](https://www.npmjs.com/package/npm-run-all)**
+
+```bash
+# npm
+npm i -D live-server npm-run-all
+
+# yarn
+yarn add -D live-server npm-run-all
+```
+
+##### Configuration
+
+```json {11,13} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "rollup:watch": "rollup --config --watch",
+    "start": "npm-run-all --parallel rollup:watch server",
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### CSS
+
+- **[`rollup-plugin-styles`](https://www.npmjs.com/package/rollup-plugin-styles)**
+
+```bash
+# npm
+npm i -D rollup-plugin-styles
+
+# yarn
+yarn add -D rollup-plugin-styles
+```
+
+##### Configuration
+
+```javascript {3,11} title="rollup.config.js"
+import { defineConfig } from 'rollup';
+import resolve from '@rollup/plugin-node-resolve';
+import styles from 'rollup-plugin-styles';
+
+export default defineConfig({
+  input: 'src/scripts/index.js',
+  output: {
+    file: 'src/bundle.js',
+    format: 'esm',
+  },
+  plugins: [resolve(), styles()],
+});
+```
+
+### SourceMaps
+
+##### Configuration
+
+```javascript {10} title="rollup.config.js"
+import { defineConfig } from 'rollup';
+import resolve from '@rollup/plugin-node-resolve';
+import styles from 'rollup-plugin-styles';
+
+export default defineConfig({
+  input: 'src/scripts/index.js',
+  output: {
+    file: 'src/bundle.js',
+    format: 'esm',
+    sourcemap: 'inline',
+  },
+  plugins: [resolve(), styles()],
+});
+```
+
+### Testing
+
+```html {1-12} title="src/index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="module" src="./bundle.js"></script>
+  </body>
+</html>
+```
+
+```css {1-18} title="src/styles/global.css"
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+```
+
+```javascript {1} title="src/scripts/index.js"
+import '../styles/global.css';
+```
+
+```bash
+# npm
+npm start
+
+# yarn
+yarn start
+```
+
+## Production
+
+### Environment
+
+##### Configuration
+
+```txt {4} title=".gitignore"
+node_modules
+.husky/_
+src/bundle.js
+dist
+```
+
+```javascript {5,10,12} title="rollup.config.js"
+import { defineConfig } from 'rollup';
+import resolve from '@rollup/plugin-node-resolve';
+import styles from 'rollup-plugin-styles';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+export default defineConfig({
+  input: 'src/scripts/index.js',
+  output: {
+    file: isProduction ? 'dist/bundle.js' : 'src/bundle.js',
+    format: 'esm',
+    sourcemap: isProduction ? 'true' : 'inline',
+  },
+  plugins: [resolve(), styles()],
+});
+```
+
+```json {13} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "rollup:watch": "rollup --config --watch",
+    "rollup:build": "rollup --config --environment NODE_ENV:production",
+    "start": "npm-run-all --parallel rollup:watch server"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### HTML
+
+- **[`shx`](https://www.npmjs.com/package/shx)**
+
+```bash
+# npm
+npm i -D shx
+
+# yarn
+yarn add -D shx
+```
+
+##### Configuration
+
+```json {12,16} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "html:copy": "shx cp src/index.html dist/index.html",
+    "rollup:watch": "rollup --config --watch",
+    "rollup:build": "rollup --config --environment NODE_ENV:production",
+    "start": "npm-run-all --parallel rollup:watch server",
+    "build": "npm-run-all rollup:build html:copy"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### HTML Minification
+
+- **[`html-minifier`](https://www.npmjs.com/package/html-minifier)**
+
+```bash
+# npm
+npm i -D html-minifier
+
+# yarn
+yarn add -D html-minifier
+```
+
+##### Configuration
+
+```json {13,17} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "server": "live-server src",
+    "html:copy": "shx cp src/index.html dist/index.html",
+    "html:minify": "npx html-minifier --collapse-whitespace --file-ext html --input-dir dist --output-dir dist",
+    "rollup:watch": "rollup --config --watch",
+    "rollup:build": "rollup --config --environment NODE_ENV:production",
+    "start": "npm-run-all --parallel rollup:watch server",
+    "build": "npm-run-all rollup:build html:copy html:minify"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### Cleaning Distribution Folder
+
+##### Configuration
+
+```json {11,18} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "clean": "shx rm -rf dist && shx mkdir dist",
+    "server": "live-server src",
+    "html:copy": "shx cp src/index.html dist/index.html",
+    "html:minify": "npx html-minifier --collapse-whitespace --file-ext html --input-dir dist --output-dir dist",
+    "rollup:watch": "rollup --config --watch",
+    "rollup:build": "rollup --config --environment NODE_ENV:production",
+    "start": "npm-run-all --parallel rollup:watch server",
+    "build": "npm-run-all clean rollup:build html:copy html:minify"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### Testing
+
+```bash
+# npm
+npm run build
+
+# yarn
+yarn build
+```

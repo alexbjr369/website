@@ -1,0 +1,58 @@
+---
+id: introduction
+title: Linting - Commit
+sidebar_label: Introduction
+description: A configuration for Commit Linting.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/linting-commit
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+export const BuiltWith = ({ url, className, image, title, style }) => (
+  <a className="built-with" href={url}>
+    <img className={`built-with__image ${className}`} src={useBaseUrl(`img/knowledge/${image}`)} alt={title} style={style}/>
+    <div className="built-with__overlay">
+      <h2 className="built-with__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+export const BuiltWithText = ({ url, title }) => (
+  <a className="built-with-text" href={url}>
+    <div className="built-with-text__overlay">
+      <h2 className="built-with-text__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+# Linting - Commit
+
+A configuration for **Commit Linting**.
+
+## About
+
+This project aims to be a simple configuration for **Commit Linting**, serving as a guide.
+
+## Links
+
+**[`Repository`](https://github.com/alexbjr369/linting-commit)** **[`Implementation`](/docs/projects/linting-commit/implementation)**
+
+## Built With
+
+<div className="markdown-code thin-scrollbar">
+  <div className="markdown-code__container">
+    <BuiltWith url="/knowledge/editorconfig" image="editorconfig.png" title="EditorConfig"></BuiltWith>
+    <BuiltWith url="/knowledge/prettier" image="prettier.svg" title="Prettier"></BuiltWith>
+    <BuiltWithText url="/knowledge/lint-staged" title="lint-staged"></BuiltWithText>
+    <BuiltWithText url="/knowledge/husky" title="husky"></BuiltWithText>
+    <BuiltWithText url="/knowledge/commitlint-cli" title="@commitlint/cli"></BuiltWithText>
+    <BuiltWithText url="/knowledge/commitlint-config-conventional" title="@commitlint/config-conventional"></BuiltWithText>
+    <BuiltWithText url="/knowledge/commitizen" title="commitizen"></BuiltWithText>
+    <BuiltWithText url="/knowledge/cz-conventional-changelog" title="cz-conventional-changelog"></BuiltWithText>
+  </div>
+</div>

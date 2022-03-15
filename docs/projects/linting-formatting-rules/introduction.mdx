@@ -1,0 +1,54 @@
+---
+id: introduction
+title: Linting - Formatting Rules
+sidebar_label: Introduction
+description: A configuration for Formatting Rules Linting.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/linting-formatting-rules
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+export const BuiltWith = ({ url, className, image, title, style }) => (
+  <a className="built-with" href={url}>
+    <img className={`built-with__image ${className}`} src={useBaseUrl(`img/knowledge/${image}`)} alt={title} style={style}/>
+    <div className="built-with__overlay">
+      <h2 className="built-with__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+export const BuiltWithText = ({ url, title }) => (
+  <a className="built-with-text" href={url}>
+    <div className="built-with-text__overlay">
+      <h2 className="built-with-text__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+# Linting - Formatting Rules
+
+A configuration for **Formatting Rules Linting**.
+
+## About
+
+This project aims to be a simple configuration for **Formatting Rules Linting**, serving as a guide.
+
+## Links
+
+**[`Repository`](https://github.com/alexbjr369/linting-formatting-rules)** **[`Implementation`](/docs/projects/linting-formatting-rules/implementation)**
+
+## Built With
+
+<div className="markdown-code thin-scrollbar">
+  <div className="markdown-code__container">
+    <BuiltWith url="/knowledge/editorconfig" image="editorconfig.png" title="EditorConfig"></BuiltWith>
+    <BuiltWith url="/knowledge/prettier" image="prettier.svg" title="Prettier"></BuiltWith>
+    <BuiltWithText url="/knowledge/lint-staged" title="lint-staged"></BuiltWithText>
+    <BuiltWithText url="/knowledge/husky" title="husky"></BuiltWithText>
+  </div>
+</div>

@@ -1,0 +1,382 @@
+---
+id: implementation
+title: Webpack Guide · Styling · CSS · Implementation
+sidebar_label: Implementation
+description: A compilation of Webpack configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/webpack-guide/styling/css/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Implementation
+
+Step by step **Webpack** configuration for **CSS**.
+
+## Linting
+
+### Formatting Rules
+
+Follow the steps in **[Linting - Formatting Rules](/docs/projects/linting-formatting-rules/implementation)**.
+
+### Commit
+
+Follow the steps in **[Linting - Commit](/docs/projects/linting-commit/implementation)**.
+
+### Code-quality Rules
+
+Follow the steps in **[Linting - Code-quality Rules](/docs/projects/linting-code-quality-rules/stylelint/css/implementation)**.
+
+## Development
+
+### Webpack
+
+- **[`webpack`](https://www.npmjs.com/package/webpack)**
+- **[`webpack-cli`](https://www.npmjs.com/package/webpack-cli)**
+
+```bash
+# npm
+npm i -D webpack webpack-cli
+
+# yarn
+yarn add -D webpack webpack-cli
+```
+
+##### Configuration
+
+```javascript {1-10} title="webpack.config.js"
+const path = require('path');
+
+module.exports = {
+  mode: 'development',
+  entry: path.resolve(__dirname, 'src', 'index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+};
+```
+
+```json {11} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "webpack:watch": "webpack --watch"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### Server
+
+- **[`webpack-dev-server`](https://www.npmjs.com/package/webpack-dev-server)**
+
+```bash
+# npm
+npm i -D webpack-dev-server
+
+# yarn
+yarn add -D webpack-dev-server
+```
+
+##### Configuration
+
+```javascript {10-12} title="webpack.config.js"
+const path = require('path');
+
+module.exports = {
+  mode: 'development',
+  entry: path.resolve(__dirname, 'src', 'index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  devServer: {
+    static: path.resolve(__dirname, 'public'),
+  },
+};
+```
+
+```diff {12} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+-    "webpack:watch": "webpack --watch",
+    "start": "webpack serve"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### CSS
+
+- **[`style-loader`](https://www.npmjs.com/package/style-loader)**
+- **[`css-loader`](https://www.npmjs.com/package/css-loader)**
+
+```bash
+# npm
+npm i -D style-loader css-loader
+
+# yarn
+yarn add -D style-loader css-loader
+```
+
+##### Configuration
+
+```javascript {13-21} title="webpack.config.js"
+const path = require('path');
+
+module.exports = {
+  mode: 'development',
+  entry: path.resolve(__dirname, 'src', 'index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  devServer: {
+    static: path.resolve(__dirname, 'public'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+```
+
+### SourceMaps
+
+##### Configuration
+
+```javascript {5} title="webpack.config.js"
+const path = require('path');
+
+module.exports = {
+  mode: 'development',
+  devtool: 'eval-source-map'
+  entry: path.resolve(__dirname, 'src', 'index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  devServer: {
+    static: path.resolve(__dirname, 'public'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+```
+
+### Testing
+
+```css {1-18} title="src/styles/global.css"
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+```
+
+```javascript {1} title="src/index.js"
+import './styles/global.css';
+```
+
+```bash
+# npm
+npm run dev
+
+# yarn
+yarn dev
+```
+
+## Production
+
+### Environment
+
+- **[`cross-env`](https://www.npmjs.com/package/cross-env)**
+
+```bash
+# npm
+npm i -D cross-env
+
+# yarn
+yarn add -D cross-env
+```
+
+##### Configuration
+
+```txt {3} title=".gitignore"
+node_modules
+.husky/_
+dist
+```
+
+```javascript {3,6,7} title="webpack.config.js"
+const path = require('path');
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+module.exports = {
+  mode: isProduction ? 'production' : 'development',
+  devtool: isProduction ? 'source-map' : 'eval-source-map',
+  entry: path.resolve(__dirname, 'src', 'index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  devServer: {
+    static: path.resolve(__dirname, 'public'),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+```
+
+```json {12} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.css --fix",
+    "start": "webpack serve",
+    "build": "cross-env NODE_ENV=production webpack"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.css": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+### HTML
+
+- **[`html-webpack-plugin`](https://www.npmjs.com/package/html-webpack-plugin)**
+
+```bash
+# npm
+npm i -D html-webpack-plugin
+
+# yarn
+yarn add -D html-webpack-plugin
+```
+
+##### Configuration
+
+```javascript {2,17-21} title="webpack.config.js"
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+module.exports = {
+  mode: isProduction ? 'production' : 'development',
+  devtool: isProduction ? 'source-map' : 'eval-source-map',
+  entry: path.resolve(__dirname, 'src', 'index.js'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  devServer: {
+    static: path.resolve(__dirname, 'public'),
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public', 'index.html'),
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+};
+```
+
+### Testing
+
+```bash
+# npm
+npm run build
+
+# yarn
+yarn build
+```

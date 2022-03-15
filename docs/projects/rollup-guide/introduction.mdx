@@ -1,0 +1,49 @@
+---
+id: introduction
+title: Rollup Guide
+sidebar_label: Introduction
+description: A compilation of Rollup configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/rollup-guide
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+export const BuiltWith = ({ url, className, image, title, style }) => (
+  <a className="built-with" href={url}>
+    <img className={`built-with__image ${className}`} src={useBaseUrl(`img/knowledge/${image}`)} alt={title} style={style}/>
+    <div className="built-with__overlay">
+      <h2 className="built-with__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+export const BuiltWithText = ({ url, title }) => (
+  <a className="built-with-text" href={url}>
+    <div className="built-with-text__overlay">
+      <h2 className="built-with-text__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+# Rollup Guide
+
+A compilation of **Rollup** configurations.
+
+## About
+
+This project aims to be a compilation of **Rollup** configurations, serving as a guide.
+
+## Links
+
+**[`Repository`](https://github.com/alexbjr369/rollup-guide)**
+
+#### Scripts
+
+#### Styling
+
+- **CSS Implementation:** **[`Repository`](https://github.com/alexbjr369/rollup-guide)** **[`Implementation`](/docs/projects/rollup-guide/styling/css/implementation)**

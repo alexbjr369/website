@@ -1,0 +1,9 @@
+.fixed-invert {
+  filter: invert(1);
+}
+
+/* themes */
+
+html[data-theme='dark'] .invert {
+  filter: invert(1);
+}

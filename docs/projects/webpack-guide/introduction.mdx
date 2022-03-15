@@ -1,0 +1,49 @@
+---
+id: introduction
+title: Webpack Guide
+sidebar_label: Introduction
+description: A compilation of Webpack configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/webpack-guide
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+export const BuiltWith = ({ url, className, image, title, style }) => (
+  <a className="built-with" href={url}>
+    <img className={`built-with__image ${className}`} src={useBaseUrl(`img/knowledge/${image}`)} alt={title} style={style}/>
+    <div className="built-with__overlay">
+      <h2 className="built-with__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+export const BuiltWithText = ({ url, title }) => (
+  <a className="built-with-text" href={url}>
+    <div className="built-with-text__overlay">
+      <h2 className="built-with-text__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+# Webpack Guide
+
+A compilation of **Webpack** configurations.
+
+## About
+
+This project aims to be a compilation of **Webpack** configurations, serving as a guide.
+
+## Links
+
+**[`Repository`](https://github.com/alexbjr369/webpack-guide)**
+
+##### Scripts
+
+##### Styling
+
+- **CSS Implementation:** **[`Repository`](https://github.com/alexbjr369/webpack-guide)** **[`Implementation`](/docs/projects/webpack-guide/styling/css/implementation)**
