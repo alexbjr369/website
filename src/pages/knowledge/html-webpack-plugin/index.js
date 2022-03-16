@@ -7,7 +7,16 @@ const imgPath = '../img/knowledge/npm-build-scripts.svg';
 const url = 'https://www.npmjs.com/package/html-webpack-plugin';
 const notes = '';
 
-const Courses = [];
+const Courses = [
+  {
+    url: '../docs/ignite/react-js',
+    title: 'Ignite React.js',
+    imageUrl: '../img/courses/ignite-react.png',
+    description: (
+      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
+    )
+  },
+];
 
 const Projects = [
   {

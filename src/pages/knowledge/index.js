@@ -4,6 +4,21 @@ import Link from '@docusaurus/Link';
 
 const KnowledgeImage = [
   {
+    title: 'CSS',
+    imageUrl: '../img/knowledge/css.svg',
+    url: 'knowledge/css',
+  },
+  {
+    title: 'Sass',
+    imageUrl: '../img/knowledge/sass.svg',
+    url: 'knowledge/sass',
+  },
+  {
+    title: 'PostCSS',
+    imageUrl: '../img/knowledge/postcss.svg',
+    url: 'knowledge/postcss',
+  },
+  {
     title: 'EditorConfig',
     imageUrl: '../img/knowledge/editorconfig.png',
     url: 'knowledge/editorconfig',
@@ -13,31 +28,12 @@ const KnowledgeImage = [
     imageUrl: '../img/knowledge/prettier.svg',
     url: 'knowledge/prettier',
   },
-  {
-    title: 'CSS',
-    imageUrl: '../img/knowledge/css.svg',
-    url: 'knowledge/css',
-  },
+
   {
     title: 'Stylelint',
     imageUrl: '../img/knowledge/stylelint.svg',
     url: 'knowledge/stylelint',
     className: 'invert',
-  },
-  {
-    title: 'PostCSS',
-    imageUrl: '../img/knowledge/postcss.svg',
-    url: 'knowledge/postcss',
-  },
-  {
-    title: 'Browserslist',
-    imageUrl: '../img/knowledge/browserslist.svg',
-    url: 'knowledge/browserslist',
-  },
-  {
-    title: 'cleanCSS',
-    imageUrl: '../img/knowledge/cleancss.svg',
-    url: 'knowledge/cleancss',
   },
   {
     title: 'Rollup',
@@ -48,6 +44,21 @@ const KnowledgeImage = [
     title: 'Webpack',
     imageUrl: '../img/knowledge/webpack.svg',
     url: 'knowledge/webpack',
+  },
+  {
+    title: 'React',
+    imageUrl: '../img/knowledge/react-js.svg',
+    url: 'knowledge/react-js',
+  },
+  {
+    title: 'Browserslist',
+    imageUrl: '../img/knowledge/browserslist.svg',
+    url: 'knowledge/browserslist',
+  },
+  {
+    title: 'cleanCSS',
+    imageUrl: '../img/knowledge/cleancss.svg',
+    url: 'knowledge/cleancss',
   },
 ];
 
@@ -168,6 +179,36 @@ const KnowledgeText = [
   {
     title: 'css-loader',
     url: 'knowledge/css-loader',
+  },
+  {
+    title: 'sass-loader',
+    url: 'knowledge/sass-loader',
+  },
+  {
+    title: 'babel-loader',
+    url: 'knowledge/babel-loader',
+  },
+
+  {
+    title: 'react-dom',
+    url: 'knowledge/react-dom',
+  },
+
+  {
+    title: '@babel/cli',
+    url: 'knowledge/babel-cli',
+  },
+  {
+    title: '@babel/core',
+    url: 'knowledge/babel-core',
+  },
+  {
+    title: '@babel/preset-env',
+    url: 'knowledge/babel-preset-env',
+  },
+  {
+    title: '@babel/preset-react',
+    url: 'knowledge/babel-preset-react',
   },
 ];
 

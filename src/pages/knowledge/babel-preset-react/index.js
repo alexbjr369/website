@@ -2,14 +2,14 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-const title = 'Webpack';
-const imgPath = '../img/knowledge/webpack.svg';
-const url = 'https://webpack.js.org';
+const title = '@babel/preset-react';
+const imgPath = '../img/knowledge/npm-build-scripts.svg';
+const url = 'https://www.npmjs.com/package/babel-preset-react';
 const notes = '';
 
 const Courses = [
   {
-    url: '/docs/ignite/react-js',
+    url: '../docs/ignite/react-js',
     title: 'Ignite React.js',
     imageUrl: '../img/courses/ignite-react.png',
     description: (
@@ -18,16 +18,7 @@ const Courses = [
   },
 ];
 
-const Projects = [
-  {
-    url: '../docs/projects/webpack-guide',
-    title: 'Webpack Guide',
-    imageUrl: '../img/projects/github.png',
-    description: (
-      <>A compilation of Webpack configurations.</>
-    )
-  },
-];
+const Projects = [];
 
 function Hero() {
   return (
