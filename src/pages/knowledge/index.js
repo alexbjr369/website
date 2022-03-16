@@ -46,6 +46,11 @@ const KnowledgeImage = [
     url: 'knowledge/webpack',
   },
   {
+    title: 'Babel',
+    imageUrl: '../img/knowledge/babel.svg',
+    url: 'knowledge/babel',
+  },
+  {
     title: 'React',
     imageUrl: '../img/knowledge/react-js.svg',
     url: 'knowledge/react-js',
