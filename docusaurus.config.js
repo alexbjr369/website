@@ -53,6 +53,11 @@ module.exports = {
           position: 'left',
         },
         {
+          to: 'docs/notes',
+          label: 'Notes',
+          position: 'left',
+        },
+        {
           href: 'https://github.com/alexbjr369',
           position: 'right',
           className: 'navbar-icon navbar-icon_github',
@@ -130,6 +135,23 @@ module.exports = {
             {
               label: 'Advanced CSS and Sass',
               to: 'docs/advanced-css-and-sass',
+            },
+          ],
+        },
+        {
+          title: 'Notes',
+          items: [
+            {
+              label: 'BEM Methodology',
+              to: 'docs/notes/bem-methodology',
+            },
+            {
+              label: 'Sass',
+              to: 'docs/notes/sass',
+            },
+            {
+              label: 'CSS',
+              to: 'docs/notes/css',
             },
           ],
         },
