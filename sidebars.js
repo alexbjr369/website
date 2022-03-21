@@ -114,6 +114,7 @@ module.exports = {
             'courses/advanced-css-and-sass/course/section-01',
             'courses/advanced-css-and-sass/course/section-02',
             'courses/advanced-css-and-sass/course/section-03',
+            'courses/advanced-css-and-sass/course/section-04',
           ],
         },
       ],

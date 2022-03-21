@@ -9,6 +9,12 @@ const KnowledgeImage = [
     url: 'knowledge/css',
   },
   {
+    title: 'Bem Methodology',
+    imageUrl: '../img/knowledge/bem-methodology.svg',
+    url: 'knowledge/bem-methodology',
+    className: 'invert',
+  },
+  {
     title: 'Sass',
     imageUrl: '../img/knowledge/sass.svg',
     url: 'knowledge/sass',

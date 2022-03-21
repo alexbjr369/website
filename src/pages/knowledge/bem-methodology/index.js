@@ -2,10 +2,10 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-const title = 'CSS';
-const imgPath = '../img/knowledge/css.svg';
-const url = 'https://developer.mozilla.org/en-US/docs/Web/CSS';
-const notes = '/docs/notes/css';
+const title = 'BEM Methodology';
+const imgPath = '../img/knowledge/bem-methodology.svg';
+const url = 'https://en.bem.info/methodology';
+const notes = '/docs/notes/bem-methodology';
 
 const Courses = [
   {
@@ -16,40 +16,7 @@ const Courses = [
   },
 ];
 
-const Projects = [
-  {
-    url: '../docs/projects/webpack-guide',
-    title: 'Webpack Guide',
-    imageUrl: '../img/projects/github.png',
-    description: (
-      <>A compilation of Webpack configurations.</>
-    )
-  },
-  {
-    url: '../docs/projects/rollup-guide',
-    title: 'Rollup Guide',
-    imageUrl: '../img/projects/github.png',
-    description: (
-      <>A compilation of Rollup configurations.</>
-    )
-  },
-  {
-    url: '../docs/projects/npm-build-scripts',
-    title: 'npm Build Scripts Guide',
-    imageUrl: '../img/projects/github.png',
-    description: (
-      <>A compilation of npm build scripts configurations.</>
-    )
-  },
-  {
-    url: '../docs/projects/linting-code-quality-rules',
-    title: 'Linting - Code-quality Rules',
-    imageUrl: '../img/projects/github.png',
-    description: (
-      <>A compilation of code-quality rules linting configurations.</>
-    )
-  },
-];
+const Projects = [];
 
 function Hero() {
   return (
@@ -57,7 +24,7 @@ function Hero() {
       <div className="container">
         {imgPath &&
           <a href={url} target="_blank">
-            <img className="hero__image" src={imgPath} alt={title} />
+            <img className="hero__image fixed-invert" src={imgPath} alt={title} />
           </a>
         }
         <p className="hero__subtitle">
