@@ -99,8 +99,17 @@ module.exports = {
         'courses/rocketseat/ignite/react-js/introduction',
         {
           'Chapter 01': [
-            'courses/rocketseat/ignite/react-js/course/chapter-01/section-01'
+            'courses/rocketseat/ignite/react-js/course/chapter-01/section-01',
+            'courses/rocketseat/ignite/react-js/course/chapter-01/section-02',
+            'courses/rocketseat/ignite/react-js/course/chapter-01/section-03',
+            'courses/rocketseat/ignite/react-js/course/chapter-01/section-04',
+            'courses/rocketseat/ignite/react-js/course/chapter-01/section-05',
+            'courses/rocketseat/ignite/react-js/course/chapter-01/challenge-01',
+            'courses/rocketseat/ignite/react-js/course/chapter-01/challenge-02',
           ],
+          'Chapter 02': [
+            'courses/rocketseat/ignite/react-js/course/chapter-02/section-01',
+          ]
         },
       ],
     },
