@@ -8,6 +8,19 @@ module.exports = {
   projects: [
     {
       type: 'category',
+      label: 'Monorepo Guide',
+      items: [
+        'projects/monorepo-guide/introduction',
+        {
+          Lerna: [
+            'projects/monorepo-guide/lerna/introduction',
+            'projects/monorepo-guide/lerna/implementation',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: 'Webpack Guide',
       items: [
         'projects/webpack-guide/introduction',
@@ -16,7 +29,7 @@ module.exports = {
             {
               CSS: [
                 'projects/webpack-guide/styling/css/introduction',
-                'projects/webpack-guide/styling/css/implementation'
+                'projects/webpack-guide/styling/css/implementation',
               ],
             },
           ],
@@ -33,7 +46,7 @@ module.exports = {
             {
               CSS: [
                 'projects/rollup-guide/styling/css/introduction',
-                'projects/rollup-guide/styling/css/implementation'
+                'projects/rollup-guide/styling/css/implementation',
               ],
             },
           ],
@@ -50,7 +63,7 @@ module.exports = {
             {
               CSS: [
                 'projects/npm-build-scripts-guide/styling/css/introduction',
-                'projects/npm-build-scripts-guide/styling/css/implementation'
+                'projects/npm-build-scripts-guide/styling/css/implementation',
               ],
             },
           ],
@@ -67,7 +80,7 @@ module.exports = {
             {
               CSS: [
                 'projects/linting-code-quality-rules/stylelint/css/introduction',
-                'projects/linting-code-quality-rules/stylelint/css/implementation'
+                'projects/linting-code-quality-rules/stylelint/css/implementation',
               ],
             },
           ],
@@ -79,7 +92,7 @@ module.exports = {
       label: 'Linting - Commit',
       items: [
         'projects/linting-commit/introduction',
-        'projects/linting-commit/implementation'
+        'projects/linting-commit/implementation',
       ],
     },
     {
@@ -87,7 +100,7 @@ module.exports = {
       label: 'Linting - Formatting Rules',
       items: [
         'projects/linting-formatting-rules/introduction',
-        'projects/linting-formatting-rules/implementation'
+        'projects/linting-formatting-rules/implementation',
       ],
     },
   ],
@@ -125,6 +138,7 @@ module.exports = {
             'courses/advanced-css-and-sass/course/section-02',
             'courses/advanced-css-and-sass/course/section-03',
             'courses/advanced-css-and-sass/course/section-04',
+            'courses/advanced-css-and-sass/course/section-05',
           ],
         },
       ],

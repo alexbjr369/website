@@ -1,0 +1,227 @@
+---
+id: implementation
+title: Monorepo Guide · lerna · Implementation
+sidebar_label: Implementation
+description: A compilation of Monorepo configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/monorepo-guide/lerna/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Implementation
+
+Step by step **Monorepo** configuration using **Lerna**.
+
+## Linting
+
+```txt {1-9} title=".editorconfig"
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+```
+
+```json {1-7} title=".vscode/settings.json"
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
+}
+```
+
+ Workspaces
+
+```bash
+yarn init -y
+```
+
+```json {6,7-9} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
+```
+
+## npm Local Registry
+
+- **[`verdaccio`](https://www.npmjs.com/package/verdaccio)**
+
+```bash
+yarn add -WD verdaccio
+```
+
+```txt {1-2} title=".gitignore"
+node_modules
+storage
+```
+
+##### Server
+
+```bash
+yarn verdaccio
+```
+
+##### Registry
+
+###### Local
+
+```bash
+yarn config set registry http://localhost:4873
+```
+
+###### npm
+
+```bash
+yarn config set registry https://registry.npmjs.org/
+```
+
+##### Logging
+
+```bash
+npm adduser --registry http://localhost:4873/
+```
+
+## Lerna
+
+- **[`lerna`](https://www.npmjs.com/package/lerna)**
+
+```bash
+yarn add -WD lerna
+```
+
+##### Configuration
+
+```json {1-16} title="lerna.json"
+{
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "version": "independent",
+  "command": {
+    "version": {
+      "message": "chore(release): publish"
+    },
+    "publish": {
+      "registry": "http://localhost:4873/",
+      "ignoreChanges": [
+        "**/*.md"
+      ]
+    }
+  }
+}
+```
+
+## Testing
+
+#### common package
+
+```md title="packages/common/README.md"
+# @test/common
+```
+
+```json title="packages/common/package.json"
+{
+  "name": "@test/common",
+  "version": "0.0.0",
+  "description": "Test common.",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "/dist"
+  ]
+}
+```
+
+```javascript title="packages/common/index.js"
+module.exports = () => {
+  console.log('common');
+}
+```
+
+```javascript title="packages/common/file.js"
+console.log('common file test');
+```
+
+```javascript title="packages/common/test/index.js"
+console.log('common test');
+```
+
+```javascript title="packages/common/dist/index.js"
+module.exports = () => {
+  console.log('common');
+}
+```
+
+```javascript title="packages/common/dist/file.js"
+console.log('common file test');
+```
+
+#### server package
+
+```md title="packages/server/README.md"
+# @test/server
+```
+
+```json title="packages/server/package.json"
+{
+  "name": "@test/server",
+  "version": "0.0.0",
+  "description": "Test server.",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "/dist"
+  ],
+  "dependencies": {
+    "@test/common": "0.0.0"
+  }
+}
+```
+
+```javascript title="packages/server/index.js"
+const commonFunction = require('@test/common');
+commonFunction();
+```
+
+```javascript title="packages/server/file.js"
+console.log('server file test');
+```
+
+```javascript title="packages/server/test/index.js"
+console.log('server test');
+```
+
+```javascript title="packages/server/dist/index.js"
+const commonFunction = require('@test/common');
+commonFunction();
+
+```
+
+```javascript title="packages/server/dist/file.js"
+console.log('server file test');
+```
+
+### publishing
+
+Generates a tag in GitHub.
+
+```
+yarn lerna version
+```

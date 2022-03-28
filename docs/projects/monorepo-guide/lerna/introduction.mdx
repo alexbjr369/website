@@ -1,0 +1,77 @@
+---
+id: introduction
+title: Monorepo Guide · lerna
+sidebar_label: Introduction
+description: A compilation of Monorepo configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/monorepo-guide/lerna
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export const BuiltWith = ({ url, className, image, title, style }) => (
+  <a className="built-with" href={url}>
+    <img className={`built-with__image ${className}`} src={useBaseUrl(`img/knowledge/${image}`)} alt={title} style={style}/>
+    <div className="built-with__overlay">
+      <h2 className="built-with__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+export const BuiltWithText = ({ url, title }) => (
+  <a className="built-with-text" href={url}>
+    <div className="built-with-text__overlay">
+      <h2 className="built-with-text__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+# Monorepo Guide
+
+A compilation of **Monorepo** configurations.
+
+## About
+
+**Monorepo** configuration using **Lerna**.
+
+## Links
+
+**[`Repository`](https://github.com/alexbjr369/monorepo-guide)** **[`Implementation`](/docs/projects/monorepo-guide/lerna/implementation)**
+
+## Built With
+
+<div className="markdown-code thin-scrollbar">
+  <div className="markdown-code__container">
+    <BuiltWith url="/knowledge/editorconfig" image="editorconfig.png" title="EditorConfig"></BuiltWith>
+    <BuiltWith url="/knowledge/prettier" image="prettier.svg" title="Prettier"></BuiltWith>
+    <BuiltWithText url="/knowledge/lint-staged" title="lint-staged"></BuiltWithText>
+    <BuiltWithText url="/knowledge/husky" title="husky"></BuiltWithText>
+    <BuiltWithText url="/knowledge/commitlint-cli" title="@commitlint/cli"></BuiltWithText>
+    <BuiltWithText url="/knowledge/commitlint-config-conventional" title="@commitlint/config-conventional"></BuiltWithText>
+    <BuiltWithText url="/knowledge/commitizen" title="commitizen"></BuiltWithText>
+    <BuiltWithText url="/knowledge/cz-conventional-changelog" title="cz-conventional-changelog"></BuiltWithText>
+    <BuiltWith url="/knowledge/css" image="css.svg" title="CSS"></BuiltWith>
+    <BuiltWith className="fixed-invert" url="/knowledge/stylelint" image="stylelint.svg" title="Stylelint"></BuiltWith>
+    <BuiltWithText url="/knowledge/stylelint-config-prettier" title="stylelint-config-prettier"></BuiltWithText>
+    <BuiltWithText url="/knowledge/stylelint-config-rational-order" title="stylelint-config-rational-order"></BuiltWithText>
+    <BuiltWithText url="/knowledge/stylelint-order" title="stylelint-order"></BuiltWithText>
+    <BuiltWith url="/knowledge/postcss" image="postcss.svg" title="PostCSS"></BuiltWith>
+    <BuiltWith url="/knowledge/browserslist" image="browserslist.svg" title="Browserslist"></BuiltWith>
+    <BuiltWith url="/knowledge/cleancss" image="cleancss.svg" title="cleanCSS"></BuiltWith>
+    <BuiltWithText url="/knowledge/clean-css-cli" title="clean-css-cli"></BuiltWithText>
+    <BuiltWithText url="/knowledge/html-minifier" title="html-minifier"></BuiltWithText>
+    <BuiltWithText url="/knowledge/live-server" title="live-server"></BuiltWithText>
+    <BuiltWithText url="/knowledge/npm-run-all" title="npm-run-all"></BuiltWithText>
+    <BuiltWithText url="/knowledge/postcss-cli" title="postcss-cli"></BuiltWithText>
+    <BuiltWithText url="/knowledge/postcss-discard-comments" title="postcss-discard-comments"></BuiltWithText>
+    <BuiltWithText url="/knowledge/postcss-import" title="postcss-import"></BuiltWithText>
+    <BuiltWithText url="/knowledge/postcss-nested" title="postcss-nested"></BuiltWithText>
+    <BuiltWithText url="/knowledge/postcss-preset-env" title="postcss-preset-env"></BuiltWithText>
+    <BuiltWithText url="/knowledge/replace-in-file" title="replace-in-file"></BuiltWithText>
+    <BuiltWithText url="/knowledge/shx" title="shx"></BuiltWithText>
+  </div>
+</div>

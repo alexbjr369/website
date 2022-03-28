@@ -100,6 +100,10 @@ module.exports = {
           title: 'Projects',
           items: [
             {
+              label: 'Monorepo Guide',
+              to: 'docs/projects/monorepo-guide',
+            },
+            {
               label: 'Webpack Guide',
               to: 'docs/projects/webpack-guide',
             },

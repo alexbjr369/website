@@ -4,6 +4,14 @@ import Link from '@docusaurus/Link';
 
 const Personal = [
   {
+    url: '../docs/projects/monorepo-guide',
+    title: 'Monorepo Guide',
+    imageUrl: '../img/projects/github.png',
+    description: (
+      <>A compilation of Monorepo configurations.</>
+    )
+  },
+  {
     url: '../docs/projects/webpack-guide',
     title: 'Webpack Guide',
     imageUrl: '../img/projects/github.png',
