@@ -23,7 +23,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 Antigamente usava-se a **TransactionsContext**.
 
-```javascript
+```typescript
 import { TransactionsContext } from '../../TransactionsContext';
 
 <TransactionsContext.Consumer>
@@ -337,7 +337,9 @@ export function Summary() {
 
 ## [Movendo criação para o context](https://app.rocketseat.com.br/node/chapter-ii-1/group/contextos-e-hooks/lesson/movendo-criacao-para-o-context)
 
-```
+Formas de se trabalhar com interfaces.
+
+```typescript
 interface TransactionInput {
   title: string;
   amount: number;
@@ -573,6 +575,164 @@ export function Summary() {
         <strong>R$500,00</strong>
       </div>
     </Container>
+  );
+}
+```
+
+## [Finalizando inserção](https://app.rocketseat.com.br/node/chapter-ii-1/group/contextos-e-hooks/lesson/finalizando-insercao)
+
+```typescript {15,37-44} title="src/TransactionsContext.tsx"
+import { createContext, ReactNode, useEffect, useState } from 'react';
+import { api } from './services/api';
+
+interface Transaction {
+  id: number;
+  title: string;
+  amount: number;
+  type: string;
+  category: string;
+  createdAt: string;
+}
+
+interface TransactionsContextData {
+  transactions: Transaction[];
+  createTransaction: (transaction: TransactionInput) => Promise<void>;
+}
+
+type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
+
+interface TransactionsProviderProps {
+  children: ReactNode;
+}
+
+export const TransactionsContext = createContext<TransactionsContextData>(
+  {} as TransactionsContextData
+);
+
+export function TransactionsProvider({ children }: TransactionsProviderProps) {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  useEffect(() => {
+    api
+      .get('transactions')
+      .then((response) => setTransactions(response.data.transactions));
+  }, []);
+
+  async function createTransaction(transactionInput: TransactionInput) {
+    const response = await api.post('/transactions', {
+      ...transactionInput,
+      createdAt: new Date(),
+    });
+    const { transaction } = response.data;
+    setTransactions([...transactions, transaction]);
+  }
+
+  return (
+    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
+      {children}
+    </TransactionsContext.Provider>
+  );
+}
+```
+
+```typescript {24,26,32,33,34,35,36} title="src/components/NewTransactionalModal/index.tsx"
+import { FormEvent, useContext, useState } from 'react';
+import Modal from 'react-modal';
+import closeImg from '../../assets/close.svg';
+import IncomeImg from '../../assets/income.svg';
+import OutcomeImg from '../../assets/outcome.svg';
+import { TransactionsContext } from '../../TransactionsContext';
+import { Container, RadioBox, TransactionTypeContainer } from './styles';
+
+interface NewTransactionalModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export function NewTransactionalModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionalModalProps) {
+  const { createTransaction } = useContext(TransactionsContext);
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState(0);
+  const [category, setCategory] = useState('');
+  const [type, setType] = useState('deposit');
+
+  async function handleCreateNewTransaction(event: FormEvent) {
+    event.preventDefault();
+    await createTransaction({
+      title,
+      amount,
+      category,
+      type,
+    });
+    setTitle('');
+    setAmount(0);
+    setCategory('');
+    setType('deposit');
+    onRequestClose();
+  }
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+    >
+      <button
+        className="react-modal-close"
+        type="button"
+        onClick={onRequestClose}
+      >
+        <img src={closeImg} alt="Fechar modal" />
+      </button>
+      <Container onSubmit={handleCreateNewTransaction}>
+        <h2>Cadastrar transação</h2>
+        <input
+          placeholder="Título"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Valor"
+          value={amount}
+          onChange={(event) => setAmount(Number(event.target.value))}
+        />
+        <TransactionTypeContainer>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('deposit');
+            }}
+            isActive={type === 'deposit'}
+            activeColor="green"
+          >
+            <img src={IncomeImg} alt="Entrada" />
+            <span>Entrada</span>
+          </RadioBox>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('withdraw');
+            }}
+            isActive={type === 'withdraw'}
+            activeColor="red"
+          >
+            <img src={OutcomeImg} alt="Saída" />
+            <span>Saída</span>
+          </RadioBox>
+        </TransactionTypeContainer>
+        <input
+          placeholder="Categoria"
+          value={category}
+          onChange={(event) => setCategory(event.target.value)}
+        />
+        <button type="submit">Cadastrar</button>
+      </Container>
+    </Modal>
   );
 }
 ```
