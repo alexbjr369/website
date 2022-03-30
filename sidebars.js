@@ -123,6 +123,9 @@ module.exports = {
           'Chapter 02': [
             'courses/rocketseat/ignite/react-js/course/chapter-02/section-01',
             'courses/rocketseat/ignite/react-js/course/chapter-02/section-02',
+            'courses/rocketseat/ignite/react-js/course/chapter-02/section-03',
+            'courses/rocketseat/ignite/react-js/course/chapter-02/section-04',
+            'courses/rocketseat/ignite/react-js/course/chapter-02/section-05',
           ]
         },
       ],

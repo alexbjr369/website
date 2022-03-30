@@ -1,0 +1,1304 @@
+---
+id: section-04
+title: Ignite React.js · Chapter 04 · Section 04
+sidebar_label: Section 04
+description: Ignite React.js by RocketSeat.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /ignite/react-js/course/chapter-02/section-04
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Modal & Forms
+
+## [Configurando modal de criação](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/configurando-modal-de-criacao)
+
+```bash
+# npm
+npm i -D react-modal @types/react-modal
+
+# yarn
+yarn add -D react-modal @types/react-modal
+```
+
+```typescript {4-6,8,13} title="src/components/Header/index.tsx"
+import logoImg from "../../assets/logo.svg";
+import { Container, Content } from "./styles";
+
+interface HeaderProps {
+  onOpenNewTransactionModal: () => void;
+}
+
+export function Header({ onOpenNewTransactionModal }: HeaderProps) {
+  return (
+    <Container>
+      <Content>
+        <img src={logoImg} alt="dtmoney" />
+        <button type="button" onClick={onOpenNewTransactionModal}>
+          Nova transação
+        </button>
+      </Content>
+    </Container>
+  );
+}
+```
+
+```typescript {1,2,7,10,11,13-15,17-19,23,25-30} title="src/App.tsx"
+import { useState } from "react";
+import Modal from "react-modal";
+import { Dashboard } from "./components/Dashboard";
+import { Header } from "./components/Header";
+import { GlobalStyle } from "./styles/global";
+
+Modal.setAppElement("#root");
+
+export function App() {
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
+    useState(false);
+
+  function handleOpenNewTransactionModal() {
+    setIsNewTransactionModalOpen(true);
+  }
+
+  function handleCloseNewTransactionModal() {
+    setIsNewTransactionModalOpen(false);
+  }
+
+  return (
+    <>
+      <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
+      <Dashboard />
+      <Modal
+        isOpen={isNewTransactionModalOpen}
+        onRequestClose={handleCloseNewTransactionModal}
+      >
+        <h2>Cadastrar transação</h2>
+      </Modal>
+      <GlobalStyle />
+    </>
+  );
+}
+```
+
+## [Componente: NewTransactionModal](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/componente-new-transaction-modal)
+
+```typescript {1-3} title="src/components/NewTransactionalModal/styles.ts"
+import styled from "styled-components";
+
+export const Container = styled.div``;
+```
+
+```typescript {1-19} title="src/components/NewTransactionalModal/index.tsx"
+import Modal from "react-modal";
+
+interface NewTransactionalModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export function NewTransactionalModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionalModalProps) {
+  return (
+    <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+      <h2>Cadastrar transação</h2>
+    </Modal>
+  );
+}
+```
+
+```typescript {5,26-29} title="src/App.tsx"
+import { useState } from "react";
+import Modal from "react-modal";
+import { Dashboard } from "./components/Dashboard";
+import { Header } from "./components/Header";
+import { NewTransactionalModal } from "./components/NewTransactionalModal";
+import { GlobalStyle } from "./styles/global";
+
+Modal.setAppElement("#root");
+
+export function App() {
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
+    useState(false);
+
+  function handleOpenNewTransactionModal() {
+    setIsNewTransactionModalOpen(true);
+  }
+
+  function handleCloseNewTransactionModal() {
+    setIsNewTransactionModalOpen(false);
+  }
+
+  return (
+    <>
+      <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
+      <Dashboard />
+      <NewTransactionalModal
+        isOpen={isNewTransactionModalOpen}
+        onRequestClose={handleCloseNewTransactionModal}
+      />
+      <GlobalStyle />
+    </>
+  );
+}
+```
+
+## [Estrutura do formulário](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/estrutura-do-formulario)
+
+```typescript {3} title="src/components/NewTransactionalModal/styles.ts"
+import styled from "styled-components";
+
+export const Container = styled.form``;
+```
+
+```typescript {17,18,20-26} title="src/components/NewTransactionalModal/index.tsx"
+import Modal from "react-modal";
+import { Container } from "./styles";
+
+interface NewTransactionalModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export function NewTransactionalModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionalModalProps) {
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+    >
+      <Container>
+        <h2>Cadastrar transação</h2>
+        <input placeholder="Título" />
+        <input type="number" placeholder="Valor" />
+        <input placeholder="Categoria" />
+        <button type="submit">Cadastrar</button>
+      </Container>
+    </Modal>
+  );
+}
+```
+
+```typescript {54-64,66-73} title="src//styles/global.ts"
+import { createGlobalStyle } from "styled-components";
+
+export const GlobalStyle = createGlobalStyle`
+  :root {
+    --background: #f0f2f5;
+    --red: #e52e4d;
+    --green: #33cc95;
+    --blue: #5429cc;
+    --blue-light: #6933ff;
+    --text-title: #363f5f;
+    --text-body: #969cb3;
+    --shape: #fff;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    @media (max-width: 1080px) {
+      font-size: 93.75%; // 15px
+    }
+
+    @media (max-width: 720px) {
+      font-size: 87.5%; // 14px
+    }
+  }
+
+  body {
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body, input, textarea, button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  [disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .react-modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .react-modal-content {
+    width: 100%;
+    max-width: 576px;
+    background: var(--background);
+    padding: 3rem;
+    position: relative;
+    border-radius: 0.25rem;
+  }
+`;
+```
+
+## [Estilizando modal](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/estilizando-modal)
+
+```typescript {4-46} title="src/components/NewTransactionalModal/styles.ts"
+import styled from 'styled-components';
+
+export const Container = styled.form`
+  h2 {
+    color: var(--text-title);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0 1.5rem;
+    height: 4rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d7d7d7;
+    background: #e7e9ee;
+    font-weight: 400;
+    font-size: 1rem;
+
+    &::placeholder {
+      color: var(--text-body);
+    }
+
+    & + input {
+      margin-top: 1rem;
+    }
+  }
+
+  button[type='submit'] {
+    width: 100%;
+    padding: 0 1.5rem;
+    height: 4rem;
+    background: var(--green);
+    color: #fff;
+    border-radius: 0.25rem;
+    border: 0;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    font-weight: 600;
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+`;
+```
+
+```typescript {21-27} title="src/components/NewTransactionalModal/index.tsx"
+import Modal from 'react-modal';
+import closeImg from '../../assets/close.svg';
+import { Container } from './styles';
+
+interface NewTransactionalModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export function NewTransactionalModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionalModalProps) {
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+    >
+      <button
+        className="react-modal-close"
+        type="button"
+        onClick={onRequestClose}
+      >
+        <img src={closeImg} alt="Fechar modal" />
+      </button>
+      <Container>
+        <h2>Cadastrar transação</h2>
+        <input placeholder="Título" />
+        <input type="number" placeholder="Valor" />
+        <input placeholder="Categoria" />
+        <button type="submit">Cadastrar</button>
+      </Container>
+    </Modal>
+  );
+}
+```
+
+```typescript {75-86} title="src//styles/global.ts"
+import { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyle = createGlobalStyle`
+  :root {
+    --background: #f0f2f5;
+    --red: #e52e4d;
+    --green: #33cc95;
+    --blue: #5429cc;
+    --blue-light: #6933ff;
+    --text-title: #363f5f;
+    --text-body: #969cb3;
+    --shape: #fff;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    @media (max-width: 1080px) {
+      font-size: 93.75%; // 15px
+    }
+
+    @media (max-width: 720px) {
+      font-size: 87.5%; // 14px
+    }
+  }
+
+  body {
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body, input, textarea, button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  [disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .react-modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .react-modal-content {
+    width: 100%;
+    max-width: 576px;
+    background: var(--background);
+    padding: 3rem;
+    position: relative;
+    border-radius: 0.25rem;
+  }
+
+  .react-modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    border: 0;
+    background: transparent;
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+`;
+```
+
+## [Criando botões de Tipo](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/criando-botoes-de-tipo)
+
+```bash
+# npm
+npm i -D polished
+
+# yarn
+yarn add -D polished
+```
+
+```typescript {2,49-81} title="src/components/NewTransactionalModal/styles.ts"
+import styled from 'styled-components';
+import { darken } from 'polished';
+
+export const Container = styled.form`
+  h2 {
+    color: var(--text-title);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0 1.5rem;
+    height: 4rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d7d7d7;
+    background: #e7e9ee;
+    font-weight: 400;
+    font-size: 1rem;
+
+    &::placeholder {
+      color: var(--text-body);
+    }
+
+    & + input {
+      margin-top: 1rem;
+    }
+  }
+
+  button[type='submit'] {
+    width: 100%;
+    padding: 0 1.5rem;
+    height: 4rem;
+    background: var(--green);
+    color: #fff;
+    border-radius: 0.25rem;
+    border: 0;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    font-weight: 600;
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+`;
+
+export const TransactionTypeContainer = styled.div`
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+
+  button {
+    height: 4rem;
+    border: 1px solid #d7d7d7;
+    border-radius: 0.25rem;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: ${darken(0.1, '#d7d7d7')};
+    }
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  span {
+    display: inline-block;
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: var(--text-title);
+  }
+`;
+```
+
+```typescript {2,3,5,34-43} title="src/components/NewTransactionalModal/index.tsx"
+import Modal from 'react-modal';
+import IncomeImg from '../../assets/income.svg';
+import OutcomeImg from '../../assets/outcome.svg';
+import closeImg from '../../assets/close.svg';
+import { Container, TransactionTypeContainer } from './styles';
+
+interface NewTransactionalModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export function NewTransactionalModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionalModalProps) {
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+    >
+      <button
+        className="react-modal-close"
+        type="button"
+        onClick={onRequestClose}
+      >
+        <img src={closeImg} alt="Fechar modal" />
+      </button>
+      <Container>
+        <h2>Cadastrar transação</h2>
+        <input placeholder="Título" />
+        <input type="number" placeholder="Valor" />
+        <TransactionTypeContainer>
+          <button type="button">
+            <img src={IncomeImg} alt="Entrada" />
+            <span>Entrada</span>
+          </button>
+          <button type="button">
+            <img src={OutcomeImg} alt="Saída" />
+            <span>Saída</span>
+          </button>
+        </TransactionTypeContainer>
+        <input placeholder="Categoria" />
+        <button type="submit">Cadastrar</button>
+      </Container>
+    </Modal>
+  );
+}
+```
+
+## [Funcionamento dos Botões](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/criando-botoes-de-tipo-2)
+
+```typescript {56-58,60,64} title="src/components/NewTransactionalModal/styles.ts"
+import styled from 'styled-components';
+import { darken } from 'polished';
+
+export const Container = styled.form`
+  h2 {
+    color: var(--text-title);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0 1.5rem;
+    height: 4rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d7d7d7;
+    background: #e7e9ee;
+    font-weight: 400;
+    font-size: 1rem;
+
+    &::placeholder {
+      color: var(--text-body);
+    }
+
+    & + input {
+      margin-top: 1rem;
+    }
+  }
+
+  button[type='submit'] {
+    width: 100%;
+    padding: 0 1.5rem;
+    height: 4rem;
+    background: var(--green);
+    color: #fff;
+    border-radius: 0.25rem;
+    border: 0;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    font-weight: 600;
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+`;
+
+export const TransactionTypeContainer = styled.div`
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+`;
+
+interface RadioBoxProps {
+  isActive: boolean;
+}
+
+export const RadioBox = styled.button<RadioBoxProps>`
+  height: 4rem;
+  border: 1px solid #d7d7d7;
+  border-radius: 0.25rem;
+  background: ${(props) => (props.isActive ? '#ccc' : 'transparent')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: ${darken(0.1, '#d7d7d7')};
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  span {
+    display: inline-block;
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: var(--text-title);
+  }
+`;
+```
+
+```typescript {1,6,17,38-57} title="src/components/NewTransactionalModal/index.tsx"
+import { useState } from 'react';
+import Modal from 'react-modal';
+import closeImg from '../../assets/close.svg';
+import IncomeImg from '../../assets/income.svg';
+import OutcomeImg from '../../assets/outcome.svg';
+import { Container, TransactionTypeContainer, RadioBox } from './styles';
+
+interface NewTransactionalModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export function NewTransactionalModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionalModalProps) {
+  const [type, setType] = useState('deposit');
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+    >
+      <button
+        className="react-modal-close"
+        type="button"
+        onClick={onRequestClose}
+      >
+        <img src={closeImg} alt="Fechar modal" />
+      </button>
+      <Container>
+        <h2>Cadastrar transação</h2>
+        <input placeholder="Título" />
+        <input type="number" placeholder="Valor" />
+        <TransactionTypeContainer>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('deposit');
+            }}
+            isActive={type === 'deposit'}
+          >
+            <img src={IncomeImg} alt="Entrada" />
+            <span>Entrada</span>
+          </RadioBox>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('withdraw');
+            }}
+            isActive={type === 'withdraw'}
+          >
+            <img src={OutcomeImg} alt="Saída" />
+            <span>Saída</span>
+          </RadioBox>
+        </TransactionTypeContainer>
+        <input placeholder="Categoria" />
+        <button type="submit">Cadastrar</button>
+      </Container>
+    </Modal>
+  );
+}
+```
+
+## [Cores dos botões](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/criando-botoes-de-tipo-1)
+
+```typescript {2,58,61-64,70-73} title="src/components/NewTransactionalModal/styles.ts"
+import styled from 'styled-components';
+import { darken, transparentize } from 'polished';
+
+export const Container = styled.form`
+  h2 {
+    color: var(--text-title);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0 1.5rem;
+    height: 4rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d7d7d7;
+    background: #e7e9ee;
+    font-weight: 400;
+    font-size: 1rem;
+
+    &::placeholder {
+      color: var(--text-body);
+    }
+
+    & + input {
+      margin-top: 1rem;
+    }
+  }
+
+  button[type='submit'] {
+    width: 100%;
+    padding: 0 1.5rem;
+    height: 4rem;
+    background: var(--green);
+    color: #fff;
+    border-radius: 0.25rem;
+    border: 0;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    font-weight: 600;
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+`;
+
+export const TransactionTypeContainer = styled.div`
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+`;
+
+interface RadioBoxProps {
+  isActive: boolean;
+  activeColor: 'green' | 'red';
+}
+
+const colors = {
+  green: '#33cc95',
+  red: '#e52e4d',
+};
+
+export const RadioBox = styled.button<RadioBoxProps>`
+  height: 4rem;
+  border: 1px solid #d7d7d7;
+  border-radius: 0.25rem;
+  background: ${(props) =>
+    props.isActive
+      ? transparentize(0.9, colors[props.activeColor])
+      : 'transparent'};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: ${darken(0.1, '#d7d7d7')};
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+
+  span {
+    display: inline-block;
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: var(--text-title);
+  }
+`;
+```
+
+```typescript {44,55} title="src/components/NewTransactionalModal/index.tsx"
+import { useState } from 'react';
+import Modal from 'react-modal';
+import closeImg from '../../assets/close.svg';
+import IncomeImg from '../../assets/income.svg';
+import OutcomeImg from '../../assets/outcome.svg';
+import { Container, TransactionTypeContainer, RadioBox } from './styles';
+
+interface NewTransactionalModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export function NewTransactionalModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionalModalProps) {
+  const [type, setType] = useState('deposit');
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+    >
+      <button
+        className="react-modal-close"
+        type="button"
+        onClick={onRequestClose}
+      >
+        <img src={closeImg} alt="Fechar modal" />
+      </button>
+      <Container>
+        <h2>Cadastrar transação</h2>
+        <input placeholder="Título" />
+        <input type="number" placeholder="Valor" />
+        <TransactionTypeContainer>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('deposit');
+            }}
+            isActive={type === 'deposit'}
+            activeColor="green"
+          >
+            <img src={IncomeImg} alt="Entrada" />
+            <span>Entrada</span>
+          </RadioBox>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('withdraw');
+            }}
+            isActive={type === 'withdraw'}
+            activeColor="red"
+          >
+            <img src={OutcomeImg} alt="Saída" />
+            <span>Saída</span>
+          </RadioBox>
+        </TransactionTypeContainer>
+        <input placeholder="Categoria" />
+        <button type="submit">Cadastrar</button>
+      </Container>
+    </Modal>
+  );
+}
+```
+
+## [Salvando dados do form](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/salvando-dados-do-form)
+
+```typescript {1,17,18,19,22-25,41,45,46,51,52,80,81} title="src/components/NewTransactionalModal/index.tsx"
+import { FormEvent, useState } from 'react';
+import Modal from 'react-modal';
+import closeImg from '../../assets/close.svg';
+import IncomeImg from '../../assets/income.svg';
+import OutcomeImg from '../../assets/outcome.svg';
+import { Container, RadioBox, TransactionTypeContainer } from './styles';
+
+interface NewTransactionalModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export function NewTransactionalModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionalModalProps) {
+  const [title, setTitle] = useState('');
+  const [value, setValue] = useState(0);
+  const [category, setCategory] = useState('');
+  const [type, setType] = useState('deposit');
+
+  function handleCreateNewTransaction(event: FormEvent) {
+    event.preventDefault();
+    console.log({ title, value, category, type });
+  }
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+    >
+      <button
+        className="react-modal-close"
+        type="button"
+        onClick={onRequestClose}
+      >
+        <img src={closeImg} alt="Fechar modal" />
+      </button>
+      <Container onSubmit={handleCreateNewTransaction}>
+        <h2>Cadastrar transação</h2>
+        <input
+          placeholder="Título"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Valor"
+          value={value}
+          onChange={(event) => setValue(Number(event.target.value))}
+        />
+        <TransactionTypeContainer>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('deposit');
+            }}
+            isActive={type === 'deposit'}
+            activeColor="green"
+          >
+            <img src={IncomeImg} alt="Entrada" />
+            <span>Entrada</span>
+          </RadioBox>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('withdraw');
+            }}
+            isActive={type === 'withdraw'}
+            activeColor="red"
+          >
+            <img src={OutcomeImg} alt="Saída" />
+            <span>Saída</span>
+          </RadioBox>
+        </TransactionTypeContainer>
+        <input
+          placeholder="Categoria"
+          value={category}
+          onChange={(event) => setCategory(event.target.value)}
+        />
+        <button type="submit">Cadastrar</button>
+      </Container>
+    </Modal>
+  );
+}
+```
+
+## [Inserindo transação na API](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/inserindo-transacao-na-api)
+
+```typescript {3,7-9,14,17-20} title="src/index.tsx"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createServer, Model } from 'miragejs';
+import { App } from './App';
+
+createServer({
+  models: {
+    transaction: Model,
+  },
+
+  routes() {
+    this.namespace = 'api';
+    this.get('/transactions', () => {
+      return this.schema.all('transaction');
+    });
+
+    this.post('/transactions', (schema, request) => {
+      const data = JSON.parse(request.requestBody);
+      return schema.create('transaction', data);
+    });
+  },
+});
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+```typescript {6,25,26} title="src/components/NewTransactionalModal/index.tsx"
+import { FormEvent, useState } from 'react';
+import Modal from 'react-modal';
+import closeImg from '../../assets/close.svg';
+import IncomeImg from '../../assets/income.svg';
+import OutcomeImg from '../../assets/outcome.svg';
+import { api } from '../../services/api';
+import { Container, RadioBox, TransactionTypeContainer } from './styles';
+
+interface NewTransactionalModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export function NewTransactionalModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionalModalProps) {
+  const [title, setTitle] = useState('');
+  const [value, setValue] = useState(0);
+  const [category, setCategory] = useState('');
+  const [type, setType] = useState('deposit');
+
+  function handleCreateNewTransaction(event: FormEvent) {
+    event.preventDefault();
+    const data = { title, value, category, type };
+    api.post('/transactions', data);
+  }
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      overlayClassName="react-modal-overlay"
+      className="react-modal-content"
+    >
+      <button
+        className="react-modal-close"
+        type="button"
+        onClick={onRequestClose}
+      >
+        <img src={closeImg} alt="Fechar modal" />
+      </button>
+      <Container onSubmit={handleCreateNewTransaction}>
+        <h2>Cadastrar transação</h2>
+        <input
+          placeholder="Título"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Valor"
+          value={value}
+          onChange={(event) => setValue(Number(event.target.value))}
+        />
+        <TransactionTypeContainer>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('deposit');
+            }}
+            isActive={type === 'deposit'}
+            activeColor="green"
+          >
+            <img src={IncomeImg} alt="Entrada" />
+            <span>Entrada</span>
+          </RadioBox>
+          <RadioBox
+            type="button"
+            onClick={() => {
+              setType('withdraw');
+            }}
+            isActive={type === 'withdraw'}
+            activeColor="red"
+          >
+            <img src={OutcomeImg} alt="Saída" />
+            <span>Saída</span>
+          </RadioBox>
+        </TransactionTypeContainer>
+        <input
+          placeholder="Categoria"
+          value={category}
+          onChange={(event) => setCategory(event.target.value)}
+        />
+        <button type="submit">Cadastrar</button>
+      </Container>
+    </Modal>
+  );
+}
+```
+
+## [Listando transações e seeds](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/listando-transacoes-e-seeds)
+
+```typescript {11-32} title="src/index.tsx"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createServer, Model } from 'miragejs';
+import { App } from './App';
+
+createServer({
+  models: {
+    transaction: Model,
+  },
+
+  seeds(server) {
+    server.db.loadData({
+      transactions: [
+        {
+          id: 1,
+          title: 'Freelance de website',
+          type: 'deposit',
+          category: 'Desenvolvimento',
+          amount: 6000,
+          createdAt: new Date('2021-02-12 09:00:00'),
+        },
+        {
+          id: 2,
+          title: 'Aluguel',
+          type: 'withdraw',
+          category: 'Casa',
+          amount: 1100,
+          createdAt: new Date('2021-02-14 11:00:00'),
+        },
+      ],
+    });
+  },
+
+  routes() {
+    this.namespace = 'api';
+    this.get('/transactions', () => {
+      return this.schema.all('transaction');
+    });
+
+    this.post('/transactions', (schema, request) => {
+      const data = JSON.parse(request.requestBody);
+      return schema.create('transaction', data);
+    });
+  },
+});
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+```typescript {1,5-12,15,20,35-42} title="src/components/NewTransactionalModal/index.tsx"
+import { useEffect, useState } from 'react';
+import { api } from '../../services/api';
+import { Container } from './styles';
+
+interface Transaction {
+  id: number;
+  title: string;
+  amount: number;
+  type: string;
+  category: string;
+  createdAt: string;
+}
+
+export function TransactionTable() {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  useEffect(() => {
+    api
+      .get('transactions')
+      .then((response) => setTransactions(response.data.transactions));
+  }, []);
+
+  return (
+    <Container>
+      <table>
+        <thead>
+          <tr>
+            <th>Titulo</th>
+            <th>Valor</th>
+            <th>Categorias</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map((transaction) => (
+            <tr key={transaction.id}>
+              <td>{transaction.title}</td>
+              <td className={transaction.type}>{transaction.amount}</td>
+              <td>{transaction.category}</td>
+              <td>{transaction.createdAt}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Container>
+  );
+}
+```
+
+## [Formatando valores](https://app.rocketseat.com.br/node/chapter-ii-1/group/modal-and-forms/lesson/formatando-valores)
+
+```typescript {39-42,46-48} title="src/components/NewTransactionalModal/index.tsx"
+import { useEffect, useState } from 'react';
+import { api } from '../../services/api';
+import { Container } from './styles';
+
+interface Transaction {
+  id: number;
+  title: string;
+  amount: number;
+  type: string;
+  category: string;
+  createdAt: string;
+}
+
+export function TransactionTable() {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  useEffect(() => {
+    api
+      .get('transactions')
+      .then((response) => setTransactions(response.data.transactions));
+  }, []);
+
+  return (
+    <Container>
+      <table>
+        <thead>
+          <tr>
+            <th>Titulo</th>
+            <th>Valor</th>
+            <th>Categorias</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map((transaction) => (
+            <tr key={transaction.id}>
+              <td>{transaction.title}</td>
+              <td className={transaction.type}>
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(transaction.amount)}
+              </td>
+              <td>{transaction.category}</td>
+              <td>
+                {new Intl.DateTimeFormat('pt-BR').format(
+                  new Date(transaction.createdAt)
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Container>
+  );
+}
+```

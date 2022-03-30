@@ -1,0 +1,161 @@
+---
+id: section-03
+title: Ignite React.js · Chapter 03 · Section 03
+sidebar_label: Section 03
+description: Ignite React.js by RocketSeat.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /ignite/react-js/course/chapter-02/section-03
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Consumindo API
+
+## [Criando front-end sem back-end](https://app.rocketseat.com.br/node/chapter-ii-1/group/consumindo-api/lesson/criando-front-end-sem-back-end)
+
+## [Configurando MirageJS](https://app.rocketseat.com.br/node/chapter-ii-1/group/consumindo-api/lesson/criando-front-end-sem-back-end)
+
+```bash
+# npm
+npm i -D miragejs
+
+# yarn
+yarn add -D miragejs
+```
+
+```typescript {1,5-9} title="src/components/TransactionsTable/index.tsx"
+import { useEffect } from 'react';
+import { Container } from './styles';
+
+export function TransactionTable() {
+  useEffect(() => {
+    fetch('http://localhost:3001/api/transactions')
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  }, []);
+
+  return (
+    <Container>
+      <table>
+        <thead>
+          <tr>
+            <th>Titulo</th>
+            <th>Valor</th>
+            <th>Categorias</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Desenvolvimento de website</td>
+            <td className="deposit">R$12.000</td>
+            <td>Desenvolvimento</td>
+            <td>20/02/2021</td>
+          </tr>
+          <tr>
+            <td>Aluguel</td>
+            <td className="withdraw">- R$1.100</td>
+            <td>Casa</td>
+            <td>17/02/2021</td>
+          </tr>
+        </tbody>
+      </table>
+    </Container>
+  );
+}
+```
+
+```typescript {3,6-22} title="src/index.tsx"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createServer } from 'miragejs';
+import { App } from './App';
+
+createServer({
+  routes() {
+    this.namespace = 'api';
+    this.get('/transactions', () => {
+      return [
+        {
+          id: 1,
+          title: 'transaction 1',
+          amount: 400,
+          type: 'deposit',
+          category: 'Food',
+          createdAt: new Date(),
+        },
+      ];
+    });
+  },
+});
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+## [Configurando cliente do Axios](https://app.rocketseat.com.br/node/chapter-ii-1/group/consumindo-api/lesson/configurando-cliente-do-axios)
+
+```bash
+# npm
+npm i -D axios
+
+# yarn
+yarn add -D axios
+```
+
+```typescript title="src/services/api.ts"
+import axios from 'axios';
+
+export const api = axios.create({
+  baseURL: 'http://localhost:3001/api',
+});
+```
+
+```typescript {2,7} title="src/components/TransactionTable/index.tsx"
+import { useEffect } from 'react';
+import { api } from '../../services/api';
+import { Container } from './styles';
+
+export function TransactionTable() {
+  useEffect(() => {
+    api.get('transactions').then((response) => console.log(response.data));
+  }, []);
+
+  return (
+    <Container>
+      <table>
+        <thead>
+          <tr>
+            <th>Titulo</th>
+            <th>Valor</th>
+            <th>Categorias</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Desenvolvimento de website</td>
+            <td className="deposit">R$12.000</td>
+            <td>Desenvolvimento</td>
+            <td>20/02/2021</td>
+          </tr>
+          <tr>
+            <td>Aluguel</td>
+            <td className="withdraw">- R$1.100</td>
+            <td>Casa</td>
+            <td>17/02/2021</td>
+          </tr>
+        </tbody>
+      </table>
+    </Container>
+  );
+}
+```
