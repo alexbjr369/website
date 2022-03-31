@@ -19,7 +19,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## [Converting Our CSS Code to Sass: Variables and Nesting](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8274472#overview)
 
-```scss {30-60,62-85,131-185} title="./sass/main.scss"
+```scss {30-60,62-85,131-185} title="sass/main.scss"
 $color-primary-light: #7ed56f;
 $color-primary: #55c57a;
 $color-primary-dark: #28b485;
@@ -1275,7 +1275,7 @@ body {
 </html>
 ```
 
-```scss {10} title="./sass/main.scss"
+```scss {10} title="sass/main.scss"
 @import 'abstracts/variables';
 @import 'abstracts/mixins';
 
@@ -1295,7 +1295,7 @@ body {
 @import 'pages/home';
 ```
 
-```scss {5,6,8,9} title="./sass/abstracts/_variables.scss"
+```scss {5,6,8,9} title="sass/abstracts/_variables.scss"
 $color-primary-light: #7ed56f;
 $color-primary: #55c57a;
 $color-primary-dark: #28b485;
@@ -1319,7 +1319,7 @@ $gutter-vertical: 8rem;
 $gutter-horizontal: 6rem;
 ```
 
-```scss {1-39} title="./sass/components/_card.scss"
+```scss {1-39} title="sass/components/_card.scss"
 .card {
   perspective: 150rem;
   -moz-perspective: 150rem;
@@ -1361,7 +1361,7 @@ $gutter-horizontal: 6rem;
 }
 ```
 
-```scss {19-23} title="./sass/pages/_home.scss"
+```scss {19-23} title="sass/pages/_home.scss"
 .section-about {
   background-color: $color-grey-light-1;
   padding: 25rem 0;
@@ -1384,5 +1384,251 @@ $gutter-horizontal: 6rem;
   background-color: $color-grey-light-1;
   padding: 25rem 0 50rem 0;
   margin-top: -10rem;
+}
+```
+
+## [Building the Tours Section - Part 2](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8274502#overview)
+
+```html {94-108} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Natours | Exciting tours for adventurous people</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
+    />
+    <link rel="stylesheet" href="css/icon-font.css">
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__logo-box">
+        <img class="header__logo" src="img/logo-white.png" alt="logo" />
+      </div>
+      <div class="header__text-box">
+        <h1 class="heading-primary">
+          <span class="heading-primary__main">outdoors</span>
+          <span class="heading-primary__sub">is where life happens</span>
+        </h1>
+        <a class="btn btn--white btn--animated" href="#">discover our tours</a>
+      </div>
+    </header>
+    <main>
+      <section class="section-about">
+        <div class="u-center-text u-margin-bottom-big">
+          <h2 class="heading-secondary">exciting tours for adventurous people</h2>
+        </div>
+        <div class="row">
+          <div class="col-1-of-2">
+            <h3 class="heading-tertiary u-margin-bottom-small">you're going to fall in love with nature</h3>
+            <p class="paragraph">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, ipsum sapiente aspernatur libero repellat quis consequatur ducimus quam nisi exercitationem omnis earum qui.</p>
+            <h3 class="heading-tertiary u-margin-bottom-small">live adventures like you never have before</h3>
+            <p class="paragraph">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores nulla deserunt voluptatum nam.</p>
+            <a class="btn-text" href="#">Learn more &rarr;</a>
+          </div>
+          <div class="col-1-of-2">
+            <div class="composition">
+              <img class="composition__photo composition__photo--p1" src="img/nat-1-large.jpg" alt="photo 1">
+              <img class="composition__photo composition__photo--p2" src="img/nat-2-large.jpg" alt="photo 2">
+              <img class="composition__photo composition__photo--p3" src="img/nat-3-large.jpg" alt="photo 3">
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-features">
+        <div class="row">
+          <div class="col-1-of-4">
+            <div class="feature-box">
+              <i class="feature-box__icon icon-basic-world"></i>
+              <h3 class="heading-tertiary u-margin-bottom-small">explore the world</h3>
+              <p class="feature-box__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, ipsum
+                sapiente aspernatur.</p>
+            </div>
+          </div>
+          <div class="col-1-of-4">
+            <div class="feature-box">
+              <i class="feature-box__icon icon-basic-compass"></i>
+              <h3 class="heading-tertiary u-margin-bottom-small">meet nature</h3>
+              <p class="feature-box__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, ipsum
+                sapiente aspernatur.</p>
+            </div>
+          </div>
+          <div class="col-1-of-4">
+            <div class="feature-box">
+              <i class="feature-box__icon icon-basic-map"></i>
+              <h3 class="heading-tertiary u-margin-bottom-small">find your way</h3>
+              <p class="feature-box__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, ipsum
+                sapiente aspernatur.</p>
+            </div>
+          </div>
+          <div class="col-1-of-4">
+            <div class="feature-box">
+              <i class="feature-box__icon icon-basic-heart"></i>
+              <h3 class="heading-tertiary u-margin-bottom-small">live a healthier life</h3>
+              <p class="feature-box__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, ipsum
+                sapiente aspernatur.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-tours">
+        <div class="u-center-text u-margin-bottom-big">
+          <h2 class="heading-secondary">most popular tours</h2>
+        </div>
+        <div class="row">
+          <div class="col-1-of-3">
+            <div class="card">
+              <div class="card__side card__side--front">
+                <div class="card__picture card__picture--1">&nbsp;</div>
+                <h4 class="card__heading">
+                  <span class="card__heading-span card__heading-span--1"> the sea explorer</span>
+                </h4>
+                <div class="card__details">
+                  <ul>
+                    <li>3 day tours</li>
+                    <li>Up to 30 people</li>
+                    <li>2 tour guides</li>
+                    <li>Sleep in cozy hotels</li>
+                    <li>Difficulty: easy</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card__side card__side--back card__side--back-1"></div>
+            </div>
+          </div>
+          <div class="col-1-of-3"></div>
+          <div class="col-1-of-3"></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+```
+
+```scss {12} title="sass/abstracts/_variables.scss"
+$color-primary-light: #7ed56f;
+$color-primary: #55c57a;
+$color-primary-dark: #28b485;
+
+$color-secondary-light: #ffb900;
+$color-secondary-dark: #ff7730;
+
+$color-tertiary-light: #2998ff;
+$color-tertiary-dark: #5643fa;
+
+$color-grey-light-1: #f7f7f7;
+$color-grey-light-2: #eee;
+
+$color-grey-dark: #777;
+$color-white: #fff;
+$color-black: #000;
+
+$default-font-size: 1.6rem;
+
+$grid-width: 114rem;
+$gutter-vertical: 8rem;
+$gutter-horizontal: 6rem;
+```
+
+```scss {17,41-51,53-63,65-73,75-94} title="sass/components/_card.scss"
+.card {
+  perspective: 150rem;
+  -moz-perspective: 150rem;
+  position: relative;
+  height: 50rem;
+  transform-style: preserve-3d;
+
+  &__side {
+    height: 50rem;
+    transition: all 0.8s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    backface-visibility: hidden;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 1.5rem 4rem rgba($color-black, 0.15);
+
+    &--front {
+      background-color: $color-white;
+    }
+
+    &--back {
+      transform: rotateY(180deg);
+
+      &-1 {
+        background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark);
+      }
+    }
+  }
+
+  &:hover &__side--front {
+    transform: rotateY(-180deg);
+  }
+
+  &:hover &__side--back {
+    transform: rotateY(0);
+  }
+
+  &__picture {
+    background-size: cover;
+    height: 23rem;
+    background-blend-mode: screen;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+
+    &--1 {
+      background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark), url(../img/nat-5.jpg);
+    }
+  }
+
+  &__heading {
+    font-size: 2.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    text-align: right;
+    color: $color-white;
+    position: absolute;
+    top: 12rem;
+    right: 2rem;
+    width: 75%;
+  }
+
+  &__heading-span {
+    padding: 1rem 1.5rem;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+
+    &--1 {
+      background-image: linear-gradient(to right bottom, rgba($color-secondary-light, 0.85), rgba($color-secondary-dark, 0.85));
+    }
+  }
+
+  &__details {
+    padding: 3rem;
+
+    ul {
+      list-style: none;
+      width: 80%;
+      margin: 0 auto;
+      padding: 0;
+
+      li {
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 1rem;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid $color-grey-light-1;
+        }
+      }
+    }
+  }
 }
 ```
