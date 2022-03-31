@@ -9,6 +9,11 @@ const KnowledgeImage = [
     url: 'knowledge/css',
   },
   {
+    title: 'TypeScript',
+    imageUrl: '../img/knowledge/typescript.svg',
+    url: 'knowledge/typescript',
+  },
+  {
     title: 'Bem Methodology',
     imageUrl: '../img/knowledge/bem-methodology.svg',
     url: 'knowledge/bem-methodology',
@@ -23,6 +28,11 @@ const KnowledgeImage = [
     title: 'PostCSS',
     imageUrl: '../img/knowledge/postcss.svg',
     url: 'knowledge/postcss',
+  },
+  {
+    title: 'styled-components',
+    imageUrl: '../img/knowledge/styled-components.svg',
+    url: 'knowledge/styled-components',
   },
   {
     title: 'EditorConfig',
@@ -62,6 +72,22 @@ const KnowledgeImage = [
     url: 'knowledge/react-js',
   },
   {
+    title: 'Next',
+    imageUrl: '../img/knowledge/next-js.svg',
+    url: 'knowledge/next-js',
+    className: 'invert',
+  },
+  {
+    title: 'mirage-js',
+    imageUrl: '../img/knowledge/mirage-js.svg',
+    url: 'knowledge/mirage-js',
+  },
+  {
+    title: 'axios',
+    imageUrl: '../img/knowledge/axios.svg',
+    url: 'knowledge/axios',
+  },
+  {
     title: 'Browserslist',
     imageUrl: '../img/knowledge/browserslist.svg',
     url: 'knowledge/browserslist',
@@ -70,6 +96,16 @@ const KnowledgeImage = [
     title: 'cleanCSS',
     imageUrl: '../img/knowledge/cleancss.svg',
     url: 'knowledge/cleancss',
+  },
+  {
+    title: 'node-sass',
+    imageUrl: '../img/knowledge/node-sass.svg',
+    url: 'knowledge/node-sass',
+  },
+  {
+    title: 'polished',
+    imageUrl: '../img/knowledge/polished.png',
+    url: 'knowledge/polished',
   },
 ];
 
@@ -204,6 +240,14 @@ const KnowledgeText = [
     title: 'react-dom',
     url: 'knowledge/react-dom',
   },
+  {
+    title: 'react-refresh',
+    url: 'knowledge/react-refresh',
+  },
+  {
+    title: '@pmmmwh/react-refresh-webpack-plugin',
+    url: 'knowledge/pmmmwh-react-refresh-webpack-plugin',
+  },
 
   {
     title: '@babel/cli',
@@ -216,6 +260,10 @@ const KnowledgeText = [
   {
     title: '@babel/preset-env',
     url: 'knowledge/babel-preset-env',
+  },
+  {
+    title: '@babel/preset-typescript',
+    url: 'knowledge/babel-preset-typescript',
   },
   {
     title: '@babel/preset-react',

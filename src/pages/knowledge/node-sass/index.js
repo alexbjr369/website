@@ -2,19 +2,17 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-const title = 'babel-loader';
-const imgPath = '../img/knowledge/npm-build-scripts.svg';
-const url = 'https://www.npmjs.com/package/babel-loader';
+const title = 'node-sass';
+const imgPath = '../img/knowledge/node-sass.svg';
+const url = 'https://www.npmjs.com/package/node-sass';
 const notes = '';
 
 const Courses = [
   {
-    url: '../docs/ignite/react-js',
-    title: 'Ignite React.js',
-    imageUrl: '../img/courses/ignite-react.png',
-    description: (
-      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
-    )
+    url: '../docs/advanced-css-and-sass',
+    title: 'Advanced CSS and Sass',
+    imageUrl: '../img/courses/advanced-css-and-sass.jpg',
+    description: (<><a href="https://www.udemy.com/course/advanced-css-and-sass/" target="_blank"><strong>Online course</strong></a> by <a href="https://www.udemy.com/user/jonasschmedtmann/" target="_blank"><strong>Jonas Schmedtmann</strong></a> on <a href="https://www.udemy.com/" target="_blank"><strong>Udemy</strong></a>.</>)
   },
 ];
 
@@ -39,7 +37,7 @@ function Hero() {
           {/* {notes && <Link className="button button--custom" to={notes}>Notes</Link>} */}
         </div>
       </div>
-    </header >
+    </header>
   );
 }
 
