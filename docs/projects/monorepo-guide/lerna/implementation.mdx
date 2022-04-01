@@ -19,33 +19,17 @@ Step by step **Monorepo** configuration using **Lerna**.
 
 ## Linting
 
-```txt {1-9} title=".editorconfig"
-root = true
+### Formatting Rules
 
-[*]
-charset = utf-8
-end_of_line = lf
-indent_style = space
-indent_size = 2
-insert_final_newline = true
-trim_trailing_whitespace = true
-```
+Follow the steps in **[Linting - Formatting Rules](/docs/projects/linting-formatting-rules/implementation)**.
 
-```json {1-7} title=".vscode/settings.json"
-{
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
-}
-```
+### Commit
 
- Workspaces
+Follow the steps in **[Linting - Commit](/docs/projects/linting-commit/implementation)**.
 
-```bash
-yarn init -y
-```
+## Yarn Workspaces
+
+##### Configuration
 
 ```json {6,7-9} title="package.json"
 {
@@ -56,11 +40,49 @@ yarn init -y
   "private": true,
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
 ```
 
-## npm Local Registry
+```text title="LICENSE.md"
+MIT License
+
+Copyright (c) 2022-present Alex Bleggi.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+## Verdaccio
 
 - **[`verdaccio`](https://www.npmjs.com/package/verdaccio)**
 
@@ -68,35 +90,32 @@ yarn init -y
 yarn add -WD verdaccio
 ```
 
-```txt {1-2} title=".gitignore"
+##### Configuration
+
+```txt {3} title=".gitignore"
 node_modules
+.husky/_
 storage
 ```
 
-##### Server
-
 ```bash
+# server
 yarn verdaccio
-```
 
-##### Registry
-
-###### Local
-
-```bash
-yarn config set registry http://localhost:4873
-```
-
-###### npm
-
-```bash
-yarn config set registry https://registry.npmjs.org/
-```
-
-##### Logging
-
-```bash
+# login
 npm adduser --registry http://localhost:4873/
+```
+
+## npm Local Registry
+
+##### Configuration
+
+```bash
+# local registry
+npm set registry http://localhost:4873
+
+# npm registry
+npm set registry https://registry.npmjs.org/
 ```
 
 ## Lerna
@@ -109,11 +128,14 @@ yarn add -WD lerna
 
 ##### Configuration
 
-```json {1-16} title="lerna.json"
+```json {1-21} title="lerna.json"
 {
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "independent",
+  "packages": [
+    "packages/*"
+  ],
   "command": {
     "version": {
       "message": "chore(release): publish"
@@ -128,100 +150,110 @@ yarn add -WD lerna
 }
 ```
 
+## Commitlint/Lerna Integration
+
+- **[`@commitlint/config-lerna-scopes`](https://www.npmjs.com/package/@commitlint/config-lerna-scopes)**
+
+```bash
+yarn add -WD lerna
+```
+
+##### Configuration
+
+```javascript {1-21} title="commitlint.config.js"
+const {
+  utils: { getPackages },
+} = require('@commitlint/config-lerna-scopes');
+
+module.exports = {
+  extends: [
+    '@commitlint/config-conventional',
+    '@commitlint/config-lerna-scopes',
+  ],
+  rules: {
+    'scope-enum': async (ctx) => [
+      2,
+      'always',
+      [
+        ...(await getPackages(ctx)),
+        // insert custom scopes below:
+        'release',
+      ],
+    ],
+  },
+};
+```
+
 ## Testing
 
-#### common package
+### Packages
 
-```md title="packages/common/README.md"
-# @test/common
+##### common
+
+```text title="packages/common/README.md"
+# @project/common
 ```
 
 ```json title="packages/common/package.json"
 {
-  "name": "@test/common",
+  "name": "@project/common",
   "version": "0.0.0",
-  "description": "Test common.",
   "main": "index.js",
   "license": "MIT",
   "files": [
-    "/dist"
+    "dist"
   ]
 }
 ```
 
 ```javascript title="packages/common/index.js"
 module.exports = () => {
-  console.log('common');
+  console.log('common package');
 }
-```
-
-```javascript title="packages/common/file.js"
-console.log('common file test');
-```
-
-```javascript title="packages/common/test/index.js"
-console.log('common test');
 ```
 
 ```javascript title="packages/common/dist/index.js"
 module.exports = () => {
-  console.log('common');
+  console.log('common package');
 }
 ```
 
-```javascript title="packages/common/dist/file.js"
-console.log('common file test');
+##### package-01
+
+```md title="packages/package-01/README.md"
+# @project/project-1
 ```
 
-#### server package
-
-```md title="packages/server/README.md"
-# @test/server
-```
-
-```json title="packages/server/package.json"
+```json title="packages/package-01/package.json"
 {
-  "name": "@test/server",
+  "name": "@project/package-01",
   "version": "0.0.0",
-  "description": "Test server.",
   "main": "index.js",
   "license": "MIT",
   "files": [
-    "/dist"
-  ],
-  "dependencies": {
-    "@test/common": "0.0.0"
-  }
+    "dist"
+  ]
 }
 ```
 
 ```javascript title="packages/server/index.js"
-const commonFunction = require('@test/common');
+const commonFunction = require('@project/common');
 commonFunction();
 ```
 
-```javascript title="packages/server/file.js"
-console.log('server file test');
-```
+### Publishing
 
-```javascript title="packages/server/test/index.js"
-console.log('server test');
-```
-
-```javascript title="packages/server/dist/index.js"
-const commonFunction = require('@test/common');
-commonFunction();
-
-```
-
-```javascript title="packages/server/dist/file.js"
-console.log('server file test');
-```
-
-### publishing
-
-Generates a tag in GitHub.
+Generates a tag in GitHub and publishes to registry(local or npm).
 
 ```
 yarn lerna version
 ```
+
+### Installing Dependencies
+
+```bash
+cd packages/package-01
+yarn add -D @project/common
+```
+
+### Versioning
