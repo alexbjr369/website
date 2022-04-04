@@ -6,7 +6,7 @@ description: Ignite React.js by RocketSeat.
 keywords:
   - Alex Bleggi
 image: /static/other/img/profile.png
-slug: /ignite/react-js/course/challenges/challenge-02
+slug: /ignite/react-js/course/chapter-01/challenge-02
 toc_max_heading_level: 4
 hide_title: true
 ---
@@ -49,7 +49,7 @@ npm run server
 yarn server
 ```
 
-```typescript title="src\App.tsx"
+```typescript title="src/App.tsx"
 import { useEffect, useState } from 'react';
 import { Content } from './components/Content';
 import { SideBar } from './components/SideBar';
@@ -95,7 +95,7 @@ export function App() {
 }
 ```
 
-```typescript title="src\components\SideBar.tsx"
+```typescript title="src/components/SideBar.tsx"
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import '../styles/sidebar.scss';
@@ -143,7 +143,7 @@ export function SideBar({ handleClickButton, selectedGenreId }: SideBarProps) {
 }
 ```
 
-```typescript title="src\components\Content.tsx"
+```typescript title="src/components/Content.tsx"
 import { useEffect, useState } from 'react';
 import { api } from '../services/api';
 import '../styles/content.scss';

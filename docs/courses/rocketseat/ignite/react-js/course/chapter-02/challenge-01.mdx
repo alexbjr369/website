@@ -1,0 +1,459 @@
+---
+id: challenge-01
+title: Ignite React.js · Chapter 02 · Challenge 01
+sidebar_label: Challenge 01
+description: Ignite React.js by RocketSeat.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /ignite/react-js/course/chapter-02/challenge-01
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Challenge 01
+
+- **[Challenge](https://www.notion.so/Desafio-01-Criando-um-hook-de-carrinho-de-compras-5769216778794019a83f544e79167b12)**
+- **[Github](https://github.com/rocketseat-education/ignite-template-reactjs-criando-um-hook-de-carrinho-de-compras)**
+- **[Solution](https://www.youtube.com/watch?v=NTeUIfUtKWw)**
+
+**Installing**
+
+```bash
+# npm
+npm install
+
+# yarn
+yarn
+```
+
+**Running**
+
+```bash
+# npm
+npm start
+npm run server
+
+# yarn
+yarn start
+yarn server
+```
+
+**Testing**
+
+```bash
+# npm
+npm run test src/__tests__/pages/Header.spec.tsx
+
+# yarn
+yarn test src/__tests__/pages/Header.spec.tsx
+```
+
+```bash
+# npm
+npm run test -t 'should be able to render the amount of products added to cart'
+
+# yarn
+yarn test -t 'should be able to render the amount of products added to cart'
+```
+
+```typescript title="src/components/Header/index.tsx"
+import { Link } from 'react-router-dom';
+import { MdShoppingBasket } from 'react-icons/md';
+
+import logo from '../../assets/images/logo.svg';
+import { Container, Cart } from './styles';
+import { useCart } from '../../hooks/useCart';
+
+const Header = (): JSX.Element => {
+  const { cart } = useCart();
+  const cartSize = cart.length;
+
+  return (
+    <Container>
+      <Link to="/">
+        <img src={logo} alt="Rocketshoes" />
+      </Link>
+
+      <Cart to="/cart">
+        <div>
+          <strong>Meu carrinho</strong>
+          <span data-testid="cart-size">
+            {cartSize === 1 ? `${cartSize} item` : `${cartSize} itens`}
+          </span>
+        </div>
+        <MdShoppingBasket size={36} color="#FFF" />
+      </Cart>
+    </Container>
+  );
+};
+
+export default Header;
+```
+
+```typescript title="src/hooks/useCart.tsx"
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { toast } from 'react-toastify';
+import { ProductList } from '../pages/Home/styles';
+import { api } from '../services/api';
+import { Product, Stock } from '../types';
+
+interface CartProviderProps {
+  children: ReactNode;
+}
+
+interface UpdateProductAmount {
+  productId: number;
+  amount: number;
+}
+
+interface CartContextData {
+  cart: Product[];
+  addProduct: (productId: number) => Promise<void>;
+  removeProduct: (productId: number) => void;
+  updateProductAmount: ({ productId, amount }: UpdateProductAmount) => void;
+}
+
+const CartContext = createContext<CartContextData>({} as CartContextData);
+
+export function CartProvider({ children }: CartProviderProps): JSX.Element {
+  const [cart, setCart] = useState<Product[]>(() => {
+    const storagedCart = localStorage.getItem('@RocketShoes:cart');
+
+    if (storagedCart) {
+      return JSON.parse(storagedCart);
+    }
+
+    return [];
+  });
+
+  const prevCartRef = useRef<Product[]>();
+
+  useEffect(() => {
+    prevCartRef.current = cart;
+  });
+
+  const cartPreviousValue = prevCartRef.current ?? cart;
+
+  useEffect(() => {
+    if (cartPreviousValue !== cart) {
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(cart));
+    }
+  }, [cart, cartPreviousValue]);
+
+  const addProduct = async (productId: number) => {
+    try {
+      const updatedCart = [...cart];
+      const productExists = updatedCart.find(
+        (product) => product.id === productId
+      );
+
+      const stock = await api.get(`/stock/${productId}`);
+
+      const stockAmount = stock.data.amount;
+      const currentAmount = productExists ? productExists.amount : 0;
+      const amount = currentAmount + 1;
+
+      if (amount > stockAmount) {
+        toast.error('Quantidade solicitada fora de estoque');
+        return;
+      }
+
+      if (productExists) {
+        productExists.amount = amount;
+      } else {
+        const product = await api.get(`/products/${productId}`);
+
+        const newProduct = {
+          ...product.data,
+          amount: 1,
+        };
+        updatedCart.push(newProduct);
+      }
+
+      setCart(updatedCart);
+    } catch {
+      toast.error('Erro na remoção do produto');
+    }
+  };
+
+  const removeProduct = (productId: number) => {
+    try {
+      const updatedCart = [...cart];
+      const productIndex = updatedCart.findIndex(
+        (product) => product.id === productId
+      );
+
+      if (productIndex >= 0) {
+        updatedCart.splice(productIndex, 1);
+        setCart(updatedCart);
+      } else {
+        throw Error();
+      }
+    } catch {
+      toast.error('Erro na remoção do produto');
+    }
+  };
+
+  const updateProductAmount = async ({
+    productId,
+    amount,
+  }: UpdateProductAmount) => {
+    try {
+      if (amount <= 0) {
+        return;
+      }
+
+      const stock = await api.get(`/stock/${productId}`);
+      const stockAmount = stock.data.amount;
+
+      if (amount > stockAmount) {
+        toast.error('Quantidade solicitada fora de estoque');
+        return;
+      }
+
+      const updatedCart = [...cart];
+      const productExists = updatedCart.find(
+        (product) => product.id === productId
+      );
+
+      if (productExists) {
+        productExists.amount = amount;
+        setCart(updatedCart);
+      } else {
+        throw Error();
+      }
+    } catch {
+      toast.error('Erro na alteração de quantidade do produto');
+    }
+  };
+
+  return (
+    <CartContext.Provider
+      value={{ cart, addProduct, removeProduct, updateProductAmount }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+export function useCart(): CartContextData {
+  const context = useContext(CartContext);
+
+  return context;
+}
+```
+
+```typescript title="src/pages/Cart/index.tsx"
+import {
+  MdDelete,
+  MdAddCircleOutline,
+  MdRemoveCircleOutline,
+} from 'react-icons/md';
+import { useCart } from '../../hooks/useCart';
+import { formatPrice } from '../../util/format';
+import { Container, ProductTable, Total } from './styles';
+
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  amount: number;
+}
+
+const Cart = (): JSX.Element => {
+  const { cart, removeProduct, updateProductAmount } = useCart();
+
+  const cartFormatted = cart.map((product) => ({
+    ...product,
+    priceFormatted: formatPrice(product.price),
+    subTotal: formatPrice(product.price * product.amount),
+  }));
+
+  const total = formatPrice(
+    cart.reduce((sumTotal, product) => {
+      return sumTotal + product.price * product.amount;
+    }, 0)
+  );
+
+  function handleProductIncrement(product: Product) {
+    updateProductAmount({ productId: product.id, amount: product.amount + 1 });
+  }
+
+  function handleProductDecrement(product: Product) {
+    updateProductAmount({ productId: product.id, amount: product.amount - 1 });
+  }
+
+  function handleRemoveProduct(productId: number) {
+    removeProduct(productId);
+  }
+
+  return (
+    <Container>
+      <ProductTable>
+        <thead>
+          <tr>
+            <th aria-label="product image" />
+            <th>PRODUTO</th>
+            <th>QTD</th>
+            <th>SUBTOTAL</th>
+            <th aria-label="delete icon" />
+          </tr>
+        </thead>
+        <tbody>
+          {cartFormatted.map((product) => (
+            <tr key={product.id} data-testid="product">
+              <td>
+                <img src={product.image} alt={product.title} />
+              </td>
+              <td>
+                <strong>{product.title}</strong>
+                <span>{product.priceFormatted}</span>
+              </td>
+              <td>
+                <div>
+                  <button
+                    type="button"
+                    data-testid="decrement-product"
+                    disabled={product.amount <= 1}
+                    onClick={() => handleProductDecrement(product)}
+                  >
+                    <MdRemoveCircleOutline size={20} />
+                  </button>
+                  <input
+                    type="text"
+                    data-testid="product-amount"
+                    readOnly
+                    value={product.amount}
+                  />
+                  <button
+                    type="button"
+                    data-testid="increment-product"
+                    onClick={() => handleProductIncrement(product)}
+                  >
+                    <MdAddCircleOutline size={20} />
+                  </button>
+                </div>
+              </td>
+              <td>
+                <strong>{product.subTotal}</strong>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  data-testid="remove-product"
+                  onClick={() => handleRemoveProduct(product.id)}
+                >
+                  <MdDelete size={20} />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </ProductTable>
+
+      <footer>
+        <button type="button">Finalizar pedido</button>
+
+        <Total>
+          <span>TOTAL</span>
+          <strong>{total}</strong>
+        </Total>
+      </footer>
+    </Container>
+  );
+};
+
+export default Cart;
+```
+
+```typescript title="src/pages/Home/index.tsx"
+import { useState, useEffect } from 'react';
+import { MdAddShoppingCart } from 'react-icons/md';
+import { ProductList } from './styles';
+import { api } from '../../services/api';
+import { formatPrice } from '../../util/format';
+import { useCart } from '../../hooks/useCart';
+
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+}
+
+interface ProductFormatted extends Product {
+  priceFormatted: string;
+}
+
+interface CartItemsAmount {
+  [key: number]: number;
+}
+
+const Home = (): JSX.Element => {
+  const [products, setProducts] = useState<ProductFormatted[]>([]);
+  const { addProduct, cart } = useCart();
+
+  const cartItemsAmount = cart.reduce((sumAmount, product) => {
+    const newSumAmount = { ...sumAmount };
+    newSumAmount[product.id] = product.amount;
+
+    return newSumAmount;
+  }, {} as CartItemsAmount);
+
+  useEffect(() => {
+    async function loadProducts() {
+      const responde = await api.get<Product[]>('products');
+
+      const data = responde.data.map((product) => ({
+        ...product,
+        priceFormatted: formatPrice(product.price),
+      }));
+
+      setProducts(data);
+    }
+
+    loadProducts();
+  }, []);
+
+  function handleAddProduct(id: number) {
+    addProduct(id);
+  }
+
+  return (
+    <ProductList>
+      {products.map((product) => (
+        <li key={product.id}>
+          <img src={product.image} alt={product.title} />
+          <strong>{product.title}</strong>
+          <span>{product.priceFormatted}</span>
+          <button
+            type="button"
+            data-testid="add-product-button"
+            onClick={() => handleAddProduct(product.id)}
+          >
+            <div data-testid="cart-product-quantity">
+              <MdAddShoppingCart size={16} color="#FFF" />
+              {cartItemsAmount[product.id] || 0}
+            </div>
+
+            <span>ADICIONAR AO CARRINHO</span>
+          </button>
+        </li>
+      ))}
+    </ProductList>
+  );
+};
+
+export default Home;
+```
