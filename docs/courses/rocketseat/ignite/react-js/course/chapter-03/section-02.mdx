@@ -16,3 +16,573 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 # Componentes e páginas
 
 ## [Componente: Header](https://app.rocketseat.com.br/node/fundamentos-do-next-js/group/componentes-e-paginas/lesson/componente-header-1)
+
+```typescript {1-15} title="src/components/Header/index.tsx"
+import styles from './styles.module.scss';
+
+export function Header() {
+  return (
+    <header className={styles.headerContainer}>
+      <div className={styles.headerContent}>
+        <img src="/images/logo.svg" alt="ig.news" />
+        <nav>
+          <a className={styles.active}>Home</a>
+          <a>Posts</a>
+        </nav>
+      </div>
+    </header>
+  );
+}
+```
+
+```scss {1-52} title="src/components/Header/styles.module.scss"
+.headerContainer {
+  height: 5rem;
+  border-bottom: 1px solid var(--gray-800);
+}
+
+.headerContent {
+  max-width: 1120px;
+  height: 5rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+
+  nav {
+    margin-left: 5rem;
+    height: 5rem;
+
+    a {
+      display: inline-block;
+      position: relative;
+      padding: 0 0.5rem;
+      height: 5rem;
+      line-height: 5rem;
+      color: var(--gray-300);
+      transition: color 0.2s;
+
+      & + a {
+        margin-left: 2rem;
+      }
+
+      &:hover {
+        color: var(--white);
+      }
+
+      &.active {
+        color: var(--white);
+        font-weight: bold;
+      }
+
+      &.active::after {
+        content: '';
+        height: 3px;
+        border-radius: 3px 3px 0 0;
+        width: 100%;
+        position: absolute;
+        bottom: 1px;
+        left: 0;
+        background: var(--yellow-500);
+      }
+    }
+  }
+}
+```
+
+```typescript {2,6-11} title="src/pages/_app.tsx"
+import { AppProps } from 'next/app';
+import { Header } from '../components/Header';
+import '../styles/global.scss';
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <Header />
+      <Component {...pageProps} />
+    </>
+  );
+}
+
+export default MyApp;
+```
+
+```typescript {14} title="src/pages/_document.tsx"
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+
+export default class MyDocument extends Document {
+  render() {
+    return (
+      <Html>
+        <Head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap"
+            rel="stylesheet"
+          />
+          <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
+}
+```
+
+```scss {11} title="src/styles/global.scss"
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --white: #fff;
+  --gray-100: #e1e1e6;
+  --gray-300: #a8a8b3;
+  --gray-800: #29292e;
+  --gray-900: #121214;
+  --cyan-500: #61dafb;
+  --yellow-500: #eba417;
+}
+
+@media (max-width: 1080px) {
+  html {
+    font-size: 93.75%; // 15px
+  }
+}
+
+@media (max-width: 720px) {
+  html {
+    font-size: 87.5%; // 14px
+  }
+}
+
+body {
+  background: var(--gray-900);
+  color: var(--white);
+}
+
+body,
+input,
+textarea,
+button {
+  font: 400 1rem 'Roboto', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+```
+
+## [Componente: SignInButton](https://app.rocketseat.com.br/node/fundamentos-do-next-js/group/componentes-e-paginas/lesson/componente-sign-in-button)
+
+```bash
+# npm
+npm i -D react-icons
+
+# yarn
+yarn add -D react-icons
+```
+
+```typescript {1,14} title="src/components/Header/index.tsx"
+import { SignInButton } from '../SignInButton';
+import styles from './styles.module.scss';
+
+export function Header() {
+  return (
+    <header className={styles.headerContainer}>
+      <div className={styles.headerContent}>
+        <img src="/images/logo.svg" alt="ig.news" />
+        <nav>
+          <a className={styles.active}>Home</a>
+          <a>Posts</a>
+        </nav>
+
+        <SignInButton />
+      </div>
+    </header>
+  );
+}
+```
+
+```scss {53-55} title="src/components/Header/styles.module.scss"
+.headerContainer {
+  height: 5rem;
+  border-bottom: 1px solid var(--gray-800);
+}
+
+.headerContent {
+  max-width: 1120px;
+  height: 5rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+
+  nav {
+    margin-left: 5rem;
+    height: 5rem;
+
+    a {
+      display: inline-block;
+      position: relative;
+      padding: 0 0.5rem;
+      height: 5rem;
+      line-height: 5rem;
+      color: var(--gray-300);
+      transition: color 0.2s;
+
+      & + a {
+        margin-left: 2rem;
+      }
+
+      &:hover {
+        color: var(--white);
+      }
+
+      &.active {
+        color: var(--white);
+        font-weight: bold;
+      }
+
+      &.active::after {
+        content: '';
+        height: 3px;
+        border-radius: 3px 3px 0 0;
+        width: 100%;
+        position: absolute;
+        bottom: 1px;
+        left: 0;
+        background: var(--yellow-500);
+      }
+    }
+  }
+
+  button {
+    margin-left: auto;
+  }
+}
+```
+
+```typescript {1-20} title="src/components/SignInButton/index.tsx"
+import { FaGithub } from 'react-icons/fa';
+import { FiX } from 'react-icons/fi';
+import styles from './styles.module.scss';
+
+export function SignInButton() {
+  const isUserLoggedIn = true;
+
+  return isUserLoggedIn ? (
+    <button className={styles.signInButton} type="button">
+      <FaGithub color="#04d361" />
+      John Doe
+      <FiX className={styles.closeIcon} color="#737380" />
+    </button>
+  ) : (
+    <button className={styles.signInButton} type="button">
+      <FaGithub color="#eba417" />
+      Sign in with Github
+    </button>
+  );
+}
+```
+
+```scss {1-30} title="src/components/SignInButton/styles.module.scss"
+.signInButton {
+  height: 3rem;
+  border-radius: 3rem;
+  background: var(--gray-850);
+  border: 0;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: bold;
+  transition: filter 0.2s;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  svg.closeIcon {
+    margin-left: 1rem;
+  }
+
+  svg:first-child {
+    margin-right: 1rem;
+  }
+
+  &:hover {
+    filter: brightness(0.8);
+  }
+}
+```
+
+```scss {12} title="src/styles/global.scss"
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --white: #fff;
+  --gray-100: #e1e1e6;
+  --gray-300: #a8a8b3;
+  --gray-800: #29292e;
+  --gray-850: #1f2729;
+  --gray-900: #121214;
+  --cyan-500: #61dafb;
+  --yellow-500: #eba417;
+}
+
+@media (max-width: 1080px) {
+  html {
+    font-size: 93.75%; // 15px
+  }
+}
+
+@media (max-width: 720px) {
+  html {
+    font-size: 87.5%; // 14px
+  }
+}
+
+body {
+  background: var(--gray-900);
+  color: var(--white);
+}
+
+body,
+input,
+textarea,
+button {
+  font: 400 1rem 'Roboto', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+```
+
+## [Página Home](https://app.rocketseat.com.br/node/fundamentos-do-next-js/group/componentes-e-paginas/lesson/pagina-home)
+
+```typescript {2,10-23} title="src/pages/index.tsx"
+import Head from 'next/head';
+import styles from './home.module.scss';
+
+export default function Home() {
+  return (
+    <>
+      <Head>
+        <title>Home | ig.news</title>
+      </Head>
+      <main className={styles.contentContainer}>
+        <section className={styles.hero}>
+          <span>👏 Hey, welcome</span>
+          <h1>
+            News about the <span>React</span> world.
+          </h1>
+          <p>
+            Get access to all the publications <br />
+            <span>for $9.90 month</span>
+          </p>
+        </section>
+
+        <img src="images/avatar.svg" alt="Girl coding" />
+      </main>
+    </>
+  );
+}
+```
+
+```scss {1-40} title="src/pages/home.module.scss"
+.contentContainer {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  height: calc(100vh - 5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero {
+  max-width: 600px;
+
+  > span {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: 4.5rem;
+    line-height: 4.5rem;
+    font-weight: 900;
+    margin-top: 2.5rem;
+
+    span {
+      color: var(--cyan-500);
+    }
+  }
+
+  p {
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+    margin-top: 1.5rem;
+
+    span {
+      color: var(--cyan-500);
+      font-weight: bold;
+    }
+  }
+}
+```
+
+## [Componente: SubscribeButton](https://app.rocketseat.com.br/node/fundamentos-do-next-js/group/componentes-e-paginas/lesson/componente-subscribe-button)
+
+```typescript title="src/components/SubscribeButton/index.tsx"
+import styles from './styles.module.scss';
+
+export function SubscribeButton() {
+  return (
+    <button className={styles.subscribeButton} type="button">
+      Subscribe now
+    </button>
+  );
+}
+```
+
+```scss title="src/components/SubscribeButton/styles.module.scss"
+.subscribeButton {
+  width: 260px;
+  height: 4rem;
+  border: 0;
+  border-radius: 2rem;
+  background: var(--yellow-500);
+  color: var(--gray-900);
+  font-size: 1.25rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.2s;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
+}
+```
+
+```scss {41-43} title="src/pages/home.module.scss"
+.contentContainer {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  height: calc(100vh - 5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero {
+  max-width: 600px;
+
+  > span {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  h1 {
+    font-size: 4.5rem;
+    line-height: 4.5rem;
+    font-weight: 900;
+    margin-top: 2.5rem;
+
+    span {
+      color: var(--cyan-500);
+    }
+  }
+
+  p {
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+    margin-top: 1.5rem;
+
+    span {
+      color: var(--cyan-500);
+      font-weight: bold;
+    }
+  }
+
+  button {
+    margin-top: 2.5rem;
+  }
+}
+```
+
+```typescript {2,21} title="src/pages/index.tsx"
+import Head from 'next/head';
+import { SubscribeButton } from '../components/SubscribeButton';
+import styles from './home.module.scss';
+
+export default function Home() {
+  return (
+    <>
+      <Head>
+        <title>Home | ig.news</title>
+      </Head>
+      <main className={styles.contentContainer}>
+        <section className={styles.hero}>
+          <span>👏 Hey, welcome</span>
+          <h1>
+            News about the <span>React</span> world.
+          </h1>
+          <p>
+            Get access to all the publications <br />
+            <span>for $9.90 month</span>
+          </p>
+          <SubscribeButton />
+        </section>
+
+        <img src="images/avatar.svg" alt="Girl coding" />
+      </main>
+    </>
+  );
+}
+```
