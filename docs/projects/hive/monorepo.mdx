@@ -1,0 +1,310 @@
+---
+id: monorepo
+title: Hive · Monorepo
+sidebar_label: Monorepo
+description: Just another UI framework.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/hive/monorepo
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Monorepo
+
+## Repository Initialization
+
+- **[`Docs`](https://github.com/git-guides/git-init)**
+
+```bash
+mkdir hive
+cd hive
+git init
+```
+
+```text title="README.md"
+# hive
+```
+
+```bash
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/alexbjr369/hive.git
+git push -u origin main
+```
+
+```bash
+git checkout -b hive
+git push -u origin hive
+```
+
+## Project Initialization
+
+- **[`Docs`](https://classic.yarnpkg.com/en/docs/cli/init)**
+
+```bash
+yarn init
+question name (hive): @alexbjr369/hive
+question version (1.0.0): 0.0.0
+question description: Just another UI framework.
+question entry point (index.js):
+question repository url (https://github.com/alexbjr369/hive.git):
+question author (alexbjr369 <alexbjr369@gmail.com>): Alex Bleggi <alexbjr369@gmail.com>
+question license (MIT):
+question private:
+```
+
+```bash
+git add .
+git commit -m "build: project initialization"
+```
+
+## EditorConfig Setup
+
+- **[`Docs`](https://editorconfig.org)**
+
+```text title=".editorconfig"
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+```
+
+```bash
+git add .
+git commit -m "build: editorconfig setup"
+```
+
+## gitignore Initialization
+
+- **[`Docs`](https://git-scm.com/docs/gitignore)**
+
+```text {2} title=".gitignore"
+node_modules
+```
+
+```bash
+git add .
+git commit -m "build: ignoring node_modules folder"
+```
+
+```text title=".gitignore"
+yarn-error.log
+```
+
+```bash
+git add .
+git commit -m "build: ignoring yarn-error.log file"
+```
+
+## Format on Save Configuration
+
+- **[`Docs`](https://code.visualstudio.com/docs/getstarted/settings#_settingsjson)**
+
+```json title=".vscode/settings.json"
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.formatOnSave": true
+}
+```
+
+```bash
+git add .
+git commit -m "build: format on save configuration"
+```
+
+## Prettier
+
+- **[Docs](https://prettier.io/docs/en/index.html)**
+
+```bash
+yarn add -D prettier
+```
+
+```bash
+git add .
+git commit -m "build: adding prettier"
+```
+
+```json title="package.json"
+{
+  "scripts": {
+    "prettier": "prettier . --write --ignore-unknown"
+  },
+  "prettier": {
+    "singleQuote": true
+  }
+}
+```
+
+```bash
+git add package.json
+git commit -m "build: prettier setup"
+```
+
+## Yarn Workspaces
+
+- **[`Docs`](https://classic.yarnpkg.com/lang/en/docs/workspaces)**
+
+```json title="package.json"
+{
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}
+```
+
+```bash
+git add .
+git commit -m "build: yarn workspaces setup"
+```
+
+## Additional Package Information
+
+- **[`Docs`](https://docs.npmjs.com/cli/v8/configuring-npm/package-json)**
+
+```json title="package.json"
+{
+  "bugs": "https://github.com/alexbjr369/hive/issues",
+  "homepage": "https://alexbleggi.netlify.app/hive"
+}
+```
+
+```bash
+git add .
+git commit -m "build: adding additional package information"
+```
+
+## LICENSE
+
+- **[`Docs`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)**
+
+```text title="LICENSE.md"
+MIT License
+
+Copyright (c) 2022-present Alex Bleggi.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+```bash
+git add .
+git commit -m "build: adding license file"
+```
+
+## Lerna
+
+- **[`Docs`](https://lerna.js.org/)**
+- **[`lerna`](https://www.npmjs.com/package/lerna)**
+
+```bash
+yarn add -WD lerna
+```
+
+```bash
+git add .
+git commit -m "build: adding lerna"
+```
+
+```json title="lerna.json"
+{
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "version": "independent",
+  "packages": [
+    "packages/*"
+  ]
+}
+```
+
+```bash
+git add .
+git commit -m "build: lerna configuration"
+```
+
+## Verdaccio
+
+- **[`Docs`](https://verdaccio.org/docs/installation/)**
+- **[`verdaccio`](https://www.npmjs.com/package/verdaccio)**
+
+```bash
+yarn add -WD verdaccio
+```
+
+```bash
+git add .
+git commit -m "build: adding verdaccio"
+```
+
+```text {3} title=".gitignore"
+storage
+```
+
+```bash
+git add package.json
+git commit -m "build: ignoring verdaccio storage folder"
+```
+
+## npm Local Registry, Verdaccio and Lerna Integration
+
+```bash
+npm set registry http://localhost:4873
+```
+
+```bash
+yarn verdaccio
+```
+
+```bash
+npm adduser --registry http://localhost:4873/
+```
+
+```json title="lerna.json"
+{
+  "command": {
+    "publish": {
+      "registry": "http://localhost:4873/"
+    }
+  }
+}
+```
+
+```bash
+git add package.json
+git commit -m "build: npm local registry, verdaccio and lerna Integration"
+```
+
+```bash
+yarn lerna publish
+```

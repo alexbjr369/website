@@ -8,6 +8,20 @@ module.exports = {
   projects: [
     {
       type: 'category',
+      label: 'Hive',
+      items: [
+        'projects/hive/introduction',
+        'projects/hive/monorepo',
+        'projects/hive/cli',
+        {
+          Packages: [
+            'projects/hive/packages/hive-scss',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: 'Monorepo Guide',
       items: [
         'projects/monorepo-guide/introduction',
@@ -135,7 +149,7 @@ module.exports = {
           ],
           'Chapter 04': [
             'courses/rocketseat/ignite/react-js/course/chapter-04/section-01',
-          ]
+          ],
         },
       ],
     },

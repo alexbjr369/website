@@ -4,6 +4,14 @@ import Link from '@docusaurus/Link';
 
 const Personal = [
   {
+    url: '../docs/projects/hive',
+    title: 'Hive',
+    imageUrl: '../img/projects/github.png',
+    description: (
+      <>Just another UI framework.</>
+    )
+  },
+  {
     url: '../docs/projects/monorepo-guide',
     title: 'Monorepo Guide',
     imageUrl: '../img/projects/github.png',

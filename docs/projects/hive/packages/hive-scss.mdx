@@ -1,0 +1,74 @@
+---
+id: hive-scss
+title: Hive · hive-scss
+sidebar_label: hive-scss
+description: Just another UI framework.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/hive/packages/hive-scss
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# hive-scss Package
+
+## Project Initialization
+
+- **[`Docs`](https://classic.yarnpkg.com/en/docs/cli/init)**
+
+```bash
+git checkout -b scss-container
+git push -u origin scss-container
+```
+
+```bash
+cd packages/hive-scss
+yarn init
+question name (hive): @alexbjr369/hive-scss
+question version (1.0.0): 0.0.0
+question description: Hive SCSS.
+question entry point (index.js):
+question repository url: https://github.com/alexbjr369/hive.git
+question author: Alex Bleggi <alexbjr369@gmail.com>
+question license (MIT):
+question private:
+```
+
+```bash
+git add package.json
+git commit -m "build: project initialization"
+```
+
+## Additional Package Information
+
+- **[`Docs`](https://docs.npmjs.com/cli/v8/configuring-npm/package-json)**
+
+```json {7,9} title="package.json"
+{
+  "name": "@alexbjr369/hive-scss",
+  "version": "0.0.0",
+  "description": "Hive SCSS.",
+  "main": "index.js",
+  "repository": "https://github.com/alexbjr369/hive.git",
+  "bugs": "https://github.com/alexbjr369/hive/issues",
+  "author": "Alex Bleggi <alexbjr369@gmail.com>",
+  "homepage": "https://alexbleggi.netlify.app/hive",
+  "license": "MIT"
+}
+```
+
+```bash
+git add package.json
+git commit -m "build: additional package information"
+```
+
+## Sass workflow
+
+- **[`Package: sass`](https://www.npmjs.com/package/sass)**
+
+```bash
+yarn add -D sass
+```
