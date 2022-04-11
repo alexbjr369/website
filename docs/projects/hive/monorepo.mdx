@@ -126,7 +126,7 @@ git commit -m "build: format on save configuration"
 
 ## Prettier
 
-- **[Docs](https://prettier.io/docs/en/index.html)**
+- **[`Docs`](https://prettier.io/docs/en/index.html)**
 
 ```bash
 yarn add -D prettier
@@ -248,6 +248,10 @@ git commit -m "build: adding lerna"
 }
 ```
 
+```text title=".gitignore"
+lerna-debug.log
+```
+
 ```bash
 git add .
 git commit -m "build: lerna configuration"
@@ -267,12 +271,12 @@ git add .
 git commit -m "build: adding verdaccio"
 ```
 
-```text {3} title=".gitignore"
+```text title=".gitignore"
 storage
 ```
 
 ```bash
-git add package.json
+git add .
 git commit -m "build: ignoring verdaccio storage folder"
 ```
 
@@ -301,10 +305,138 @@ npm adduser --registry http://localhost:4873/
 ```
 
 ```bash
-git add package.json
+git add .
 git commit -m "build: npm local registry, verdaccio and lerna Integration"
 ```
 
 ```bash
 yarn lerna publish
 ```
+
+## Commitlint Setup
+
+- **[`Docs: conventional commits`](https://www.conventionalcommits.org/en/v1.0.0/)**
+- **[`Docs: commitlint`](https://commitlint.js.org/#/guides-local-setup)**
+- **[`Package: @commitlint/cli`](https://www.npmjs.com/package/@commitlint/cli)**
+- **[`Package: @commitlint/config-conventional`](https://www.npmjs.com/package/@commitlint/config-conventional)**
+
+```bash
+yarn add -WD @commitlint/cli @commitlint/config-conventional
+```
+
+```bash
+git add .
+git commit -m "build: adding commitlint"
+```
+
+```javascript title="commitlint.config.js"
+module.exports = {
+  extends: [
+    '@commitlint/config-conventional',
+  ],
+};
+```
+
+```bash
+git add .
+git commit -m "build: commitlint setup"
+```
+
+## Commitlint and Husky Integration
+
+- **[`Docs: commitlint`](https://commitlint.js.org/#/guides-local-setup?id=install-husky)**
+- **[`Docs: husky`](https://typicode.github.io/husky/#/?id=install)**
+- **[`husky`](https://www.npmjs.com/package/husky)**
+
+```bash
+yarn add -WD husky
+```
+
+```bash
+git add .
+git commit -m "build: adding husky"
+```
+
+```bash
+yarn husky install
+```
+
+```json title="package.json"
+{
+  "scripts": {
+    "prepare": "npx husky install"
+  }
+}
+```
+
+```text title=".gitignore"
+.husky/_
+```
+
+```bash
+git add .
+git commit -m "build: husky setup"
+```
+
+```bash
+yarn husky add .husky/commit-msg 'yarn commitlint --edit $1'
+```
+
+```bash
+git add .
+git commit -m "build: commitlint and husky integration"
+```
+
+## Commitzen Setup
+
+- **[`Docs`](https://github.com/commitizen/cz-cli)**
+- **[`commitzen`](https://www.npmjs.com/package/commitizen)**
+
+```bash
+yarn add -WD commitizen cz-conventional-changelog
+```
+
+```bash
+git add .
+git commit -m "build: adding commitizen"
+```
+
+```json title="package.json"
+{
+  "scripts": {
+    "commit": "git-cz",
+  }
+}
+```
+
+```json title="package.json"
+{
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+```bash
+git add .
+yarn commit
+"build: commitzen setup"
+```
+
+## Commitizen and Husky Integration
+
+- **[`Docs`](https://github.com/commitizen/cz-cli#husky)**
+- **[BUG](https://github.com/commitizen/cz-cli/issues/709)**
+
+```bash
+yarn husky add .husky/prepare-commit-msg 'exec < /dev/tty && npx cz --hook || true'
+```
+
+```bash
+git add .
+git commit -m "build: commitzen and husky integration"
+```
+
+## Commitizen and lerna Integration

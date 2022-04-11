@@ -16,3 +16,149 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 # API Routes no Next.js
 
 ## [API routes no Next.js](https://app.rocketseat.com.br/node/back-end-no-front-end/group/api-routes-no-next-js/lesson/api-routes-no-next-js)
+
+`http://localhost:3000/api`
+
+```typescript title="src/pages/api/users.ts"
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default (request: NextApiRequest, response: NextApiResponse) => {
+  const users = [
+    { id: 1, name: 'Diego' },
+    { id: 2, name: 'Dani' },
+    { id: 3, name: 'Rafa' },
+  ];
+
+  return response.json(users);
+}
+```
+
+## [Estratégias de autenticação](https://app.rocketseat.com.br/node/back-end-no-front-end/group/api-routes-no-next-js/lesson/estrategias-de-autenticacao)
+
+- JWT (Storage)
+- Next Auth (Social)
+- (external) Cognito, Auth0
+
+## [Parametrização nas rotas](https://app.rocketseat.com.br/node/back-end-no-front-end/group/api-routes-no-next-js/lesson/parametrizacao-nas-rotas)
+
+`http://localhost:3000/api/users`
+
+```typescript title="src/pages/api/users/index.ts"
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default (request: NextApiRequest, response: NextApiResponse) => {
+  const users = [
+    { id: 1, name: 'Diego' },
+    { id: 2, name: 'Dani' },
+    { id: 3, name: 'Rafa' },
+  ];
+
+  return response.json(users);
+}
+```
+
+`http://localhost:3000/api/users/1`
+
+```typescript title="src/pages/api/users/[id].ts"
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default (request: NextApiRequest, response: NextApiResponse) => {
+  const id = request.query;
+  return response.json(id);
+}
+```
+
+`http://localhost:3000/api/users/test/multiple`
+
+```typescript title="src/pages/api/users/[...params].ts"
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default (request: NextApiRequest, response: NextApiResponse) => {
+  const id = request.query;
+  return response.json(id);
+}
+```
+
+## [Autenticação com Next Auth](https://app.rocketseat.com.br/node/back-end-no-front-end/group/api-routes-no-next-js/lesson/autenticacao-com-next-auth)
+
+- **[`Docs: next-auth`](https://next-auth.js.org/getting-started/example)**
+- **[`Package: next-auth`](hhttps://www.npmjs.com/package/next-auth)**
+
+```bash
+yarn add next-auth
+yarn add -D @types/next-auth
+```
+
+- **Github:** `settings > developer settings > OAuthApps`
+- **Application name:** `ig.news (dev)`
+- **Homepage URL:** `http://localhost:3000`
+- **Authorization callback URL:** `http://localhost:3000/api/auth/callback`
+
+```typescript {1-16} title="src/pages/api/auth/[...nextauth].tsx"
+import NextAuth from "next-auth"
+import GithubProvider from "next-auth/providers/github"
+
+export default NextAuth({
+  providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+      authorization: {
+        params: {
+          scope: 'read:user',
+        },
+      },
+    }),
+  ],
+})
+```
+
+```typescript {3,8,11} title="src/pages/_app.tsx"
+import { AppProps } from 'next/app';
+import { Header } from '../components/Header';
+import { SessionProvider as NextAuthProvider } from 'next-auth/react';
+import '../styles/global.scss';
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <NextAuthProvider session={pageProps.session}>
+      <Header />
+      <Component {...pageProps} />
+    </NextAuthProvider>
+  );
+}
+
+export default MyApp;
+```
+
+```typescript {3,7,8,13,16,23} title="src/components/SignInButton/index.tsx"
+import { FaGithub } from 'react-icons/fa';
+import { FiX } from 'react-icons/fi';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import styles from './styles.module.scss';
+
+export function SignInButton() {
+  const { data: session } = useSession();
+
+  return session ? (
+    <button
+      className={styles.signInButton}
+      type="button"
+      onClick={() => signOut()}
+    >
+      <FaGithub color="#04d361" />
+      {session.user.name}
+      <FiX className={styles.closeIcon} color="#737380" />
+    </button>
+  ) : (
+    <button
+      className={styles.signInButton}
+      type="button"
+      onClick={() => signIn('github')}
+    >
+      <FaGithub color="#eba417" />
+      Sign in with Github
+    </button>
+  );
+}
+```
