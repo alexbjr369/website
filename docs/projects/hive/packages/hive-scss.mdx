@@ -20,11 +20,6 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 - **[`Docs`](https://classic.yarnpkg.com/en/docs/cli/init)**
 
 ```bash
-git checkout -b scss-container
-git push -u origin scss-container
-```
-
-```bash
 cd packages/hive-scss
 yarn init
 question name (hive): @alexbjr369/hive-scss
@@ -37,32 +32,15 @@ question license (MIT):
 question private:
 ```
 
-```bash
-git add package.json
-git commit -m "build: project initialization"
-```
-
 ## Additional Package Information
 
 - **[`Docs`](https://docs.npmjs.com/cli/v8/configuring-npm/package-json)**
 
-```json {7,9} title="package.json"
+```json title="package.json"
 {
-  "name": "@alexbjr369/hive-scss",
-  "version": "0.0.0",
-  "description": "Hive SCSS.",
-  "main": "index.js",
-  "repository": "https://github.com/alexbjr369/hive.git",
   "bugs": "https://github.com/alexbjr369/hive/issues",
-  "author": "Alex Bleggi <alexbjr369@gmail.com>",
-  "homepage": "https://alexbleggi.netlify.app/hive",
-  "license": "MIT"
+  "homepage": "https://alexbleggi.netlify.app/hive"
 }
-```
-
-```bash
-git add package.json
-git commit -m "build: additional package information"
 ```
 
 ## Sass workflow
@@ -70,5 +48,5 @@ git commit -m "build: additional package information"
 - **[`Package: sass`](https://www.npmjs.com/package/sass)**
 
 ```bash
-yarn add -D sass
+yarn add sass -D
 ```

@@ -15,9 +15,11 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Monorepo
 
-## Repository Initialization
+Step by step **Monorepo** setup for Hive UI framework.
 
-- **[`Docs`](https://github.com/git-guides/git-init)**
+## 01. Repository initialization
+
+- **[`Docs`](https://github.com/git-guides)**
 
 ```bash
 mkdir hive
@@ -38,32 +40,11 @@ git push -u origin main
 ```
 
 ```bash
-git checkout -b hive
-git push -u origin hive
+git checkout -b monorepo
+git push -u origin monorepo
 ```
 
-## Project Initialization
-
-- **[`Docs`](https://classic.yarnpkg.com/en/docs/cli/init)**
-
-```bash
-yarn init
-question name (hive): @alexbjr369/hive
-question version (1.0.0): 0.0.0
-question description: Just another UI framework.
-question entry point (index.js):
-question repository url (https://github.com/alexbjr369/hive.git):
-question author (alexbjr369 <alexbjr369@gmail.com>): Alex Bleggi <alexbjr369@gmail.com>
-question license (MIT):
-question private:
-```
-
-```bash
-git add .
-git commit -m "build: project initialization"
-```
-
-## EditorConfig Setup
+## 02. EditorConfig setup
 
 - **[`Docs`](https://editorconfig.org)**
 
@@ -79,34 +60,43 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 ```
 
-```bash
-git add .
-git commit -m "build: editorconfig setup"
-```
-
-## gitignore Initialization
+## 03. Gitignore initialization
 
 - **[`Docs`](https://git-scm.com/docs/gitignore)**
 
-```text {2} title=".gitignore"
-node_modules
-```
-
-```bash
-git add .
-git commit -m "build: ignoring node_modules folder"
-```
-
 ```text title=".gitignore"
+node_modules
 yarn-error.log
 ```
 
+## 04. Project initialization
+
+- **[`Docs`](https://classic.yarnpkg.com/en/docs/cli/init)**
+
 ```bash
-git add .
-git commit -m "build: ignoring yarn-error.log file"
+yarn init
+question name (hive): @alexbjr369/hive
+question version (1.0.0): 0.0.0
+question description: Just another UI framework.
+question entry point (index.js):
+question repository url (https://github.com/alexbjr369/hive.git):
+question author (alexbjr369 <alexbjr369@gmail.com>): Alex Bleggi <alexbjr369@gmail.com>
+question license (MIT):
+question private:
 ```
 
-## Format on Save Configuration
+## 05. Additional package information
+
+- **[`Docs`](https://docs.npmjs.com/cli/v8/configuring-npm/package-json)**
+
+```json title="package.json"
+{
+  "bugs": "https://github.com/alexbjr369/hive/issues",
+  "homepage": "https://alexbleggi.netlify.app/hive"
+}
+```
+
+## 06. Format on save configuration
 
 - **[`Docs`](https://code.visualstudio.com/docs/getstarted/settings#_settingsjson)**
 
@@ -119,41 +109,29 @@ git commit -m "build: ignoring yarn-error.log file"
 }
 ```
 
-```bash
-git add .
-git commit -m "build: format on save configuration"
-```
-
-## Prettier
+## 07. Prettier
 
 - **[`Docs`](https://prettier.io/docs/en/index.html)**
 
 ```bash
-yarn add -D prettier
-```
-
-```bash
-git add .
-git commit -m "build: adding prettier"
+yarn add prettier -D
 ```
 
 ```json title="package.json"
 {
-  "scripts": {
-    "prettier": "prettier . --write --ignore-unknown"
-  },
   "prettier": {
     "singleQuote": true
   }
 }
 ```
 
-```bash
-git add package.json
-git commit -m "build: prettier setup"
+```json title=".vscode/settings.json"
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
 ```
 
-## Yarn Workspaces
+## 08. Yarn workspaces
 
 - **[`Docs`](https://classic.yarnpkg.com/lang/en/docs/workspaces)**
 
@@ -168,28 +146,7 @@ git commit -m "build: prettier setup"
 }
 ```
 
-```bash
-git add .
-git commit -m "build: yarn workspaces setup"
-```
-
-## Additional Package Information
-
-- **[`Docs`](https://docs.npmjs.com/cli/v8/configuring-npm/package-json)**
-
-```json title="package.json"
-{
-  "bugs": "https://github.com/alexbjr369/hive/issues",
-  "homepage": "https://alexbleggi.netlify.app/hive"
-}
-```
-
-```bash
-git add .
-git commit -m "build: adding additional package information"
-```
-
-## LICENSE
+## 09. LICENSE creation
 
 - **[`Docs`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)**
 
@@ -218,72 +175,67 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-```bash
-git add .
-git commit -m "build: adding license file"
-```
-
-## Lerna
+## 10. Lerna setup
 
 - **[`Docs`](https://lerna.js.org/)**
-- **[`lerna`](https://www.npmjs.com/package/lerna)**
+- **[`Package`](https://www.npmjs.com/package/lerna)**
 
 ```bash
 yarn add -WD lerna
 ```
 
-```bash
-git add .
-git commit -m "build: adding lerna"
-```
+- **[`Docs`](https://github.com/lerna/lerna/tree/main/commands/init#readme)**
 
-```json title="lerna.json"
-{
-  "npmClient": "yarn",
-  "useWorkspaces": true,
-  "version": "independent",
-  "packages": [
-    "packages/*"
-  ]
-}
+```bash
+yarn lerna init --independent
 ```
 
 ```text title=".gitignore"
 lerna-debug.log
 ```
 
-```bash
-git add .
-git commit -m "build: lerna configuration"
+## 11. Lerna and Yarn integration
+
+- **[`Docs`](https://github.com/lerna/lerna#lernajson)**
+
+```json title="lerna.json"
+{
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+}
 ```
 
-## Verdaccio
+## 12. Lerna versioning
 
-- **[`Docs`](https://verdaccio.org/docs/installation/)**
-- **[`verdaccio`](https://www.npmjs.com/package/verdaccio)**
-
-```bash
-yarn add -WD verdaccio
-```
-
-```bash
-git add .
-git commit -m "build: adding verdaccio"
-```
-
-```text title=".gitignore"
-storage
-```
+- **[`Docs`](https://github.com/lerna/lerna/tree/main/commands/version#lernaversion)**
 
 ```bash
-git add .
-git commit -m "build: ignoring verdaccio storage folder"
+yarn lerna version
 ```
 
-## npm Local Registry, Verdaccio and Lerna Integration
+```json title="lerna.json"
+{
+  "command": {
+    "version": {
+      "message": "chore(release): publish"
+    }
+  }
+}
+```
+
+## 13. Npm local registry
 
 ```bash
 npm set registry http://localhost:4873
+```
+
+## 14. Verdaccio setup
+
+- **[`Docs`](https://verdaccio.org/docs/installation/)**
+- **[`Package`](https://www.npmjs.com/package/verdaccio)**
+
+```bash
+yarn add -WD verdaccio
 ```
 
 ```bash
@@ -293,6 +245,8 @@ yarn verdaccio
 ```bash
 npm adduser --registry http://localhost:4873/
 ```
+
+## 15. Lerna publish registry
 
 ```json title="lerna.json"
 {
@@ -305,106 +259,42 @@ npm adduser --registry http://localhost:4873/
 ```
 
 ```bash
-git add .
-git commit -m "build: npm local registry, verdaccio and lerna Integration"
+yarn lerna publish from-package
 ```
 
 ```bash
-yarn lerna publish
+yarn lerna publish from-git
 ```
 
-## Commitlint Setup
+## 16. Lerna change ignores
 
-- **[`Docs: conventional commits`](https://www.conventionalcommits.org/en/v1.0.0/)**
-- **[`Docs: commitlint`](https://commitlint.js.org/#/guides-local-setup)**
-- **[`Package: @commitlint/cli`](https://www.npmjs.com/package/@commitlint/cli)**
-- **[`Package: @commitlint/config-conventional`](https://www.npmjs.com/package/@commitlint/config-conventional)**
-
-```bash
-yarn add -WD @commitlint/cli @commitlint/config-conventional
-```
-
-```bash
-git add .
-git commit -m "build: adding commitlint"
-```
-
-```javascript title="commitlint.config.js"
-module.exports = {
-  extends: [
-    '@commitlint/config-conventional',
-  ],
-};
-```
-
-```bash
-git add .
-git commit -m "build: commitlint setup"
-```
-
-## Commitlint and Husky Integration
-
-- **[`Docs: commitlint`](https://commitlint.js.org/#/guides-local-setup?id=install-husky)**
-- **[`Docs: husky`](https://typicode.github.io/husky/#/?id=install)**
-- **[`husky`](https://www.npmjs.com/package/husky)**
-
-```bash
-yarn add -WD husky
-```
-
-```bash
-git add .
-git commit -m "build: adding husky"
-```
-
-```bash
-yarn husky install
-```
-
-```json title="package.json"
+```json title="lerna.json"
 {
-  "scripts": {
-    "prepare": "npx husky install"
-  }
+  "ignoreChanges": [
+    "**/.md"
+  ]
 }
 ```
 
-```text title=".gitignore"
-.husky/_
-```
+## 17. Conventional commits and changelog generation
 
 ```bash
-git add .
-git commit -m "build: husky setup"
+yarn lerna version --conventional-commits
 ```
 
-```bash
-yarn husky add .husky/commit-msg 'yarn commitlint --edit $1'
-```
-
-```bash
-git add .
-git commit -m "build: commitlint and husky integration"
-```
-
-## Commitzen Setup
+## 18. Commitzen Setup
 
 - **[`Docs`](https://github.com/commitizen/cz-cli)**
-- **[`commitzen`](https://www.npmjs.com/package/commitizen)**
+- **[`package`](https://www.npmjs.com/package/commitizen)**
 
 ```bash
 yarn add -WD commitizen cz-conventional-changelog
 ```
 
-```bash
-git add .
-git commit -m "build: adding commitizen"
-```
-
 ```json title="package.json"
 {
   "scripts": {
-    "commit": "git-cz",
+    "commit": "cz",
   }
 }
 ```
@@ -419,24 +309,82 @@ git commit -m "build: adding commitizen"
 }
 ```
 
+## 19. Commitlint and Husky integration
+
+- **[`Docs: commitlint`](https://commitlint.js.org/#/guides-local-setup?id=install-husky)**
+- **[`Docs: husky`](https://typicode.github.io/husky/#/?id=install)**
+- **[`Package`](https://www.npmjs.com/package/husky)**
+
 ```bash
-git add .
-yarn commit
-"build: commitzen setup"
+yarn add -WD husky
 ```
 
-## Commitizen and Husky Integration
+```bash
+yarn husky install
+```
+
+```json title="package.json"
+{
+  "scripts": {
+    "prepare": "npx husky install"
+  }
+}
+```
+
+```bash
+yarn husky add .husky/commit-msg 'yarn commitlint --edit $1'
+```
+
+## 20. Commitlint setup
+
+- **[`Docs: conventional commits`](https://www.conventionalcommits.org/en/v1.0.0/)**
+- **[`Docs: commitlint`](https://commitlint.js.org/#/guides-local-setup)**
+- **[`Package: @commitlint/cli`](https://www.npmjs.com/package/@commitlint/cli)**
+- **[`Package: @commitlint/config-conventional`](https://www.npmjs.com/package/@commitlint/config-conventional)**
+
+```bash
+yarn add -WD @commitlint/cli @commitlint/config-conventional
+```
+
+```javascript title="commitlint.config.js"
+module.exports = {
+  extends: [
+    '@commitlint/config-conventional',
+  ],
+};
+```
+
+## 21. Commitizen and Husky Integration
 
 - **[`Docs`](https://github.com/commitizen/cz-cli#husky)**
-- **[BUG](https://github.com/commitizen/cz-cli/issues/709)**
+- **[`BUG`](https://github.com/commitizen/cz-cli/issues/709)**
 
 ```bash
 yarn husky add .husky/prepare-commit-msg 'exec < /dev/tty && npx cz --hook || true'
 ```
 
+## 22. Conventional Commits scope personalization
+
+- **[`@commitlint/config-lerna-scopes`](https://www.npmjs.com/package/@commitlint/config-lerna-scopes)**
+
 ```bash
-git add .
-git commit -m "build: commitzen and husky integration"
+yarn add -WD @commitlint/config-lerna-scopes
 ```
 
-## Commitizen and lerna Integration
+```javascript title="commitlint.config.js"
+const {utils: {getPackages}} = require('@commitlint/config-lerna-scopes');
+
+module.exports = {
+  "extends": [
+    "@commitlint/config-conventional",
+    "@commitlint/config-lerna-scopes"
+  ],
+ rules: {
+  'scope-enum': async ctx =>
+    [2, 'always', [...(await getPackages(ctx)),
+      // Insert custom scopes below:
+      'release'
+    ]]
+ }
+}
+```
