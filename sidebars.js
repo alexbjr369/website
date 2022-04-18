@@ -8,33 +8,6 @@ module.exports = {
   projects: [
     {
       type: 'category',
-      label: 'Hive',
-      items: [
-        'projects/hive/introduction',
-        'projects/hive/monorepo',
-        'projects/hive/cli',
-        {
-          Packages: [
-            'projects/hive/packages/hive-scss',
-          ],
-        },
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Monorepo Guide',
-      items: [
-        'projects/monorepo-guide/introduction',
-        {
-          Lerna: [
-            'projects/monorepo-guide/lerna/introduction',
-            'projects/monorepo-guide/lerna/implementation',
-          ],
-        },
-      ],
-    },
-    {
-      type: 'category',
       label: 'Webpack Guide',
       items: [
         'projects/webpack-guide/introduction',
