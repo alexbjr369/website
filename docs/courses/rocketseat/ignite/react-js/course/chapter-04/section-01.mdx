@@ -94,9 +94,18 @@ yarn add @types/next-auth -D
 - **Homepage URL:** `http://localhost:3000`
 - **Authorization callback URL:** `http://localhost:3000/api/auth/callback`
 
+```txt {4,5,6} title=".env.local"
+# Stripe
+STRIPE_API_KEY=...
+
+# Github
+GITHUB_ID=...
+GITHUB_SECRET=...
+```
+
 ```typescript {1-16} title="src/pages/api/auth/[...nextauth].tsx"
-import NextAuth from "next-auth"
-import GithubProvider from "next-auth/providers/github"
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
 
 export default NextAuth({
   providers: [

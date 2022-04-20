@@ -1,0 +1,166 @@
+---
+id: section-02
+title: Ignite React.js · Chapter 04 · Section 02
+sidebar_label: Section 02
+description: Ignite React.js by RocketSeat.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /ignite/react-js/course/chapter-04/section-02
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Usando FaunaDB
+
+## [Escolhendo um banco de dados](https://app.rocketseat.com.br/node/back-end-no-front-end/group/usando-fauna-db/lesson/escolhendo-um-banco-de-dados)
+
+Não é necessária uma conexão ativa com o banco de dados.
+
+## [Configurando FaunaDB](https://app.rocketseat.com.br/node/back-end-no-front-end/group/usando-fauna-db/lesson/configurando-fauna-db)
+
+```bash
+# npm
+npm i faunadb
+
+# yarn
+yarn add faunadb
+```
+
+```txt {8,9} title=".env.local"
+# Stripe
+STRIPE_API_KEY=...
+
+# Github
+GITHUB_ID=...
+GITHUB_SECRET=...
+
+# FaunaDB
+FAUNADB_KEY=...
+```
+
+```typescript {1-5} title="src/services/fauna.ts"
+import { Client } from 'faunadb';
+
+export const fauna = new Client({
+  secret: process.env.FAUNADB_KEY
+});
+```
+
+## [Configurações no Github](https://app.rocketseat.com.br/node/back-end-no-front-end/group/usando-fauna-db/lesson/configuracoes-no-github)
+
+## [Salvando usuário no banco](https://app.rocketseat.com.br/node/back-end-no-front-end/group/usando-fauna-db/lesson/salvando-usuario-no-banco)
+
+```txt {11,12} title=".env.local"
+# Stripe
+STRIPE_API_KEY=...
+
+# Github
+GITHUB_ID=...
+GITHUB_SECRET=...
+
+# FaunaDB
+FAUNADB_KEY=...
+```
+
+```typescript {1,5,19-37} title="src/pages/api/auth/[...nextauth].ts"
+import { query as q } from 'faunadb';
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+
+import { fauna } from '../../../services/fauna';
+
+export default NextAuth({
+  providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+      authorization: {
+        params: {
+          scope: 'read:user',
+        },
+      },
+    }),
+  ],
+  callbacks: {
+    async signIn({user}) {
+      const { email } = user;
+
+      try {
+        await fauna.query(
+          q.Create(
+            q.Collection('users'),
+            { data: { email }}
+          )
+        )
+
+        return true;
+      } catch {
+        return false;
+      }
+
+    }
+  }
+})
+```
+
+## [Chave privada do JWT](https://app.rocketseat.com.br/node/back-end-no-front-end/group/usando-fauna-db/lesson/chave-privada-do-jwt)
+
+## [Verificando usuário duplicado](https://app.rocketseat.com.br/node/back-end-no-front-end/group/usando-fauna-db/lesson/verificando-usuario-duplicado)
+
+```typescript {25-33,38-43} title="src/pages/api/auth/[...nextauth].ts"
+import { query as q } from 'faunadb';
+import NextAuth from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+
+import { fauna } from '../../../services/fauna';
+
+export default NextAuth({
+  providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+      authorization: {
+        params: {
+          scope: 'read:user',
+        },
+      },
+    }),
+  ],
+  callbacks: {
+    async signIn({user}) {
+      const { email } = user;
+
+      try {
+        await fauna.query(
+          q.If(
+            q.Not(
+              q.Exists(
+                q.Match(
+                  q.Index('user_by_email'),
+                  q.Casefold(user.email)
+                )
+              )
+            ),
+            q.Create(
+              q.Collection('users'),
+              { data: { email }}
+            ),
+            q.Get(
+              q.Match(
+                q.Index('user_by_email'),
+                q.Casefold(user.email)
+              )
+            )
+          )
+        )
+        return true;
+      } catch {
+        return false;
+      }
+    }
+  }
+})
+```
