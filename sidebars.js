@@ -65,6 +65,12 @@ module.exports = {
         {
           Stylelint: [
             {
+              Less: [
+                'projects/linting-code-quality-rules/stylelint/less/introduction',
+                'projects/linting-code-quality-rules/stylelint/less/implementation',
+              ],
+            },
+            {
               CSS: [
                 'projects/linting-code-quality-rules/stylelint/css/introduction',
                 'projects/linting-code-quality-rules/stylelint/css/implementation',

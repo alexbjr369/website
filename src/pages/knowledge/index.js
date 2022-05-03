@@ -25,6 +25,11 @@ const KnowledgeImage = [
     url: 'knowledge/sass',
   },
   {
+    title: 'Less',
+    imageUrl: '../img/knowledge/less.svg',
+    url: 'knowledge/less',
+  },
+  {
     title: 'PostCSS',
     imageUrl: '../img/knowledge/postcss.svg',
     url: 'knowledge/postcss',
@@ -184,6 +189,10 @@ const KnowledgeText = [
   {
     title: 'postcss-preset-env',
     url: 'knowledge/postcss-preset-env',
+  },
+  {
+    title: 'postcss-less',
+    url: 'knowledge/postcss-less',
   },
   {
     title: 'replace-in-file',
