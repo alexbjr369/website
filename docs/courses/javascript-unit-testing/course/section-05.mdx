@@ -1,0 +1,122 @@
+---
+id: section-05
+title: JavaScript Unit Testing · Section 05
+sidebar_label: Section 05
+description: JavaScript Unit Testing by Academind on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /javascript-unit-testing/course/section-05
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Integration Tests
+
+## [Module Introduction](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877930#overview)
+
+## [Introducing Integration Tests](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877934#overview)
+
+## [Writing an Integration Test & Reasoning](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877940#overview)
+
+```javascript {4,31,33-41} title="src/numbers.test.js"
+import { describe, it, expect } from 'vitest';
+import { cleanNumbers, transformToNumber } from './numbers';
+
+describe('transformToNumber()', () => {
+  it('should transform a string number to a number of type number', () => {
+    const input = '1';
+
+    const result = transformToNumber(input);
+
+    expect(result).toBeTypeOf('number');
+  });
+
+  it('should transform a string number to a number of type number', () => {
+    const input = '1';
+
+    const result = transformToNumber(input);
+
+    expect(result).toBe(+input);
+  });
+
+  it('should yield not a number for non-transformable values', () => {
+    const input = 'invalid';
+    const input2 = {};
+
+    const result = transformToNumber(input);
+    const result2 = transformToNumber(input2);
+
+    expect(result).toBeNaN();
+    expect(result2).toBeNaN();
+  });
+});
+
+describe('cleanNumbers()', () => {
+  it('should return an array of number values if an array of string number values is provided', () => {
+    const numberValues = ['1', '2'];
+
+    const cleanedNumbers = cleanNumbers(numberValues);
+
+    expect(cleanedNumbers[0]).toBeTypeOf('number');
+  });
+});
+```
+
+## [Testing For Errors](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877942#overview)
+
+```javascript {42-48} title="src/numbers.test.js"
+import { describe, it, expect } from 'vitest';
+import { cleanNumbers, transformToNumber } from './numbers';
+
+describe('transformToNumber()', () => {
+  it('should transform a string number to a number of type number', () => {
+    const input = '1';
+
+    const result = transformToNumber(input);
+
+    expect(result).toBeTypeOf('number');
+  });
+
+  it('should transform a string number to a number of type number', () => {
+    const input = '1';
+
+    const result = transformToNumber(input);
+
+    expect(result).toBe(+input);
+  });
+
+  it('should yield not a number for non-transformable values', () => {
+    const input = 'invalid';
+    const input2 = {};
+
+    const result = transformToNumber(input);
+    const result2 = transformToNumber(input2);
+
+    expect(result).toBeNaN();
+    expect(result2).toBeNaN();
+  });
+});
+
+describe('cleanNumbers()', () => {
+  it('should return an array of number values if an array of string number values is provided', () => {
+    const numberValues = ['1', '2'];
+
+    const cleanedNumbers = cleanNumbers(numberValues);
+
+    expect(cleanedNumbers[0]).toBeTypeOf('number');
+  });
+
+  it('should throw an error if an array with at least one empty string is provided', () => {
+    const numberValues = ['', 1];
+
+    const cleanFn = () => cleanedNumbers(numberValues);
+
+    expect(cleanFn).toThrow();
+  });
+});
+```
+
+## [Integration vs Unit Tests: Finding the Right Balance](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877946#overview)

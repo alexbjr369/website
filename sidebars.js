@@ -65,6 +65,12 @@ module.exports = {
         {
           Stylelint: [
             {
+              Sass: [
+                'projects/linting-code-quality-rules/stylelint/sass/introduction',
+                'projects/linting-code-quality-rules/stylelint/sass/implementation',
+              ],
+            },
+            {
               Less: [
                 'projects/linting-code-quality-rules/stylelint/less/introduction',
                 'projects/linting-code-quality-rules/stylelint/less/implementation',
@@ -129,6 +135,23 @@ module.exports = {
           'Chapter 04': [
             'courses/rocketseat/ignite/react-js/course/chapter-04/section-01',
             'courses/rocketseat/ignite/react-js/course/chapter-04/section-02',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'JavaScript Unit Testing',
+      items: [
+        'courses/javascript-unit-testing/javascript-unit-testing',
+        {
+          Course: [
+            'courses/javascript-unit-testing/course/section-01',
+            'courses/javascript-unit-testing/course/section-02',
+            'courses/javascript-unit-testing/course/section-03',
+            'courses/javascript-unit-testing/course/section-04',
+            'courses/javascript-unit-testing/course/section-05',
+            'courses/javascript-unit-testing/course/section-06',
           ],
         },
       ],

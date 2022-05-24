@@ -1,0 +1,31 @@
+---
+id: section-06
+title: JavaScript Unit Testing · Section 06
+sidebar_label: Section 06
+description: JavaScript Unit Testing by Academind on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /javascript-unit-testing/course/section-06
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Advanced Testing Concepts
+
+## [Module Introduction](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877954#overview)
+
+## [toBe() vs toEqual()](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877956#overview)
+
+```javascript
+it('should return an array of number values if an array of string number values is provided', () => {
+    const numberValues = ['1', '2'];
+
+    const cleanedNumbers = cleanNumbers(numberValues);
+
+    // expect(cleanedNumbers[0]).toBe([1, 2]); // numberValues !== [1, 2] error: array as objects point to different places in memory
+    expect(cleanedNumbers[0]).toEqual([1, 2]); // passed
+  });
+```

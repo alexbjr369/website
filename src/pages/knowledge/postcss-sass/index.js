@@ -2,27 +2,12 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-const title = 'Sass';
-const imgPath = '../img/knowledge/sass.svg';
-const url = 'https://sass-lang.com';
-const notes = '/docs/notes/sass';
+const title = 'postcss-sass';
+const imgPath = '../img/knowledge/npm-build-scripts.svg';
+const url = 'https://www.npmjs.com/package/postcss-sass';
+const notes = '';
 
-const Courses = [
-  {
-    url: '../docs/ignite/react-js',
-    title: 'Ignite React.js',
-    imageUrl: '../img/courses/ignite-react.png',
-    description: (
-      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
-    )
-  },
-  {
-    url: '../docs/advanced-css-and-sass',
-    title: 'Advanced CSS and Sass',
-    imageUrl: '../img/courses/advanced-css-and-sass.jpg',
-    description: (<><a href="https://www.udemy.com/course/advanced-css-and-sass/" target="_blank"><strong>Online course</strong></a> by <a href="https://www.udemy.com/user/jonasschmedtmann/" target="_blank"><strong>Jonas Schmedtmann</strong></a> on <a href="https://www.udemy.com/" target="_blank"><strong>Udemy</strong></a>.</>)
-  },
-];
+const Courses = [];
 
 const Projects = [
   {
@@ -54,7 +39,7 @@ function Hero() {
           {/* {notes && <Link className="button button--custom" to={notes}>Notes</Link>} */}
         </div>
       </div>
-    </header>
+    </header >
   );
 }
 
@@ -64,7 +49,7 @@ function Feature({ url, imageUrl, title, description }) {
       <div className="projects-feature">
         <Link className="projects-feature__link" to={url}>
           <div>
-            <img className="projects-feature__image projects-feature__image--book" src={imageUrl} alt={title} />
+            <img className="projects-feature__image" src={imageUrl} alt={title} />
             <h3 className="projects-feature__heading">{title}</h3>
           </div>
         </Link>

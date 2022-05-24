@@ -1,0 +1,183 @@
+---
+id: section-04
+title: JavaScript Unit Testing · Section 04
+sidebar_label: Section 04
+description: JavaScript Unit Testing by Academind on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /javascript-unit-testing/course/section-04
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Writing Good Tests
+
+## [Module Introduction](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877892#overview)
+
+## [What To Test & Not To Test](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877896#overview)
+
+## [Writing Good Tests - An Overview & Summary](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877898#overview)
+
+## [Only Test "One Thing"](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877902#overview)
+
+## [Splitting Functions For Easier Testing & Better Code](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877904#overview)
+
+## [Refactoring Code](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877910#overview)
+
+```javascript {1-17} title="app.js"
+import { extractEnteredNumberValues } from './src/parser.js';
+import { calculateResult } from './src/math.js';
+import { generateResultText, outputResult } from './src/output.js';
+
+const form = document.querySelector('form');
+
+function formSubmitHandler(event) {
+  event.preventDefault();
+  const numberValues = extractEnteredNumberValues(form);
+
+  const result = calculateResult(numberValues);
+  const resultText = generateResultText(result);
+
+  outputResult(resultText);
+}
+
+form.addEventListener('submit', formSubmitHandler);
+```
+
+```javascript {1,12-24} title="src/math.js"
+import { cleanNumbers } from './util/numbers.js';
+
+export function add(numbers) {
+  let sum = 0;
+
+  for (const number of numbers) {
+    sum += +number;
+  }
+  return sum;
+}
+
+export function calculateResult(numberValues) {
+  let result = '';
+
+  try {
+    const numbers = cleanNumbers(numberValues);
+
+    result = add(numbers).toString();
+  } catch (error) {
+    result = error.message;
+  }
+
+  return result;
+}
+```
+
+```javascript {1-11,13-16} title="src/output.js"
+export function generateResultText(calculateResult) {
+  let resultText = '';
+
+  if (calculateResult === 'invalid') {
+    resultText = 'Invalid input. You must enter valid numbers.';
+  } else if (calculateResult !== 'no-calc') {
+    resultText = 'Result: ' + calculateResult;
+  }
+
+  return resultText;
+}
+
+export function outputResult(resultText) {
+  const output = document.getElementById('result');
+  output.textContent = resultText;
+}
+```
+
+```javascript {8-13} title="src/parser.js"
+export function extractNumbers(formData) {
+  const num1Input = formData.get('num1');
+  const num2Input = formData.get('num2');
+
+  return [num1Input, num2Input];
+}
+
+export function extractEnteredNumberValues(form) {
+  const formData = new FormData(form);
+  const numberInputs = extractNumbers(formData);
+
+  return numberInputs;
+}
+```
+
+```javascript {1,8-19} title="src/util/numbers.js"
+import { validateStringNotEmpty, validateNumber } from './validation.js';
+
+export function transformToNumber(value) {
+  // return NaN; woul break the tests
+  return +value;
+}
+
+export function cleanNumbers(numberValues) {
+  const numbers = [];
+
+  for (const numberInput of numberValues) {
+    validateStringNotEmpty(numberInput);
+    const number = transformToNumber(numberInput);
+    validateNumber(number);
+    numbers.push(number);
+  }
+
+  return numbers;
+}
+```
+
+## [Formulating Different Expectations](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877916#overview)
+
+```javascript {1-42} title="src/output.test.js"
+import { describe, it, expect } from 'vitest';
+import { generateResultText } from './output';
+
+describe('generateResultText()', () => {
+  it('should return a string, no matter which value is passed in', () => {
+    const val1 = 1;
+    const val2 = 'invalid';
+    const val3 = false;
+
+    const result1 = generateResultText(val1);
+    const result2 = generateResultText(val2);
+    const result3 = generateResultText(val3);
+
+    expect(result1).toBeTypeOf('string');
+    expect(result2).toBeTypeOf('string');
+    expect(result3).toBeTypeOf('string');
+  });
+
+  it('should return a string that contains the calculation result if a number is provided as a result', () => {
+    const result = 5;
+
+    const resultText = generateResultText(result);
+
+    expect(resultText).toContain(result.toString());
+  });
+
+  it('should return an empty string if "no-calc" is provided as a result', () => {
+    const result = 'no-calc';
+
+    const resultText = generateResultText(result);
+
+    expect(resultText).toBe('');
+  });
+
+  it('should return a string that contains "Invalid" if "invalid" is provided as a result', () => {
+    const result = 'invalid';
+
+    const resultText = generateResultText(result);
+
+    expect(resultText).toContain('Invalid');
+  });
+});
+```
+
+## [A Word About Code Coverage](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31879066#overview)
+
+## [Module Summary](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877920#overview)

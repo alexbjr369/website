@@ -1,0 +1,615 @@
+---
+id: section-03
+title: JavaScript Unit Testing · Section 03
+sidebar_label: Section 03
+description: JavaScript Unit Testing by Academind on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /javascript-unit-testing/course/section-03
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Testing Basics
+
+## [Module Introduction](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877844#overview)
+
+## [Basic Test File & Project Setup](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877846#overview)
+
+If you assing the flag `--globals` to vitest, there is no need to use `imports` in the test files.
+
+```json {3} title="package.json"
+{
+  "scrips": {
+    "test": "vitest --globals"
+  },
+}
+```
+
+## [Writing a First Test](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877848#overview)
+
+```javascript {1-9} title="src/math.test.js"
+// import { test } from 'vitest';
+import { it, expect } from 'vitest';
+import { add } from './math';
+
+it('should summarize all number values in array', () => {
+  const result = add([1, 2, 3]);
+
+  expect(result).toBe(6);
+});
+```
+
+## [Running Tests](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877850#overview)
+
+## [Why Are We Testing?](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877852#overview)
+
+## [The AAA Pattern - Arrange, Act, Assert](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877854#overview)
+
+```javascript {6,7,9,10,12-16,18} title="src/math.test.js"
+// import { test } from 'vitest';
+import { it, expect } from 'vitest';
+import { add } from './math';
+
+it('should summarize all number values in array', () => {
+  // arrange
+  const numbers = [1, 2, 3];
+
+  // act
+  const result = add(numbers);
+
+  // assert
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => prevValue + currValue,
+    0
+  );
+
+  expect(result).toBe(expectedResult);
+});
+```
+
+## [Keep Your Tests Simple!](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877856#overview)
+
+## [Defining Behaviors & Fixing Errors In Your Code](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877860#overview)
+
+```javascript {21-27,29-39} title="src/math.test.js"
+// import { test } from 'vitest';
+import { it, expect } from 'vitest';
+import { add } from './math';
+
+it('should summarize all number values in array', () => {
+  // arrange
+  const numbers = [1, 2, 3];
+
+  // act
+  const result = add(numbers);
+
+  // assert
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => prevValue + currValue,
+    0
+  );
+
+  expect(result).toBe(expectedResult);
+});
+
+it('should yield NaN if at least one invalid number is provided', () => {
+  const inputs = [1, 2, 'invalid'];
+
+  const result = add(inputs);
+
+  expect(result).toBeNaN();
+});
+
+it('should yield a correct sum if an array of numeric string values is provided', () => {
+  const numbers = ['1', '2', '3'];
+
+  const result = add(numbers);
+
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => +prevValue + +currValue,
+    0
+  );
+  expect(result).toBe(expectedResult);
+});
+```
+
+```javascript {5} title="src/math.js"
+export function add(numbers) {
+  let sum = 0;
+
+  for (const number of numbers) {
+    sum += +number;
+  }
+  return sum;
+}
+```
+
+## [Demo: Writing More Tests](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877862#overview)
+
+```javascript {41-47,49-51} title="src/math.test.js"
+// import { test } from 'vitest';
+import { it, expect } from 'vitest';
+import { add } from './math';
+
+it('should summarize all number values in array', () => {
+  // arrange
+  const numbers = [1, 2, 3];
+
+  // act
+  const result = add(numbers);
+
+  // assert
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => prevValue + currValue,
+    0
+  );
+
+  expect(result).toBe(expectedResult);
+});
+
+it('should yield NaN if at least one invalid number is provided', () => {
+  const inputs = [1, 2, 'invalid'];
+
+  const result = add(inputs);
+
+  expect(result).toBeNaN();
+});
+
+it('should yield a correct sum if an array of numeric string values is provided', () => {
+  const numbers = ['1', '2', '3'];
+
+  const result = add(numbers);
+
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => +prevValue + +currValue,
+    0
+  );
+  expect(result).toBe(expectedResult);
+});
+
+it('should yield 0 if an empty array is provided', () => {
+  const numbers = [];
+
+  const result = add(numbers);
+
+  expect(result).toBe(0);
+});
+
+it('should throw an error if no value is passed into the function', () => {
+  const result = add();
+});
+```
+
+## [Testing For Errors](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877864#overview)
+
+```javascript {49-55} title="src/math.test.js"
+// import { test } from 'vitest';
+import { it, expect } from 'vitest';
+import { add } from './math';
+
+it('should summarize all number values in array', () => {
+  // arrange
+  const numbers = [1, 2, 3];
+
+  // act
+  const result = add(numbers);
+
+  // assert
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => prevValue + currValue,
+    0
+  );
+
+  expect(result).toBe(expectedResult);
+});
+
+it('should yield NaN if at least one invalid number is provided', () => {
+  const inputs = [1, 2, 'invalid'];
+
+  const result = add(inputs);
+
+  expect(result).toBeNaN();
+});
+
+it('should yield a correct sum if an array of numeric string values is provided', () => {
+  const numbers = ['1', '2', '3'];
+
+  const result = add(numbers);
+
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => +prevValue + +currValue,
+    0
+  );
+  expect(result).toBe(expectedResult);
+});
+
+it('should yield 0 if an empty array is provided', () => {
+  const numbers = [];
+
+  const result = add(numbers);
+
+  expect(result).toBe(0);
+});
+
+it('should throw an error if no value is passed into the function', () => {
+  const resultFn = () => {
+    add();
+  };
+
+  expect(resultFn).toThrow();
+});
+```
+
+## [Demo: Adding More Tests](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877868#overview)
+
+```javascript {57-66} title="src/math.test.js"
+// import { test } from 'vitest';
+import { it, expect } from 'vitest';
+import { add } from './math';
+
+it('should summarize all number values in array', () => {
+  // arrange
+  const numbers = [1, 2, 3];
+
+  // act
+  const result = add(numbers);
+
+  // assert
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => prevValue + currValue,
+    0
+  );
+
+  expect(result).toBe(expectedResult);
+});
+
+it('should yield NaN if at least one invalid number is provided', () => {
+  const inputs = [1, 2, 'invalid'];
+
+  const result = add(inputs);
+
+  expect(result).toBeNaN();
+});
+
+it('should yield a correct sum if an array of numeric string values is provided', () => {
+  const numbers = ['1', '2', '3'];
+
+  const result = add(numbers);
+
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => +prevValue + +currValue,
+    0
+  );
+  expect(result).toBe(expectedResult);
+});
+
+it('should yield 0 if an empty array is provided', () => {
+  const numbers = [];
+
+  const result = add(numbers);
+
+  expect(result).toBe(0);
+});
+
+it('should throw an error if no value is passed into the function', () => {
+  const resultFn = () => {
+    add();
+  };
+
+  expect(resultFn).toThrow();
+});
+
+it('should throw an error if provided with multiple arguments instead of an array', () => {
+  const num1 = 1;
+  const num2 = 2;
+
+  const resultFn = () => {
+    add(num1, num2);
+  };
+
+  expect(resultFn).toThrow();
+});
+```
+
+## [Testing For Thrown Errors & Error Messages](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877872#overview)
+
+```javascript {65} title="src/math.test.js"
+// import { test } from 'vitest';
+import { it, expect } from 'vitest';
+import { add } from './math';
+
+it('should summarize all number values in array', () => {
+  // arrange
+  const numbers = [1, 2, 3];
+
+  // act
+  const result = add(numbers);
+
+  // assert
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => prevValue + currValue,
+    0
+  );
+
+  expect(result).toBe(expectedResult);
+});
+
+it('should yield NaN if at least one invalid number is provided', () => {
+  const inputs = [1, 2, 'invalid'];
+
+  const result = add(inputs);
+
+  expect(result).toBeNaN();
+});
+
+it('should yield a correct sum if an array of numeric string values is provided', () => {
+  const numbers = ['1', '2', '3'];
+
+  const result = add(numbers);
+
+  const expectedResult = numbers.reduce(
+    (prevValue, currValue) => +prevValue + +currValue,
+    0
+  );
+  expect(result).toBe(expectedResult);
+});
+
+it('should yield 0 if an empty array is provided', () => {
+  const numbers = [];
+
+  const result = add(numbers);
+
+  expect(result).toBe(0);
+});
+
+it('should throw an error if no value is passed into the function', () => {
+  const resultFn = () => {
+    add();
+  };
+
+  expect(resultFn).toThrow();
+});
+
+it('should throw an error if provided with multiple arguments instead of an array', () => {
+  const num1 = 1;
+  const num2 = 2;
+
+  const resultFn = () => {
+    add(num1, num2);
+  };
+
+  expect(resultFn).toThrow(/is not iterable/);
+});
+```
+
+## [Exercise: Problem](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877874#overview)
+
+## [Exercise: Solution](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877878#overview)
+
+```javascript {1-18} title="src/numbers.test.js"
+import { it, expect } from 'vitest';
+import { transformToNumber } from './numbers';
+
+it('should transform a string number to a number of type number', () => {
+  const input = '1';
+
+  const result = transformToNumber(input);
+
+  expect(result).toBeTypeOf('number');
+});
+
+it('should yield not a number for non-transformable values', () => {
+  const input = 'invalid';
+
+  const result = transformToNumber(input);
+
+  expect(result).toBeNaN();
+});
+```
+
+## [Tests With Multiple Assertions (Multiple Expectations)](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877880#overview)
+
+```javascript {12-18,22,25,28} title="src/numbers.test.js"
+import { it, expect } from 'vitest';
+import { transformToNumber } from './numbers';
+
+it('should transform a string number to a number of type number', () => {
+  const input = '1';
+
+  const result = transformToNumber(input);
+
+  expect(result).toBeTypeOf('number');
+});
+
+it('should transform a string number to a number of type number', () => {
+  const input = '1';
+
+  const result = transformToNumber(input);
+
+  expect(result).toBe(+input);
+});
+
+it('should yield not a number for non-transformable values', () => {
+  const input = 'invalid';
+  const input2 = {};
+
+  const result = transformToNumber(input);
+  const result2 = transformToNumber(input2);
+
+  expect(result).toBeNaN();
+  expect(result2).toBeNaN();
+});
+```
+
+```javascript {2} title="src/numbers.test.js"
+export function transformToNumber(value) {
+  // return NaN; woul break the tests
+  return +value;
+}
+```
+
+## [More Practice!](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877884#overview)
+
+```javascript {1-65} title="src/validation.test.js"
+import { it, expect } from 'vitest';
+
+import { validateNumber, validateStringNotEmpty } from './validation';
+
+it('should throw an error, if an empty string is provided', () => {
+  const input = '';
+  const validationFn = () => validateStringNotEmpty(input);
+  expect(validationFn).toThrow();
+});
+
+it('should throw an error with a message that contains a reason (must not be empty)', () => {
+  const input = '';
+  const validationFn = () => validateStringNotEmpty(input);
+  expect(validationFn).toThrow(/must not be empty/);
+});
+
+it('should throw an error if a long string of blanks is provided', () => {
+  const input = '';
+  const validationFn = () => validateStringNotEmpty(input);
+  expect(validationFn).toThrow();
+});
+
+it('should throw an error if any other value than a string is provided', () => {
+  const inputNum = 1;
+  const inputBool = true;
+  const inputObj = {};
+
+  const validationFnNum = () => validateStringNotEmpty(inputNum);
+  const validationFnBool = () => validateStringNotEmpty(inputBool);
+  const validationFnObj = () => validateStringNotEmpty(inputObj);
+
+  expect(validationFnNum).toThrow();
+  expect(validationFnBool).toThrow();
+  expect(validationFnObj).toThrow();
+});
+
+it('should not throw an error, if a non-empty string is provided', () => {
+  const input = 'valid';
+  const validationFn = () => validateStringNotEmpty(input);
+  expect(validationFn).not.toThrow();
+});
+
+it('should throw an error if NaN is provided', () => {
+  const input = NaN;
+  const validationFn = () => validateNumber(input);
+  expect(validationFn).toThrow();
+});
+
+it('should throw an error with a message that contains a reason (invalid number)', () => {
+  const input = NaN;
+  const validationFn = () => validateNumber(input);
+  expect(validationFn).toThrow(/Invalid number/);
+});
+
+it('should throw an error if a non-numeric value is provided', () => {
+  const input = '1';
+  const validationFn = () => validateNumber(input);
+  expect(validationFn).toThrow();
+});
+
+it('should not throw an error, if a number is provided', () => {
+  const input = 1;
+  const validationFn = () => validateNumber(input);
+  expect(validationFn).not.toThrow();
+});
+```
+
+```javascript {7} title="src/validation.js"
+export function validateStringNotEmpty(value) {
+  if (value.trim().length === 0) {
+    throw new Error('Invalid input - must not be empty.');
+  }
+}
+
+export function validateNumber(number) {
+  if (isNaN(number) || typeof number !== 'number') {
+    throw new Error('Invalid number input.');
+  }
+}
+```
+
+## [Introducing Test Suites](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877886#overview)
+
+```javascript {1,5,43,45,68} title="src/validation.test.js"
+import { describe, it, expect } from 'vitest';
+
+import { validateNumber, validateStringNotEmpty } from './validation';
+
+describe('validateStringNotEmpty()', () => {
+  it('should throw an error, if an empty string is provided', () => {
+    const input = '';
+    const validationFn = () => validateStringNotEmpty(input);
+    expect(validationFn).toThrow();
+  });
+
+  it('should throw an error with a message that contains a reason (must not be empty)', () => {
+    const input = '';
+    const validationFn = () => validateStringNotEmpty(input);
+    expect(validationFn).toThrow(/must not be empty/);
+  });
+
+  it('should throw an error if a long string of blanks is provided', () => {
+    const input = '';
+    const validationFn = () => validateStringNotEmpty(input);
+    expect(validationFn).toThrow();
+  });
+
+  it('should throw an error if any other value than a string is provided', () => {
+    const inputNum = 1;
+    const inputBool = true;
+    const inputObj = {};
+
+    const validationFnNum = () => validateStringNotEmpty(inputNum);
+    const validationFnBool = () => validateStringNotEmpty(inputBool);
+    const validationFnObj = () => validateStringNotEmpty(inputObj);
+
+    expect(validationFnNum).toThrow();
+    expect(validationFnBool).toThrow();
+    expect(validationFnObj).toThrow();
+  });
+
+  it('should not throw an error, if a non-empty string is provided', () => {
+    const input = 'valid';
+    const validationFn = () => validateStringNotEmpty(input);
+    expect(validationFn).not.toThrow();
+  });
+});
+
+describe('validateNumber()', () => {
+  it('should throw an error if NaN is provided', () => {
+    const input = NaN;
+    const validationFn = () => validateNumber(input);
+    expect(validationFn).toThrow();
+  });
+
+  it('should throw an error with a message that contains a reason (invalid number)', () => {
+    const input = NaN;
+    const validationFn = () => validateNumber(input);
+    expect(validationFn).toThrow(/Invalid number/);
+  });
+
+  it('should throw an error if a non-numeric value is provided', () => {
+    const input = '1';
+    const validationFn = () => validateNumber(input);
+    expect(validationFn).toThrow();
+  });
+
+  it('should not throw an error, if a number is provided', () => {
+    const input = 1;
+    const validationFn = () => validateNumber(input);
+    expect(validationFn).not.toThrow();
+  });
+});
+```
+
+## [Adding Tests To Frontend & Backend Projects](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877888#overview)
+
+## [Module Summary](https://www.udemy.com/course/javascript-unit-testing-the-practical-guide/learn/lecture/31877890#overview)

@@ -133,6 +133,10 @@ module.exports = {
               to: 'docs/ignite/react-js',
             },
             {
+              label: 'JavaScript Unit Testing',
+              to: 'docs/javascript-unit-testing',
+            },
+            {
               label: 'Advanced CSS and Sass',
               to: 'docs/advanced-css-and-sass',
             },
