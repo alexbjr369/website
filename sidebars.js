@@ -1,6 +1,8 @@
 module.exports = {
   notes: [
     'notes/notes',
+    'notes/unit-testing/unit-testing',
+    'notes/angular/angular',
     'notes/bem-methodology/bem-methodology',
     'notes/sass/sass',
     'notes/css/css',

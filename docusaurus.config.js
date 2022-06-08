@@ -170,6 +170,14 @@ module.exports = {
           title: 'Notes',
           items: [
             {
+              label: 'Unit testing',
+              to: 'docs/notes/unit-testing',
+            },
+            {
+              label: 'Angular',
+              to: 'docs/notes/angular',
+            },
+            {
               label: 'BEM Methodology',
               to: 'docs/notes/bem-methodology',
             },
