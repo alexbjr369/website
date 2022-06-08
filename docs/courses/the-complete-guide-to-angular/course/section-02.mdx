@@ -1,0 +1,116 @@
+---
+id: section-02
+title: The Complete Guide To Angular · Section 02
+sidebar_label: Section 02
+description: The Complete Guide To Angular by Academind on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-guide-to-angular/course/section-02
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# The Basics
+
+## [Module Introduction](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655698#overview)
+
+## [How an Angular App gets Loaded and Started](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655700#overview)
+
+## [Components are Important!](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655704#overview)
+
+## [Creating a New Component](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655710#overview)
+
+```bash
+# npm
+npx ng generate component server
+
+# yarn
+yarn ng generate component server
+```
+
+## [Understanding the Role of AppModule and Component Declaration](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655726#overview)
+
+```typescript {5,8} title="src/app/app.module.ts"
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { ServerComponent } from './server/server.component';
+
+@NgModule({
+  declarations: [AppComponent, ServerComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+## [Using Custom Components](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655732#overview)
+
+```html {1} title="src/app/app.component.html"
+<app-server></app-server>
+```
+
+## [Creating Components with the CLI & Nesting Components](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655742#overview)
+
+```bash
+# npm
+npx ng g c servers
+
+# yarn
+yarn ng g c servers
+```
+
+```typescript {6,9} title="src/app/app.module.ts"
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { ServerComponent } from './server/server.component';
+import { ServersComponent } from './servers/servers.component';
+
+@NgModule({
+  declarations: [AppComponent, ServerComponent, ServersComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+```html {1,2} title="src/app/servers/servers.component.html"
+<app-server></app-server>
+<app-server></app-server>
+```
+
+```html {1,2,3} title="src/app/app.component.html"
+<h3>I'm in the AppComponent!</h3>
+<hr />
+<app-servers></app-servers>
+```
+
+## [Working with Component Templates](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655748#overview)
+
+```typescript {5-8} title="src/app/servers/servers.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-servers',
+  template: `
+    <app-server></app-server>
+    <app-server></app-server>
+  `,
+  styleUrls: ['./servers.component.scss'],
+})
+export class ServersComponent implements OnInit {
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+## [Working with Component Styles](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655760#overview)

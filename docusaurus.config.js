@@ -133,12 +133,36 @@ module.exports = {
               to: 'docs/ignite/react-js',
             },
             {
-              label: 'JavaScript Unit Testing',
-              to: 'docs/javascript-unit-testing',
+              label: 'The Complete Guide to Angular',
+              to: 'docs/the-complete-guide-to-angular',
+            },
+            {
+              label: 'Vue the Complete Guide',
+              to: 'docs/vue-the-complete-guide',
+            },
+            {
+              label: 'React the Complete Guide',
+              to: 'docs/react-the-complete-guide',
+            },
+            {
+              label: 'Web Components and Stencil.js',
+              to: 'docs/web-components-stenciljs',
+            },
+            {
+              label: 'Understanding TypeScript',
+              to: 'docs/understanding-typescript',
+            },
+            {
+              label: 'The Complete JavaScript Course',
+              to: 'docs/the-complete-javascript-course',
             },
             {
               label: 'Advanced CSS and Sass',
               to: 'docs/advanced-css-and-sass',
+            },
+            {
+              label: 'Advanced Animations and Interactions with Ionic',
+              to: 'docs/advanced-animations-and-interactions-with-ionic',
             },
           ],
         },

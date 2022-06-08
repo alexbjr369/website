@@ -158,6 +158,19 @@ module.exports = {
     },
     {
       type: 'category',
+      label: 'The Complete Guide to Angular',
+      items: [
+        'courses/the-complete-guide-to-angular/the-complete-guide-to-angular',
+        {
+          Course: [
+            'courses/the-complete-guide-to-angular/course/section-01',
+            'courses/the-complete-guide-to-angular/course/section-02',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: 'Advanced CSS and Sass',
       items: [
         'courses/advanced-css-and-sass/advanced-css-and-sass',
