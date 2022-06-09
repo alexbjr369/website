@@ -1,0 +1,220 @@
+---
+id: section-03
+title: The Complete Guide To Angular · Section 03
+sidebar_label: Section 03
+description: The Complete Guide To Angular by Academind on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-guide-to-angular/course/section-03
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Course Project - The Basics
+
+## [Project Introduction](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656000#overview)
+
+## [Planning the App](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656004#overview)
+
+## [Creating a New App Correctly](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/9118764#overview)
+
+## [Setting up the Application](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/7233704#overview)
+
+## [Creating the Components](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656014#overview)
+
+```bash
+# npm
+npx ng g c header
+npx ng g c recipes
+npx ng g c recipes/recipe-list
+npx ng g c recipes/recipe-detail
+npx ng g c recipes/recipe-list/recipe-item
+npx ng g c shopping-list
+npx ng g c shopping-list/shopping-edit
+
+# yarn
+yarn ng g c header
+yarn ng g c recipes
+yarn ng g c recipes/recipe-list
+yarn ng g c recipes/recipe-detail
+yarn ng g c recipes/recipe-list/recipe-item
+yarn ng g c shopping-list
+yarn ng g c shopping-list/shopping-edit
+```
+
+## [Using the Components](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656016#overview)
+
+```html {1-9} title="src/app/app.component.html"
+<app-header></app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <app-recipes></app-recipes>
+      <app-shopping-list></app-shopping-list>
+    </div>
+  </div>
+</div>
+```
+
+```html {1-8} title="src/app/recipes.component.html"
+<div class="row">
+  <div class="col-md-5">
+    <app-recipe-list></app-recipe-list>
+  </div>
+  <div class="col-md-7">
+    <app-recipe-detail></app-recipe-detail>
+  </div>
+</div>
+```
+
+```html {1} title="src/app/recipes/recipe-list.component.html"
+<app-recipe-item></app-recipe-item>
+```
+
+```html {1-7} title="src/app/shopping-list.component.html"
+<div class="row">
+  <div class="col-xs-10">
+    <app-shopping-edit></app-shopping-edit>
+    <hr />
+    <p>The list</p>
+  </div>
+</div>
+```
+
+## [Adding a Navigation Bar](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656020#overview)
+
+```html {1-42} title="src/app/header.component.html"
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Recipe Book</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Recipes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Shopping List</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Save Data</a></li>
+            <li><a class="dropdown-item" href="#">Fetch Data</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+```
+
+## [Alternative Non-Collapsable Navigation Bar](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656022#overview)
+
+```html {12,19,20} title="src/app/header.component.html"
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Recipe Book</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      (click)="collapsed = !collapsed"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+      [class.collapse]="collapsed"
+      (window:resize)="collapsed = true"
+    >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Recipes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Shopping List</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Save Data</a></li>
+            <li><a class="dropdown-item" href="#">Fetch Data</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+```
+
+## [Creating a "Recipe" Model](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656026#overview)
+
+```typescript {1-11} title="src/app/recipes/recipe.model.ts"
+export class Recipe {
+  public name: string;
+  public description: string;
+  public imagePath: string;
+
+  constructor(name: string, description: string, imagePath: string) {
+    this.name = name;
+    this.description = description;
+    this.imagePath = imagePath;
+  }
+}
+```
+
+```typescript {9} title="src/app/recipes/recipe-list/recipe-list.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-recipe-list',
+  templateUrl: './recipe-list.component.html',
+  styleUrls: ['./recipe-list.component.scss'],
+})
+export class RecipeListComponent implements OnInit {
+  recipes = [];
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+## [Adding Content to the Recipes Components](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656030#overview)

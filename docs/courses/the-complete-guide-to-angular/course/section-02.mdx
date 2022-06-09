@@ -228,29 +228,12 @@ yarn ng g c success-alert
 
 **2. Output them beneath each other in the AppComponent:**
 
-```html {1-8} title="src/app/app.component.html"
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <app-warning-alert></app-warning-alert>
-      <app-success-alert></app-success-alert>
-    </div>
-  </div>
-</div>
+```html {1-2} title="src/app/app.component.html"
+<app-warning-alert></app-warning-alert>
+<app-success-alert></app-success-alert>
 ```
 
 **3. Output a warning or success message in the Components:**
-
-```html {1-8} title="src/app/app.component.html"
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <app-warning-alert></app-warning-alert>
-      <app-success-alert></app-success-alert>
-    </div>
-  </div>
-</div>
-```
 
 ```html {1} title="src/app/success-alert.component.html"
 <p>This is a warning, you are in danger!</p>
@@ -309,3 +292,637 @@ export class ServerComponent implements OnInit {
 ```
 
 ## [Property Binding](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655806#overview)
+
+```typescript {9,12-14} title="src/app/servers.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-servers',
+  templateUrl: './servers.component.html',
+  styleUrls: ['./servers.component.scss'],
+})
+export class ServersComponent implements OnInit {
+  allowNewServer = false;
+
+  constructor() {
+    setTimeout(() => {
+      this.allowNewServer = true;
+    }, 2000);
+  }
+
+  ngOnInit(): void {}
+}
+```
+
+```html {1} title="src/app/servers.component.html"
+<button class="btn btn-primary" [disabled]="!allowNewServer">Add Server</button>
+<app-server></app-server>
+<app-server></app-server>
+```
+
+## [Property Binding vs String Interpolation](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655814#overview)
+
+```html {2} title="src/app/servers.component.html"
+<button class="btn btn-primary" [disabled]="!allowNewServer">Add Server</button>
+<p [innerText]="allowNewServer"></p>
+<app-server></app-server>
+<app-server></app-server>
+```
+
+## [Event Binding](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655820#overview)
+
+```typescript {10,20-22} title="src/app/servers.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-servers',
+  templateUrl: './servers.component.html',
+  styleUrls: ['./servers.component.scss'],
+})
+export class ServersComponent implements OnInit {
+  allowNewServer = false;
+  serverCreationStatus = 'No server was created!';
+
+  constructor() {
+    setTimeout(() => {
+      this.allowNewServer = true;
+    }, 2000);
+  }
+
+  ngOnInit(): void {}
+
+  onCreateServer() {
+    this.serverCreationStatus = 'Server was created!';
+  }
+}
+```
+
+```html {4} title="src/app/servers.component.html"
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()"
+>
+  Add Server
+</button>
+<p>{{ serverCreationStatus }}</p>
+<app-server></app-server>
+<app-server></app-server>
+```
+
+## [Bindable Properties and Events](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655990#overview)
+
+## [Passing and Using Data with Event Binding](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655832#overview)
+
+```typescript {11,25-27} title="src/app/servers.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-servers',
+  templateUrl: './servers.component.html',
+  styleUrls: ['./servers.component.scss'],
+})
+export class ServersComponent implements OnInit {
+  allowNewServer = false;
+  serverCreationStatus = 'No server was created!';
+  serverName = '';
+
+  constructor() {
+    setTimeout(() => {
+      this.allowNewServer = true;
+    }, 2000);
+  }
+
+  ngOnInit(): void {}
+
+  onCreateServer() {
+    this.serverCreationStatus = 'Server was created!';
+  }
+
+  onUpdateServerName(event: Event) {
+    this.serverName = (<HTMLInputElement>event.target).value;
+  }
+}
+```
+
+```html {1,2-7,8} title="src/app/servers.component.html"
+<label for="input">Server Name</label>
+<input
+  class="form-control"
+  id="input"
+  type="text"
+  (input)="onUpdateServerName($event)"
+/>
+<p>{{ serverName }}</p>
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()"
+>
+  Add Server
+</button>
+<p>{{ serverCreationStatus }}</p>
+<app-server></app-server>
+<app-server></app-server>
+```
+
+## [Important: FormsModule is Required for Two-Way-Binding!](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655876#overview)
+
+## [Two-Way-Databinding](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655868#overview)
+
+```typescript {2,11} title="src/app/app.module.ts"
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { ServerComponent } from './server/server.component';
+import { ServersComponent } from './servers/servers.component';
+
+@NgModule({
+  declarations: [AppComponent, ServerComponent, ServersComponent],
+  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+```typescript {11} title="src/app/servers.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-servers',
+  templateUrl: './servers.component.html',
+  styleUrls: ['./servers.component.scss'],
+})
+export class ServersComponent implements OnInit {
+  allowNewServer = false;
+  serverCreationStatus = 'No server was created!';
+  serverName = '';
+
+  constructor() {
+    setTimeout(() => {
+      this.allowNewServer = true;
+    }, 2000);
+  }
+
+  ngOnInit(): void {}
+
+  onCreateServer() {
+    this.serverCreationStatus = 'Server was created!';
+  }
+
+  onUpdateServerName(event: Event) {
+    this.serverName = (<HTMLInputElement>event.target).value;
+  }
+}
+```
+
+```html {8} title="src/app/servers.component.html"
+<label for="input">Server Name</label>
+<input
+  class="form-control"
+  id="input"
+  type="text"
+  (input)="onUpdateServerName($event)"
+/>
+<input class="form-control" id="input" type="text" [(ngModel)]="serverName" />
+<p>{{ serverName }}</p>
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()"
+>
+  Add Server
+</button>
+<p>{{ serverCreationStatus }}</p>
+<app-server></app-server>
+<app-server></app-server>
+```
+
+## [Combining all Forms of Databinding](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655886#overview)
+
+```typescript {22,23} title="src/app/servers.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-servers',
+  templateUrl: './servers.component.html',
+  styleUrls: ['./servers.component.scss'],
+})
+export class ServersComponent implements OnInit {
+  allowNewServer = false;
+  serverCreationStatus = 'No server was created!';
+  serverName = 'Test server';
+
+  constructor() {
+    setTimeout(() => {
+      this.allowNewServer = true;
+    }, 2000);
+  }
+
+  ngOnInit(): void {}
+
+  onCreateServer() {
+    this.serverCreationStatus =
+      'Server was created! name is ' + this.serverName;
+  }
+}
+```
+
+```html title="src/app/servers.component.html"
+<label for="input">Server Name</label>
+<input class="form-control" id="input" type="text" [(ngModel)]="serverName" />
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()"
+>
+  Add Server
+</button>
+<p>{{ serverCreationStatus }}</p>
+<app-server></app-server>
+<app-server></app-server>
+```
+
+## [Assignment 2: Practicing Databinding](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/practice/268#overview)
+
+**1. Add a Input field which updates a property ('username') via Two-Way-Binding**
+
+```typescript {2,11} title="src/app/app.module.ts"
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { ServerComponent } from './server/server.component';
+import { ServersComponent } from './servers/servers.component';
+
+@NgModule({
+  declarations: [AppComponent, ServerComponent, ServersComponent],
+  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+```typescript {9} title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  userName = '';
+}
+```
+
+```html {1,2-7} title="src/app/app.component.html"
+<label for="input"></label>
+<input
+  class="form-control"
+  id="input"
+  type="text"
+  [(ngModel)]="userName"
+/>
+```
+
+**2. Output the username property via String Interpolation (in a paragraph below the input)**
+
+```html {8} title="src/app/app.component.html"
+<label for="input"></label>
+<input
+  class="form-control"
+  id="input"
+  type="text"
+  [(ngModel)]="userName"
+/>
+<p>{{ userName }}</p>
+```
+
+**3. Add a button which may only be clicked if the username is NOT an empty string**
+
+```html {9-11} title="src/app/app.component.html"
+<label for="input"></label>
+<input
+  class="form-control"
+  id="input"
+  type="text"
+  [(ngModel)]="userName"
+/>
+<p>{{ userName }}</p>
+<button class="btn btn-primary" [disabled]="userName === ''">
+  Reset user
+</button>
+```
+
+**4. Upon clicking the button, the username should be reset to an empty string**
+
+```html {12} title="src/app/app.component.html"
+<label for="input"></label>
+<input
+  class="form-control"
+  id="input"
+  type="text"
+  [(ngModel)]="userName"
+/>
+<p>{{ userName }}</p>
+<button
+  class="btn btn-primary"
+  [disabled]="userName === ''"
+  (click)="userName = ''"
+>
+  Reset user
+</button>
+```
+
+## [Understanding Directives](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655898#overview)
+
+## [Using ngIf to Output Data Conditionally](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655904#overview)
+
+```typescript {11,12,23} title="src/app/servers.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-servers',
+  templateUrl: './servers.component.html',
+  styleUrls: ['./servers.component.scss'],
+})
+export class ServersComponent implements OnInit {
+  allowNewServer = false;
+  serverCreationStatus = 'No server was created!';
+  serverName = '';
+  serverCreated = false;
+
+  constructor() {
+    setTimeout(() => {
+      this.allowNewServer = true;
+    }, 2000);
+  }
+
+  ngOnInit(): void {}
+
+  onCreateServer() {
+    this.serverCreated = true;
+    this.serverCreationStatus =
+      'Server was created! name is ' + this.serverName;
+  }
+}
+```
+
+```html {10} title="src/app/servers.component.html"
+<label for="input">Server Name</label>
+<input class="form-control" id="input" type="text" [(ngModel)]="serverName" />
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()"
+>
+  Add Server
+</button>
+<p *ngIf="serverCreated">Server was created, server name is {{ serverName }}</p>
+<app-server></app-server>
+<app-server></app-server>
+```
+
+## [Enhancing ngIf with an Else Condition](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655984#overview)
+
+```html {10,13-15} title="src/app/servers.component.html"
+<label for="input">Server Name</label>
+<input class="form-control" id="input" type="text" [(ngModel)]="serverName" />
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()"
+>
+  Add Server
+</button>
+<p *ngIf="serverCreated; else noServer">
+  Server was created, server name is {{ serverName }}
+</p>
+<ng-template #noServer>
+  <p>No server was created!</p>
+</ng-template>
+<app-server></app-server>
+<app-server></app-server>
+```
+
+## [Styling Elements Dynamically with ngStyle](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655914#overview)
+
+```typescript {13,22-24} title="src/app/server.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-server',
+  templateUrl: './server.component.html',
+  styleUrls: ['./server.component.scss'],
+})
+export class ServerComponent implements OnInit {
+  serverId = 10;
+  serverStatus = 'offline';
+
+  constructor() {
+    this.serverStatus = Math.random() > 0.5 ? 'online' : 'offline';
+  }
+
+  ngOnInit(): void {}
+
+  getServerStatus() {
+    return this.serverStatus;
+  }
+
+  getColor() {
+    return this.serverStatus === 'online' ? 'green' : 'red';
+  }
+}
+```
+
+```html {1} title="src/app/server.component.html"
+<p [ngStyle]="{ 'background-color': getColor() }">
+  Server with ID {{ serverId }} is {{ getServerStatus() }}
+</p>
+```
+
+## [Applying CSS Classes Dynamically with ngClass](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655924#overview)
+
+```html {3} title="src/app/server.component.html"
+<p
+  [ngStyle]="{ 'background-color': getColor() }"
+  [ngClass]="{ online: serverStatus === 'online' }"
+>
+  Server with ID {{ serverId }} is {{ getServerStatus() }}
+</p>
+```
+
+```scss {1-3} title="src/app/server.component.scss"
+.online {
+  color: #fff;
+}
+```
+
+## [Outputting Lists with ngFor](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655930#overview)
+
+```typescript {13,25} title="src/app/servers.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-servers',
+  templateUrl: './servers.component.html',
+  styleUrls: ['./servers.component.scss'],
+})
+export class ServersComponent implements OnInit {
+  allowNewServer = false;
+  serverCreationStatus = 'No server was created!';
+  serverName = '';
+  serverCreated = false;
+  servers = ['Test server', 'Test server 2'];
+
+  constructor() {
+    setTimeout(() => {
+      this.allowNewServer = true;
+    }, 2000);
+  }
+
+  ngOnInit(): void {}
+
+  onCreateServer() {
+    this.serverCreated = true;
+    this.servers.push(this.serverName);
+    this.serverCreationStatus =
+      'Server was created! name is ' + this.serverName;
+  }
+}
+```
+
+```html {16} title="src/app/servers.component.html"
+<label for="input">Server Name</label>
+<input class="form-control" id="input" type="text" [(ngModel)]="serverName" />
+<button
+  class="btn btn-primary"
+  [disabled]="!allowNewServer"
+  (click)="onCreateServer()"
+>
+  Add Server
+</button>
+<p *ngIf="serverCreated; else noServer">
+  Server was created, server name is {{ serverName }}
+</p>
+<ng-template #noServer>
+  <p>No server was created!</p>
+</ng-template>
+<app-server *ngFor="let server of servers"></app-server>
+```
+
+## [Assignment 3: Practicing Directives](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/practice/270#overview)
+
+**1. Add A button which says 'Display Details'**
+
+```html {1} title="src/app/app.component.html"
+<button class="btn btn-primary">Display Details</button>
+```
+
+**2. Add a paragraph with any content of your choice (e.g. 'Secret Password = tuna')**
+
+```html {2} title="src/app/app.component.html"
+<button class="btn btn-primary">Display Details</button>
+<p>Secret Password = tuna</p>
+```
+
+**3. Toggle the displaying of that paragraph with the button created in the first step**
+
+```html {1,4} title="src/app/app.component.html"
+<button class="btn btn-primary" (click)="showSecret = !showSecret">
+  Display Details
+</button>
+<p *ngIf="showSecret">Secret Password = tuna</p>
+```
+
+**4. Log all button clicks in an array and output that array below the secret paragraph (maybe log a timestamp or simply an incrementing number)**
+
+```typescript {9,10,12-15} title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  showSecret = false;
+  log: any = [];
+
+  onToggleDetail() {
+    this.showSecret = !this.showSecret;
+    this.log.push(this.log.length + 1);
+  }
+}
+```
+
+```html {1,5} title="src/app/app.component.html"
+<button class="btn btn-primary" (click)="onToggleDetail()">
+  Display Details
+</button>
+<p *ngIf="showSecret">Secret Password = tuna</p>
+<div *ngFor="let logItem of log">{{ logItem }}</div>
+```
+
+**5. Starting at the 5th log item, give all future log items a blue background (via ngStyle) and white color (ngClass)**
+
+```html {7,8} title="src/app/app.component.html"
+<button class="btn btn-primary" (click)="onToggleDetail()">
+  Display Details
+</button>
+<p *ngIf="showSecret">Secret Password = tuna</p>
+<div
+  *ngFor="let logItem of log"
+  [ngStyle]="{ 'background-color': logItem >= 5 ? 'blue' : 'white' }"
+  [ngClass]="{ 'white-text': logItem >= 5 }"
+>
+  {{ logItem }}
+</div>
+```
+
+```scss {1-3} title="src/app/app.component.scss"
+.white-text {
+  color: #fff;
+}
+```
+
+## [Getting the Index when using ngFor](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655944#overview)
+
+```typescript {14} title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  showSecret = false;
+  log: any = [];
+
+  onToggleDetail() {
+    this.showSecret = !this.showSecret;
+    this.log.push(new Date());
+  }
+}
+```
+
+```html {6,7,8} title="src/app/app.component.html"
+<button class="btn btn-primary" (click)="onToggleDetail()">
+  Display Details
+</button>
+<p *ngIf="showSecret">Secret Password = tuna</p>
+<div
+  *ngFor="let logItem of log; let i = index"
+  [ngStyle]="{ 'background-color': i >= 4 ? 'blue' : 'white' }"
+  [ngClass]="{ 'white-text': i >= 4 }"
+>
+  {{ logItem }}
+</div>
+```
