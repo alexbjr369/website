@@ -279,3 +279,33 @@ p {
 ```
 
 ## [What is Databinding?](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655784#overview)
+
+## [String Interpolation](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655804#overview)
+
+```typescript {9,10,16-18} title="src/app/server.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-server',
+  templateUrl: './server.component.html',
+  styleUrls: ['./server.component.scss'],
+})
+export class ServerComponent implements OnInit {
+  serverId = 10;
+  serverStatus = 'offline';
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  getServerStatus() {
+    return this.serverStatus;
+  }
+}
+```
+
+```html {1} title="src/app/server.component.html"
+<p>Server with ID {{ serverId }} is {{ getServerStatus() }}</p>
+```
+
+## [Property Binding](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655806#overview)
