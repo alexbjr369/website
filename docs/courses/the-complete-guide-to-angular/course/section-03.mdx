@@ -86,43 +86,26 @@ yarn ng g c shopping-list/shopping-edit
 
 ## [Adding a Navigation Bar](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656020#overview)
 
-```html {1-42} title="src/app/header.component.html"
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+```html {1-25} title="src/app/header.component.html"
+<nav class="navbar navbar-default">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Recipe Book</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Recipes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Shopping List</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Save Data</a></li>
-            <li><a class="dropdown-item" href="#">Fetch Data</a></li>
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Recipe Book</a>
+    </div>
+
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#">Recipes</a></li>
+        <li><a href="#">Shopping List</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" href="#" role="button"
+            >Manage <span class="caret"></span
+          ></a>
+          <ul class="dropdown-menu">
+            <li><a href="">Save Data</a></li>
+            <li><a href="">Fetch Data</a></li>
           </ul>
         </li>
       </ul>
@@ -133,49 +116,37 @@ yarn ng g c shopping-list/shopping-edit
 
 ## [Alternative Non-Collapsable Navigation Bar](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656022#overview)
 
-```html {12,19,20} title="src/app/header.component.html"
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+```html {4-10,11,13-17} title="src/app/header.component.html"
+<nav class="navbar navbar-default">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Recipe Book</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-      (click)="collapsed = !collapsed"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle"
+        (click)="collapsed = !collapsed"
+      >
+        <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
+      </button>
+      <a routerLink="/" class="navbar-brand">Recipe Book</a>
+    </div>
     <div
-      class="collapse navbar-collapse"
-      id="navbarSupportedContent"
+      class="navbar-collapse"
       [class.collapse]="collapsed"
       (window:resize)="collapsed = true"
     >
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Recipes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Shopping List</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Dropdown
+      <ul class="nav navbar-nav">
+        <li><a href="#">Recipes</a></li>
+        <li><a href="#">Shopping List</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" href="#" role="button">
+            Manage
+            <span class="caret"></span>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Save Data</a></li>
-            <li><a class="dropdown-item" href="#">Fetch Data</a></li>
+          <ul class="dropdown-menu">
+            <li><a href="">Save Data</a></li>
+            <li><a href="">Fetch Data</a></li>
           </ul>
         </li>
       </ul>
@@ -218,3 +189,213 @@ export class RecipeListComponent implements OnInit {
 ```
 
 ## [Adding Content to the Recipes Components](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656030#overview)
+
+```typescript {10-16} title="src/app/recipes/recipe-list/recipe-list.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { Recipe } from '../recipe.model';
+
+@Component({
+  selector: 'app-recipe-list',
+  templateUrl: './recipe-list.component.html',
+  styleUrls: ['./recipe-list.component.scss'],
+})
+export class RecipeListComponent implements OnInit {
+  recipes: Recipe[] = [
+    new Recipe(
+      'A Test Recipe',
+      'This is simply a test',
+      'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg'
+    ),
+  ];
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+```html {1-24} title="src/app/recipes/recipe-list/recipe-list.component.html"
+<div class="row">
+  <div class="col-xs-12">
+    <button class="btn btn-success">New Recipe</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <a class="list-group-item clearfix" href="#">
+      <div class="pull-left">
+        <h4 class="list-group-item-heading">Recipe Name</h4>
+        <p class="list-group-item-text">Description</p>
+      </div>
+      <span class="pull-right">
+        <img
+          class="img-responsive"
+          style="max-height: 50px"
+          src="https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg"
+          alt=""
+        />
+      </span>
+    </a>
+    <app-recipe-item></app-recipe-item>
+  </div>
+</div>
+```
+
+## [Outputting a List of Recipes with ngFor](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656034#overview)
+
+```html {6,9,11,12,17,18} title="src/app/recipes/recipe-list/recipe-list.component.html"
+<div class="row">
+  <div class="col-xs-12">
+    <button class="btn btn-success">New Recipe</button>
+  </div>
+</div>
+<hr />
+<div class="row">
+  <div class="col-xs-12">
+    <a class="list-group-item clearfix" href="#" *ngFor="let recipe of recipes">
+      <div class="pull-left">
+        <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
+        <p class="list-group-item-text">{{ recipe.description }}</p>
+      </div>
+      <span class="pull-right">
+        <img
+          class="img-responsive"
+          style="max-height: 50px"
+          [src]="recipe.imagePath"
+          [alt]="recipe.name"
+        />
+      </span>
+    </a>
+    <app-recipe-item></app-recipe-item>
+  </div>
+</div>
+```
+
+## [Displaying Recipe Details](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656036#overview)
+
+```html {1-31} title="src/app/recipes/recipe-detail/recipe-detail.component.html"
+<div class="row">
+  <div class="col-xs-12">
+    <img class="img-responsive" src="" alt="" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <h1>Recipe Name</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="btn-group">
+      <button class="btn btn-primary dropdown-toggle">
+        Manage Recipe
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="#">To Shopping List</a></li>
+        <li><a href="#">Edit Recipe</a></li>
+        <li><a href="#">Delete Recipe</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">Description</div>
+</div>
+<div class="row">
+  <div class="col-xs-12">Ingredients</div>
+</div>
+```
+
+## [Working on the ShoppingListComponent](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656038#overview)
+
+```html {5-7} title="src/app/shopping-list/shopping-list.component.html"
+<div class="row">
+  <div class="col-xs-10">
+    <app-shopping-edit></app-shopping-edit>
+    <hr />
+    <ul class="list-group">
+      <a class="list-group-item" style="cursor: pointer"></a>
+    </ul>
+  </div>
+</div>
+```
+
+## [Creating an "Ingredient" Model](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656040#overview)
+
+```typescript {1-3} title="src/app/shared/Ingredient.model.ts"
+export class Ingredient {
+  constructor(public name: string, public amount: number) {}
+}
+```
+
+## [Creating and Outputting the Shopping List](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656042#overview)
+
+```typescript {10-13} title="src/app/shopping-list/shopping-list.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { Ingredient } from '../shared/Ingredient.model';
+
+@Component({
+  selector: 'app-shopping-list',
+  templateUrl: './shopping-list.component.html',
+  styleUrls: ['./shopping-list.component.scss'],
+})
+export class ShoppingListComponent implements OnInit {
+  ingredients: Ingredient[] = [
+    new Ingredient('Apples', 5),
+    new Ingredient('Tomatoes', 10),
+  ];
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+```html {9,11} title="src/app/shopping-list/shopping-list.component.html"
+<div class="row">
+  <div class="col-xs-10">
+    <app-shopping-edit></app-shopping-edit>
+    <hr />
+    <ul class="list-group">
+      <a
+        class="list-group-item"
+        style="cursor: pointer"
+        *ngFor="let ingredient of ingredients"
+      >
+        {{ ingredient.name }} ({{ ingredient.amount }})
+      </a>
+    </ul>
+  </div>
+</div>
+```
+
+## [Adding a Shopping List Edit Section](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656046#overview)
+
+```html {1-23} title="src/app/shopping-list/shopping-edit/shopping-edit.component.html"
+<div class="row">
+  <div class="col-xs-12">
+    <form>
+      <div class="row">
+        <div class="col-sm-5 form-group">
+          <label for="name">Name</label>
+          <input class="form-control" id="name" type="text" />
+        </div>
+        <div class="col-sm-2 form-group">
+          <label for="amount">Amount</label>
+          <input class="form-control" id="amount" type="number" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-success" type="submit">Add</button>
+          <button class="btn btn-danger" type="button">Delete</button>
+          <button class="btn btn-primary" type="button">Clear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+```
+
+## [Wrap Up & Next Steps](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656048#overview)
