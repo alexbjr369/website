@@ -17,4 +17,854 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## [Module Introduction](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656058#overview)
 
+```typescript {1-28} title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  serverElements: any = [];
+  newServerName = '';
+  newServerContent = '';
+
+  onAddServer() {
+    this.serverElements.push({
+      type: 'server',
+      name: this.newServerName,
+      content: this.newServerContent,
+    });
+  }
+
+  onAddBlueprint() {
+    this.serverElements.push({
+      type: 'blueprint',
+      name: this.newServerName,
+      content: this.newServerContent,
+    });
+  }
+}
+```
+
+```html {1-34} title="src/app/app.component.html"
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <p>Add new Servers or blueprints!</p>
+      <label>Server Name</label>
+      <input type="text" class="form-control" [(ngModel)]="newServerName" />
+      <label>Server Content</label>
+      <input type="text" class="form-control" [(ngModel)]="newServerContent" />
+      <br />
+      <button class="btn btn-primary" (click)="onAddServer()">
+        Add Server
+      </button>
+      <button class="btn btn-primary" (click)="onAddBlueprint()">
+        Add Server Blueprint
+      </button>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="panel panel-default" *ngFor="let element of serverElements">
+        <div class="panel-heading">{{ element.name }}</div>
+        <div class="panel-body">
+          <p>
+            <strong *ngIf="element.type === 'server'" style="color: red">
+              {{ element.content }}
+            </strong>
+            <em *ngIf="element.type === 'blueprint'">{{ element.content }}</em>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
 ## [Splitting Apps into Components](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656060#overview)
+
+```bash
+# npm
+npx ng g c cockpit
+npx ng g c server-element
+
+# yarn
+yarn ng g c cockpit
+yarn ng g c server-element
+```
+
+```html {1-14} title="src/app/cockpit/cockpit.component.html"
+<div class="row">
+  <div class="col-xs-12">
+    <p>Add new Servers or blueprints!</p>
+    <label>Server Name</label>
+    <input type="text" class="form-control" [(ngModel)]="newServerName" />
+    <label>Server Content</label>
+    <input type="text" class="form-control" [(ngModel)]="newServerContent" />
+    <br />
+    <button class="btn btn-primary" (click)="onAddServer()">Add Server</button>
+    <button class="btn btn-primary" (click)="onAddBlueprint()">
+      Add Server Blueprint
+    </button>
+  </div>
+</div>
+```
+
+```typescript {9,10,16-22,24-30} title="src/app/cockpit/cockpit.component.ts"
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-cockpit',
+  templateUrl: './cockpit.component.html',
+  styleUrls: ['./cockpit.component.scss'],
+})
+export class CockpitComponent implements OnInit {
+  newServerName = '';
+  newServerContent = '';
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onAddServer() {
+    /* this.serverElements.push({
+      type: 'server',
+      name: this.newServerName,
+      content: this.newServerContent,
+    }); */
+  }
+
+  onAddBlueprint() {
+    /* this.serverElements.push({
+      type: 'blueprint',
+      name: this.newServerName,
+      content: this.newServerContent,
+    }); */
+  }
+}
+```
+
+```html {1-11} title="src/app/server-element/server-element.component.html"
+<div class="panel panel-default">
+  <div class="panel-heading">{{ element.name }}</div>
+  <div class="panel-body">
+    <p>
+      <strong *ngIf="element.type === 'server'" style="color: red">
+        {{ element.content }}
+      </strong>
+      <em *ngIf="element.type === 'blueprint'">{{ element.content }}</em>
+    </p>
+  </div>
+</div>
+```
+
+```html {2,6-8} title="src/app/app.component.html"
+<div class="container">
+  <app-cockpit></app-cockpit>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <app-server-element
+        *ngFor="let serverElement of serverElements"
+      ></app-server-element>
+    </div>
+  </div>
+</div>
+```
+
+```typescript {9} title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  serverElements: any = [];
+}
+```
+
+## [Property & Event Binding Overview](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656062#overview)
+
+## [Binding to Custom Properties](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656066#overview)
+
+```typescript {1,9} title="src/app/server-element/server-element.component.ts"
+import { Component, Input, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-server-element',
+  templateUrl: './server-element.component.html',
+  styleUrls: ['./server-element.component.scss'],
+})
+export class ServerElementComponent implements OnInit {
+  @Input() element!: { type: string; name: string; content: string };
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+```typescript {10} title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  serverElements: any = [
+    { type: 'server', name: 'Test server', content: 'just a test!' },
+  ];
+}
+```
+
+```html {8} title="src/app/app.component.html"
+<div class="container">
+  <app-cockpit></app-cockpit>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <app-server-element
+        *ngFor="let serverElement of serverElements"
+        [element]="serverElement"
+      ></app-server-element>
+    </div>
+  </div>
+</div>
+```
+
+## [Assigning an Alias to Custom Properties](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656072#overview)
+
+```typescript {9} title="src/app/server-element/server-element.component.ts"
+import { Component, Input, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-server-element',
+  templateUrl: './server-element.component.html',
+  styleUrls: ['./server-element.component.scss'],
+})
+export class ServerElementComponent implements OnInit {
+  @Input('srvElement') element!: {
+    type: string;
+    name: string;
+    content: string;
+  };
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+```html {8} title="src/app/app.component.html"
+<div class="container">
+  <app-cockpit></app-cockpit>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <app-server-element
+        *ngFor="let serverElement of serverElements"
+        [srvElement]="serverElement"
+      ></app-server-element>
+    </div>
+  </div>
+</div>
+```
+
+## [Binding to Custom Events](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656076#overview)
+
+```typescript {1,9-12,13-16,26-29,33-36} title="src/app/cockpit/cockpit.component.ts"
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-cockpit',
+  templateUrl: './cockpit.component.html',
+  styleUrls: ['./cockpit.component.scss'],
+})
+export class CockpitComponent implements OnInit {
+  @Output() serverCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+  @Output() blueprintCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+
+  newServerName = '';
+  newServerContent = '';
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onAddServer() {
+    this.serverCreated.emit({
+      serverName: this.newServerName,
+      serverContent: this.newServerContent,
+    });
+  }
+
+  onAddBlueprint() {
+    this.blueprintCreated.emit({
+      serverName: this.newServerName,
+      serverContent: this.newServerContent,
+    });
+  }
+}
+```
+
+```typescript {13-19,21-30} title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  serverElements: any = [
+    { type: 'server', name: 'Test server', content: 'just a test!' },
+  ];
+
+  onServerAdded(serverData: { serverName: string; serverContent: string }) {
+    this.serverElements.push({
+      type: 'server',
+      name: serverData.serverName,
+      content: serverData.serverContent,
+    });
+  }
+
+  onBlueprintAdded(blueprintData: {
+    serverName: string;
+    serverContent: string;
+  }) {
+    this.serverElements.push({
+      type: 'blueprint',
+      name: blueprintData.serverName,
+      content: blueprintData.serverContent,
+    });
+  }
+}
+```
+
+```html {3,4} title="src/app/app.component.html"
+<div class="container">
+  <app-cockpit
+    (serverCreated)="onServerAdded($event)"
+    (blueprintCreated)="onBlueprintAdded($event)"
+  ></app-cockpit>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <app-server-element
+        *ngFor="let serverElement of serverElements"
+        [srvElement]="serverElement"
+      ></app-server-element>
+    </div>
+  </div>
+</div>
+```
+
+## [Assigning an Alias to Custom Events](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656078#overview)
+
+```typescript {13} title="src/app/cockpit/cockpit.component.ts"
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-cockpit',
+  templateUrl: './cockpit.component.html',
+  styleUrls: ['./cockpit.component.scss'],
+})
+export class CockpitComponent implements OnInit {
+  @Output() serverCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+  @Output('bpCreated') blueprintCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+
+  newServerName = '';
+  newServerContent = '';
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onAddServer() {
+    this.serverCreated.emit({
+      serverName: this.newServerName,
+      serverContent: this.newServerContent,
+    });
+  }
+
+  onAddBlueprint() {
+    this.blueprintCreated.emit({
+      serverName: this.newServerName,
+      serverContent: this.newServerContent,
+    });
+  }
+}
+```
+
+```html {4} title="src/app/app.component.html"
+<div class="container">
+  <app-cockpit
+    (serverCreated)="onServerAdded($event)"
+    (bpCreated)="onBlueprintAdded($event)"
+  ></app-cockpit>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <app-server-element
+        *ngFor="let serverElement of serverElements"
+        [srvElement]="serverElement"
+      ></app-server-element>
+    </div>
+  </div>
+</div>
+```
+
+## [Custom Property and Event Binding Summary](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656080#overview)
+
+## [Understanding View Encapsulation](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656082#overview)
+
+```scss {1-3} title="src/app/server-element/server-element.component.scss"
+p {
+  color: blue;
+}
+```
+
+## [More on View Encapsulation](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656086#overview)
+
+## [Using Local References in Templates](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656092#overview)
+
+```html {5,9,12} title="src/app/cockpit/cockpit.component.ts"
+<div class="row">
+  <div class="col-xs-12">
+    <p>Add new Servers or blueprints!</p>
+    <label>Server Name</label>
+    <input type="text" class="form-control" #serverNameInput />
+    <label>Server Content</label>
+    <input type="text" class="form-control" [(ngModel)]="newServerContent" />
+    <br />
+    <button class="btn btn-primary" (click)="onAddServer(serverNameInput)">
+      Add Server
+    </button>
+    <button class="btn btn-primary" (click)="onAddBlueprint(serverNameInput)">
+      Add Server Blueprint
+    </button>
+  </div>
+</div>
+```
+
+```typescript {24,26,31,33} title="src/app/cockpit/cockpit.component.ts"
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-cockpit',
+  templateUrl: './cockpit.component.html',
+  styleUrls: ['./cockpit.component.scss'],
+})
+export class CockpitComponent implements OnInit {
+  @Output() serverCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+  @Output('bpCreated') blueprintCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+
+  newServerContent = '';
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onAddServer(nameInput: HTMLInputElement) {
+    this.serverCreated.emit({
+      serverName: nameInput.value,
+      serverContent: this.newServerContent,
+    });
+  }
+
+  onAddBlueprint(nameInput: HTMLInputElement) {
+    this.blueprintCreated.emit({
+      serverName: nameInput.value,
+      serverContent: this.newServerContent,
+    });
+  }
+}
+```
+
+## [@ViewChild() in Angular 8+](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/14865241#overview)
+
+## [Getting Access to the Template & DOM with @ViewChild](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656094#overview)
+
+```html {7} title="src/app/cockpit/cockpit.component.ts"
+<div class="row">
+  <div class="col-xs-12">
+    <p>Add new Servers or blueprints!</p>
+    <label>Server Name</label>
+    <input type="text" class="form-control" #serverNameInput />
+    <label>Server Content</label>
+    <input type="text" class="form-control" #serverContentInput />
+    <br />
+    <button class="btn btn-primary" (click)="onAddServer(serverNameInput)">
+      Add Server
+    </button>
+    <button class="btn btn-primary" (click)="onAddBlueprint(serverNameInput)">
+      Add Server Blueprint
+    </button>
+  </div>
+</div>
+```
+
+```typescript {3,7,25,36,43} title="src/app/cockpit/cockpit.component.ts"
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+
+@Component({
+  selector: 'app-cockpit',
+  templateUrl: './cockpit.component.html',
+  styleUrls: ['./cockpit.component.scss'],
+})
+export class CockpitComponent implements OnInit {
+  @Output() serverCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+  @Output('bpCreated') blueprintCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+
+  @ViewChild('serverContentInput') serverContentInput!: ElementRef;
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onAddServer(nameInput: HTMLInputElement) {
+    console.log(this.serverContentInput);
+
+    this.serverCreated.emit({
+      serverName: nameInput.value,
+      serverContent: this.serverContentInput.nativeElement.value,
+    });
+  }
+
+  onAddBlueprint(nameInput: HTMLInputElement) {
+    this.blueprintCreated.emit({
+      serverName: nameInput.value,
+      serverContent: this.serverContentInput.nativeElement.value,
+    });
+  }
+}
+```
+
+## [Projecting Content into Components with ng-content](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656100#overview)
+
+```html {4} title="src/app/server-element/server-element.component.html"
+<div class="panel panel-default">
+  <div class="panel-heading">{{ element.name }}</div>
+  <div class="panel-body">
+    <ng-content></ng-content>
+  </div>
+</div>
+```
+
+```html {13-20} title="src/app/app.component.html"
+<div class="container">
+  <app-cockpit
+    (serverCreated)="onServerAdded($event)"
+    (bpCreated)="onBlueprintAdded($event)"
+  ></app-cockpit>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <app-server-element
+        *ngFor="let serverElement of serverElements"
+        [srvElement]="serverElement"
+      >
+        <p>
+          <strong *ngIf="serverElement.type === 'server'" style="color: red">
+            {{ serverElement.content }}
+          </strong>
+          <em *ngIf="serverElement.type === 'blueprint'">{{
+            serverElement.content
+          }}</em>
+        </p>
+      </app-server-element>
+    </div>
+  </div>
+</div>
+```
+
+## [Understanding the Component Lifecycle](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656102#overview)
+
+## [Seeing Lifecycle Hooks in Action](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656106#overview)
+
+```typescript {2,3,4,5,7,9,10,12,20-69} title="src/app/server-element/server-element.component.ts"
+import {
+  AfterContentChecked,
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  DoCheck,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+
+@Component({
+  selector: 'app-server-element',
+  templateUrl: './server-element.component.html',
+  styleUrls: ['./server-element.component.scss'],
+})
+export class ServerElementComponent
+  implements
+    OnInit,
+    OnChanges,
+    DoCheck,
+    AfterContentInit,
+    AfterContentChecked,
+    AfterViewInit,
+    AfterViewChecked,
+    OnDestroy
+{
+  @Input() name!: string;
+
+  constructor() {
+    console.log('constrocutor called!');
+  }
+
+  ngOnChanges(chnages: SimpleChanges): void {
+    console.log('OnChanges() called!');
+    console.log('SimpleChanges: ', chnages);
+  }
+
+  ngOnInit(): void {
+    console.log('ngOnInit() called!');
+  }
+
+  ngDoCheck(): void {
+    console.log('ngDoCheck() called!');
+  }
+
+  ngAfterContentInit(): void {
+    console.log('ngAfterContentInit() called!');
+  }
+
+  ngAfterContentChecked(): void {
+    console.log('ngAfterContentChecked() called!');
+  }
+
+  ngAfterViewInit(): void {
+    console.log('ngAfterViewInit() called!');
+  }
+
+  ngAfterViewChecked(): void {
+    console.log('ngAfterViewChecked() called!');
+  }
+
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy() called!');
+  }
+}
+```
+
+```html {2} title="src/app/server-element/server-element.component.html"
+<div class="panel panel-default">
+  <div class="panel-heading">{{ name }}</div>
+  <div class="panel-body">
+    <ng-content></ng-content>
+  </div>
+</div>
+```
+
+```html {9-11,12-14,17} title="src/app/app.component.html"
+<div class="container">
+  <app-cockpit
+    (serverCreated)="onServerAdded($event)"
+    (bpCreated)="onBlueprintAdded($event)"
+  ></app-cockpit>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-primary" (click)="onChangeFirst()">
+        Change first Element
+      </button>
+      <button class="btn btn-danger" (click)="onDestroyFirst()">
+        Destroy first Element
+      </button>
+      <app-server-element
+        *ngFor="let serverElement of serverElements"
+        [name]="serverElement.name"
+      >
+        <p>
+          <strong *ngIf="serverElement.type === 'server'" style="color: red">
+            {{ serverElement.content }}
+          </strong>
+          <em *ngIf="serverElement.type === 'blueprint'">{{
+            serverElement.content
+          }}</em>
+        </p>
+      </app-server-element>
+    </div>
+  </div>
+</div>
+```
+
+```typescript {32-34,36-38} title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  serverElements: any = [
+    { type: 'server', name: 'Test server', content: 'just a test!' },
+  ];
+
+  onServerAdded(serverData: { serverName: string; serverContent: string }) {
+    this.serverElements.push({
+      type: 'server',
+      name: serverData.serverName,
+      content: serverData.serverContent,
+    });
+  }
+
+  onBlueprintAdded(blueprintData: {
+    serverName: string;
+    serverContent: string;
+  }) {
+    this.serverElements.push({
+      type: 'blueprint',
+      name: blueprintData.serverName,
+      content: blueprintData.serverContent,
+    });
+  }
+
+  onChangeFirst() {
+    this.serverElements[0].name = 'Changed!';
+  }
+
+  onDestroyFirst() {
+    this.serverElements.splice(0, 1);
+  }
+}
+```
+
+## [Lifecycle Hooks and Template Access](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656110#overview)
+
+```html {2} title="src/app/server-element/server-element.component.html"
+<div class="panel panel-default">
+  <div class="panel-heading" #heading>{{ name }}</div>
+  <div class="panel-body">
+    <ng-content></ng-content>
+  </div>
+</div>
+```
+
+```typescript {8,14,35,48,65-68} title="src/app/server-element/server-element.component.ts"
+import {
+  AfterContentChecked,
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  DoCheck,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+
+@Component({
+  selector: 'app-server-element',
+  templateUrl: './server-element.component.html',
+  styleUrls: ['./server-element.component.scss'],
+})
+export class ServerElementComponent
+  implements
+    OnInit,
+    OnChanges,
+    DoCheck,
+    AfterContentInit,
+    AfterContentChecked,
+    AfterViewInit,
+    AfterViewChecked,
+    OnDestroy
+{
+  @Input() name!: string;
+
+  @ViewChild('heading') heading!: ElementRef;
+
+  constructor() {
+    console.log('constrocutor called!');
+  }
+
+  ngOnChanges(chnages: SimpleChanges): void {
+    console.log('OnChanges() called!');
+    console.log('SimpleChanges: ', chnages);
+  }
+
+  ngOnInit(): void {
+    console.log('ngOnInit() called!');
+    console.log('ngOnInit() heading:', this.heading.nativeElement.textContent);
+  }
+
+  ngDoCheck(): void {
+    console.log('ngDoCheck() called!');
+  }
+
+  ngAfterContentInit(): void {
+    console.log('ngAfterContentInit() called!');
+  }
+
+  ngAfterContentChecked(): void {
+    console.log('ngAfterContentChecked() called!');
+  }
+
+  ngAfterViewInit(): void {
+    console.log('ngAfterViewInit() called!');
+    console.log(
+      'ngAfterViewInit() heading:',
+      this.heading.nativeElement.textContent
+    );
+  }
+
+  ngAfterViewChecked(): void {
+    console.log('ngAfterViewChecked() called!');
+  }
+
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy() called!');
+  }
+}
+```
