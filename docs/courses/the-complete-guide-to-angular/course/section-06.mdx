@@ -1,0 +1,470 @@
+---
+id: section-06
+title: The Complete Guide To Angular · Section 06
+sidebar_label: Section 06
+description: The Complete Guide To Angular by Academind on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-guide-to-angular/course/section-06
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Course Project - Components & Databinding
+
+## [Introduction](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656132#overview)
+
+## [Adding Navigation with Event Binding and ngIf](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656136#overview)
+
+```html {19,21} title="src/app/header/header.component.html"
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle"
+        (click)="collapsed = !collapsed"
+      >
+        <span class="icon-bar" *ngFor="let iconBar of [1, 2, 3]"></span>
+      </button>
+      <a routerLink="/" class="navbar-brand">Recipe Book</a>
+    </div>
+    <div
+      class="navbar-collapse"
+      [class.collapse]="collapsed"
+      (window:resize)="collapsed = true"
+    >
+      <ul class="nav navbar-nav">
+        <li><a href="#" (click)="onSelect('recipe')">Recipes</a></li>
+        <li>
+          <a href="#" (click)="onSelect('shopping-list')">Shopping List</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" href="#" role="button"
+            >Manage <span class="caret"></span
+          ></a>
+          <ul class="dropdown-menu">
+            <li><a href="">Save Data</a></li>
+            <li><a href="">Fetch Data</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+```
+
+```typescript {1,9,17-19} title="src/app/header/header.component.ts"
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
+})
+export class HeaderComponent implements OnInit {
+  @Output() featureSelected = new EventEmitter<string>();
+
+  collapsed = true;
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onSelect(feature: string) {
+    this.featureSelected.emit(feature);
+  }
+}
+```
+
+```html {1,5,6} title="src/app/app.component.html"
+<app-header (featureSelected)="onNavigate($event)"></app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <app-recipes *ngIf="loadedFeature === 'recipe'"></app-recipes>
+      <app-shopping-list *ngIf="loadedFeature !== 'recipe'"></app-shopping-list>
+    </div>
+  </div>
+</div>
+```
+
+```typescript {9,11-13} title="src/app/app.component.ts"
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+})
+export class AppComponent {
+  loadedFeature = 'recipe';
+
+  onNavigate(feature: string) {
+    this.loadedFeature = feature;
+  }
+}
+```
+
+## [Passing Recipe Data with Property Binding](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656142#overview)
+
+```html {1-14} title="src/app/recipes/recipe-item/recipe-item.component.html"
+<a class="list-group-item clearfix" href="#">
+  <div class="pull-left">
+    <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
+    <p class="list-group-item-text">{{ recipe.description }}</p>
+  </div>
+  <span class="pull-right">
+    <img
+      class="img-responsive"
+      style="max-height: 50px"
+      [src]="recipe.imagePath"
+      [alt]="recipe.name"
+    />
+  </span>
+</a>
+```
+
+```typescript {1,2,10} title="src/app/recipes/recipe-item/recipe-item.component.ts"
+import { Component, Input, OnInit } from '@angular/core';
+import { Recipe } from '../../recipe.model';
+
+@Component({
+  selector: 'app-recipe-item',
+  templateUrl: './recipe-item.component.html',
+  styleUrls: ['./recipe-item.component.scss'],
+})
+export class RecipeItemComponent implements OnInit {
+  @Input() recipe!: Recipe;
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+```html {10,11} title="src/app/recipes/recipe-list/recipe-list.component.html"
+<div class="row">
+  <div class="col-xs-12">
+    <button class="btn btn-success">New Recipe</button>
+  </div>
+</div>
+<hr />
+<div class="row">
+  <div class="col-xs-12">
+    <app-recipe-item
+      *ngFor="let recipeEl of recipes"
+      [recipe]="recipeEl"
+    ></app-recipe-item>
+  </div>
+</div>
+```
+
+## [Passing Data with Event and Property Binding (Combined)](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656144#overview)
+
+```html {1} title="src/app/recipes/recipe-item/recipe-item.component.html"
+<a class="list-group-item clearfix" href="#" (click)="onSelected()">
+  <div class="pull-left">
+    <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
+    <p class="list-group-item-text">{{ recipe.description }}</p>
+  </div>
+  <span class="pull-right">
+    <img
+      class="img-responsive"
+      style="max-height: 50px"
+      [src]="recipe.imagePath"
+      [alt]="recipe.name"
+    />
+  </span>
+</a>
+```
+
+```typescript {1,12,18-20} title="src/app/recipes/recipe-item/recipe-item.component.ts"
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Recipe } from '../../recipe.model';
+
+@Component({
+  selector: 'app-recipe-item',
+  templateUrl: './recipe-item.component.html',
+  styleUrls: ['./recipe-item.component.scss'],
+})
+export class RecipeItemComponent implements OnInit {
+  @Input() recipe!: Recipe;
+
+  @Output() recipeSelected = new EventEmitter<void>();
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onSelected() {
+    this.recipeSelected.emit();
+  }
+}
+```
+
+```html {12} title="src/app/recipes/recipe-list/recipe-list.component.html"
+<div class="row">
+  <div class="col-xs-12">
+    <button class="btn btn-success">New Recipe</button>
+  </div>
+</div>
+<hr />
+<div class="row">
+  <div class="col-xs-12">
+    <app-recipe-item
+      *ngFor="let recipeEl of recipes"
+      [recipe]="recipeEl"
+      (recipeSelected)="onRecipeSelected(recipeEl)"
+    ></app-recipe-item>
+  </div>
+</div>
+```
+
+```typescript {1,10,18-22,29-31} title="src/app/recipes/recipe-list/recipe-list.component.ts"
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Recipe } from '../recipe.model';
+
+@Component({
+  selector: 'app-recipe-list',
+  templateUrl: './recipe-list.component.html',
+  styleUrls: ['./recipe-list.component.scss'],
+})
+export class RecipeListComponent implements OnInit {
+  @Output() recipeWasSelected = new EventEmitter<Recipe>();
+
+  recipes: Recipe[] = [
+    new Recipe(
+      'A Test Recipe',
+      'This is simply a test',
+      'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg'
+    ),
+    new Recipe(
+      'Another Test Recipe',
+      'This is simply a test',
+      'https://upload.wikimedia.org/wikipedia/commons/1/15/Recipe_logo.jpeg'
+    ),
+  ];
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onRecipeSelected(recipe: Recipe) {
+    this.recipeWasSelected.emit(recipe);
+  }
+}
+```
+
+```html {5,6,7,13,32} title="src/app/recipes/recipe-detail/recipe-detail.component.html"
+<div class="row">
+  <div class="col-xs-12">
+    <img
+      class="img-responsive"
+      [src]="recipe.imagePath"
+      alt="{{ recipe.name }}"
+      style="max-height: 300px"
+    />
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <h1>{{ recipe.name }}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="btn-group">
+      <button class="btn btn-primary dropdown-toggle">
+        Manage Recipe
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="#">To Shopping List</a></li>
+        <li><a href="#">Edit Recipe</a></li>
+        <li><a href="#">Delete Recipe</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">{{ recipe.description }}</div>
+</div>
+<div class="row">
+  <div class="col-xs-12">Ingredients</div>
+</div>
+```
+
+```typescript {1,2,10} title="src/app/recipes/recipe-detail/recipe-detail.component.ts"
+import { Component, Input, OnInit } from '@angular/core';
+import { Recipe } from '../recipe.model';
+
+@Component({
+  selector: 'app-recipe-detail',
+  templateUrl: './recipe-detail.component.html',
+  styleUrls: ['./recipe-detail.component.scss'],
+})
+export class RecipeDetailComponent implements OnInit {
+  @Input() recipe!: Recipe;
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+```html {4,9,10,12-14} title="src/app/recipes/recipes.component.html"
+<div class="row">
+  <div class="col-md-5">
+    <app-recipe-list
+      (recipeWasSelected)="selectedRecipe = $event"
+    ></app-recipe-list>
+  </div>
+  <div class="col-md-7">
+    <app-recipe-detail
+      *ngIf="selectedRecipe; else infoText"
+      [recipe]="selectedRecipe"
+    ></app-recipe-detail>
+    <ng-template #infoText>
+      <p>Please select a Recipe!</p>
+    </ng-template>
+  </div>
+</div>
+```
+
+```typescript {2,10} title="src/app/recipes/recipes.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { Recipe } from './recipe.model';
+
+@Component({
+  selector: 'app-recipes',
+  templateUrl: './recipes.component.html',
+  styleUrls: ['./recipes.component.scss'],
+})
+export class RecipesComponent implements OnInit {
+  selectedRecipe!: Recipe;
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+## [Make sure you have FormsModule added!](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/11515150#overview)
+
+## [Allowing the User to Add Ingredients to the Shopping List](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656156#overview)
+
+```html {7,11,16-18} title="src/app/shopping-list/shopping-edit/shopping-edit.component.html"
+<div class="row">
+  <div class="col-xs-12">
+    <form>
+      <div class="row">
+        <div class="col-sm-5 form-group">
+          <label for="name">Name</label>
+          <input class="form-control" id="name" type="text" #nameInput />
+        </div>
+        <div class="col-sm-2 form-group">
+          <label for="amount">Amount</label>
+          <input class="form-control" id="amount" type="number" #amountInput />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-success" type="submit" (click)="onAddItem()">
+            Add
+          </button>
+          <button class="btn btn-danger" type="button">Delete</button>
+          <button class="btn btn-primary" type="button">Clear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+```
+
+```typescript {3,4,6,7,17,18,20,21,27-33} title="src/app/shopping-list/shopping-edit/shopping-edit.component.ts"
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { Ingredient } from 'src/app/shared/Ingredient.model';
+
+@Component({
+  selector: 'app-shopping-edit',
+  templateUrl: './shopping-edit.component.html',
+  styleUrls: ['./shopping-edit.component.scss'],
+})
+export class ShoppingEditComponent implements OnInit {
+  @ViewChild('nameInput') nameInputRef!: ElementRef;
+  @ViewChild('amountInput') amountInputRef!: ElementRef;
+
+  @Output()
+  ingredientAdded = new EventEmitter<Ingredient>();
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onAddItem() {
+    const ingName = this.nameInputRef.nativeElement.value;
+    const ingAmount = this.amountInputRef.nativeElement.value;
+    const newIngredient = new Ingredient(ingName, ingAmount);
+
+    this.ingredientAdded.emit(newIngredient);
+  }
+}
+```
+
+```html {4} title="src/app/shopping-list/shopping-list.component.html"
+<div class="row">
+  <div class="col-xs-10">
+    <app-shopping-edit
+      (ingredientAdded)="onIngredientAdded($event)"
+    ></app-shopping-edit>
+    <hr />
+    <ul class="list-group">
+      <a
+        class="list-group-item"
+        style="cursor: pointer"
+        *ngFor="let ingredient of ingredients"
+      >
+        {{ ingredient.name }} ({{ ingredient.amount }})
+      </a>
+    </ul>
+  </div>
+</div>
+```
+
+```typescript {19-21} title="src/app/shopping-list/shopping-list.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { Ingredient } from '../shared/Ingredient.model';
+
+@Component({
+  selector: 'app-shopping-list',
+  templateUrl: './shopping-list.component.html',
+  styleUrls: ['./shopping-list.component.scss'],
+})
+export class ShoppingListComponent implements OnInit {
+  ingredients: Ingredient[] = [
+    new Ingredient('Apples', 5),
+    new Ingredient('Tomatoes', 10),
+  ];
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onIngredientAdded(ingredient: Ingredient) {
+    this.ingredients.push(ingredient);
+  }
+}
+```

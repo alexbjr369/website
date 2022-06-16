@@ -868,3 +868,136 @@ export class ServerElementComponent
   }
 }
 ```
+
+## [@ContentChild() in Angular 8+](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/14865271#overview)
+
+## [Getting Access to ng-content with @ContentChild](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656114#overview)
+
+```html {19} title="src/app/app.component.html"
+<div class="container">
+  <app-cockpit
+    (serverCreated)="onServerAdded($event)"
+    (bpCreated)="onBlueprintAdded($event)"
+  ></app-cockpit>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-primary" (click)="onChangeFirst()">
+        Change first Element
+      </button>
+      <button class="btn btn-danger" (click)="onDestroyFirst()">
+        Destroy first Element
+      </button>
+      <app-server-element
+        *ngFor="let serverElement of serverElements"
+        [name]="serverElement.name"
+      >
+        <p #contentParagraph>
+          <strong *ngIf="serverElement.type === 'server'" style="color: red">
+            {{ serverElement.content }}
+          </strong>
+          <em *ngIf="serverElement.type === 'blueprint'">{{
+            serverElement.content
+          }}</em>
+        </p>
+      </app-server-element>
+    </div>
+  </div>
+</div>
+```
+
+```typescript {7,38,52-55,64-67} title="src/app/server-element/server-element.component.ts"
+import {
+  AfterContentChecked,
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ContentChild,
+  DoCheck,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+
+@Component({
+  selector: 'app-server-element',
+  templateUrl: './server-element.component.html',
+  styleUrls: ['./server-element.component.scss'],
+})
+export class ServerElementComponent
+  implements
+    OnInit,
+    OnChanges,
+    DoCheck,
+    AfterContentInit,
+    AfterContentChecked,
+    AfterViewInit,
+    AfterViewChecked,
+    OnDestroy
+{
+  @Input() name!: string;
+
+  @ViewChild('heading') heading!: ElementRef;
+
+  @ContentChild('contentParagraph') contentParagraph!: ElementRef;
+
+  constructor() {
+    console.log('constrocutor called!');
+  }
+
+  ngOnChanges(chnages: SimpleChanges): void {
+    console.log('OnChanges() called!');
+    console.log('SimpleChanges: ', chnages);
+  }
+
+  ngOnInit(): void {
+    console.log('ngOnInit() called!');
+    console.log('ngOnInit() heading:', this.heading.nativeElement.textContent);
+    console.log(
+      'ngOnInit() contentParagraph:',
+      this.contentParagraph.nativeElement.textContent
+    );
+  }
+
+  ngDoCheck(): void {
+    console.log('ngDoCheck() called!');
+  }
+
+  ngAfterContentInit(): void {
+    console.log('ngAfterContentInit() called!');
+    console.log(
+      'ngOnInit() contentParagraph:',
+      this.contentParagraph.nativeElement.textContent
+    );
+  }
+
+  ngAfterContentChecked(): void {
+    console.log('ngAfterContentChecked() called!');
+  }
+
+  ngAfterViewInit(): void {
+    console.log('ngAfterViewInit() called!');
+    console.log(
+      'ngAfterViewInit() heading:',
+      this.heading.nativeElement.textContent
+    );
+  }
+
+  ngAfterViewChecked(): void {
+    console.log('ngAfterViewChecked() called!');
+  }
+
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy() called!');
+  }
+}
+```
+
+## [Wrap Up](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656116#overview)
+
+## [Assignment 4: Practicing Property & Event Binding and View Encapsulation](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/practice/272#overview)
