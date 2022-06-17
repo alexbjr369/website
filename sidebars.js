@@ -174,6 +174,8 @@ module.exports = {
             'courses/the-complete-guide-to-angular/course/section-07',
             'courses/the-complete-guide-to-angular/course/section-08',
             'courses/the-complete-guide-to-angular/course/section-09',
+            'courses/the-complete-guide-to-angular/course/section-10',
+            'courses/the-complete-guide-to-angular/course/section-11',
           ],
         },
       ],

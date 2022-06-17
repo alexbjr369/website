@@ -237,3 +237,276 @@ export class NewAccountComponent implements OnInit {
   }
 }
 ```
+
+## [Understanding the Hierarchical Injector](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656218#overview)
+
+## [How many Instances of Service Should It Be?](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656222#overview)
+
+```typescript {9} title="src/app/account/account.component.ts"
+import { Component, Input, OnInit } from '@angular/core';
+import { AccountService } from '../services/account/account.service';
+import { LoggingService } from '../services/logging/logging.service';
+
+@Component({
+  selector: 'app-account',
+  templateUrl: './account.component.html',
+  styleUrls: ['./account.component.scss'],
+  providers: [LoggingService],
+})
+export class AccountComponent implements OnInit {
+  @Input() account!: { name: string; status: string };
+  @Input() id!: number;
+
+  constructor(
+    private loggingService: LoggingService,
+    private accountService: AccountService
+  ) {}
+
+  ngOnInit(): void {}
+
+  onSetTo(status: string) {
+    this.accountService.updateStatus(this.id, status);
+    this.loggingService.logStatusChange(status);
+  }
+}
+```
+
+```typescript {9} title="src/app/new-account/new-account.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../services/account/account.service';
+import { LoggingService } from '../services/logging/logging.service';
+
+@Component({
+  selector: 'app-new-account',
+  templateUrl: './new-account.component.html',
+  styleUrls: ['./new-account.component.scss'],
+  providers: [LoggingService],
+})
+export class NewAccountComponent implements OnInit {
+  constructor(
+    private loggingService: LoggingService,
+    private accountService: AccountService
+  ) {}
+
+  ngOnInit(): void {}
+
+  onCreateAccount(accountName: string, accountStatus: string) {
+    this.accountService.addAccount(accountName, accountStatus);
+    this.loggingService.logStatusChange(accountStatus);
+  }
+}
+```
+
+## [Injecting Services into Services](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656224#overview)
+
+```diff title="src/app/app.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { AccountService } from './services/account/account.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+-  providers: [AccountService],
+})
+export class AppComponent implements OnInit {
+  accounts: { name: string; status: string }[] = [];
+
+  constructor(private accountService: AccountService) {}
+
+  ngOnInit(): void {
+    this.accounts = this.accountService.accounts;
+  }
+}
+```
+
+```typescript {7,,8,13} title="src/app/app.module.ts"
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AccountComponent } from './account/account.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NewAccountComponent } from './new-account/new-account.component';
+import { AccountService } from './services/account/account.service';
+import { LoggingService } from './services/logging/logging.service';
+
+@NgModule({
+  declarations: [AppComponent, AccountComponent, NewAccountComponent],
+  imports: [BrowserModule, AppRoutingModule],
+  providers: [AccountService, LoggingService],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+```typescript {1-20} title="src/app/account/account.component.ts"
+import { Component, Input, OnInit } from '@angular/core';
+import { AccountService } from '../services/account/account.service';
+
+@Component({
+  selector: 'app-account',
+  templateUrl: './account.component.html',
+  styleUrls: ['./account.component.scss'],
+})
+export class AccountComponent implements OnInit {
+  @Input() account!: { name: string; status: string };
+  @Input() id!: number;
+
+  constructor(private accountService: AccountService) {}
+
+  ngOnInit(): void {}
+
+  onSetTo(status: string) {
+    this.accountService.updateStatus(this.id, status);
+  }
+}
+```
+
+```typescript {1-17} title="src/app/new-account/new-account.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../services/account/account.service';
+
+@Component({
+  selector: 'app-new-account',
+  templateUrl: './new-account.component.html',
+  styleUrls: ['./new-account.component.scss'],
+})
+export class NewAccountComponent implements OnInit {
+  constructor(private accountService: AccountService) {}
+
+  ngOnInit(): void {}
+
+  onCreateAccount(accountName: string, accountStatus: string) {
+    this.accountService.addAccount(accountName, accountStatus);
+  }
+}
+```
+
+```typescript {2,23,27,32} title="src/app/services/account/account.service.ts"
+import { Injectable } from '@angular/core';
+import { LoggingService } from '../logging/logging.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AccountService {
+  accounts = [
+    {
+      name: 'Master Account',
+      status: 'active',
+    },
+    {
+      name: 'Testaccount',
+      status: 'inactive',
+    },
+    {
+      name: 'Hidden Account',
+      status: 'unknown',
+    },
+  ];
+
+  constructor(private loggingService: LoggingService) {}
+
+  addAccount(name: string, status: string) {
+    this.accounts.push({ name, status });
+    this.loggingService.logStatusChange(status);
+  }
+
+  updateStatus(id: number, status: string) {
+    this.accounts[id].status = status;
+    this.loggingService.logStatusChange(status);
+  }
+}
+```
+
+## [Using Services for Cross-Component Communication](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656226#overview)
+
+```typescript {1,22} title="src/app/services/account/account.service.ts"
+import { EventEmitter, Injectable } from '@angular/core';
+import { LoggingService } from '../logging/logging.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AccountService {
+  accounts = [
+    {
+      name: 'Master Account',
+      status: 'active',
+    },
+    {
+      name: 'Testaccount',
+      status: 'inactive',
+    },
+    {
+      name: 'Hidden Account',
+      status: 'unknown',
+    },
+  ];
+  statusUpdated = new EventEmitter<string>();
+
+  constructor(private loggingService: LoggingService) {}
+
+  addAccount(name: string, status: string) {
+    this.accounts.push({ name, status });
+    this.loggingService.logStatusChange(status);
+  }
+
+  updateStatus(id: number, status: string) {
+    this.accounts[id].status = status;
+    this.loggingService.logStatusChange(status);
+  }
+}
+```
+
+```typescript {19} title="src/app/account/account.component.ts"
+import { Component, Input, OnInit } from '@angular/core';
+import { AccountService } from '../services/account/account.service';
+
+@Component({
+  selector: 'app-account',
+  templateUrl: './account.component.html',
+  styleUrls: ['./account.component.scss'],
+})
+export class AccountComponent implements OnInit {
+  @Input() account!: { name: string; status: string };
+  @Input() id!: number;
+
+  constructor(private accountService: AccountService) {}
+
+  ngOnInit(): void {}
+
+  onSetTo(status: string) {
+    this.accountService.updateStatus(this.id, status);
+    this.accountService.statusUpdated.emit(status);
+  }
+}
+```
+
+```typescript {11-13} title="src/app/new-account/new-account.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../services/account/account.service';
+
+@Component({
+  selector: 'app-new-account',
+  templateUrl: './new-account.component.html',
+  styleUrls: ['./new-account.component.scss'],
+})
+export class NewAccountComponent implements OnInit {
+  constructor(private accountService: AccountService) {
+    this.accountService.statusUpdated.subscribe((status: string) =>
+      alert('New Status: ' + status)
+    );
+  }
+
+  ngOnInit(): void {}
+
+  onCreateAccount(accountName: string, accountStatus: string) {
+    this.accountService.addAccount(accountName, accountStatus);
+  }
+}
+```
+
+## [A Different Way Of Injecting Services](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/5401644#overview)
+
+## [Assignment 5: Practicing Services](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/practice/274#overview)
