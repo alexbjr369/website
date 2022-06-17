@@ -18,3 +18,497 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 ## [Module Introduction](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656272#overview)
 
 ## [Why do we need a Router?](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656274#overview)
+
+## [Understanding the Example Project](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656276#overview)
+
+## [Setting up and Loading Routes](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656280#overview)
+
+```typescript {3,4,5} title="src/app/app-routing.module.ts"
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { ServersComponent } from './servers/servers.component';
+import { UsersComponent } from './users/users.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
+  {
+    path: 'servers',
+    component: ServersComponent,
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+```
+
+```html {13} title="src/app/app.component.html"
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">Home</a></li>
+        <li role="presentation"><a href="#">Servers</a></li>
+        <li role="presentation"><a href="#">Users</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+```
+
+## [Navigating with Router Links](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656284#overview)
+
+```html {5,6,7} title="src/app/app.component.html"
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a routerLink="/">Home</a></li>
+        <li role="presentation"><a routerLink="/servers">Servers</a></li>
+        <li role="presentation"><a routerLink="/users">Users</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+```
+
+## [Understanding Navigation Paths](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656286#overview)
+
+## [Styling Active Router Links](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656288#overview)
+
+```html {7,8,12,15} title="src/app/app.component.html"
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs">
+        <li
+          role="presentation"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <a routerLink="/">Home</a>
+        </li>
+        <li role="presentation" routerLinkActive="active">
+          <a routerLink="/servers">Servers</a>
+        </li>
+        <li role="presentation" routerLinkActive="active">
+          <a routerLink="/users">Users</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+```
+
+## [Navigating Programmatically](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656292#overview)
+
+```html {3} title="src/app/app.component.html"
+<h4>Welcome to Server Manager 4.0</h4>
+<p>Manage your Servers and Users.</p>
+<button class="btn btn-primary" (click)="onLoadServers()">Load Servers</button>
+```
+
+```typescript {2,10,14-16} title="src/app/home/home.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+})
+export class HomeComponent implements OnInit {
+  constructor(private router: Router) {}
+
+  ngOnInit() {}
+
+  onLoadServers() {
+    this.router.navigate(['/servers']);
+  }
+}
+```
+
+## [Using Relative Paths in Programmatic Navigation](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656294#overview)
+
+```html {10} title="src/app/servers/servers.component.html"
+<div class="row">
+  <div class="col-xs-12 col-sm-4">
+    <div class="list-group">
+      <a href="#" class="list-group-item" *ngFor="let server of servers">
+        {{ server.name }}
+      </a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-4">
+    <button class="btn btn-primary" (click)="onReload()">Reload Page</button>
+    <app-edit-server></app-edit-server>
+    <hr />
+    <app-server></app-server>
+  </div>
+</div>
+```
+
+```typescript {2,15,16,23-25} title="src/app/servers/servers.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ServersService } from './servers.service';
+
+@Component({
+  selector: 'app-servers',
+  templateUrl: './servers.component.html',
+  styleUrls: ['./servers.component.scss'],
+})
+export class ServersComponent implements OnInit {
+  public servers: { id: number; name: string; status: string }[] = [];
+
+  constructor(
+    private serversService: ServersService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit() {
+    this.servers = this.serversService.getServers();
+  }
+
+  onReload() {
+    this.router.navigate(['servers'], { relativeTo: this.route });
+  }
+}
+```
+
+## [Passing Parameters to Routes](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656296#overview)
+
+```typescript {5,21-24} title="src/app/app-routing.module.ts"
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { ServersComponent } from './servers/servers.component';
+import { UserComponent } from './users/user/user.component';
+import { UsersComponent } from './users/users.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
+  {
+    path: 'servers',
+    component: ServersComponent,
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+  },
+  {
+    path: 'users/:id',
+    component: UserComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+```
+
+## [Fetching Route Parameters](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656298#overview)
+
+```typescript {22} title="src/app/app-routing.module.ts"
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { ServersComponent } from './servers/servers.component';
+import { UserComponent } from './users/user/user.component';
+import { UsersComponent } from './users/users.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
+  {
+    path: 'servers',
+    component: ServersComponent,
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+  },
+  {
+    path: 'users/:id/:name',
+    component: UserComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+```
+
+```typescript {2,12,15-18} title="src/app/users/user/user.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss'],
+})
+export class UserComponent implements OnInit {
+  user!: { id: number; name: string };
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.user = {
+      id: this.route.snapshot.params['id'],
+      name: this.route.snapshot.params['name'],
+    };
+  }
+}
+```
+
+```html {1,2} title="src/app/users/user/user.component.html"
+<p>User with ID {{ user.id }} loaded.</p>
+<p>User name is {{ user.name }}</p>
+```
+
+## [Fetching Route Parameters Reactively](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656302#overview)
+
+```typescript {2,19-22} title="src/app/users/user/user.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+
+@Component({
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss'],
+})
+export class UserComponent implements OnInit {
+  user!: { id: number; name: string };
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.user = {
+      id: this.route.snapshot.params['id'],
+      name: this.route.snapshot.params['name'],
+    };
+    this.route.params.subscribe((params: Params) => {
+      this.user.id = params['id'];
+      this.user.name = params['name'];
+    });
+  }
+}
+```
+
+```html {4} title="src/app/users/user/user.component.html"
+<p>User with ID {{ user.id }} loaded.</p>
+<p>User name is {{ user.name }}</p>
+<hr />
+<a [routerLink]="['/users', 10, 'Anna']">Load Anna (10)</a>
+```
+
+## [An Important Note about Route Observables](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656306#overview)
+
+```typescript {1,3,10,12,21,27-29} title="src/app/users/user/user.component.ts"
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.scss'],
+})
+export class UserComponent implements OnInit, OnDestroy {
+  user!: { id: number; name: string };
+  paramsSubscription!: Subscription;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.user = {
+      id: this.route.snapshot.params['id'],
+      name: this.route.snapshot.params['name'],
+    };
+    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
+      this.user.id = params['id'];
+      this.user.name = params['name'];
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.paramsSubscription.unsubscribe();
+  }
+}
+```
+
+## [Passing Query Parameters and Fragments](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656308#overview)
+
+```typescript {4,19-21} title="src/app/app-routing.module.ts"
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { EditServerComponent } from './servers/edit-server/edit-server.component';
+import { ServersComponent } from './servers/servers.component';
+import { UserComponent } from './users/user/user.component';
+import { UsersComponent } from './users/users.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
+  {
+    path: 'servers',
+    component: ServersComponent,
+  },
+  {
+    path: 'servers/:id/edit',
+    component: EditServerComponent,
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+  },
+  {
+    path: 'users/:id/:name',
+    component: UserComponent,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+```
+
+```html {5,6,7} title="src/app/servers/servers.component.html"
+<div class="row">
+  <div class="col-xs-12 col-sm-4">
+    <div class="list-group">
+      <a
+        [routerLink]="['/servers', 5, 'edit']"
+        [queryParams]="{ allowEdit: '1' }"
+        [fragment]="'loading'"
+        class="list-group-item"
+        *ngFor="let server of servers"
+      >
+        {{ server.name }}
+      </a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-4">
+    <button class="btn btn-primary" (click)="onReload()">Reload Page</button>
+    <app-edit-server></app-edit-server>
+    <hr />
+    <app-server></app-server>
+  </div>
+</div>
+```
+
+```html {3-5} title="src/app/home/home.component.html"
+<h4>Welcome to Server Manager 4.0</h4>
+<p>Manage your Servers and Users.</p>
+<button class="btn btn-primary" (click)="onLoadServers(1)">
+  Load Server 1
+</button>
+```
+
+```typescript {14-19} title="src/app/home/home.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+})
+export class HomeComponent implements OnInit {
+  constructor(private router: Router) {}
+
+  ngOnInit() {}
+
+  onLoadServers(id: number) {
+    this.router.navigate(['/servers', id, 'edit'], {
+      queryParams: { allowEdit: '1' },
+      fragment: 'loading',
+    });
+  }
+}
+```
+
+## [Retrieving Query Parameters and Fragments](https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6656314#overview)
+
+```typescript {2,18,22,23,25,26} title="src/app/servers/home/edit-server/edit-server.component.ts"
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { ServersService } from '../servers.service';
+
+@Component({
+  selector: 'app-edit-server',
+  templateUrl: './edit-server.component.html',
+  styleUrls: ['./edit-server.component.scss'],
+})
+export class EditServerComponent implements OnInit {
+  server!: { id: number; name: string; status: string } | any;
+  serverName = '';
+  serverStatus = '';
+
+  constructor(
+    private serversService: ServersService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit() {
+    console.log(this.route.snapshot.queryParams);
+    console.log(this.route.snapshot.fragment);
+
+    this.route.queryParams.subscribe();
+    this.route.fragment.subscribe();
+
+    this.server = this.serversService.getServer(1);
+    this.serverName = this.server.name;
+    this.serverStatus = this.server.status;
+  }
+
+  onUpdateServer() {
+    this.serversService.updateServer(this.server.id, {
+      name: this.serverName,
+      status: this.serverStatus,
+    });
+  }
+}
+```
