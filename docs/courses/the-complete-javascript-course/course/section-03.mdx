@@ -1,0 +1,803 @@
+---
+id: section-03
+title: The Complete JavaScript Course · Section 03
+sidebar_label: Section 03
+description: The Complete JavaScript Course by Jonas Schmedtmann on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-javascript-course/course/section-03
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# JavaScript Fundamentals - Part 2
+
+## [Section Intro](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648213#overview)
+
+## [Activating Strict Mode](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648215#overview)
+
+Strict Mode avoid hard to find errors.
+
+```js title="script.js"
+'use strict';
+```
+
+## [Functions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648219#overview)
+
+```js title="script.js"
+'use strict';
+
+function logger() {
+  console.log('function');
+}
+
+// function call
+logger(); // result: 'function'
+```
+
+```js title="script.js"
+'use strict';
+
+// function parameters
+function logger(log) {
+  console.log(`${log}`);
+}
+
+// function arguments (value)
+logger('John'); // result: 'John'
+```
+
+```js title="script.js"
+'use strict';
+
+function logger(log) {
+  return log;
+}
+
+const john = logger('John');
+console.log(john); // result: 'John'
+```
+
+## [Function Declarations vs. Expressions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648225#overview)
+
+**function declaration**
+
+```js title="script.js"
+'use strict';
+
+function calcAge(birthday) {
+  return 2021 - birthday;
+}
+
+const age = calcAge(1986);
+console.log(age); // result: 34
+```
+
+**function declarations** cannot be called before they are defined.
+
+```js title="script.js"
+'use strict';
+
+const age = calcAge(1986);
+console.log(age); // result: 34
+
+function calcAge(birthday) {
+  return 2021 - birthday;
+}
+```
+
+**function expression**
+
+```js title="script.js"
+'use strict';
+
+const calcAge = function (birthday) {
+  return 2021 - birthday;
+};
+
+const age = calcAge(1986);
+console.log(age); // result: 34
+```
+
+**function expressions** can be called before they are defined (hoisting)
+
+```js title="script.js"
+'use strict';
+
+const age = calcAge(1986);
+console.log(age); // error
+
+const calcAge = function (birthday) {
+  return 2021 - birthday;
+}
+```
+
+## [Arrow Functions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648227#overview)
+
+**Arrow Functions** are function expressions.
+
+```js title="script.js"
+'use strict';
+
+// no parameter and just a return
+const calcAge = () => console.log('arrow function.');
+
+// one parameter and just a return
+const calcAge = birthYear => 2021 - birthYear;
+
+// multiple parameters and just a return
+const calcAge = (currentYear, birthYear) => currentYear - birthYear;
+
+// multiple parameters and a function body
+const calcAge = (currentYear, birthYear) => {
+  ...
+}
+```
+
+## [Functions Calling Other Functions](udemy.com/course/the-complete-javascript-course/learn/lecture/22648227#overview)
+
+```js title="script.js"
+'use strict';
+
+function cutFruitPieces(fruit) {
+  return fruit * 4;
+}
+
+function fruitProcessor(apples, oranges) {
+  console.log(`Processing juice with ${apples} apples amd ${oranges} oranges.`);
+
+  const applePieces = cutFruitPieces(apples);
+  const orangePieces = cutFruitPieces(oranges);
+
+  const juice = `Juice with ${applePieces} pieces of apples amd ${orangePieces} pieces of oranges.`;
+  return juice;
+}
+
+fruitProcessor(2, 3); // result: 'Juice with 8 pieces of apples amd 12 pieces of oranges.'
+```
+
+## [Reviewing Functions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648239#overview)
+
+## [Coding Challenge #1](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648243#overview)
+
+```js title="code-challenge-01"
+// Back to the two gymnastics teams, the Dolphins and the Koalas! There is a new gymnastics discipline, which works differently.
+// Each team competes 3 times, and then the average of the 3 scores is calculated (so one average score per team).
+// A team only wins if it has at least double the average score of the other team. Otherwise, no team wins!
+
+// Tasks:
+// 1. Create an arrow function 'calcAverage' to calculate the average of 3 scores
+// 2. Use the function to calculate the average for both teams
+// 3. Create a function 'checkWinner' that takes the average score of each team as parameters ('avgDolhins' and 'avgKoalas'), and then logs the winner to the console, together with the victory points, according to the rule above.
+// Example: "Koalas win (30 vs. 13)"
+// 4. Use the 'checkWinner' function to determine the winner for both Data 1 and Data 2
+// 5. Ignore draws this time
+
+// Data:
+// - Data 1: Dolphins score 44, 23 and 71. Koalas score 65, 54 and 49
+// - Data 2: Dolphins score 85, 54 and 41. Koalas score 23, 34 and 27
+
+// Hints:
+// - To calculate average of 3 values, add them all together and divide by 3
+// - To check if number A is at least double number B, check for A >= 2 * B.
+// Apply this to the team's average scores
+
+// 1.
+const calcAverage = (a, b, c) => (a + b + c) / 3;
+
+// 2.
+let scoreDolphins = calcAverage(44, 21, 71);
+let scoreKoalas = calcAverage(65, 54, 49);
+
+// 3.
+const checkWinner = function (avgDolphins, avgKoalas) {
+  if (avgDolphins >= 2 * avgKoalas) {
+    console.log(`Dolphins win (${avgDolphins} vs. ${avgKoalas})`);
+  } else if (avgKoalas >= 2 * avgDolphins) {
+    console.log(`Koalas win (${avgKoalas} vs. ${avgDolphins})`);
+  }
+};
+checkWinner(scoreDolphins, scoreKoalas);
+
+// 4.
+scoreDolphins = calcAverage(85, 54, 41);
+scoreKoalas = calcAverage(23, 34, 27);
+
+checkWinner(scoreDolphins, scoreKoalas);
+```
+
+## [Introduction to Arrays](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648249#overview)
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+const years = new Array(1990, 1991, 1992);
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+console.log(friends[1]); // result: 'Steven'
+console.log(friends.length); // result: 3
+console.log(friends[friends.length - 1]); // result: 'Peter'
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+friends[2] = 'Jay';
+console.log(friends); // result: ['Michael', 'Jay', 'Peter'];
+friends = ['Bob', 'Alice']; // error
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+const lastName = 'Doe';
+const john = ['john', lastName, 2021 - 1986, 'teacher', friends];
+console.log(john); // result: ['john', 'Doe', 34, ['Michael', 'Steven', 'Peter']];
+```
+
+```js title="script.js"
+'use strict';
+
+const years = [1990, 1991, 1992];
+
+const calcAge = function (birthYear) {
+  return 2021 - birthYear;
+};
+
+const age1 = calcAge(years[0]);
+const age2 = calcAge(years[1]);
+const age3 = calcAge(years[years.length - 1]);
+
+const ages = [
+  calcAge(years[0]),
+  calcAge(years[1]),
+  calcAge(years[years.length - 1]),
+];
+
+console.log(ages); // result: 31 30 29
+```
+
+## [Basic Array Operations (Methods)](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648255#overview)
+
+**01. Adding elements:**
+
+**push method**
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// push, adds to the end of an array
+friends.push('Jay');
+console.log(friends); // result: ['Michael', 'Steven', 'Peter', 'Jay']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// storing the result of the push method, returns the array's length
+const newLength = friends.push('Jay');
+console.log(newLength); // result: 4
+```
+
+**unshift method**
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// unshift, adds to the beginning of an array
+friends.unshift('John');
+console.log(friends); // result: ['John', Michael', 'Steven', 'Peter']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// storing the result of the unshift method, returns the array's length
+const newLength = friends.unshift('John');
+console.log(newLength); // result: 4
+```
+
+**02. Removing elements:**
+
+**pop method**
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// pop, removes the last element of an array
+friends.pop();
+console.log(newLength); // result: ['Michael', 'Steven']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// storing the result of the pop method, returns the removed element
+const popped = friends.pop();
+console.log(popped); // result: 'Peter'
+```
+
+**shift method**
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// shift, removes the first element of an array
+friends.shift();
+console.log(newLength); // result: ['Steven', 'Peter']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// storing the result of the shift method, returns the removed element
+const popped = friends.shift();
+console.log(popped); // result: 'Michael'
+```
+
+**03. Positioning:**
+
+**indexOf method**
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+console.log(friends.indexOf('Steven')); // result: 1
+console.log(friends.indexOf('inexistent')); // result: -1
+```
+
+**includes method**
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+console.log(friends.includes('Steven')); // result: true
+console.log(friends.includes('inexistent')); // result: false
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = [23];
+
+// includes uses strict equality check
+console.log(friends.includes('23')); // result: false
+console.log(friends.includes(23)); // result: true
+```
+
+## [Coding Challenge #2](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648259#overview)
+
+```js title="code-challenge-02.js"
+// Steven is still building his tip calculator, using the same rules as before: Tip 15% of the bill if the bill value is between 50 and 300, and if the value is different, the tip is 20%.
+
+// Tasks:
+// 1. Write a function 'calcTip' that takes any bill value as an input and returns the corresponding tip, calculated based on the rules above (you can check out the code from first tip calculator challenge if you need to). Use the function type you like the most. Test the function using a bill value of 100
+// 2. And now let's use arrays! So create an array 'bills' containing the test data below
+// 3. Create an array 'tips' containing the tip value for each bill, calculated from the function you created before
+// 4. Bonus: Create an array 'total' containing the total values, so the bill + tip
+
+// Data:
+// 125, 555 and 44
+
+// Hints:
+// Remember that an array needs a value in each position, and that value can actually be the returned value of a function! So you can just call a function as array values (so don't store the tip values in separate variables first, but right in the new array)
+
+// 1.
+const calcTip = bill => (bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2);
+
+// 2.
+const bills = [125, 555, 44];
+
+// 3.
+const tips = [calcTip[0], calcTip[1], calcTip[2]];
+
+// 4.
+const total = [bills[0] + tips[0], bills[1] + tips[1], bills[2] + tips[2]];
+```
+
+## [Introduction to Objects](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648263#overview)
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 2021 - 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+};
+```
+
+## [Dot vs. Bracket Notation](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648271#overview)
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 2021 - 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+};
+
+console.log(john.firstName); // result: 'John'
+console.log(john['firstName']); // result: 'John'
+```
+
+**Adding keys to the object**
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 2021 - 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+};
+
+john.location = 'Brazil';
+john['twitter'] = '@john';
+
+console.log(john);
+
+// result:
+// firstName: 'john',
+// lastName: 'Doe',
+// age: 2021 - 1986
+// job: 'teacher',
+// friends: ['Michael', 'Steven', 'Peter'],
+// location: 'Brazil'
+// twitter: '@john'
+```
+
+## [Object Methods](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648275#overview)
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+  hasDriverLicense: true,
+  calcAge: function (birthYear) {
+    return 2021 - birthYear;
+  },
+};
+
+console.log(john.calcAge(1986)); // result: 34
+console.log(john['calcAge'](1986)); // result: 34
+```
+
+**'this' keyword**
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'john',
+  lastName: 'Doe',
+  birthYear: 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+  hasDriverLicense: true,
+  calcAge: function () {
+    console.log(this);
+    return 2021 - this.birthYear;
+  },
+};
+
+// 'this' refers to the object that is calling the method john.calcAge() // this = john object
+john.calcAge();
+```
+
+**Returning the age**
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'john',
+  lastName: 'Doe',
+  birthYear: 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+  hasDriverLicense: true,
+  calcAge: function () {
+    // storing age in a new property
+    this.age = 2021 - this.birthYear;
+    // good practice to also return it
+    return this.age;
+  },
+};
+
+console.log(john.age); // 34
+```
+
+## [Coding Challenge #3](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648281#overview)
+
+```js title="code-challenge-03.js"
+// Let's go back to Mark and John comparing their BMIs! This time, let's use objects to implement the calculations! Remember: BMI = mass / height ** 2 = mass (height * height) (mass in kg and height in meter)
+
+// Tasks:
+// 1. For each of them, create an object with properties for their full name, mass, and height (Mark Miller and John Smith)
+// 2. Create a 'calcBMI' method on each object to calculate the BMI (the same method on both objects). Store the BMI value to a property, and also return it from the method
+// 3. Log to the console who has the higher BMI, together with the full name and the respective BMI. Example: "John's BMI (28.3) is higher than Mark's (23.9)!"
+
+// Data:
+// Marks weights 78 kg and is 1.69 m tall. John weights 92 kg and is 1.95 m tall.
+
+// 1.
+const mark = {
+  fullName: 'Mark Miller',
+  mass: 78,
+  height: 1.69,
+};
+
+// 2.
+const john = {
+  fullName: 'John Smith',
+  mass: 92,
+  height: 1.95,
+  calcBMI: function () {
+    this.bmi = this.mass / this.height ** 2;
+    return this.bmi;
+  },
+};
+
+// 3.
+if (mark.bmi > john.bmi) {
+  console.log(
+    `${mark.fullName}'s BMI (${mark.bmi}) is higher than ${john.fullName}'s BMI (${john.bmi})`
+  );
+} else {
+  console.log(
+    `${john.fullName}'s BMI (${john.bmi}) is higher than ${mark.fullName}'s BMI (${mark.bmi})`
+  );
+}
+```
+
+## [Iteration: The for Loop](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648285#overview)
+
+```js title="script.js"
+'use strict';
+
+for (let rep = 1; rep <= 10; rep++) {
+  console.log(`Lifting weights repetition ${rep}`);
+}
+// result:
+// Lifting weights repetition 1
+// ...
+// Lifting weights repetition 10
+```
+
+## [Looping Arrays, Breaking and Continuing](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648291#overview)
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+for (let i = 0; i < friends.length; i++) {
+  console.log(friends[i]);
+}
+
+// result: ['Michael', 'Steven', 'Peter']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+const types = [];
+for (let i = 0; i < friends.length; i++) {
+  types[i] = typeof friends[i];
+  // or
+  // types.push(typeof friends[i]);
+}
+
+console.log(types); // result: ['String', 'String', 'String']
+```
+
+**Continue**
+
+Continue exits the current iteration of a loop.
+
+```js title="script.js"
+'use strict';
+
+const john = ['Doe', 34];
+
+for (let i = 0; i < john.length; i++) {
+  if(typeof john[i] !== 'string') continue;
+
+  console.log(john[i]);
+}
+
+// result: 'Doe'
+```
+
+**Break**
+
+```js title="script.js"
+'use strict';
+
+const john = ['Doe', 34, 'teacher'];
+
+for (let i = 0; i < john.length; i++) {
+  if (typeof john[i] === 'number') break;
+
+  console.log(john[i]);
+}
+
+// result: 'Doe'
+```
+
+## [Looping Backwards and Loops in Loops](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648297#overview)
+
+```js title="script.js"
+'use strict';
+
+const john = ['Doe', 34, 'teacher'];
+
+for (let i = john.length - 1; i >= 0; i--) {
+  console.log(john[i]);
+}
+
+// result: 'teacher' 34 'Doe'
+```
+
+```js title="script.js"
+'use strict';
+
+for (let exercise = 1; exercise < 4; exercise++) {
+  console.log('exercise', exercise);
+
+  for (let repetition = 1; repetition < 6; repetition++) {
+    console.log('repetition', repetition);
+  }
+}
+
+// result:
+// exercise 1
+// repetition 1
+// repetition 2
+// repetition 3
+// repetition 4
+// repetition 5
+// exercise 2
+// repetition 1
+// repetition 2
+// repetition 3
+// repetition 4
+// repetition 5
+// exercise 3
+// repetition 1
+// repetition 2
+// repetition 3
+// repetition 4
+// repetition 5
+```
+
+## [The while Loop](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648303#overview)
+
+```js title="script.js"
+'use strict';
+
+let repetion = 1;
+while (repetion <= 10) {
+  console.log(repetion);
+
+  repetion++;
+}
+
+// result: 1 2 3 4 5 6 7 8 9 10
+```
+
+```js title="script.js"
+'use strict';
+
+let dice = math.trunc(math.random() * 6) + 1; // number 1>= && <=6
+while (dice !== 6) {
+  console.log(dice);
+  dice = math.trunc(math.random() * 6) + 1;
+
+  if (dice === 6) console.log('loop ended...');
+}
+// result: 2 4 3 loop ended...
+```
+
+## [Coding Challenge #4](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648309#overview)
+
+```js title="code-challenge-04.js"
+// Let's improve Steven's tip calculator even more, this time using loops!
+
+// Tasks:
+// 1. Create an array 'bills' containing all 10 test bill values
+// 2. Create empty arrays for the tips and the totals ('tips' and 'totals')
+// 3. Use the 'calcTip' function we wrote before (no need to repeat) to calculate tips and total values (bill + tip) for every bill value in the bills array. Use a for loop to perform the 10 calculations!
+
+// Data:
+// 22, 295, 176, 440, 37, 105, 10, 1100, 86 and 52
+
+// Hints: Call 'calcTip' in the loop and use the push method to add values to the tips and totals arrays
+
+// Bonus:
+// 4. Bonus: Write a function 'calcAverage' which takes an array called 'arr' as an argument. This function calculates the average of all numbers in the given array. This is a difficult challenge (we haven't done this before)! Here is how to solve it:
+// 4.1. First, you will need to add up all values in the array. To do the addition, start by creating a variable 'sum' that starts at 0. Then loop over the array using a for loop. In each iteration, add the current value to the 'sum' variable. This way, by the end of the loop, you have all values added together
+// 4.2. To calculate the average, divide the sum you calculated before by the length of the array (because that's the number of elements)
+// 4.3. Call the function with the 'totals' array
+
+const calcTip = function (bill) {
+  return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+};
+
+// 1.
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+
+// 2.
+const tips = [];
+const totals = [];
+
+// 3.
+for (let i = 0; i < bills.length; i++) {
+  const tip = calcTip(bills[i]);
+  tips.push(tip);
+  totals.push(tip + bills[i]);
+}
+
+// 4.
+const calcAverage = function (array) {
+  // 4.1
+  let sum = 0;
+  for (let i = 0; i < array.length; i++) {
+    sum += array[i];
+  }
+
+  // 4.2
+  return sum / array.length;
+};
+
+// 4.3
+calcAverage(totals);
+```

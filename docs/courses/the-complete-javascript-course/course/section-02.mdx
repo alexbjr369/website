@@ -1,0 +1,477 @@
+---
+id: section-02
+title: The Complete JavaScript Course · Section 02
+sidebar_label: Section 02
+description: The Complete JavaScript Course by Jonas Schmedtmann on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-javascript-course/course/section-02
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# JavaScript Fundamentals - Part 1
+
+## [Section Intro](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648061#overview)
+
+## [Hello World!](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648117#overview)
+
+## [A Brief Introduction to JavaScript](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648123#overview)
+
+## [Linking a JavaScript File](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648127#overview)
+
+```html {32} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>JavaScript Fundamentals - Part 1</title>
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(to top left, #28b487, #7dd56f);
+    }
+
+    h1 {
+      font-family: sans-serif;
+      font-size: 50px;
+      line-height: 1.3;
+      width: 100%;
+      padding: 30px;
+      text-align: center;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>JavaScript Fundamentals - Part 1</h1>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
+```
+
+```js title="script.js"
+console.log('Hello World!');
+```
+
+## [Values and Variables](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648135#overview)
+
+```js title="script.js"
+// declaring a variable named 'name' and assigning to it the value of 'John'
+let name = 'John';
+```
+
+- **Value** - the most fundamental unit of information we have in programming
+- **Variable** - a container to store a value
+
+**Variable naming conventions:**
+- Can only contain numbers, letters, underscore or dollar sign
+- Cannot start with a number
+- Cannot contain reserved keywords
+- Should use camelCase (convention)
+- Should not start with capital letter (convention)
+- Should be descriptive (convention)
+
+## [Practice Assignments](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22846813#overview)
+
+## [Data Types](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648141#overview)
+
+- A **value** holds a **data type**
+- A **variable** stores a **value** that holds a **data type**
+- JavaScript has a **dynamic data typing**, it **automatically determines the data type of a value when it is stored in a variable**
+
+**Number, String and Boolean**
+
+```js title="script.js"
+console.log(typeof true); // result: boolean
+console.log(typeof 25); // result: number
+console.log(typeof 'true'); // result: string
+```
+
+**Undefined**
+
+**undefined** is both the value and the type.
+
+```js title="script.js"
+let name;
+console.log(name); // result: undefined
+console.log(typeof name); // result: undefined
+```
+
+**Null**
+
+**null** is both the value and the type.
+
+```js title="script.js"
+let name = null;
+console.log(name); // result: undefined
+console.log(typeof name); // result: Object (bug in the language)
+```
+
+**Dynamic Typing**
+
+```js title="script.js"
+let javascript = true;
+console.log(typeof javascript); // result: boolean
+
+javascript = 'true';
+console.log(typeof javascript); // result: string
+```
+
+## [let, const and var](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648145#overview)
+
+**let**
+
+```js title="script.js"
+let number = 25;
+number = 26;
+
+// 'let' may not be initialized with a value
+let number2;
+number2 = 26;
+```
+
+**const**
+
+```js title="script.js"
+// 'const' cannot be mutated
+const number = 25;
+number = 26; // error
+
+// 'const' must be initialized with a value
+const number2; // error
+```
+
+**var**
+
+```js title="script.js"
+var number = 25;
+number = 26;
+```
+
+## [Basic Operators](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648147#overview)
+
+- **[operators on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators)**
+
+## [Operator Precedence](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648153#overview)
+
+- **[Operator precedence on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)**
+
+## [Coding Challenge #1](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648161#overview)
+
+```js title="code-challenge-01.js"
+// Mark and John are trying to compare their BMI (Body Mass Index), which is calculated using the formula:
+// BMI = mass / height ** 2 = mass / (height * height) (mass in kg and height in meter).
+
+// Tasks:
+// 1. Store Mark's and John's mass and height in variables.
+// 2. Calculate both their BMIs using the formula (you can even implement both versions).
+// 3. Create a Boolean variable 'markHigherBMI' containing information about whether Mark has a higher BMI than John.
+
+// Data:
+// - Data 1: Marks weights 78 kg and is 1.69 m tall. John weights 92 kg and is 1.95m tall.
+// - Data 2: Marks weights 95 kg and is 1.88 m tall. John weights 85 kg and is 1.76m tall.
+
+// 1.
+const massMark = 78;
+const heightMark = 1.69;
+const massJohn = 92;
+const heightJohn = 1.95;
+
+// 2.
+const BMIMark = massMark / heightMark ** 2;
+const BMIJohn = massJohn / (heightJohn * heightJohn);
+
+// 3.
+const markHigherBMI = BMIMark > BMIJohn;
+
+console.log(BMIMark, BMIJohn, markHigherBMI);
+```
+
+## [Strings and Template Literals](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648167#overview)
+
+**Strings**
+
+```js title="script.js"
+console.log('String with \n\
+multiple \n\
+lines');
+
+// result:
+// 'String with
+// multiple
+// lines'
+```
+
+**Template Literals**
+
+```js title="script.js"
+console.log(`
+String with
+multiple
+lines
+`);
+
+// result:
+// 'String with
+// multiple
+// lines'
+```
+
+## [Taking Decisions: if / else Statements](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648173#overview)
+
+```js title="script.js"
+const age = 15;
+
+if (age >= 18) {
+  console.log('true');
+} else {
+  console.log('false');
+}
+
+// result: 'false'
+```
+
+## [Coding Challenge #2](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648177#overview)
+
+```js title="code-challenge-02.js"
+// Use the BMI example from Challenge #1, and the code you already wrote, and improve it.
+
+// Tasks:
+// 1. Print a nice output to the console, saying who has the higher BMI. The message is either "Mark's BMI is higher than John's!" or "John's BMI is higher than Mark's!"
+// 2. Use a template literal to include the BMI values in the outputs. Example: "Mark's BMI (28.3) is higher than John's (23.9)!"
+
+const massMark = 78;
+const heightMark = 1.69;
+const massJohn = 92;
+const heightJohn = 1.95;
+
+const BMIMark = massMark / heightMark ** 2;
+const BMIJohn = massJohn / (heightJohn * heightJohn);
+
+// 1.
+if (BMIMark > BMIJohn) {
+  console.log("Mark's BMI is higher than John's!");
+} else {
+  console.log("John's BMI is higher than Mark's!");
+}
+
+// 2.
+if (BMIMark > BMIJohn) {
+  console.log(`Mark's BMI (${BMIMark}) is higher than John's!`);
+} else {
+  console.log(`John's BMI (${BMIJohn}) is higher than Mark's!`);
+}
+```
+
+## [Type Conversion and Coercion](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648179#overview)
+
+**Type conversion** - when a type is explicitly converted
+
+```js title="script.js"
+const number = '25';
+console.log(Number(number), number); // result: 25 '25'
+console.log(Number(number) + 5); // result: 30
+console.log(Number('John')); // result: NaN (nota a number: whenever a operation fails to produce a new number)
+console.log(typeof NaN); // result: number
+console.log(String(25), 25); // result: '25' 25
+```
+
+**type coercion** - when JavaScript automatically convert types
+
+It happens whenever an operator is dealing with values that have different types.
+
+```js title="script.js"
+console.log('Number ' + '25'); // result: 'Number 25'
+console.log('Number ' + 25); // result: 'Number 25' (+ operator triggers String coercion)
+console.log(`Number ${25}`); // result: 'Number 25' (template literals triggers String coercion)
+console.log('25' - '10' - 3); // result: 12 (mathematical operators other than + operator, trigger Number coercion)
+console.log('25' > '1'); // result: true (comparison operators trigger Boolean coercion)
+```
+
+## [Truthy and Falsy Values](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648181#overview)
+
+**Falsy Values**
+
+There are 5 falsy(when converted to boolean) values: 0, '', undefined, null, NaN
+
+```js title="script.js"
+console.log(Boolean(0)); // result: false
+console.log(Boolean(undefined)); // result: false
+console.log(Boolean('')); // result: false
+```
+
+**Truthy Values**
+
+Values that will be converted to true.
+
+```js title="script.js"
+console.log(Boolean('John')); // result: true
+console.log(Boolean({})); // result: true
+```
+
+## [Equality Operators: == vs. ===](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648183#overview)
+
+**Loose Equality Operator (==)**
+
+The Loose Equality Operator performs type coercion.
+
+```js title="script.js"
+const age = 25;
+if (age == '25') console.log('loose') // result: loose
+```
+
+**Strict Equality Operator (===)**
+
+The Strict Equality Operator doesn't perform type coercion.
+
+```js title="script.js"
+const age = 25;
+if (age === 25) console.log('strict'); // result: strict
+```
+
+## [Boolean Logic](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648189#overview)
+
+## [Logical Operators](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648191#overview)
+
+## [Coding Challenge #3](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648193#overview)
+
+```js title="code-challenge-03.js"
+// There are two gymnastics teams, Dolphins and Koalas. They compete against each other 3 times. The winner with the highest average score wins a trophy!
+
+// Tasks:
+// 1. Calculate the average score for each team, using the test data below
+// 2. Compare the team's average scores to determine the winner of the competition, and print it to the console. Don't forget that there can be a draw, so test for that as well (draw means they have the same average score)
+// 3. Bonus 1: Include a requirement for a minimum score of 100. With this rule, a team only wins if it has a higher score than the other team, and the same time a score of at least 100 points. Hint: Use a logical operator to test for minimum score, as well as multiple else-if blocks
+// 4. Bonus 2: Minimum score also applies to a draw! So a draw only happens when both teams have the same score and both have a score greater or equal 100 points. Otherwise, no team wins the trophy
+
+// Data:
+// - Data 1: Dolphins score 96, 108 and 89. Koalas score 88, 91 and 110
+// - Data Bonus 1: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 123
+// - Data Bonus 2: Dolphins score 97, 112 and 101. Koalas score 109, 95 and 106
+
+// 1.
+const scoreDolphins = (96 + 108 + 89) / 3;
+const scoreKoalas = (88 + 91 + 110) / 3;
+
+// 2.
+if (scoreDolphins > scoreKoalas) {
+  console.log('Dolphins win!');
+} else if (scoreKoalas > scoreDolphins) {
+  console.log('Dolphins Koalas!');
+} else {
+  console.log('Draw!');
+}
+
+// 3.
+if (scoreDolphins > scoreKoalas && scoreDolphins >= 100) {
+  console.log('Dolphins win!');
+} else if (scoreKoalas > scoreDolphins && scoreKoalas >= 100) {
+  console.log('Dolphins Koalas!');
+} else {
+  console.log('Draw!');
+}
+
+// 4.
+if (scoreDolphins > scoreKoalas && scoreDolphins >= 100) {
+  console.log('Dolphins win!');
+} else if (scoreKoalas > scoreDolphins && scoreKoalas >= 100) {
+  console.log('Dolphins Koalas!');
+} else if (
+  scoreKoalas === scoreDolphins &&
+  scoreDolphins >= 100 &&
+  scoreKoalas >= 100
+) {
+  console.log('Draw!');
+}
+```
+
+## [The switch Statement](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648197#overview)
+
+To compare one value to multiple different options.
+
+```js title="script.js"
+const day = 'thursday';
+
+switch (day) {
+  case 'monday': // day === 'monday'
+    console.log('monday');
+    break;
+  case 'tuesday':
+    console.log('tuesday');
+    break;
+  case 'wednesday':
+  case 'thursday':
+    console.log('wednesday and thursday');
+    break;
+  case 'friday':
+    console.log('friday');
+    break;
+  default:
+    console.log('not a valid day');
+}
+
+// result: 'wednesday and thursday'
+```
+
+## [Statements and Expressions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648199#overview)
+
+**Expressions**
+
+Expressions produces a value.
+
+```js title="script.js"
+3 + 4
+```
+
+**Statements**
+
+Statements don't produce a value
+
+```js title="script.js"
+true && false
+```
+
+## [The Conditional (Ternary) Operator](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648205#overview)
+
+```js title="script.js"
+const number = 25;
+console.log(`${number >= 30 ? 'it is' : 'it is not'}`);  // result: 'it is not'
+```
+
+## [Coding Challenge #4](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648207#overview)
+
+```js title="script.js"
+// Steven wants to build a very simple tip calculator for whenever he goes eating in a restaurant. In his country, it's usual to tip 15% if the bill value is between 50 and 300. If the value is different, the tip is 20%.
+
+// Tasks:
+// 1. Calculate the tip, depending on the bill value. Create a variable called 'tip' for this. It's not allowed to use an if/else statement (If it's easier for you, you can start with an if/else statement, and then try to convert it to a ternary operator!)
+// 2. Print a string to the console containing the bill value, the tip, and the final value (bill + tip).Example: “The bill was 275, the tip was 41.25, and the total value 316.25”
+
+// Data:
+// - Data 1: Test for bill values 275, 40 and 430
+
+// Hints:
+// - To calculate 20 % of a value, simply multiply it by 20 / 100 = 0.2
+// - Value X is between 50 and 300, if it's >= 50 && <= 300 �
+
+// 1.
+const bill = 275;
+const tip = bill <= 300 && bill >= 50 ? bill * 0.15 : bill * 0.2;
+
+// 2.
+console.log(`The bill was ${275}, the tip was ${tip}, and the total value ${bill + tip}`);
+```
+
+## [JavaScript Releases: ES5, ES6+ and ESNext](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648209#overview)

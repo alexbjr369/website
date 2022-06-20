@@ -1,0 +1,99 @@
+---
+id: functions
+title: Notes · JavaScript · Functions
+sidebar_label: Functions
+description: Functions
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /notes/javascript/functions
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Functions
+
+## Anatomy
+
+<img src={useBaseUrl("img/notes/javascript/reviewing-functions-02.png")} alt="The Complete JavaScript Course - Reviewing Functions"/>
+
+## Function Declaration
+
+```js title="script.js"
+'use strict';
+
+function calcAge(birthday) {
+  return 2021 - birthday;
+}
+
+const age = calcAge(1986);
+console.log(age); // result: 34
+```
+
+**Function declarations** can be called before they are defined (hoisting)
+
+```js title="script.js"
+'use strict';
+
+const age = calcAge(1986);
+console.log(age); // result: 34
+
+function calcAge(birthday) {
+  return 2021 - birthday;
+}
+```
+
+## Function Expression
+
+```js title="script.js"
+'use strict';
+
+const calcAge = function (birthday) {
+  return 2021 - birthday;
+};
+
+const age = calcAge(1986);
+console.log(age); // result: 34
+```
+
+**Function expressions** cannot be called before they are defined.
+
+```js title="script.js"
+'use strict';
+
+const age = calcAge(1986);
+console.log(age); // error
+
+const calcAge = function (birthday) {
+  return 2021 - birthday;
+};
+```
+
+## Arrow Functions
+
+**Arrow functions** are function expressions.
+
+```js title="script.js"
+'use strict';
+
+// no parameter and just a return
+const calcAge = () => console.log('arrow function.');
+
+// one parameter and just a return
+const calcAge = birthYear => 2021 - birthYear;
+
+// multiple parameters and just a return
+const calcAge = (currentYear, birthYear) => currentYear - birthYear;
+
+// multiple parameters and a function body
+const calcAge = (currentYear, birthYear) => {
+  ...
+}
+```
+
+## Summary
+
+<img src={useBaseUrl("img/notes/javascript/reviewing-functions-01.png")} alt="The Complete JavaScript Course - Reviewing Functions"/>
+

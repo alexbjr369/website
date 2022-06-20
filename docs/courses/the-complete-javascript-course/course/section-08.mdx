@@ -1,0 +1,208 @@
+---
+id: section-08
+title: The Complete JavaScript Course · Section 08
+sidebar_label: Section 08
+description: The Complete JavaScript Course by Jonas Schmedtmann on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-javascript-course/course/section-08
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# How JavaScript Works Behind the Scenes
+
+## [Section Intro](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648465#overview)
+
+## [Section Roadmap](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22663439#overview)
+
+## [An High-Level Overview of JavaScript](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648469#overview)
+
+## [The JavaScript Engine and Runtime](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648473#overview)
+
+## [Execution Contexts and The Call Stack](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648479#overview)
+
+## [Scope and The Scope Chain](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648481#overview)
+
+## [Scoping in Practice](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648487#overview)
+
+## [Variable Environment: Hoisting and The TDZ](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648493#overview)
+
+## [Hoisting and TDZ in Practice](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648495#overview)
+
+## [The this Keyword](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648501#overview)
+
+## [The this Keyword in Practice](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648505#overview)
+
+## [Regular Functions vs. Arrow Functions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648507#overview)
+
+**Good practice to not use arrow function as a method.**
+
+```js title="script.js"
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  calcAge: function () {
+    console.log(this);
+  },
+  greet: () => console.log(this),
+};
+
+john.calcAge(); // result: john object
+john.greet(); // result: Window object
+```
+
+```js title="script.js"
+var firstName = 'John2';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  greet: () => console.log(this.firstName),
+};
+
+john.greet(); // result: John2
+```
+
+```js title="script.js"
+const firstName = 'John2';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  greet: () => console.log(this.firstName),
+};
+
+john.greet(); // result: undefined
+```
+
+```js title="script.js"
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  greet: function () {
+    const internal = function () {
+      console.log(this);
+    };
+
+    internal();
+  },
+};
+
+john.greet(); // result: Window object
+```
+
+```js title="script.js"
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  greet: function () {
+    const self = this;
+
+    const internal = function () {
+      console.log(self);
+    };
+
+    internal();
+  },
+};
+
+john.greet(); // result: john object
+```
+
+**Good practice to use arrow function in a method.**
+
+```js title="script.js"
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  greet: function () {
+    const internal = () => {
+      console.log(this);
+    };
+
+    internal();
+  },
+};
+
+john.greet(); // result: john object
+```
+
+```js title="script.js"
+const addExpression = function (a, b) {
+  console.log(arguments);
+};
+
+addExpression(1, 2); // result: [1, 2]
+
+const addArrow = (a, b) => {
+  console.log(arguments);
+};
+
+addArrow(1, 2); // result: arguments is not defined
+```
+
+## [Primitives vs. Objects (Primitive vs. Reference Types)](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648509#overview)
+
+```js title="script.js"
+let age = 30;
+let oldAge = age;
+age = 31;
+
+console.log(age); // result: 31
+console.log(oldAge); // result: 30
+```
+
+```js title="script.js"
+const john = {
+  name: 'John',
+  age: 30,
+};
+
+const john2 = john;
+john2.age = 29;
+
+console.log(john); // result: { name: 'John', age: 29 }
+console.log(john2); // result: { name: 'John', age: 29 }
+```
+
+## [Primitives vs. Objects in Practice](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648513#overview)
+
+```js title="script.js"
+let lastName = 'Doe';
+let oldLastName = lastName;
+lastName = 'Doe 2';
+
+console.log(lastName); // result: Doe 2
+console.log(oldLastName); // result: Doe
+```
+
+```js title="script.js"
+const john = {
+  name: 'John',
+  lastName: 'Doe',
+};
+
+const john2 = john;
+john2.lastName = 'Doe 2';
+
+console.log(john); // result: { name: 'John', lastName: 'Doe 2' }
+console.log(john2); // result: { name: 'John', lastName: 'Doe 2' }
+```
+
+```js title="script.js"
+const john = {
+  name: 'John',
+  lastName: 'Doe',
+};
+
+// Object.assign crates a shallow copy, and not a deep clone of the object
+const john2 = Object.assign({}, john);
+john2.lastName = 'Doe 2';
+
+console.log(john); // result: { name: 'John', lastName: 'Doe' }
+console.log(john2); // result: { name: 'John', lastName: 'Doe 2' }
+```

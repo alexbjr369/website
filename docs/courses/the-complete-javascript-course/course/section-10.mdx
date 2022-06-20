@@ -1,0 +1,862 @@
+---
+id: section-10
+title: The Complete JavaScript Course · Section 10
+sidebar_label: Section 10
+description: The Complete JavaScript Course by Jonas Schmedtmann on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-javascript-course/course/section-10
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# A Closer Look at Functions
+
+## [Section Intro](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648639#overview)
+
+## [Section Roadmap](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22663671#overview)
+
+## [Default Parameters](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648643#overview)
+
+```js title="script.js"
+'use strict';
+
+const bookings = [];
+
+const createBooking = function(flightNumber, passengers, price) {
+
+  // ES5
+  passengers = passengers || 1;
+  price = price || 199;
+
+  const booking = {
+    flightNumber,
+    passengers,
+    price
+  };
+
+  console.log(booking);
+  bookings.push(booking);
+};
+
+createBooking('LH123'); // result: { flightNumber: 'LH123', passengers: 1, price: 199 }
+```
+
+```js title="script.js"
+'use strict';
+
+const bookings = [];
+
+const createBooking = function(flightNumber, passengers = 1, price = 199) {
+  const booking = {
+    flightNumber,
+    passengers,
+    price
+  };
+
+  bookings.push(booking);
+};
+
+createBooking('LH123'); // result: { flightNumber: 'LH123', passengers: 1, price: 199 }
+```
+
+```js title="script.js"
+'use strict';
+
+const bookings = [];
+
+const createBooking = function(flightNumber, passengers = 1, price = 199 * passengers) {
+  const booking = {
+    flightNumber,
+    passengers,
+    price
+  };
+
+  bookings.push(booking);
+};
+
+createBooking('LH123', 1); // result: { flightNumber: 'LH123', passengers: 1, price: 199 }
+createBooking('LH123', 3); // result: { flightNumber: 'LH123', passengers: 3, price: 597 }
+```
+
+```js title="script.js"
+'use strict';
+
+const bookings = [];
+
+const createBooking = function(flightNumber, passengers = 1, price = 199 * passengers) {
+  const booking = {
+    flightNumber,
+    passengers,
+    price
+  };
+
+  bookings.push(booking);
+};
+
+createBooking('LH123', undefined, 1000); // result: { flightNumber: 'LH123', passengers: 1, price: 1000}
+```
+
+
+## [How Passing Arguments Works: Value vs. Reference](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648645#overview)
+
+JavaScript only pass by a value.
+
+```js title="script.js"
+'use strict';
+
+const flight = 'LH123';
+const john = {
+  name: 'John Doe',
+  passport: 123456789
+};
+
+const checkIn = function(flightNumber, passenger) {
+  flightNumber = 'LH321';
+  passenger.name = 'Mr. ' + passenger.name;
+
+  if (passenger.passport === 123456789) {
+    console.log('Checked In')
+  } else {
+    console.log('Wrong passport!')
+  }
+};
+
+checkIn(flight, john); // result: 'Checked In'
+
+console.log(flight); // result: 'LH123'
+console.log(john); // result: { name: 'Mr. John Doe', passport: 123456789 }
+```
+
+## [First-Class and Higher-Order Functions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648649#overview)
+
+- **First-class functions**: Is a feature that a programming language either has or does not have. Is a concept which means that functions are threated as values. In JavaScript functions are objects and objects are values.
+- **higher-order functions**: In practice, a programming language has higher-order functions because the language supports First-class functions.
+
+<img src={useBaseUrl("img/notes/javascript/first-class-and-higher-order-functions.png")} alt="First-Class and Higher-Order Functions"/>
+
+## [Functions Accepting Callback Functions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648655#overview)
+
+```js title="script.js"
+'use strict';
+
+const oneWord = function(str) {
+  return str.replace(/ /g, '').toLowerCase();
+};
+
+const upperFirstWord = function(str) {
+  const [first, ...others] = str.split(' ');
+  return [first.toUpperCase(), ...others].join(' ');
+};
+
+// higher-order function
+const transform = function(str, fn) {
+  console.log(`Original string: ${str}`);
+  console.log(`Transformed string: ${fn(str)}`);
+  console.log(`Transformed by: ${fn.name}`); // name property
+};
+
+// transform: higher-order function
+// upperFirstWord: call-back function
+transform('JavaScript is the best!', upperFirstWord);
+
+// result:
+// Original string: JavaScript is the best!
+// Transformed string: JAVASCRIPT is the best!
+// Transformed by: upperFirstWord
+
+// transform: higher-order function
+// upperFirstWord: call-back function
+transform('JavaScript is the best!', oneWord);
+
+// result:
+// Original string: JavaScript is the best!
+// Transformed string: javascriptisthebest!
+// Transformed by: oneWord
+```
+
+## [Functions Returning Functions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648657#overview)
+
+```js title="script.js"
+'use strict';
+
+const greet = function(greeting) {
+  return function(name) {
+    console.log(`${greeting} ${name}!`);
+  }
+};
+
+const greeter = greet('Hello');
+greeter('John!'); // result: 'Hello John!'
+```
+
+```js title="script.js"
+'use strict';
+
+const greet = function(greeting) {
+  return function(name) {
+    console.log(`${greeting} ${name}!`);
+  }
+};
+
+greet('Hello')('John'); // result: 'Hello John!'
+```
+
+```js title="script.js"
+'use strict';
+
+// arrow function
+const greet = (greeting) => name => console.log(`${greeting} ${name}!`);
+
+greet('Hello')('John'); // result: 'Hello John!'
+```
+
+## [The call and apply Methods](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648663#overview)
+
+```js title="script.js"
+'use strict';
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  code: 'LH',
+  bookings: [],
+  book(flightNumber, passenger) {
+    console.log(`${passenger} booked a seat on ${this.airline} flight ${this.code}${flightNumber}`);
+    this.bookings.push({ flight: `${this.code}${flightNumber}`, passenger});
+  }
+};
+
+lufthansa.book('123', 'John Doe'); // result: 'John Doe booked a seat on Lufthansa flight LH123'
+lufthansa.book('321', 'John Doe 2'); // result: 'John Doe 2 booked a seat on Lufthansa flight LH321'
+console.log(lufthansa); // result: { airline: 'Lufthansa, book: fn, bookings: [{flight: "LH123", passenger: "John Doe"}, {flight: "LH321", passenger: "John Doe 2"} ]}
+```
+
+```js title="script.js"
+'use strict';
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  code: 'LH',
+  bookings: [],
+  book(flightNumber, passenger) {
+    console.log(`${passenger} booked a seat on ${this.airline} flight ${this.code}${flightNumber}`);
+    this.bookings.push({ flight: `${this.code}${flightNumber}`, passenger});
+  }
+};
+
+// copy from lufthansa book method
+const book = lufthansa.book;
+
+book('123', 'John Doe'); // result: cannot read property 'airline' of undefine.
+// It happens because the book function is now a regular function and not a method anymore, and the this keyword points to undefined
+```
+
+**Call**
+
+The call method, calls the function.
+
+```js title="script.js"
+'use strict';
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  code: 'LH',
+  bookings: [],
+  book(flightNumber, passenger) {
+    console.log(`${passenger} booked a seat on ${this.airline} flight ${this.code}${flightNumber}`);
+    this.bookings.push({ flight: `${this.code}${flightNumber}`, passenger});
+  }
+};
+
+const eurowings = {
+  airline: 'Eurowings',
+  code: 'EW',
+  bookings: [],
+};
+
+// copy from lufthansa book method
+const book = lufthansa.book;
+
+// this keyword is now pointing to the eurowings object
+book.call(eurowings, '123', 'John Doe'); // result: 'John Doe booked a seat on Eurowings flight EW123'
+```
+
+**Apply**
+
+Not that used in ES6... Use **call** instead.
+
+```js title="script.js"
+'use strict';
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  code: 'LH',
+  bookings: [],
+  book(flightNumber, passenger) {
+    console.log(`${passenger} booked a seat on ${this.airline} flight ${this.code}${flightNumber}`);
+    this.bookings.push({ flight: `${this.code}${flightNumber}`, passenger});
+  }
+};
+
+const eurowings = {
+  airline: 'Eurowings',
+  code: 'EW',
+  bookings: [],
+};
+
+// copy from lufthansa book method
+const book = lufthansa.book;
+const flightData = ['123', 'John Doe'];
+
+// ES5
+book.apply(eurowings, flightData);
+
+// ES6
+book.call(eurowings, ...flightData);
+```
+
+## [The bind Method](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648667#overview)
+
+The bind method doesn't immediately call the function, instead it returns a new function where the this keyword is bound.
+
+```js title="script.js"
+'use strict';
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  code: 'LH',
+  bookings: [],
+  book(flightNumber, passenger) {
+    console.log(`${passenger} booked a seat on ${this.airline} flight ${this.code}${flightNumber}`);
+    this.bookings.push({ flight: `${this.code}${flightNumber}`, passenger});
+  }
+};
+
+const eurowings = {
+  airline: 'Eurowings',
+  code: 'EW',
+  bookings: [],
+};
+
+// copy from lufthansa book method
+const book = lufthansa.book;
+
+const bookEW = book.bind(eurowings);
+const bookLH = book.bind(lufthansa);
+
+bookEW('123', 'John Doe'); // result: 'John Doe booked a seat on Eurowings flight EW123'
+bookEW('321', 'John Doe'); // result: 'John Doe booked a seat on Eurowings flight LH321'
+```
+
+```js title="script.js"
+'use strict';
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  code: 'LH',
+  bookings: [],
+  book(flightNumber, passenger) {
+    console.log(`${passenger} booked a seat on ${this.airline} flight ${this.code}${flightNumber}`);
+    this.bookings.push({ flight: `${this.code}${flightNumber}`, passenger});
+  }
+};
+
+const eurowings = {
+  airline: 'Eurowings',
+  code: 'EW',
+  bookings: [],
+};
+
+// copy from lufthansa book method
+const book = lufthansa.book;
+
+const bookEW123 = book.bind(eurowings, '123'); // partial application: part of the arguments of the original function are already set
+
+bookEW123('John Doe'); // result: 'John Doe booked a seat on Eurowings flight LH123'
+bookEW123('John Doe 2'); // result: 'John Doe 2 booked a seat on Eurowings flight LH123'
+```
+
+**listeners**
+
+```js title="script.js"
+'use strict';
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  code: 'LH',
+  bookings: [],
+  book(flightNumber, passenger) {
+    console.log(`${passenger} booked a seat on ${this.airline} flight ${this.code}${flightNumber}`);
+    this.bookings.push({ flight: `${this.code}${flightNumber}`, passenger});
+  }
+};
+
+lufthansa.planes = 300;
+lufthansa.buyPlane = function() {
+  console.log('this: ', this);
+  this.planes++;
+  console.log(this.planes);
+}
+
+// in an event handler function the this keyword always point to the element on which that handler is attached to
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane);
+// result:
+// this: <button class="buy">buy</button>
+// NaN
+
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+// result:
+// this: lufthansa object
+// 301
+```
+
+**Partial Application**
+
+```js title="script.js"
+'use strict';
+
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200)); // result: 220
+
+// new function(addVAT) from addTax
+// in this example we don't care about the this keyword, only for the preset argument
+const addVAT = addTax.bind(null, 0.23);
+console.log(addVAT(200)); // result: 246
+```
+
+**Challenge**
+
+Rewriting the function with a function calling another.
+
+```js title="script.js"
+'use strict';
+
+const addTax = function(rate) {
+  return function(value) {
+    return value + value * rate;
+  }
+}
+
+const addVAT = addTax(0.23);
+console.log(addVAT(200)); // result: 246
+```
+
+## [Coding Challenge #1](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648673#overview)
+
+```js title="code-challenge-01.js"
+// Let's build a simple poll app!
+// A poll has a question, an array of options from which people can choose, and an array with the number of replies for each option. This data is stored in the starter object below.
+
+// TASKS:
+// 1. Create a method called 'registerNewAnswer' on the 'poll' object. The method does 2 things:
+// 1.1. Display a prompt window for the user to input the number of the selected option. The prompt should look like this:
+
+// What is your favorite programming language?
+// 0: JavaScript
+// 1: Python
+// 2: Rust
+// 3: C++
+// (Write option number)
+
+// 1.2. Based on the input number, update the answers array. For example, if the option is 3, increase the value AT POSITION 3 of the array by 1. Make sure to check if the input is a number and if the number makes sense (e.g answer 52 wouldn't make sense, right?)
+// 2. Call this method whenever the user clicks the "Answer poll" button.
+// 3. Create a method 'displayResults' which displays the poll results. The method takes a string as an input (called 'type'), which can be either 'string' or 'array'. If type is 'array', simply display the results array as it is, using console.log(). This should be the default option. If type is 'string', display a string like "Poll results are 13, 2, 4, 1".
+// 4. Run the 'displayResults' method at the end of each 'registerNewAnswer' method call.
+
+// Hint:
+// Use many of the tools you learned about in this and the last section
+
+// Bonus:
+// Use the 'displayResults' method to display the 2 arrays in the test data. Use both the 'array' and the 'string' option. Do NOT put the arrays in the poll object! So what shoud the this keyword look like in this situation?
+
+// Bonus Test data:
+// - Data 1: [5, 2, 3]
+// - Data 2: [1, 5, 3, 9, 6, 1]
+
+const poll = {
+  question: 'What is your favorite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0), // This generates [0, 0, 0, 0].
+};
+
+// 1.1
+const poll = {
+  question: 'What is your favorite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0), // This generates [0, 0, 0, 0].
+  registerNewAnswer() {
+    // get the answer
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+      )
+    );
+  },
+};
+
+// 1.2
+const poll = {
+  question: 'What is your favorite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0), // This generates [0, 0, 0, 0].
+  registerNewAnswer() {
+    // get the answer
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+      )
+    );
+    console.log(answer);
+
+    // register the answer
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answers]++; // short circuiting
+    console.log(this.answer);
+  },
+};
+
+poll.registerNewAnswer();
+
+// 2.
+const poll = {
+  question: 'What is your favorite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0), // This generates [0, 0, 0, 0].
+  registerNewAnswer() {
+    // get the answer
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+      )
+    );
+    console.log(answer);
+
+    // register the answer
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answer]++; // short circuiting
+    console.log(this.answers);
+  },
+};
+
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+// 3.
+const poll = {
+  question: 'What is your favorite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0), // This generates [0, 0, 0, 0].
+  registerNewAnswer() {
+    // get the answer
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+      )
+    );
+    console.log(answer);
+
+    // register the answer
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answer]++; // short circuiting
+  },
+  displayResults(type = 'array') {
+    if (type === 'array') {
+      console.log(this.answers);
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
+  },
+};
+
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+// 4.
+const poll = {
+  question: 'What is your favorite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0), // This generates [0, 0, 0, 0].
+  registerNewAnswer() {
+    // get the answer
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+      )
+    );
+    console.log(answer);
+
+    // register the answer
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answer]++; // short circuiting
+
+    this.displayResults();
+    this.displayResults('string');
+  },
+  displayResults(type = 'array') {
+    if (type === 'array') {
+      console.log(this.answers);
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
+  },
+};
+
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+// Bonus
+const poll = {
+  question: 'What is your favorite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0), // This generates [0, 0, 0, 0].
+  registerNewAnswer() {
+    // get the answer
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+      )
+    );
+    console.log(answer);
+
+    // register the answer
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answer]++; // short circuiting
+
+    this.displayResults();
+    this.displayResults('string');
+  },
+  displayResults(type = 'array') {
+    if (type === 'array') {
+      console.log(this.answers);
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
+  },
+};
+
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+poll.displayResults.call({ answers: [5, 2, 3] }, 'string');
+poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, 'string');
+```
+
+## [Immediately Invoked Function Expressions (IIFE)](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648679#overvieww)
+
+```js title="script.js"
+'use strict';
+
+// ES5
+// creates a scope
+(function () {
+  console.log('This will never run again');
+
+  // this data is encapsulate inside the scope
+  const isPrivate = 25;
+})();
+
+console.log(isPrivate); // cannot access
+```
+
+```js title="script.js"
+'use strict';
+
+// ES6
+(() => console.log('This will never run again'))();
+```
+
+```js title="script.js"
+'use strict';
+
+{
+  var notPrivate = 25;
+  const isPrivate = 25;
+}
+
+console.log(notPrivate); // can access
+console.log(isPrivate); // cannot access
+```
+
+## [Closures](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648683#overview)
+
+```js title="script.js"
+'use strict';
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+```
+
+<img src={useBaseUrl("img/notes/javascript/closures-01.png")} alt="The Complete JavaScript Course - Closures"/>
+
+<img src={useBaseUrl("img/notes/javascript/closures-02.png")} alt="The Complete JavaScript Course - Closures"/>
+
+A function always has access to the **variable environment** of the **execution context** in which the function was created!
+Even after that **execution context** is gone.
+
+```js title="script.js"
+'use strict';
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+
+// should not increment since the secureBooking() already executed!!!
+// but due to closures the 'booker()' keep track of the variable 'passengerCount' defined in the time the 'booker()' was crated
+booker(); // result: 1 passenger
+booker(); // result: 2 passenger
+booker(); // result: 3 passenger
+```
+
+**booker()** was created in the execution context of **secureBooking()**, which was pop of the execution context previously.
+Therefore the **booker()** will get access to the **variable environment** which contains the **passengerCount** variable.
+And this is how the function **booker()** will be able to read and manipulate **passengerCount** variable. This connection its call **closure**.
+
+<img src={useBaseUrl("img/notes/javascript/closures-03.png")} alt="The Complete JavaScript Course - Closures"/>
+
+<img src={useBaseUrl("img/notes/javascript/closures-04.png")} alt="The Complete JavaScript Course - Closures"/>
+
+<img src={useBaseUrl("img/notes/javascript/closures-05.png")} alt="The Complete JavaScript Course - Closures"/>
+
+<img src={useBaseUrl("img/notes/javascript/closures-06.png")} alt="The Complete JavaScript Course - Closures"/>
+
+<img src={useBaseUrl("img/notes/javascript/closures-07.png")} alt="The Complete JavaScript Course - Closures"/>
+
+```js title="script.js"
+'use strict';
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+
+booker(); // result: 1 passenger
+booker(); // result: 2 passenger
+booker(); // result: 3 passenger
+
+console.dir(booker); // inspecting the variable environment
+```
+
+## [More Closure Examples](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648687#overview)
+
+```js title="script.js"
+'use strict';
+
+let f;
+const g = function () {
+  const a = 23; // analogy: a is inside the backpack of the f function
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+// this proves that the f() does close over any value of the execution context in which it was defined
+// this is true even when the variable 'let f' was't defined inside the g variable environment
+// f was defined in the global scope
+g(); // assigns to the empty f variable a function
+f(); // result 46
+```
+
+```js title="script.js"
+'use strict';
+
+let f;
+const g = function () {
+  const a = 23; // analogy: a is inside the backpack of the f function
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f(); // result: 46
+console.dir(f); // [[Scopes]]: Closure a: 23
+
+h(); // h() reassign the f variable to a different function
+f(); // result: 1554
+console.dir(f); // [[Scopes]]: Closure b: 777
+```
+
+```js title="script.js"
+'use strict';
+
+let f;
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(() => {
+    console.log(`We are now boarding all ${n} passengers.`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers.`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding im ${wait} seconds`);
+};
+
+boardPassengers(180, 3);
+// result: Will start boarding im 3 seconds
+// result: (after 3s) We are now boarding all 180 passengers.
+// result: (after 3s) There are 3 groups, each with 60 passengers.
+```
+
+```js title="script.js"
+'use strict';
+
+let f;
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(() => {
+    console.log(`We are now boarding all ${n} passengers.`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers.`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding im ${wait} seconds`);
+};
+
+const perGroup = 1000; // the closure has priority over the scope chain
+boardPassengers(180, 3);
+// result: Will start boarding im 3 seconds
+// result: (after 3s) We are now boarding all 180 passengers.
+// result: (after 3s) There are 3 groups, each with 60 passengers.
+```
+
+## [Coding Challenge #2](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648697#overview)

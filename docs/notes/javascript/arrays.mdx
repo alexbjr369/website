@@ -1,0 +1,203 @@
+---
+id: arrays
+title: Notes · JavaScript · Arrays
+sidebar_label: Arrays
+description: Arrays
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /notes/javascript/arrays
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Arrays
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+const years = new Array(1990, 1991, 1992);
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+console.log(friends[1]); // result: 'Steven'
+console.log(friends.length); // result: 3
+console.log(friends[friends.length - 1]); // result: 'Peter'
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+friends[2] = 'Jay';
+console.log(friends); // result: ['Michael', 'Jay', 'Peter'];
+friends = ['Bob', 'Alice']; // error
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+const lastName = 'Doe';
+const john = ['john', lastName, 2021 - 1986, 'teacher', friends];
+console.log(john); // result: ['john', 'Doe', 34, ['Michael', 'Steven', 'Peter']];
+```
+
+```js title="script.js"
+'use strict';
+
+const years = [1990, 1991, 1992];
+
+const calcAge = function (birthYear) {
+  return 2021 - birthYear;
+};
+
+const age1 = calcAge(years[0]);
+const age2 = calcAge(years[1]);
+const age3 = calcAge(years[years.length - 1]);
+
+const ages = [
+  calcAge(years[0]),
+  calcAge(years[1]),
+  calcAge(years[years.length - 1]),
+];
+
+console.log(ages); // result: 31 30 29
+```
+
+## Methods
+
+### Adding elements
+
+#### push
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// push, adds to the end of an array
+friends.push('Jay');
+console.log(friends); // result: ['Michael', 'Steven', 'Peter', 'Jay']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// storing the result of the push method, returns the array's length
+const newLength = friends.push('Jay');
+console.log(newLength); // result: 4
+```
+
+#### unshift
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// unshift, adds to the beginning of an array
+friends.unshift('John');
+console.log(friends); // result: ['John', Michael', 'Steven', 'Peter']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// storing the result of the unshift method, returns the array's length
+const newLength = friends.unshift('John');
+console.log(newLength); // result: 4
+```
+
+### Removing elements
+
+#### pop
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// pop, removes the last element of an array
+friends.pop();
+console.log(newLength); // result: ['Michael', 'Steven']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// storing the result of the pop method, returns the removed element
+const popped = friends.pop();
+console.log(popped); // result: 'Peter'
+```
+
+#### shift
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// shift, removes the first element of an array
+friends.shift();
+console.log(newLength); // result: ['Steven', 'Peter']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// storing the result of the shift method, returns the removed element
+const popped = friends.shift();
+console.log(popped); // result: 'Michael'
+```
+
+### Positioning
+
+#### indexOf
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+console.log(friends.indexOf('Steven')); // result: 1
+console.log(friends.indexOf('inexistent')); // result: -1
+```
+
+#### includes
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+console.log(friends.includes('Steven')); // result: true
+console.log(friends.includes('inexistent')); // result: false
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = [23];
+
+// includes uses strict equality check
+console.log(friends.includes('23')); // result: false
+console.log(friends.includes(23)); // result: true
+```

@@ -1,0 +1,1784 @@
+---
+id: section-09
+title: The Complete JavaScript Course · Section 09
+sidebar_label: Section 09
+description: The Complete JavaScript Course by Jonas Schmedtmann on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-javascript-course/course/section-09
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Data Structures, Modern Operators and Strings
+
+## [Section Intro](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648519#overview)
+
+## [Section Roadmap](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22663631#overview)
+
+## [Destructuring Arrays](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648521#overview)
+
+```js title="srcipt.js"
+'use strict';
+
+const array = [2, 3, 4];
+const [x, y, z] = array;
+console.log(x, y, z); // result: 2 3 4
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const [first, second] = restaurant.categories;
+console.log(first, second); // result: 'Italian' 'Pizzeria'
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const [first, , second] = restaurant.categories;
+console.log(first, second); // result: 'Italian' 'Vegetarian'
+```
+
+**Switching Variables**
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+let [main, , secondary] = restaurant.categories;
+console.log(main, secondary); // result: 'Italian' 'Vegetarian'
+
+[main, secondary] = [secondary, main];
+console.log(main, secondary); // result: 'Vegetarian' 'Italian'
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+
+  order: function (starterIndex, mainIndex) {
+    return [this.staterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+
+const [starter, main] = restaurant.order(2, 0);
+console.log(starter, main); // result: 'Garlic Bread' 'Pizza'
+```
+
+**Nested Arrays**
+
+```js title="srcipt.js"
+'use strict';
+
+const nested = [2, 4, [5, 6]];
+
+const [i, , j] = nested;
+console.log(i, j); // result 2 [5, 6]
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const nested = [2, 4, [5, 6]];
+
+const [i, , [j, k]] = nested;
+console.log(i, j, k); // result 2 5 6
+```
+
+**Default Values**
+
+```js title="srcipt.js"
+const [p = 1, q = 1, r = 1] = [8, 9];
+console.log(p, q, r); // result: 9, 9, 1
+```
+
+## [Destructuring Objects](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648527#overview)
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+
+  openingHours: {
+    thu: {
+      open: 12,
+      close: 22,
+    },
+    fri: {
+      open: 11,
+      close: 23,
+    },
+    sat: {
+      open: 0, // 24 hours
+      close: 24,
+    },
+  },
+
+  order: function (starterIndex, mainIndex) {
+    return [this.staterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+
+const { name, openingHours, categories } = restaurant;
+
+console.log(name, openingHours, categories); // result: 'Classico italiano' openingHours: { ... } ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad']
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+
+  openingHours: {
+    thu: {
+      open: 12,
+      close: 22,
+    },
+    fri: {
+      open: 11,
+      close: 23,
+    },
+    sat: {
+      open: 0, // 24 hours
+      close: 24,
+    },
+  },
+};
+
+const {
+  name: restaurantName,
+  openingHours: hours,
+  categories: tags,
+} = restaurant;
+
+console.log(restaurantName, hours, tags); // result: 'Classico italiano' openingHours: { ... } ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad']
+```
+
+**Default Values**
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const { menu = [], staterMenu: starters = [] } = restaurant;
+
+console.log(menu, starters); // result: [] ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad']
+```
+
+**Mutating Variables**
+
+```js title="srcipt.js"
+'use strict';
+
+let a = 111;
+let b = 999;
+const obj = { a: 1, b: 2, c: 3 };
+
+const { a, b } = obj; // SyntaxError
+
+({ a, b } = obj);
+console.log(a, b); // result: 1 2
+```
+
+**Nested Objects**
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  openingHours: {
+    thu: {
+      open: 12,
+      close: 22,
+    },
+    fri: {
+      open: 11,
+      close: 23,
+    },
+    sat: {
+      open: 0, // 24 hours
+      close: 24,
+    },
+  },
+};
+
+const { openingHours } = restaurant;
+
+const {
+  fri: { open, close: c },
+} = openingHours;
+
+console.log(open, c); // result: 11 23
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  orderDelivery: function ({
+    starterIndex = 1,
+    mainIndex = 0,
+    address,
+    time = '20:00',
+  }) {
+    console.log(starterIndex, mainIndex, address, time); // result: 1 0 'Via del Sole, 21' '20:00'
+  },
+};
+
+restaurant.orderDelivery({
+  address: 'Via del Sole, 21',
+});
+```
+
+## [The Spread Operator (...)](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648535#overview)
+
+**To unpack an array.**
+
+**New Array**
+
+```js title="srcipt.js"
+'use strict';
+
+const array = [7, 8, 9];
+const newArray = [1, 2, ...array];
+
+console.log(newArray); // result: [1, 2, 7, 8, 9]
+console.log(...newArray); // result: 1 2 7 8 9
+```
+
+**Shallow Array Copy**
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const mainMenuCopy = [...restaurant.mainMenu];
+console.log(mainMenuCopy); // result: ['Pizza', 'Pasta', 'Risotto']
+```
+
+**Merging Arrays**
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const menu = [...restaurant.staterMenu, ...restaurant.mainMenu];
+console.log(menu); // result: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad', 'Pizza', 'Pasta', 'Risotto']
+```
+
+**Iterables:** Arrays, strings, maps, sets, but not objects.
+
+```js title="srcipt.js
+const str = 'John';
+const letters = [...str, ' ', 'S.'];
+console.log(letters); // result: ['J', 'o', 'h', 'n', ' ', 'S.']
+```
+
+**Arguments**
+
+```js title="srcipt.js
+'use strict';
+
+const restaurant = {
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(ing1, ing2, ing3); // result: ingredient 1' 'ingredient 2' 'ingredient 3
+  },
+};
+
+const ingredients = ['ingredient 1', 'ingredient 2', 'ingredient 3'];
+restaurant.orderPasta(...ingredients);
+```
+
+**New Object (ES2018)**
+
+```js title="srcipt.js
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const newRestaurant = { foundedIn: 1998, ...restaurant, founder: 'Guiseppe' };
+console.log(newRestaurant);
+```
+
+**Shallow Object Copy**
+
+```js title="srcipt.js
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const restaurantCopy = { ...restaurant };
+console.log(restaurantCopy);
+```
+
+## [Rest Pattern and Parameters](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648543#overview)
+
+**To pack elements into an array.**
+
+**Destructuring**
+
+```js title="script.js"
+'use strict';
+
+const [a, b, ...others] = [1, 2, 3, 4, 5];
+console.log(a, b, others); // result: 1 2 [3, 4, 5]
+```
+
+```js title="script.js"
+'use strict';
+
+const restaurant = {
+  openingHours: {
+    thu: {
+      open: 12,
+      close: 22,
+    },
+    fri: {
+      open: 11,
+      close: 23,
+    },
+    sat: {
+      open: 0, // 24 hours
+      close: 24,
+    },
+  },
+};
+
+const [sat, ...weekDays] = restaurant.openingHours;
+console.log(weekDays);
+```
+
+**Arguments**
+
+```js title="script.js"
+'use strict';
+
+const add = function (...numbers) {
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    sum += numbers[i];
+  }
+
+  console.log(sum);
+};
+
+add(5, 3, 7, 2); // result: 17
+
+const x = [23, 4, 7];
+add(...x); // result: 34
+```
+
+```js title="script.js"
+'use strict';
+
+const restaurant = {
+  orderPizza: function (mainIngredient, ...otherIngredients) {
+    console.log(mainIngredient, otherIngredients);
+  },
+};
+
+restaurant.orderPizza('main', 'secundary-01', 'secundary-02', 'secundary-03'); // result: main ['secundary-01', 'secundary-02', 'secundary-03']
+```
+
+## [Short Circuiting (&& and ||)](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648547#overview)
+
+Logical Operators:
+- Can use any data type
+- Can return any data type
+- short-circuiting (short-cut evaluation)
+
+```js title="script.js"
+'use strict';
+
+// if first element is truthy, the second element will not be evaluated
+console.log(3 || 'John'); // result: 3
+console.log('' || 'John'); // result: 'John'
+console.log(true || 0); // result: true
+console.log(undefined || null); // result: null
+
+console.log(undefined || 0 || '' || 'John' || 5); // result: 'John'
+
+const guests2 = restaurant.numGuests || 10; // result: 10
+console.log(guests); // result: 10
+```
+
+```js title="script.js"
+'use strict';
+
+// if first element is falsy, the second element will not be evaluated
+console.log(0 && 'John'); // result: 0
+console.log(5 && 'John'); // result: 'John'
+
+console.log('John' && 5 && undefined && 0 && ''); // result: undefined
+```
+
+## [The Nullish Coalescing Operator (??)](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648553#overview)
+
+**ES2020**
+
+```js title="script.js"
+'use strict';
+
+// falsy or truth
+restaurant.numGuests == 0;
+const guests = restaurant.numGuests || 10;
+console.log(guests); // result: 10 - not what we want!!!
+
+// nullish: null or undefined
+restaurant.numGuests == 0;
+const guests = restaurant.numGuests ?? 10;
+console.log(guests); // result: 0 - what we want!!!
+```
+
+## [Logical Assignment Operators](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/29433404#overview)
+
+**ES2021**
+
+**OR Assignment Operator**
+
+```js title="script.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const restaurant1 = {
+  name: 'Capri',
+  numGuests: 20,
+};
+
+const restaurant2 = {
+  name: 'La Piazza',
+  owner: 'Giovanni',
+};
+
+restaurant1.numGuests ||= 10;
+restaurant2.numGuests ||= 10;
+console.log(restaurant1); // result: {name: 'Capri', numGuests: 10}
+console.log(restaurant2); // result: {name: 'La Piazza', owner: 'Giovanni', numGuests: 10}
+```
+
+**Nullish Assignment Operator**
+
+```js title="script.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const restaurant1 = {
+  name: 'Capri',
+  numGuests: 0,
+};
+
+const restaurant2 = {
+  name: 'La Piazza',
+  owner: 'Giovanni',
+};
+
+restaurant1.numGuests ??= 10;
+restaurant2.numGuests ??= 10;
+console.log(restaurant1); // result: {name: 'Capri', numGuests: 0}
+console.log(restaurant2); // result: {name: 'La Piazza', owner: 'Giovanni', numGuests: 10}
+```
+
+**AND Assignment Operator**
+
+```js title="script.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const restaurant1 = {
+  name: 'Capri',
+  numGuests: 20,
+};
+
+const restaurant2 = {
+  name: 'La Piazza',
+  owner: 'Giovanni',
+};
+
+restaurant1.owner &&= 'Anonymous';
+restaurant2.owner &&= 'Anonymous';
+console.log(restaurant1); // result: {name: 'Capri', numGuests: 10}
+console.log(restaurant2); // result: {name: 'La Piazza', owner: 'Anonymous', numGuests: 10}
+```
+
+## [Coding Challenge #1](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648559#overview)
+
+```js title="code-challenge-01.js"
+// We're building a football betting app (soccer for my American friends 😅)!
+// Suppose we get data from a web service about a certain game (below). In this challenge we're gonna work with the data.
+
+// Tasks:
+// 1. Create one player array for each team (variables 'players1' and 'players2')
+// 2. The first player in any player array is the goalkeeper and the others are field players. For Bayern Munich (team 1) create one variable ('gk') with the goalkeeper's name, and one array ('fieldPlayers') with all the remaining 10 field players
+// 3. Create an array 'allPlayers' containing all players of both teams (22 players)
+// 4. During the game, Bayern Munich (team 1) used 3 substitute players. So create a new array ('players1Final') containing all the original team1 players plus 'Thiago', 'Coutinho' and 'Perisic'
+// 5. Based on the game.odds object, create one variable for each odd (called 'team1', 'draw' and 'team2')
+// 6. Write a function ('printGoals') that receives an arbitrary number of player names (NOT an array) and prints each of them to the console, along with the number of goals that were scored in total (number of player names passed in)
+// 7. The team with the lower odd is more likely to win. Print to the console which team is more likely to win, WITHOUT using an if/else statement or the ternary operator.
+
+// DATA FOR 6:
+// Use players 'Davies', 'Muller', 'Lewandowski' and 'Kimmich'. Then, call the function again with players from game.scored
+
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+// 1.
+const [players1, players2] = game.players;
+
+// 2.
+const [gk, ...fieldPlayers] = players1;
+
+// 3.
+const allPlayers = [...players1, ...players2];
+
+// 4.
+const players1Final = [...players1, 'Thiago', 'Coutinho', 'Periscic'];
+
+// 5.
+const {
+  odds: { team1, x: draw, team2 },
+} = game;
+
+// 6.
+const printGoals = function (...players) {
+  console.log(`${players.length} goals were scored`);
+};
+printGoals('Davies', 'Muller', 'Lewandowski', 'Kimmich');
+printGoals(...game.scored);
+
+// 7.
+team1 < team2 && console.log('Team 1 is more likely to win');
+team1 > team2 && console.log('Team 2 is more likely to win');
+```
+
+## [Looping Arrays: The for-of Loop](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648563#overview)
+
+```js title="script.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const menu = [...restaurant.staterMenu, ...restaurant.mainMenu];
+
+for (const item of menu) console.log(item);
+// result:
+// Focaccia
+// Bruschetta
+// Garlic Bread
+// Caprese Salad
+// Pizza
+// Pasta
+// Risotto
+
+for (const item of menu.entries()) console.log(item);
+// result:
+// [0, 'Focaccia']
+// [1, 'Bruschetta']
+// [2, 'Garlic Bread']
+// [3, 'Caprese Salad']
+// [4, 'Pizza']
+// [5, 'Pasta']
+// [6, 'Risotto']
+
+for (const [i, el] of menu.entries()) {
+  console.log(i);
+  console.log(el);
+}
+// result:
+// 0
+// Focaccia
+// 1
+// Bruschetta
+// 2
+// Garlic Bread
+// 3
+// Caprese Salad
+// 4
+// Pizza
+// 5
+// Pasta
+// 6
+// Risotto
+```
+
+## [Enhanced Object Literals](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648565#overview)
+
+**ES5**
+
+```js title="script.js"
+'use strict';
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  openingHours: openingHours,
+
+  order: function (starterIndex, mainIndex) {
+    return [this.staterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+```
+
+**ES6**
+
+```js title="script.js"
+'use strict';
+
+const weekDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+const openingHours = {
+  [weekDays[3]]: {
+    open: 12,
+    close: 22,
+  },
+  [weekDays[4]]: {
+    open: 11,
+    close: 23,
+  },
+  [`day-${2 + 4}`]: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  openingHours,
+
+  order(starterIndex, mainIndex) {
+    return [this.staterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+```
+
+## [Optional Chaining (?.)](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648573#overview)
+
+**ES2020**
+
+```js title="script.js"
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  openingHours,
+};
+
+console.log(restaurant.openingHours.mon.open); // result: ERROR
+console.log(restaurant.openingHours?.mon?.open); // result: undefined
+```
+
+```js title="script.js"
+'use strict';
+
+const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  openingHours,
+};
+
+for (const day of days) {
+  const open = restaurant.openingHours[day]?.open ?? 'closed';
+  console.log(`On ${day}, we open at ${open}`);
+}
+// result:
+// On mon, we open at closed
+// On tue, we open at closed
+// On wed, we open at closed
+// On thu, we open at 12
+// On fri, we open at 11
+// On sat, we open at 0
+// On sun, we open at closed
+```
+
+**Methods**
+
+```js title="script.js"
+'use strict';
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  openingHours,
+
+  order(starterIndex, mainIndex) {
+    return [this.staterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+
+console.log(restaurant.order?.(0, 1) ?? 'method does not exist'); // result: ['Focaccia', 'Pasta']
+console.log(restaurant.orderRisoto?.(0, 1) ?? 'method does not exist'); // result: ['Focaccia', 'Pasta']
+```
+
+**Arrays**
+
+```js title="script.js"
+'use strict';
+
+const users = [{ name: 'John', email: 'hello@jonas.io' }];
+console.log(users[0]?.name ?? 'user array empty'); // result: 'John'
+```
+
+## [Looping Objects: Object Keys, Values, and Entries](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648577#overview)
+
+**Property Names**
+
+```js title="script.js"
+'use strict';
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  openingHours,
+
+  order(starterIndex, mainIndex) {
+    return [this.staterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+
+const properties = Object.keys(openingHours);
+console.log(properties); // result: ['thu', 'fri', 'sat']
+
+console.log(properties.length); // result: 3
+
+let openStr = `We are open on ${properties.length} days: `;
+for (const day of properties) {
+  openStr += `${day},`;
+}
+console.log(openStr); // result: We are open on 3 days: thu,fri,sat,
+```
+
+**Property Values**
+
+```js title="script.js"
+'use strict';
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  openingHours,
+
+  order(starterIndex, mainIndex) {
+    return [this.staterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+
+const values = Object.values(openingHours);
+console.log(values); // result: [{open: 12, close: 22}, {open: 11, close: 23}, {open: 0, close: 24}]
+```
+
+**Entries**
+
+```js title="script.js"
+'use strict';
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+  openingHours,
+
+  order(starterIndex, mainIndex) {
+    return [this.staterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+
+const entries = Object.entries(openingHours);
+console.log(entries); // result: [[{0: 'thu', 1: {open: 12, close: 22}}], [...], [...]]
+
+for (const x of entries) {
+  console.log(x);
+}
+// result:
+// ['thu', {open: 12, close: 22}]
+// ['fri', {open: 11, close: 23}]
+// ['sat', {open: 0, close: 24}]
+
+// [key, value]
+for (const [key, { open, close }] of entries) {
+  console.log(`On ${key} we open at ${open} and close at ${close}`);
+}
+// result:
+// On thu we open at 12 and close at 22
+// On fri we open at 11 and close at 23
+// On sat we open at 0 and close at 24
+```
+
+## [Coding Challenge #2](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648585#overview)
+
+```js title="code-challenge-02.js"
+// Let's continue with our football betting app!
+
+// 1. Loop over the game.scored array and print each player name to the console, along with the goal number (Example: "Goal 1: Lewandowski")
+// 2. Use a loop to calculate the average odd and log it to the console (We already studied how to calculate averages, you can go check if you don't remember)
+// 3. Print the 3 odds to the console, but in a nice formatted way, exaclty like this:
+// Odd of victory Bayern Munich: 1.33
+// Odd of draw: 3.25
+// Odd of victory Borrussia Dortmund: 6.5
+// Get the team names directly from the game object, don't hardcode them (except for "draw").
+
+//HINT:
+// Note how the odds and the game objects have the same property names 😉
+
+// BONUS: Create an object called 'scorers' which contains the names of the players who scored as properties, and the number of goals as the value. In this game, it will look like this:
+// {
+//   Gnarby: 1,
+//   Hummels: 1,
+//   Lewandowski: 2
+// }
+
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+// 1.
+for (const [i, player] of game.scored.entries())
+  console.log(`Goal ${i + 1}: ${player}`);
+
+// 2.
+const odds = Object.values(game.odds);
+let average = 0;
+
+for (const odd of odds) average += odd;
+
+average /= odds.length;
+
+// 3.
+for (const [team, odd] of Object.entries(game.odds)) {
+  const teamStr = team === 'x' ? 'draw' : `victory ${game[team]}`;
+  console.log(`Odd of ${teamStr} ${odd}`);
+}
+
+// BONUS
+const scorers = {};
+for (const player of game.scored) {
+  scorers[player] ? scorers[player]++ : (scorers[player] = 1);
+}
+```
+
+## [Sets](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648589#overview)
+
+**A collection of unique values**
+
+```js title="script.js"
+'use strict';
+
+const ordersSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+]);
+
+console.log(ordersSet); // result: {'Pasta', 'Pizza', 'Risotto'}
+console.log(new Set('John')); // result:  {'J', 'o', 'h', 'n'}
+console.log(ordersSet.size); // result: 3
+console.log(ordersSet.has('Pizza')); // result: true
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread');
+console.log(ordersSet); // result: {'Pasta', 'Pizza', 'Risotto', 'Garlic Bread'}
+ordersSet.delete('Risoto');
+console.log(ordersSet); // result: {'Pasta', 'Pizza', 'Garlic Bread'}
+ordersSet.clear(); // result: {}
+```
+
+```js title="script.js"
+'use strict';
+
+const ordersSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+]);
+
+for (const order of ordersSet) console.log(order);
+// result
+// Pasta
+// Pizza
+// Risotto
+```
+
+```js title="script.js"
+'use strict';
+
+const ordersSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+]);
+
+for (const order of ordersSet) console.log(order);
+// result
+// Pasta
+// Pizza
+// Risotto
+
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+// const staffUnique = new Set(staff);
+// console.log(staffUnique); // result: {'Waiter', 'Chef', 'Manager'}
+
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique); // result: ['Waiter', 'Chef', 'Manager']
+```
+
+```js title="script.js"
+'use strict';
+
+console.log(
+  new Set(['Pasta', 'Pizza', 'Pizza', 'Risotto', 'Pasta', 'Pizza']).size
+); // result: 3
+
+console.log(new Set(['John']).size); // result: 4
+```
+
+## [Maps: Fundamentals](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648593#overview)
+
+**A Data Structure to map values to keys**
+
+```js title="script.js"
+'use strict';
+
+const restaurant = new Map();
+restaurant.set('name', 'Classico Italiano');
+restaurant.set(1, 'Firenze, Italy');
+console.log(restaurant.set(2, 'Lisbon, Portugal'));
+// result
+// {
+//   {"name" => "Classico Italiano"}
+//   {1 => "Firenze, Italy"}
+//   {2 => "Lisbon, Portugal"}
+// }
+
+restaurant
+  .set('categories', ['italian', 'Pizzeria', 'vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open')
+  .set(false, 'We are closed');
+
+console.log(restaurant.get('name')); // result: 'Classico Italiano'
+console.log(restaurant.get(true)); // result: 'We are closed'
+console.log(restaurant.get(1)); // result: 'Firenze, Italy'
+```
+
+```js title="script.js"
+'use strict';
+
+const restaurant = new Map();
+
+restaurant.set('name', 'Classico Italiano');
+restaurant.set(1, 'Firenze, Italy');
+
+restaurant
+  .set('categories', ['italian', 'Pizzeria', 'vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open')
+  .set(false, 'We are closed');
+
+const time = 1;
+console.log(
+  restaurant.get(
+    time > restaurant.get('open') && time < restaurant.get('close')
+  )
+); // result: 'We are open'
+```
+
+```js title="script.js"
+'use strict';
+
+const restaurant = new Map();
+
+restaurant.set('name', 'Classico Italiano');
+restaurant.set(1, 'Firenze, Italy');
+
+restaurant
+  .set('categories', ['italian', 'Pizzeria', 'vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open')
+  .set(false, 'We are closed');
+
+console.log(restaurant.has('categories')); // result: true
+
+restaurant.delete(2);
+
+console.log(restaurant.size); // result: 7
+
+restaurant.clear;
+```
+
+```js title="script.js"
+'use strict';
+
+const newMap = new Map();
+
+newMap.set([1, 2], 'Test');
+console.log(newMap); // {[1, 2]] => "Test"}
+
+console.log(newMap.get([1, 2])); // test: undefined
+
+const arr = [1, 2];
+console.log(newMap.get(arr)); // {[1, 2]] => "Test"}
+```
+
+## [Maps: Iteration](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648597#overview)
+
+**converting object to map**
+
+```js title="script.js"
+'use strict';
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const question = new Map([
+  ['question', 'answer'],
+  [1, 'A'],
+  [2, 'B'],
+  [3, 'C'],
+  ['Correct', 3],
+  [true, 'Correct'],
+  [false, 'Try Again'],
+]);
+
+// convert object to map
+console.log(Object.entries(openingHours));
+const hoursMap = new Map(Object.entries(openingHours))
+```
+
+```js title="script.js"
+'use strict';
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const question = new Map([
+  ['question', 'answer'],
+  [1, 'A'],
+  [2, 'B'],
+  [3, 'C'],
+  ['Correct', 3],
+  [true, 'Correct'],
+  [false, 'Try Again'],
+]);
+
+// iteration
+console.log(question.get('question'));
+// result:
+// answer
+// Answer 1: A
+// Answer 2: B
+// Answer 3: C
+
+for (const [key, value] of question) {
+  if (typeof key == 'number') console.log(`Answer ${key}: ${value}`);
+}
+const answer = Number(prompt('Answer:'));
+console.log(answer);
+// result:
+// 3
+
+console.log(question.get(question.get('Correct') === answer));
+// result:
+// Correct
+```
+
+**Converting map to array**
+
+```js title="script.js"
+'use strict';
+
+const openingHours = {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // 24 hours
+    close: 24,
+  },
+};
+
+const question = new Map([
+  ['question', 'answer'],
+  [1, 'A'],
+  [2, 'B'],
+  [3, 'C'],
+  ['Correct', 3],
+  [true, 'Correct'],
+  [false, 'Try Again'],
+]);
+
+// iteration
+console.log(question.get('question'));
+// result:
+// answer
+// Answer 1: A
+// Answer 2: B
+// Answer 3: C
+
+for (const [key, value] of question) {
+  if (typeof key == 'number') console.log(`Answer ${key}: ${value}`);
+}
+// const answer = Number(prompt('Answer:'));
+const answer = 3;
+console.log(answer);
+// result:
+// 3
+
+console.log(question.get(question.get('Correct') === answer));
+// result:
+// Correct
+
+// Converting map to array
+console.log([...question]);
+console.log(question.entries());
+console.log(...[question.keys()]);
+console.log(...[question.values()]);
+```
+
+## [Summary: Which Data Structure to Use?](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648599#overview)
+
+<img src={useBaseUrl("img/notes/javascript/boolean-logic-01.png")} alt="Summary: Which Data Structure to Use?"/>
+
+<img src={useBaseUrl("img/notes/javascript/boolean-logic-02.png")} alt="Summary: Which Data Structure to Use?"/>
+
+## [Coding Challenge #3](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648605#overview)
+
+```js title="code-challenge-03.js"
+// Let's continue with our football betting app! This time, we have a map with a log of the events that happened during the game. The values are the events themselves, and the keys are the minutes in which each event happened (a football game has 90 minutes plus some extra time).
+
+// 1. Create an array 'events' of the different game events that happened (no duplicates)
+// 2. After the game has finished, is was found that the yellow card from minute 64 was unfair. So remove this event from the game events log.
+// 3. Print the following string to the console: "An event happened, on average, every 9 minutes" (keep in mind that a game has 90 minutes)
+// 4. Loop over the events and log them to the console, marking whether it's in the first half or second half (after 45 min) of the game, like this:
+// [FIRST HALF] 17: ⚽️ GOAL
+
+const gameEvents = new Map([
+  [17, '⚽️ GOAL'],
+  [36, '🔁 Substitution'],
+  [47, '⚽️ GOAL'],
+  [61, '🔁 Substitution'],
+  [64, '🔶 Yellow card'],
+  [69, '🔴 Red card'],
+  [70, '🔁 Substitution'],
+  [72, '🔁 Substitution'],
+  [76, '⚽️ GOAL'],
+  [80, '⚽️ GOAL'],
+  [92, '🔶 Yellow card'],
+]);
+
+// 1.
+const events = [...new Set(gameEvents.values())];
+
+// 2.
+gameEvents.delete(64);
+
+// 3.
+const time = [...gameEvents.keys()].pop();
+console.log(`An event happened, on average, every ${time / 90} minutes`);
+
+// 4.
+for (const [minute, event] of gameEvents) {
+  const half = minute <= 45 ? 'FIRST' : 'SECOND';
+  console.log(`[${half} HALF] ${minute}: ${event}`);
+}
+```
+
+## [Working With Strings - Part 1](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648609#overview)
+
+**getting a character in a certain position**
+
+```js title="script.js"
+'use strict';
+
+const string1 = 'Lorem ipsum.';
+
+console.log(string1[0]); // result: 'L'
+console.log('ABCDE'[0]); // result: 'A'
+```
+
+**string length**
+
+```js title="script.js"
+'use strict';
+
+const string1 = 'Lorem ipsum.';
+
+console.log(string1.length); // result: 12
+console.log('ABCDE'.length); // result: 5
+```
+
+**indexOf()**
+
+```js title="script.js"
+'use strict';
+
+const string1 = 'Lorem ipsum.';
+
+// indexOf: gets the position of the first occurrence of a certain letter in a string
+console.log(string1.indexOf('r')); // result: 2
+// indexOf: gets the position of the last occurrence of a certain letter in a string
+console.log(string1.lastIndexOf('m')); // result: 10
+// entire word (case sensitive)
+console.log(string1.indexOf('ipsum')); // result: 6
+```
+
+**slice()**
+
+```js title="script.js"
+'use strict';
+
+// slice: extracts part of a string
+console.log(string1.slice(4)); // result: 'm ipsum'
+console.log(string1.slice(4, 7)); // result: 'm i'
+console.log(string1.slice(0, string1.indexOf(' '))); // result: Lorem
+console.log(string1.slice(string1.lastIndexOf(' ') + 1)); // result: ipsum
+console.log(string1.slice(-2)); // result: 'm.'
+console.log(string1.slice(1, -2)); // result: 'orem ipsu'
+
+const checkMiddleSeat = function (seat) {
+  // B and E are middle seats
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E') console.log('Middle seat');
+  else console.log('Not middle seat');
+};
+
+checkMiddleSeat('11B'); // Middle seat
+checkMiddleSeat('23C'); // Not middle seat
+checkMiddleSeat('3E'); // Middle seat
+```
+
+## [Working With Strings - Part 2](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648613#overview)
+
+```js title="script.js"
+'use strict';
+
+const string1 = 'Lorem ipsum.';
+
+console.log(string1.toLowerCase()); // result: lorem ipsum.
+console.log(string1.toUpperCase()); // result: LOREM IPSUM.
+```
+
+**Fix capitalization in name**
+
+```js title="script.js"
+const person = 'jOHn';
+const personLower = person.toLowerCase();
+const personCorrect = personLower[0].toUpperCase() + personLower.slice(1);
+console.log(personCorrect); // result: John
+```
+
+**Comparing emails**
+
+```js title="script.js"
+// comparing emails
+const email = 'hello@john.io';
+const loginEmail = '   Hello@John.Io \n';
+const normalizedEmail = loginEmail.toLowerCase().trim();
+console.log(normalizedEmail); // result: hello@john.io
+console.log(email === normalizedEmail); // result: true
+```
+
+**Replacing**
+
+```js title="script.js"
+const priceBRL = '555,55R$';
+const priceUS = priceBRL.replace('R$', '$').replace(',', '.');
+console.log(priceUS); // result: 555.55$
+
+const string1 = 'Lorem ipsum ipsum.';
+// replaces only the first occurrence
+console.log(string1.replace('ipsum', 'dolor')); // result: Lorem dolor ipsum.
+
+// replaces all occurrences
+console.log(string1.replaceAll('ipsum', 'dolor')); // result: Lorem dolor ipsum.
+console.log(string1.replace(/ipsum/g, 'dolor')); // result: Lorem dolor ipsum. ('g' stands for global)
+```
+
+**Booleans**
+
+```js title="script.js"
+const string1 = 'ABCDE';
+console.log(string1.includes('E')); // result: true
+console.log(string1.includes('AE')); // result: false
+console.log(string1.startsWith('AB')); // result: true
+
+console.log(string1.startsWith('A') && string1.endsWith('E')); // result: true
+```
+
+## [Working With Strings - Part 3](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648619#overview)
+
+**split() and join()**
+
+```js title="script.js"
+'use strict';
+
+console.log('a+very+nice+string'.split('+')); // result:  ['a', 'very', 'nice', 'string']
+console.log('John Doe'.split(' ')); // result:  ['John', 'Doe']
+
+const [firstName, lastName] = 'John Doe'.split(' ');
+console.log(firstName, lastName); // result: John Doe
+
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName); // result: Mr. John DOE
+```
+
+```js title="script.js"
+'use strict';
+
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+
+  for (const word of names) {
+    // namesUpper.push(word[0].toUpperCase() + word.slice(1));
+    namesUpper.push(word.replace(word[0], word[0].toUpperCase()));
+  }
+
+  console.log(namesUpper.join(' '));
+};
+
+capitalizeName('john doe'); // result: John Doe
+```
+
+**padding a string**: Add a number of characters to the string until the string has a certain desired length.
+
+```js title="script.js"
+'use strict';
+
+const message = 'lorem ipsum!';
+console.log(message.padStart(25, '+').padEnd(38, '+')); // result: +++++++++++++lorem ipsum!+++++++++++++
+```
+
+```js title="script.js"
+const maskCreditCard = function (number) {
+  const string = number + ''; // same as String(number)
+  const last = string.slice(-4);
+  return last.padStart(string.length, '*');
+};
+
+console.log(maskCreditCard(123456789123456789)); // result: **************6789
+console.log(maskCreditCard('123456789123456789')); // result: **************6789
+```
+
+**Repeat**
+
+```js title="script.js"
+'use strict';
+
+const message = 'lorem ipsum.';
+console.log(message.repeat(2)); // result: lorem ipsum.lorem ipsum.
+```
+
+## [Coding Challenge #4](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648623#overview)
+
+```js title="code-challenge-04.js"
+// Write a program that receives a list of variable names written in underscore_case and convert them to camelCase.
+// The input will come from a textarea inserted into the DOM (see code below), and conversion will happen when the button is pressed.
+
+// THIS DATA (pasted to textarea)
+// underscore_case
+//  first_name
+// Some_Variable
+//   calculate_AGE
+// delayed_departure
+
+// SHOULD PRODUCE THIS OUTPUT (5 separate console.log outputs)
+// underscoreCase      ✅
+// firstName           ✅✅
+// someVariable        ✅✅✅
+// calculateAge        ✅✅✅✅
+// delayedDeparture    ✅✅✅✅✅
+
+// HINTS:
+// 1: Remember which character defines a new line in the textarea 😉
+// 2: The solution only needs to work for a variable made out of 2 words, like a_b
+// 3: Start without worrying about the ✅. Tackle that only after you have the variable name conversion working 😉
+// 4: This challenge is difficult on purpose, so start watching the solution in case you're stuck. Then pause and continue!
+
+// Afterwards, test with your own test data!
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+document.querySelector('button').addEventListener('click', function () {
+  const text = document.querySelector('textarea').value;
+  const rows = text.split('\n');
+
+  for (const [index, row] of rows.entries()) {
+    const [first, second] = row.toLowerCase().trim().split('_');
+
+    const output = `${first}${second.replace(
+      second[0],
+      second[0].toUpperCase()
+    )}`;
+
+    console.log(`${output.padEnd(20)}${'✅'.repeat(index + 1)}`);
+  }
+});
+```
+
+## [String Methods Practice](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/24606740#overview)
+
+```js title="script.js"
+'use strict';
+
+const flights =
+  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+
+// 🔴 Delayed Departure from FAO to TXL (11h25)
+//              Arrival from BRU to FAO (11h45)
+//   🔴 Delayed Arrival from HEL to FAO (12h05)
+//            Departure from FAO to LIS (12h30)
+
+const getCode = str => str.slice(0, 3).toUpperCase();
+
+for (const flight of flights.split('+')) {
+  const [type, from, to, time] = flight.split(';');
+  const output = `${type.startsWith('_Delayed') ? '🔴' : ''}${type.replaceAll(
+    '_',
+    ' '
+  )} from ${getCode(from)} to ${getCode(to)} (${time.replace(
+    ':',
+    'h'
+  )})`.padStart(46);
+  console.log(output);
+}
+```

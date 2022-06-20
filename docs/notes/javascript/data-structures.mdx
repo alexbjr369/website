@@ -1,0 +1,119 @@
+---
+id: data-structures
+title: Notes · JavaScript · Data Structures
+sidebar_label: Data Structures
+description: Data Structures
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /notes/javascript/data-structures
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Data Structures
+
+## Destructuring Arrays
+
+```js title="srcipt.js"
+'use strict';
+
+const array = [2, 3, 4];
+const [x, y, z] = array;
+console.log(x, y, z); // result: 2 3 4
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const [first, second] = restaurant.categories;
+console.log(first, second); // result: 'Italian' 'Pizzeria'
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+const [first, , second] = restaurant.categories;
+console.log(first, second); // result: 'Italian' 'Vegetarian'
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+};
+
+let [main, , secondary] = restaurant.categories;
+console.log(main, secondary); // result: 'Italian' 'Vegetarian'
+
+// switching
+[main, secondary] = [secondary, main];
+console.log(main, secondary); // result: 'Vegetarian' 'Italian'
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const restaurant = {
+  name: 'Classico italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  staterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+
+  order: function (starterIndex, mainIndex) {
+    return [this.staterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+};
+
+const [starter, main] = restaurant.order(2, 0);
+console.log(starter, main); // result: 'Garlic Bread' 'Pizza'
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const nested = [2, 4, [5, 6]];
+
+const [i, , j] = nested;
+console.log(i, j); // result 2 [5, 6]
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const nested = [2, 4, [5, 6]];
+
+const [i, , [j, k]] = nested;
+console.log(i, j, k); // result 2 5 6
+```
+
+**default values: in case we don't know the array size**
+
+```js title="srcipt.js"
+const [p = 1, q = 1, r = 1] = [8, 9];
+console.log(p, q, r); // result: 9, 9, 1
+```

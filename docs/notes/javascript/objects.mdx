@@ -1,0 +1,142 @@
+---
+id: objects
+title: Notes · JavaScript · Objects
+sidebar_label: Objects
+description: Objects
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /notes/javascript/objects
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Objects
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 2021 - 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+};
+```
+
+## Member Access vs. Computed Member Access
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 2021 - 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+};
+
+// member access
+console.log(john.firstName); // result: 'John'
+
+// computed member access
+console.log(john['firstName']); // result: 'John'
+```
+
+### Adding keys to the object
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 2021 - 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+};
+
+john.location = 'Brazil';
+john['twitter'] = '@john';
+
+console.log(john);
+
+// result:
+// firstName: 'john',
+// lastName: 'Doe',
+// age: 2021 - 1986
+// job: 'teacher',
+// friends: ['Michael', 'Steven', 'Peter'],
+// location: 'Brazil'
+// twitter: '@john'
+```
+
+## Methods
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'John',
+  lastName: 'Doe',
+  age: 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+  hasDriverLicense: true,
+  calcAge: function (birthYear) {
+    return 2021 - birthYear;
+  },
+};
+
+console.log(john.calcAge(1986)); // result: 34
+console.log(john['calcAge'](1986)); // result: 34
+```
+
+**'this' keyword**
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'john',
+  lastName: 'Doe',
+  birthYear: 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+  hasDriverLicense: true,
+  calcAge: function () {
+    console.log(this);
+    return 2021 - this.birthYear;
+  },
+};
+
+// 'this' refers to the object that is calling the method john.calcAge() // this = john object
+john.calcAge();
+```
+
+**Returning the age**
+
+```js title="script.js"
+'use strict';
+
+const john = {
+  firstName: 'john',
+  lastName: 'Doe',
+  birthYear: 1986,
+  job: 'teacher',
+  friends: ['Michael', 'Steven', 'Peter'],
+  hasDriverLicense: true,
+  calcAge: function () {
+    // storing age in a new property
+    this.age = 2021 - this.birthYear;
+    // good practice to also return it
+    return this.age;
+  },
+};
+
+console.log(john.age); // 34
+```

@@ -1,0 +1,127 @@
+---
+id: section-05
+title: The Complete JavaScript Course · Section 05
+sidebar_label: Section 05
+description: The Complete JavaScript Course by Jonas Schmedtmann on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-javascript-course/course/section-05
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Developer Skills & Editor Setup
+
+## [Section Intro](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648337#overview)
+
+## [Section Roadmap](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22663419#overview)
+
+## [Setting up Prettier and VS Code](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648339#overview)
+
+**1. Install [VS Code Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)**
+
+**2. Configure Prettier in VS Code**
+
+```json title=".vscode/settings.json"
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
+```
+
+**3. Configure Prettier**
+
+```json title=".prettierrc.json"
+{
+  "singleQuote": true,
+  "arrowParens": "avoid"
+}
+```
+
+**4. Configuration of a VS Code Snipets**
+
+```json title=".vscode/snipets.code-snippets.json"
+{
+  "Print to console": {
+    "scope": "javascript,typescript",
+    "prefix": "log",
+    "body": ["console.log('$1');", "$2"],
+    "description": "Log output to console"
+  }
+}
+```
+
+## [Installing Node.js and Setting Up a Dev Environment](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648343#overview)
+
+## [Learning How to Code](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648347#overview)
+
+## [How to Think Like a Developer: Become a Problem Solver!](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648351#overview)
+
+## [Using Google, StackOverflow and MDN](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648353#overview)
+
+## [Debugging (Fixing Errors)](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648357#overview)
+
+## [Debugging with the Console and Breakpoints](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648363#overview)
+
+```js title="script.js"
+// Given an array of temperatures, calculate the temperature amplitude. Keep in mind that sometimes there might be a sensor code.
+
+// 1. Understanding the problem:
+// - What is temperature amplitude? Difference between highest and lowest temperature.
+// - How to compute the max. and min. temperature?
+// - What is a sensor error? and what do we do?
+
+// 2. Breaking up in sub-problems:
+// - Ignore errors in the data structure
+// - Find max an min value in the data structure
+// - Subtract max and min value an return it
+
+const amplitude = temperatures => {
+  let max = temperatures[0];
+  let min = temperatures[0];
+
+  for (let index = 0; index < temperatures.length; index++) {
+    const currentTemperature = temperatures[index];
+
+    if (typeof currentTemperature !== 'number') continue;
+    if (currentTemperature > max) max = currentTemperature;
+    if (currentTemperature < min) min = currentTemperature;
+
+    return max - min;
+  }
+};
+
+amplitude(temperatures);
+```
+
+## [Coding Challenge #1](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648369#overview)
+
+```js title="code-challenge-01.js"
+// Given an array of forecasted maximum temperatures, the thermometer displays a string with the given temperatures. Example: [17, 21, 23] will print "... 17ºC in 1 days ... 21ºC in 2 days ... 23ºC in 3 days ..."
+
+// Tasks:
+// 1. Create a function 'printForecast' which takes in an array 'arr' and logs a string like the above to the console. Try it with both test datasets.
+// 2. Use the problem-solving framework: Understand the problem and break it up into sub-problems!
+
+// Data:
+// - Data 1: [17, 21, 23]
+// - Data 2: [12, 5, -5, 0, 4]
+
+const data1 = [17, 21, 23];
+const data2 = [12, 5, -5, 0, 4];
+
+console.log(`... ${data1[0]}ºC ... ${data1[1]}ºC ... ${data1[2]}ºC ...`);
+
+// 1.
+const printForecast = function (arr) {
+  let str = '';
+  for (let i = 0; i < arr.length; i++) {
+    str += `${arr[i]}ºC in ${i + 1} days ... `;
+  }
+  console.log('...' + str);
+};
+printForecast(data1);
+```

@@ -1,0 +1,63 @@
+---
+id: values-variables
+title: Notes · JavaScript · Values and Variables
+sidebar_label: Values and Variables
+description: Values and Variables
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /notes/javascript/values-variables
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Values and Variables
+
+```js title="script.js"
+// declaring a variable named 'name' and assigning the value of 'John'  to it
+let name = 'John';
+```
+
+- **Value** - the most fundamental unit of information we have in programming
+- **Variable** - a container to store a value
+
+**Variable naming conventions:**
+- Can only contain numbers, letters, underscore or dollar sign
+- Cannot start with a number
+- Cannot contain reserved keywords
+- Should use camelCase (convention)
+- Should not start with capital letter (convention)
+- Should be descriptive (convention)
+
+## let, const and var
+
+### let
+
+```js title="script.js"
+let number = 25;
+number = 26;
+
+// 'let' may not be initialized with a value
+let number2;
+number2 = 26;
+```
+
+### const
+
+```js title="script.js"
+// 'const' cannot be mutated
+const number = 25;
+number = 26; // error
+
+// 'const' must be initialized with a value
+const number2; // error
+```
+
+### var
+
+```js title="script.js"
+var number = 25;
+number = 26;
+```

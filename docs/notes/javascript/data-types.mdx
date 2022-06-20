@@ -1,0 +1,204 @@
+---
+id: data-types
+title: Notes · JavaScript · Data Types
+sidebar_label: Data Types
+description: Data Types
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /notes/javascript/data-types
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Data Types
+
+## Data Types
+
+<img src={useBaseUrl("img/notes/javascript/data-types-01.png")} alt="The Complete JavaScript Course - Data Types"/>
+
+<img src={useBaseUrl("img/notes/javascript/data-types-02.png")} alt="The Complete JavaScript Course - Data Types"/>
+
+### Number, String and Boolean
+
+```js title="script.js"
+console.log(typeof true); // result: boolean
+console.log(typeof 25); // result: number
+console.log(typeof 'true'); // result: string
+```
+
+### Undefined
+
+**undefined** is both the value and the type.
+
+```js title="script.js"
+let name;
+console.log(name); // result: undefined
+console.log(typeof name); // result: undefined
+```
+
+### Null
+
+**null** is both the value and the type.
+
+```js title="script.js"
+let name = null;
+console.log(name); // result: undefined
+console.log(typeof name); // result: Object (bug in the language)
+```
+
+### Dynamic Typing
+
+```js title="script.js"
+let javascript = true;
+console.log(typeof javascript); // result: boolean
+
+javascript = 'true';
+console.log(typeof javascript); // result: string
+```
+
+### Summary
+
+- A **value** holds a **data type**
+- A **variable** stores a **value** that holds a **data type**
+- JavaScript has a **dynamic data typing**, it **automatically determines the data type of a value when it is stored in a variable**
+
+## Type Conversion and Coercion
+
+### Type Conversion
+
+when a type is explicitly converted
+
+```js title="script.js"
+const number = '25';
+console.log(Number(number), number); // result: 25 '25'
+console.log(Number(number) + 5); // result: 30
+console.log(Number('John')); // result: NaN (nota a number: whenever a operation fails to produce a new number)
+console.log(typeof NaN); // result: number
+console.log(String(25), 25); // result: '25' 25
+```
+
+### type coercion
+
+when JavaScript automatically convert types
+
+It happens whenever an operator is dealing with values that have different types.
+
+```js title="script.js"
+console.log('Number ' + '25'); // result: 'Number 25'
+console.log('Number ' + 25); // result: 'Number 25' (+ operator triggers String coercion)
+console.log(`Number ${25}`); // result: 'Number 25' (template literals triggers String coercion)
+console.log('25' - '10' - 3); // result: 12 (mathematical operators other than + operator, trigger Number coercion)
+console.log('25' > '1'); // result: true (comparison operators trigger Boolean coercion)
+```
+
+## [Strings and Template Literals](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648167#overview)
+
+### String
+
+```js title="script.js"
+const firstName = 'John';
+const job = 'teacher';
+const birthYear = 1990;
+const currentYear = 2035;
+
+const john = "I'm " + firstName + ', a ' + (currentYear - birthYear) + ' years old ' + job + '!';
+console.log(john); // result: "I'm John, a 45 years old teacher!""
+
+console.log('String with \n\
+multiple \n\
+lines');
+
+// result:
+// 'String with
+// multiple
+// lines'
+```
+
+### Template Literals
+
+```js title="script.js"
+const firstName = 'John';
+const job = 'teacher';
+const birthYear = 1990;
+const currentYear = 2035;
+
+const john = `I'm ${firstName}, a ${currentYear - birthYear} years old ${job}!`;
+console.log(john); // result: "I'm John, a 45 years old teacher!""
+
+console.log(`
+String with
+multiple
+lines
+`);
+
+// result:
+// 'String with
+// multiple
+// lines'
+```
+
+## Truthy and Falsy Values
+
+### Falsy Values
+
+There are 5 falsy(when converted to boolean) values: 0, '', undefined, null, NaN
+
+```js title="script.js"
+console.log(Boolean(0)); // result: false
+console.log(Boolean(undefined)); // result: false
+console.log(Boolean('')); // result: false
+```
+
+### Truthy Values
+
+Values that will be converted to true.
+
+```js title="script.js"
+console.log(Boolean('John')); // result: true
+console.log(Boolean({})); // result: true
+```
+
+## Equality Operators: == vs. ===
+
+### Loose Equality Operator (==)
+
+The Loose Equality Operator performs type coercion.
+
+```js title="script.js"
+const age = 25;
+if (age == '25') console.log('loose') // result: loose
+```
+
+### Strict Equality Operator (===)
+
+The Strict Equality Operator doesn't perform type coercion.
+
+```js title="script.js"
+const age = 25;
+if (age === 25) console.log('strict'); // result: strict
+```
+
+## Boolean Logic
+
+<img src={useBaseUrl("img/notes/javascript/boolean-logic-01.png")} alt="The Complete JavaScript Course - Boolean Logic"/>
+
+## Statements and Expressions
+
+### Expressions
+
+Expressions produces a value.
+
+```js title="script.js"
+3 + 4
+```
+
+### Statements
+
+Statements don't produce a value
+
+```js title="script.js"
+true && false
+```

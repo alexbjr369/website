@@ -1,0 +1,124 @@
+---
+id: control-structures
+title: Notes · JavaScript · Control Structures
+sidebar_label: Control Structures
+description: Control Structures
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /notes/javascript/control-structures
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Control Structures
+
+## Iteration
+
+### For loop
+
+```js title="script.js"
+'use strict';
+
+for (let rep = 1; rep <= 10; rep++) {
+  console.log(`Lifting weights repetition ${rep}`);
+}
+
+// result:
+// Lifting weights repetition 1
+// ...
+// Lifting weights repetition 10
+```
+
+### Looping Arrays
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+for (let i = 0; i < friends.length; i++) {
+  console.log(friends[i]);
+}
+
+// result: ['Michael', 'Steven', 'Peter']
+```
+
+```js title="script.js"
+'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+const types = [];
+for (let i = 0; i < friends.length; i++) {
+  types[i] = typeof friends[i];
+  // or
+  // types.push(typeof friends[i]);
+}
+
+console.log(types); // result: ['String', 'String', 'String']
+```
+
+#### Continue
+
+Continue exits the current iteration of a loop.
+
+```js title="script.js"
+'use strict';
+
+const john = ['Doe', 34];
+
+for (let i = 0; i < john.length; i++) {
+  if (typeof john[i] !== 'string') continue;
+
+  console.log(john[i]);
+}
+
+// result: 'Doe'
+```
+
+#### Break
+
+```js title="script.js"
+'use strict';
+
+const john = ['Doe', 34, 'teacher'];
+
+for (let i = 0; i < john.length; i++) {
+  if (typeof john[i] === 'number') break;
+
+  console.log(john[i]);
+}
+
+// result: 'Doe'
+```
+
+### While loop
+
+```js title="script.js"
+'use strict';
+
+let repetion = 1;
+while (repetion <= 10) {
+  console.log(repetion);
+
+  repetion++;
+}
+
+// result: 1 2 3 4 5 6 7 8 9 10
+```
+
+```js title="script.js"
+'use strict';
+
+let dice = math.trunc(math.random() * 6) + 1; // number 1>= && <=6
+while (dice !== 6) {
+  console.log(dice);
+  dice = math.trunc(math.random() * 6) + 1;
+
+  if (dice === 6) console.log('loop ended...');
+}
+// result: 2 4 3 loop ended...
+```
