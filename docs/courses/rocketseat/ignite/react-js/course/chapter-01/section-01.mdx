@@ -30,3 +30,69 @@ npm create vite@latest
 # yarn
 yarn create vite
 ```
+
+## [Componentes](https://app.rocketseat.com.br/node/chapter-i-6/group/iniciando-com-react/lesson/componentes-1)
+
+```javascript {1,3-11} title="src/App.jsx"
+import { Post } from './Post';
+
+export function App() {
+  return (
+    <div>
+      <Post />
+      <Post />
+      <Post />
+    </div>
+  );
+}
+```
+
+```javascript {3} title="src/main.jsx"
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { App } from './App';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+```javascript {1-3} title="src/Post.jsx"
+export function Post() {
+  return <p>Post</p>;
+}
+```
+
+## [Propriedades](https://app.rocketseat.com.br/node/chapter-i-6/group/iniciando-com-react/lesson/propriedades-3)
+
+```javascript {6-9,10-13} title="src/App.jsx"
+import { Post } from './Post';
+
+export function App() {
+  return (
+    <div>
+      <Post
+        author="John Doe"
+        content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis omnis totam nobis autem sequi. Alias?"
+      />
+      <Post
+        author="John Doe 2"
+        content="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium dicta vero delectus quisquam aliquid aut."
+      />
+    </div>
+  );
+}
+```
+
+```javascript {1,3-6} title="src/Post.jsx"
+export function Post(props) {
+  return (
+    <div>
+      <strong>{props.author}</strong>
+      <p>{props.content}</p>
+    </div>
+  );
+}
+```
