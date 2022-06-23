@@ -125,6 +125,22 @@ module.exports = {
   courses: [
     {
       type: 'category',
+      label: 'Ignite Node.js',
+      items: [
+        'courses/rocketseat/ignite/node-js/introduction',
+        {
+          'Chapter 01': [
+            'courses/rocketseat/ignite/node-js/course/chapter-01/section-01',
+            'courses/rocketseat/ignite/node-js/course/chapter-01/section-02',
+          ],
+          'Chapter 02': [
+            'courses/rocketseat/ignite/node-js/course/chapter-02/section-01',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: 'Ignite React.js',
       items: [
         'courses/rocketseat/ignite/react-js/introduction',

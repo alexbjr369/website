@@ -1,0 +1,146 @@
+---
+id: section-02
+title: Ignite Node.js · Chapter 01 · Section 02
+sidebar_label: Section 02
+description: Ignite Node.js by RocketSeat.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /ignite/node-js/course/chapter-01/section-02
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Configurando o projeto
+
+## [Criando a estrutura do projeto](https://app.rocketseat.com.br/node/chapter-i-2/group/configurando-o-projeto/lesson/criando-a-estrutura-do-projeto)
+
+```bash
+# npm
+npm init -y
+
+# yarn
+yarn init -y
+```
+
+```bash
+# npm
+npm i express
+
+# yarn
+yarn add express
+```
+
+```javascript {1,3,5-7,9} title="src/index.js"
+const express = require('express');
+
+const app = express();
+
+app.get('/', (request, response) => {
+  return response.json({ message: 'Hello World' });
+});
+
+app.listen(3333);
+```
+
+```bash
+node src/index.js
+```
+
+## [Adicionando o Nodemon na aplicação](https://app.rocketseat.com.br/node/chapter-i-2/group/configurando-o-projeto/lesson/adicionando-o-nodemon-na-aplicacao)
+
+```bash
+# npm
+npm i nodemon -D
+
+# yarn
+yarn add nodemon -D
+```
+
+```json {1-3} title="package.json"
+"scripts": {
+  "dev": "nodemon src/index.js"
+}
+```
+
+## [Utilizando os métodos HTTP](https://app.rocketseat.com.br/node/chapter-i-2/group/configurando-o-projeto/lesson/utilizando-os-metodos-http)
+
+```javascript {5-7,9-11,13-15,17-19,21-23} title="src/index.js"
+const express = require('express');
+
+const app = express();
+
+app.get('/courses', (request, response) => {
+  return response.json(['Curso 1', 'Curso 2', 'Curso 3']);
+});
+
+app.post('/courses', (request, response) => {
+  return response.json(['Curso 1', 'Curso 2', 'Curso 3', 'Curso 4']);
+});
+
+app.put('/courses/:id', (request, response) => {
+  return response.json(['Curso 6', 'Curso 2', 'Curso 3', 'Curso 4']);
+});
+
+app.patch('/courses/:id', (request, response) => {
+  return response.json(['Curso 6', 'Curso 7', 'Curso 3', 'Curso 4']);
+});
+
+app.delete('/courses/:id', (request, response) => {
+  return response.json(['Curso 6', 'Curso 2', 'Curso 4']);
+});
+
+app.listen(3333);
+```
+
+## [Utilizando o insomnia](https://app.rocketseat.com.br/node/chapter-i-2/group/configurando-o-projeto/lesson/utilizando-o-insomnia-2)
+
+- **GET:** buscar uma informação dentro do servidor
+- **POST:** inserir uma informação no servidor
+- **PUT:** alterar uma informação no servidor
+- **PATCH:** alterar uma informação específica
+- **DELETE:** deletar uma informação no servidor
+
+## [Tipos de parâmetros](https://app.rocketseat.com.br/node/chapter-i-2/group/configurando-o-projeto/lesson/tipos-de-parametros-1)
+
+- **Route params:** identificar um recurso, editar/deletar/buscar
+- **Query params:** paginação/filtro
+- **Bosy params:** objetos para inserção/remoção de recursos
+
+```javascript {5,8,9,14,15,20,21} title="src/index.js"
+const express = require('express');
+
+const app = express();
+
+app.use(express.json());
+
+app.get('/courses', (request, response) => {
+  const query = request.query;
+  console.log(query);
+  return response.json(['Curso 1', 'Curso 2', 'Curso 3']);
+});
+
+app.post('/courses', (request, response) => {
+  const body = request.body;
+  console.log(body);
+  return response.json(['Curso 1', 'Curso 2', 'Curso 3', 'Curso 4']);
+});
+
+app.put('/courses/:id', (request, response) => {
+  const { id } = request.params;
+  console.log(id);
+  return response.json(['Curso 6', 'Curso 2', 'Curso 3', 'Curso 4']);
+});
+
+app.patch('/courses/:id', (request, response) => {
+  return response.json(['Curso 6', 'Curso 7', 'Curso 3', 'Curso 4']);
+});
+
+app.delete('/courses/:id', (request, response) => {
+  return response.json(['Curso 6', 'Curso 2', 'Curso 4']);
+});
+
+app.listen(3333);
+```

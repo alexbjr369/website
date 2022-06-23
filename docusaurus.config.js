@@ -129,6 +129,10 @@ module.exports = {
           title: 'Courses',
           items: [
             {
+              label: 'Ignite Node.js',
+              to: 'docs/ignite/node-js',
+            },
+            {
               label: 'Ignite React.js',
               to: 'docs/ignite/react-js',
             },

@@ -15,9 +15,17 @@ const Books = [
 
 const CourseList = [
   {
+    url: '/docs/ignite/node-js',
+    title: 'Ignite Node.js',
+    imageUrl: '../img/courses/ignite.png',
+    description: (
+      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite Node.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
+    )
+  },
+  {
     url: '/docs/ignite/react-js',
     title: 'Ignite React.js',
-    imageUrl: '../img/courses/ignite-react.png',
+    imageUrl: '../img/courses/ignite.png',
     description: (
       <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
     )
