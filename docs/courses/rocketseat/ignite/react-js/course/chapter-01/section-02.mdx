@@ -288,3 +288,189 @@ export function Sidebar() {
   justify-content: center;
 }
 ```
+
+## [Finalizando Sidebar](https://app.rocketseat.com.br/node/chapter-i-6/group/estrutura-da-aplicacao-3/lesson/finalizando-sidebar)
+
+```bash
+# npm
+npm i phosphor-react
+
+# yarn
+yarn add phosphor-react
+```
+
+```jsx {1,14-17,23-26} title="src/components/Sidebar.jsx"
+import { PencilLine } from 'phosphor-react';
+import styles from './Sidebar.module.css';
+
+export function Sidebar() {
+  return (
+    <aside className={styles.sidebar}>
+      <img
+        className={styles.cover}
+        src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=50"
+        alt=""
+      />
+
+      <div className={styles.profile}>
+        <img
+          className={styles.avatar}
+          src="https://avatars.githubusercontent.com/u/85613172?v=4"
+        />
+        <strong>John Doe</strong>
+        <span>Web Developer</span>
+      </div>
+
+      <footer>
+        <a href="#">
+          <PencilLine size="20" />
+          Editar seu perfil
+        </a>
+      </footer>
+    </aside>
+  );
+}
+```
+
+```css {17,20-24,26-30,32-39,59,60,63-66} title="src/components/Sidebar.module.css"
+.sidebar {
+  background-color: var(--gray-800);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cover {
+  width: 100%;
+  height: 72px;
+  object-fit: cover;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: calc(0px - 1.5rem - 6px);
+}
+
+.profile strong {
+  margin-top: 1rem;
+  color: var(--gray-100);
+  line-height: 1.6;
+}
+
+.profile span {
+  font-size: 0.875rem;
+  color: var(--gray-400);
+  line-height: 1.6;
+}
+
+.avatar {
+  box-sizing: initial;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 8px;
+  border: 4px solid var(--gray-800);
+  outline: 2px solid var(--green-500);
+}
+
+.sidebar footer {
+  border-top: 1px solid var(--gray-600);
+  margin-top: 1.5rem;
+  padding: 1.25rem 2rem 2rem;
+}
+
+.sidebar footer a {
+  background-color: transparent;
+  color: var(--green-500);
+  border: 1px solid var(--green-500);
+  border-radius: 8px;
+  height: 50px;
+  padding: 0 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: color 0.1s, background-color 0.1s;
+}
+
+.sidebar footer a:hover {
+  background-color: var(--green-500);
+  color: var(--white);
+}
+```
+
+## [Componente: Post](https://app.rocketseat.com.br/node/chapter-i-6/group/estrutura-da-aplicacao-3/lesson/componente-post)
+
+```jsx {3} title="src/App.jsx"
+import { Header } from './components/Header';
+import { Sidebar } from './components/Sidebar';
+import { Post } from './components/Post';
+
+import './global.css';
+import styles from './App.module.css';
+
+export function App() {
+  return (
+    <div>
+      <Header />
+      <div className={styles.wrapper}>
+        <Sidebar />
+        <main>
+          <Post
+            author="John Doe"
+            content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis omnis totam nobis autem sequi. Alias?"
+          />
+          <Post
+            author="John Doe 2"
+            content="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium dicta vero delectus quisquam aliquid aut."
+          />
+        </main>
+      </div>
+    </div>
+  );
+}
+```
+
+```jsx {1,39} title="src/App.jsx"
+import styles from './Post.module.css';
+
+export function Post() {
+  return (
+    <article className={styles.article}>
+      <header>
+        <div className={styles.author}>
+          <img
+            className={styles.avatar}
+            src="https://avatars.githubusercontent.com/u/85613172?v=4"
+          />
+          <div className={styles.authorInfo}>
+            <strong>John Doe</strong>
+            <span>Web Developer</span>
+          </div>
+        </div>
+        <time title="01 de julho às 08:00h" dateTime="2022-07-01 08:00:00">
+          Publicado a 1h
+        </time>
+      </header>
+      <div className={styles.content}>
+        <p>Lorem, ipsum.</p>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse autem
+          excepturi qui, laborum, alias exercitationem assumenda praesentium
+          eligendi suscipit fuga commodi nostrum minus dolores itaque.
+        </p>
+        <p>
+          <a href="">Lorem, ipsum dolor.</a>
+        </p>
+        <p>
+          <a href="">#Lorem</a>
+          <a href="">#Lorem</a>
+          <a href="">#Lorem</a>
+        </p>
+      </div>
+    </article>
+  );
+}
+```
