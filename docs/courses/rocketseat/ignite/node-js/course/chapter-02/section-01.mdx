@@ -13,773 +13,84 @@ hide_title: true
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# Primeiro projeto com Node.js
+# Typescript
 
-## [Conhecendo os requisitos da aplicação](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js)
+## [Introdução](https://app.rocketseat.com.br/node/chapter-ii-2/group/typescript/lesson/introducao-14)
 
-## [Cadastro de conta](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/cadastro-de-conta)
+## [Introdução TypeScript](https://app.rocketseat.com.br/node/chapter-ii-2/group/typescript/lesson/introducao-type-script)
 
-**Deve ser possível criar uma conta**
+## [Criando projeto com typescript](https://app.rocketseat.com.br/node/chapter-ii-2/group/typescript/lesson/criando-projeto-com-typescript)
 
 ```bash
 # npm
-npm i uuid
+npm i express
 
 # yarn
-yarn add uuid
+yarn add express
 ```
 
-```javascript {2,8,10-17} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+```bash
+# npm
+npm i @types/express typescript -D
+
+# yarn
+yarn add @types/express typescript -D
+```
+
+```bash
+# npm
+npx tsc --init
+
+# yarn
+yarn tsc --init
+```
+
+```json title="tsconfig.json"
+{
+  "outDir": "./dist"
+}
+```
+
+## [Adicionando os tipos](https://app.rocketseat.com.br/node/chapter-ii-2/group/typescript/lesson/adicionando-os-tipos)
+
+```typescript title="src/server.ts"
+import express from 'express';
+import { createCourse } from './routes';
 
 const app = express();
 
-app.use(express.json());
-
-const customers = [];
-
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const id = uuidv4();
-
-  customers.push({ cpf, name, id, statment: [] });
-
-  return response.status(201).send();
-});
+app.get('/', createCourse);
 
 app.listen(3333);
 ```
 
-## [Validando CPF existente](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/validando-cpf-existente)
+```typescript title="src/routes.ts"
+import { Request, Response } from 'express';
+import CreateCourseService from './CreateCourseService';
 
-**Não deve ser possível cadastrar uma conta com CPF já existente**
+export function createCourse(request: Request, response: Response) {
+  CreateCourseService.execute({
+    educator: 'John Doe',
+    name: 'Node.js',
+    duration: 10,
+  });
 
-```javascript {12-14,16-18,20} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(express.json());
-
-const customers = [];
-
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
-  );
-
-  if (customerAlreadyExists) {
-    return response.status(400).json({ error: 'Customer already exists' });
-  }
-
-  customers.push({ cpf, name, id: uuidv4(), statement: [] });
-
-  return response.status(201).send();
-});
-
-app.listen(3333);
+  return response.send();
+}
 ```
 
-## [Listando extrato](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/listando-extrato)
-
-**Deve ser possível buscar o extrato bancário do cliente**
-
-```javascript {25-31} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(express.json());
-
-const customers = [];
-
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
-  );
-
-  if (customerAlreadyExists) {
-    return response.status(400).json({ error: 'Customer already exists' });
-  }
-
-  customers.push({ cpf, name, id: uuidv4(), statement: [] });
-
-  return response.status(201).send();
-});
-
-app.get('/statement/:cpf', (request, response) => {
-  const { cpf } = request.params;
-
-  const customer = customers.find((customer) => customer.cpf === cpf);
-
-  return response.json(customer.statement);
-});
-
-app.listen(3333);
-```
-
-## [Validando a conta](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/validando-a-conta)
-
-**Não deve ser possível buscar extrato em uma conta não existente**
-
-```javascript {25,26,30-32} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(express.json());
-
-const customers = [];
-
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
-  );
-
-  if (customerAlreadyExists) {
-    return response.status(400).json({ error: 'Customer already exists' });
-  }
-
-  customers.push({ cpf, name, id: uuidv4(), statement: [] });
-
-  return response.status(201).send();
-});
-
-app.get('/statement', (request, response) => {
-  const { cpf } = request.headers;
-
-  const customer = customers.find((customer) => customer.cpf === cpf);
-
-  if (!customer) {
-    return response.status(400).json({ error: 'Customer not found' });
-  }
-
-  return response.json(customer.statement);
-});
-
-app.listen(3333);
-```
-
-## [Middlewares](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/middlewares-3)
-
-```javascript {10-22,39,40,42,43,44} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(express.json());
-
-const customers = [];
-
-function verifyIfExistsAccountCPF(request, response, next) {
-  const { cpf } = request.headers;
-
-  const customer = customers.find((customer) => customer.cpf === cpf);
-
-  if (!customer) {
-    return response.status(400).json({ error: 'Customer not found' });
-  }
-
-  request.customer = customer;
-
-  return next();
+```typescript title="src/CreateCourseService.ts"
+interface Course {
+  name: string;
+  duration: Number;
+  educator: string;
 }
 
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
-  );
-
-  if (customerAlreadyExists) {
-    return response.status(400).json({ error: 'Customer already exists' });
+class CreateCourseService {
+  execute({ name, duration, educator }: Course) {
+    console.log(name, duration, educator);
   }
-
-  customers.push({ cpf, name, id: uuidv4(), statement: [] });
-
-  return response.status(201).send();
-});
-
-// se todas as rotas abaixo usarem essa função
-// app.use(verifyIfExistsAccountCPF);
-
-// middleware utilizado apenas na rota
-app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-  return response.json(customer.statement);
-});
-
-app.listen(3333);
-```
-
-## [Criando depósito na conta](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/criando-deposito-na-conta)
-
-- **Deve ser possível realizar um depósito**
-- **Não deve ser possível fazer depósito em uma conta não existente**
-
-```javascript {44-58} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(express.json());
-
-const customers = [];
-
-function verifyIfExistsAccountCPF(request, response, next) {
-  const { cpf } = request.headers;
-
-  const customer = customers.find((customer) => customer.cpf === cpf);
-
-  if (!customer) {
-    return response.status(400).json({ error: 'Customer not found' });
-  }
-
-  request.customer = customer;
-
-  return next();
 }
 
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
-  );
-
-  if (customerAlreadyExists) {
-    return response.status(400).json({ error: 'Customer already exists' });
-  }
-
-  customers.push({ cpf, name, id: uuidv4(), statement: [] });
-
-  return response.status(201).send();
-});
-
-app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-  return response.json(customer.statement);
-});
-
-app.post('/deposit', verifyIfExistsAccountCPF, (request, response) => {
-  const { description, amount } = request.body;
-  const { customer } = request;
-
-  const statementOperation = {
-    description,
-    amount,
-    created_at: new Date(),
-    type: 'credit',
-  };
-
-  customer.statement.push(statementOperation);
-
-  return response.status(201).send();
-});
-
-app.listen(3333);
-```
-
-## [Criando saque na conta](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/criando-saque-na-conta)
-
-- **Deve ser possível realizar um saque**
-- **Não deve ser possível fazer saque em uma conta não existente**
-- **Não deve ser possível fazer saque quando o saldo for insuficiente**
-
-```javascript {60-70,72-91} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(express.json());
-
-const customers = [];
-
-function verifyIfExistsAccountCPF(request, response, next) {
-  const { cpf } = request.headers;
-
-  const customer = customers.find((customer) => customer.cpf === cpf);
-
-  if (!customer) {
-    return response.status(400).json({ error: 'Customer not found' });
-  }
-
-  request.customer = customer;
-
-  return next();
-}
-
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
-  );
-
-  if (customerAlreadyExists) {
-    return response.status(400).json({ error: 'Customer already exists' });
-  }
-
-  customers.push({ cpf, name, id: uuidv4(), statement: [] });
-
-  return response.status(201).send();
-});
-
-app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-  return response.json(customer.statement);
-});
-
-app.post('/deposit', verifyIfExistsAccountCPF, (request, response) => {
-  const { description, amount } = request.body;
-  const { customer } = request;
-
-  const statementOperation = {
-    description,
-    amount,
-    created_at: new Date(),
-    type: 'credit',
-  };
-
-  customer.statement.push(statementOperation);
-
-  return response.status(201).send();
-});
-
-function getBalance(statement) {
-  const balance = statement.reduce((acc, operation) => {
-    if (operation.type === 'credit') {
-      return acc + operation.amount;
-    } else {
-      return acc + operation.amount;
-    }
-  }, 0);
-
-  return balance;
-}
-
-app.post('/withdraw', verifyIfExistsAccountCPF, (request, response) => {
-  const { amount } = request.body;
-  const { customer } = request;
-
-  const balance = getBalance(customer.statement);
-
-  if (balance < amount) {
-    return response.status(400).json({ error: 'Insuficient funds!' });
-  }
-
-  const statementOperation = {
-    amount,
-    created_at: new Date(),
-    type: 'debit',
-  };
-
-  customer.statement.push(statementOperation);
-
-  return response.status(201).send();
-});
-
-app.listen(3333);
-```
-
-## [Listar extrato bancário por data](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/listar-extrato-bancario-por-data)
-
-- **Deve ser possível buscar o extrato bancário do cliente por data**
-
-```javascript {93-106} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(express.json());
-
-const customers = [];
-
-function verifyIfExistsAccountCPF(request, response, next) {
-  const { cpf } = request.headers;
-
-  const customer = customers.find((customer) => customer.cpf === cpf);
-
-  if (!customer) {
-    return response.status(400).json({ error: 'Customer not found' });
-  }
-
-  request.customer = customer;
-
-  return next();
-}
-
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
-  );
-
-  if (customerAlreadyExists) {
-    return response.status(400).json({ error: 'Customer already exists' });
-  }
-
-  customers.push({ cpf, name, id: uuidv4(), statement: [] });
-
-  return response.status(201).send();
-});
-
-app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-  return response.json(customer.statement);
-});
-
-app.post('/deposit', verifyIfExistsAccountCPF, (request, response) => {
-  const { description, amount } = request.body;
-  const { customer } = request;
-
-  const statementOperation = {
-    description,
-    amount,
-    created_at: new Date(),
-    type: 'credit',
-  };
-
-  customer.statement.push(statementOperation);
-
-  return response.status(201).send();
-});
-
-function getBalance(statement) {
-  const balance = statement.reduce((acc, operation) => {
-    if (operation.type === 'credit') {
-      return acc + operation.amount;
-    } else {
-      return acc + operation.amount;
-    }
-  }, 0);
-
-  return balance;
-}
-
-app.post('/withdraw', verifyIfExistsAccountCPF, (request, response) => {
-  const { amount } = request.body;
-  const { customer } = request;
-
-  const balance = getBalance(customer.statement);
-
-  if (balance < amount) {
-    return response.status(400).json({ error: 'Insuficient funds!' });
-  }
-
-  const statementOperation = {
-    amount,
-    created_at: new Date(),
-    type: 'debit',
-  };
-
-  customer.statement.push(statementOperation);
-
-  return response.status(201).send();
-});
-
-app.get('/statement/date', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-  const { date } = request.query;
-
-  const dateFormat = new Date(date + ' 00:00');
-
-  const statement = customer.statement.filter(
-    (statement) =>
-      statement.created_at.toDateString() ===
-      new Date(dateFormat).toDateString()
-  );
-
-  return response.json(statement);
-});
-
-app.listen(3333);
-```
-
-## [Atualizar conta](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/atualizar-conta)
-
-- **Deve ser possível atualizar dados da conta do cliente**
-- **Deve ser possível obter dados da conta do cliente**
-
-```javascript {108-115,117-121} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(express.json());
-
-const customers = [];
-
-function verifyIfExistsAccountCPF(request, response, next) {
-  const { cpf } = request.headers;
-
-  const customer = customers.find((customer) => customer.cpf === cpf);
-
-  if (!customer) {
-    return response.status(400).json({ error: 'Customer not found' });
-  }
-
-  request.customer = customer;
-
-  return next();
-}
-
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
-  );
-
-  if (customerAlreadyExists) {
-    return response.status(400).json({ error: 'Customer already exists' });
-  }
-
-  customers.push({ cpf, name, id: uuidv4(), statement: [] });
-
-  return response.status(201).send();
-});
-
-app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-  return response.json(customer.statement);
-});
-
-app.post('/deposit', verifyIfExistsAccountCPF, (request, response) => {
-  const { description, amount } = request.body;
-  const { customer } = request;
-
-  const statementOperation = {
-    description,
-    amount,
-    created_at: new Date(),
-    type: 'credit',
-  };
-
-  customer.statement.push(statementOperation);
-
-  return response.status(201).send();
-});
-
-function getBalance(statement) {
-  const balance = statement.reduce((acc, operation) => {
-    if (operation.type === 'credit') {
-      return acc + operation.amount;
-    } else {
-      return acc + operation.amount;
-    }
-  }, 0);
-
-  return balance;
-}
-
-app.post('/withdraw', verifyIfExistsAccountCPF, (request, response) => {
-  const { amount } = request.body;
-  const { customer } = request;
-
-  const balance = getBalance(customer.statement);
-
-  if (balance < amount) {
-    return response.status(400).json({ error: 'Insuficient funds!' });
-  }
-
-  const statementOperation = {
-    amount,
-    created_at: new Date(),
-    type: 'debit',
-  };
-
-  customer.statement.push(statementOperation);
-
-  return response.status(201).send();
-});
-
-app.get('/statement/date', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-  const { date } = request.query;
-
-  const dateFormat = new Date(date + ' 00:00');
-
-  const statement = customer.statement.filter(
-    (statement) =>
-      statement.created_at.toDateString() ===
-      new Date(dateFormat).toDateString()
-  );
-
-  return response.json(statement);
-});
-
-app.put('/account', verifyIfExistsAccountCPF, (request, response) => {
-  const { name } = request.body;
-  const { customer } = request;
-
-  customer.name = name;
-
-  return response.status(201).send();
-});
-
-app.get('/account', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-
-  return response.json(customer);
-});
-
-app.listen(3333);
-```
-
-## [Remover conta](https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/remover-conta)
-
-- **Deve ser possível deletar uma conta**
-- **Não deve ser possível excluir uma conta não existente**
-- **Deve ser possível retorar o balance**
-
-```javascript {123-129,131-137} title="src/index.js"
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(express.json());
-
-const customers = [];
-
-function verifyIfExistsAccountCPF(request, response, next) {
-  const { cpf } = request.headers;
-
-  const customer = customers.find((customer) => customer.cpf === cpf);
-
-  if (!customer) {
-    return response.status(400).json({ error: 'Customer not found' });
-  }
-
-  request.customer = customer;
-
-  return next();
-}
-
-app.post('/account', (request, response) => {
-  const { cpf, name } = request.body;
-  const customerAlreadyExists = customers.some(
-    (customer) => customer.cpf === cpf
-  );
-
-  if (customerAlreadyExists) {
-    return response.status(400).json({ error: 'Customer already exists' });
-  }
-
-  customers.push({ cpf, name, id: uuidv4(), statement: [] });
-
-  return response.status(201).send();
-});
-
-app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-  return response.json(customer.statement);
-});
-
-app.post('/deposit', verifyIfExistsAccountCPF, (request, response) => {
-  const { description, amount } = request.body;
-  const { customer } = request;
-
-  const statementOperation = {
-    description,
-    amount,
-    created_at: new Date(),
-    type: 'credit',
-  };
-
-  customer.statement.push(statementOperation);
-
-  return response.status(201).send();
-});
-
-function getBalance(statement) {
-  const balance = statement.reduce((acc, operation) => {
-    if (operation.type === 'credit') {
-      return acc + operation.amount;
-    } else {
-      return acc + operation.amount;
-    }
-  }, 0);
-
-  return balance;
-}
-
-app.post('/withdraw', verifyIfExistsAccountCPF, (request, response) => {
-  const { amount } = request.body;
-  const { customer } = request;
-
-  const balance = getBalance(customer.statement);
-
-  if (balance < amount) {
-    return response.status(400).json({ error: 'Insuficient funds!' });
-  }
-
-  const statementOperation = {
-    amount,
-    created_at: new Date(),
-    type: 'debit',
-  };
-
-  customer.statement.push(statementOperation);
-
-  return response.status(201).send();
-});
-
-app.get('/statement/date', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-  const { date } = request.query;
-
-  const dateFormat = new Date(date + ' 00:00');
-
-  const statement = customer.statement.filter(
-    (statement) =>
-      statement.created_at.toDateString() ===
-      new Date(dateFormat).toDateString()
-  );
-
-  return response.json(statement);
-});
-
-app.put('/account', verifyIfExistsAccountCPF, (request, response) => {
-  const { name } = request.body;
-  const { customer } = request;
-
-  customer.name = name;
-
-  return response.status(201).send();
-});
-
-app.get('/account', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-
-  return response.json(customer);
-});
-
-app.delete('/account', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-
-  customers.splice(customer, 1);
-
-  return response.status(200).json(customers);
-});
-
-app.get('/balance', verifyIfExistsAccountCPF, (request, response) => {
-  const { customer } = request;
-
-  const balance = getBalance(customer.statement);
-
-  return response.json(balance);
-});
-
-app.listen(3333);
+export default new CreateCourseService();
 ```

@@ -132,6 +132,7 @@ module.exports = {
           'Chapter 01': [
             'courses/rocketseat/ignite/node-js/course/chapter-01/section-01',
             'courses/rocketseat/ignite/node-js/course/chapter-01/section-02',
+            'courses/rocketseat/ignite/node-js/course/chapter-01/section-03',
           ],
           'Chapter 02': [
             'courses/rocketseat/ignite/node-js/course/chapter-02/section-01',
