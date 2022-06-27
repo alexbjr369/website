@@ -2,23 +2,23 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-const title = 'React.js';
-const imgPath = '../img/knowledge/react-js.svg';
-const url = 'https://reactjs.org/';
+const title = 'postcss-scss';
+const imgPath = '../img/knowledge/npm-build-scripts.svg';
+const url = 'https://www.npmjs.com/package/postcss-scss';
 const notes = '';
 
-const Courses = [
+const Courses = [];
+
+const Projects = [
   {
-    url: '../docs/ignite/react-js',
-    title: 'Ignite React.js',
-    imageUrl: '../img/courses/ignite.png',
+    url: '../docs/projects/linting-code-quality-rules',
+    title: 'Linting - Code-quality Rules',
+    imageUrl: '../img/projects/github.png',
     description: (
-      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
+      <>A compilation of code-quality rules linting configurations.</>
     )
   },
 ];
-
-const Projects = [];
 
 function Hero() {
   return (
@@ -39,7 +39,7 @@ function Hero() {
           {/* {notes && <Link className="button button--custom" to={notes}>Notes</Link>} */}
         </div>
       </div>
-    </header>
+    </header >
   );
 }
 

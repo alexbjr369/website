@@ -1,0 +1,64 @@
+---
+id: introduction
+title: Linting - Code-quality Rules · Stylelint · SCSS
+sidebar_label: Introduction
+description: A compilation of Code-quality Rules Linting configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/linting-code-quality-rules/stylelint/scss
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export const BuiltWith = ({ url, className, image, title, style }) => (
+  <a className="built-with" href={url}>
+    <img className={`built-with__image ${className}`} src={useBaseUrl(`img/knowledge/${image}`)} alt={title} style={style}/>
+    <div className="built-with__overlay">
+      <h2 className="built-with__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+export const BuiltWithText = ({ url, title }) => (
+  <a className="built-with-text" href={url}>
+    <div className="built-with-text__overlay">
+      <h2 className="built-with-text__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+# Linting - Code-quality Rules
+
+A compilation of **Code-quality Rules Linting** configurations.
+
+## About
+
+**Stylelint** configuration for **SCSS**.
+
+## Links
+
+**[`Repository`](https://github.com/alexbjr369/linting-code-quality-rules/styling/scss)** **[`Implementation`](/docs/projects/linting-code-quality-rules/stylelint/scss/implementation)**
+
+## Built With
+
+<div className="markdown-code thin-scrollbar">
+  <div className="markdown-code__container">
+    <BuiltWith url="/knowledge/editorconfig" image="editorconfig.png" title="EditorConfig"></BuiltWith>
+    <BuiltWith url="/knowledge/prettier" image="prettier.svg" title="Prettier"></BuiltWith>
+    <BuiltWithText url="/knowledge/lint-staged" title="lint-staged"></BuiltWithText>
+    <BuiltWithText url="/knowledge/husky" title="husky"></BuiltWithText>
+    <BuiltWithText url="/knowledge/commitlint-cli" title="@commitlint/cli"></BuiltWithText>
+    <BuiltWithText url="/knowledge/commitlint-config-conventional" title="@commitlint/config-conventional"></BuiltWithText>
+    <BuiltWithText url="/knowledge/commitizen" title="commitizen"></BuiltWithText>
+    <BuiltWithText url="/knowledge/cz-conventional-changelog" title="cz-conventional-changelog"></BuiltWithText>
+    <BuiltWith url="/knowledge/sass" image="sass.svg" title="Sass"></BuiltWith>
+    <BuiltWith className="fixed-invert" url="/knowledge/stylelint" image="stylelint.svg" title="Stylelint"></BuiltWith>
+    <BuiltWithText url="/knowledge/stylelint-config-prettier" title="stylelint-config-prettier"></BuiltWithText>
+    <BuiltWithText url="/knowledge/stylelint-config-rational-order" title="stylelint-config-rational-order"></BuiltWithText>
+    <BuiltWithText url="/knowledge/stylelint-order" title="stylelint-order"></BuiltWithText>
+    <BuiltWithText url="/knowledge/postcss-scss" title="postcss-scss"></BuiltWithText>
+  </div>
+</div>

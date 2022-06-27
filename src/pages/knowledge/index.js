@@ -199,6 +199,10 @@ const KnowledgeText = [
     url: 'knowledge/postcss-sass',
   },
   {
+    title: 'postcss-scss',
+    url: 'knowledge/postcss-scss',
+  },
+  {
     title: 'replace-in-file',
     url: 'knowledge/replace-in-file',
   },

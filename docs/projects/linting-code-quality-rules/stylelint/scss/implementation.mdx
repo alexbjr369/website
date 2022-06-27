@@ -1,12 +1,12 @@
 ---
 id: implementation
-title: Linting - Code-quality Rules · Stylelint · Less · Implementation
+title: Linting - Code-quality Rules · Stylelint · SCSS · Implementation
 sidebar_label: Implementation
 description: A compilation of Code-quality Rules Linting configurations.
 keywords:
   - Alex Bleggi
 image: /static/other/img/profile.png
-slug: /projects/linting-code-quality-rules/stylelint/less/implementation
+slug: /projects/linting-code-quality-rules/stylelint/scss/implementation
 toc_max_heading_level: 4
 hide_title: true
 ---
@@ -15,7 +15,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Implementation
 
-Step by step **Stylelint** configuration for **Less**.
+Step by step **Stylelint** configuration for **SCSS**.
 
 ## Formatting Rules Linting
 
@@ -42,14 +42,14 @@ yarn add stylelint -D
 - **[`stylelint-config-prettier`](https://www.npmjs.com/package/stylelint-config-prettier)**
 - **[`stylelint-config-rational-order`](https://www.npmjs.com/package/stylelint-config-rational-order)**
 - **[`stylelint-order`](https://www.npmjs.com/package/stylelint-order)**
-- **[`postcss-less`](https://www.npmjs.com/package/postcss-less)**
+- **[`postcss-scss`](https://www.npmjs.com/package/postcss-scss)**
 
 ```bash
 # npm
-npm i stylelint-config-prettier stylelint-config-rational-order stylelint-order postcss-less -D
+npm i stylelint-config-prettier stylelint-config-rational-order stylelint-order postcss-scss -D
 
 # yarn
-yarn add stylelint-config-prettier stylelint-config-rational-order stylelint-order postcss-less -D
+yarn add stylelint-config-prettier stylelint-config-rational-order stylelint-order postcss-scss -D
 ```
 
 ##### Configuration
@@ -57,7 +57,7 @@ yarn add stylelint-config-prettier stylelint-config-rational-order stylelint-ord
 ```json {1-4} title=".stylelintrc.json"
 {
   "extends": ["stylelint-config-rational-order", "stylelint-config-prettier"],
-  "customSyntax": "postcss-less"
+  "customSyntax": "postcss-scss"
 }
 ```
 
@@ -71,7 +71,7 @@ yarn add stylelint-config-prettier stylelint-config-rational-order stylelint-ord
     "prepare": "npx husky install",
     "prettier": "prettier . --write --ignore-unknown",
     "commit": "git-cz",
-    "stylelint": "stylelint **/*.less --fix"
+    "stylelint": "stylelint **/*.scss --fix"
   },
   "lint-staged": {
     "**/*": "npm run prettier"
@@ -93,7 +93,7 @@ yarn add stylelint-config-prettier stylelint-config-rational-order stylelint-ord
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "stylelint.validate": ["less"]
+  "stylelint.validate": ["scss"]
 }
 ```
 
@@ -111,11 +111,11 @@ yarn add stylelint-config-prettier stylelint-config-rational-order stylelint-ord
     "prepare": "npx husky install",
     "prettier": "prettier . --write --ignore-unknown",
     "commit": "git-cz",
-    "stylelint": "stylelint **/*.less --fix"
+    "stylelint": "stylelint **/*.scss --fix"
   },
   "lint-staged": {
     "**/*": "npm run prettier",
-    "**/*.less": "npm run stylelint"
+    "**/*.scss": "npm run stylelint"
   },
   "config": {
     "commitizen": {
@@ -127,7 +127,7 @@ yarn add stylelint-config-prettier stylelint-config-rational-order stylelint-ord
 
 ## Testing
 
-```less {1-18} title="src/index.less"
+```scss {1-18} title="src/index.scss"
 * {
   margin: 0;
   padding: 0;

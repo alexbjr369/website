@@ -84,9 +84,9 @@ module.exports = {
         {
           Stylelint: [
             {
-              Sass: [
-                'projects/linting-code-quality-rules/stylelint/sass/introduction',
-                'projects/linting-code-quality-rules/stylelint/sass/implementation',
+              CSS: [
+                'projects/linting-code-quality-rules/stylelint/css/introduction',
+                'projects/linting-code-quality-rules/stylelint/css/implementation',
               ],
             },
             {
@@ -96,9 +96,15 @@ module.exports = {
               ],
             },
             {
-              CSS: [
-                'projects/linting-code-quality-rules/stylelint/css/introduction',
-                'projects/linting-code-quality-rules/stylelint/css/implementation',
+              Sass: [
+                'projects/linting-code-quality-rules/stylelint/sass/introduction',
+                'projects/linting-code-quality-rules/stylelint/sass/implementation',
+              ],
+            },
+            {
+              SCSS: [
+                'projects/linting-code-quality-rules/stylelint/scss/introduction',
+                'projects/linting-code-quality-rules/stylelint/scss/implementation',
               ],
             },
           ],
