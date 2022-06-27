@@ -1350,3 +1350,28 @@ export function Sidebar() {
     </aside>
   );
 }
+```
+
+## [Aplicando responsividade](https://app.rocketseat.com.br/node/chapter-i-6/group/estrutura-da-aplicacao-3/lesson/aplicando-responsividade)
+
+```css {11-19} title="src/App.module.css"
+.wrapper {
+  max-width: 70rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 87.5%;
+  }
+
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+```
