@@ -1,0 +1,19 @@
+Ignite Node.js
+  - node.js
+  - typescript
+  - express
+  - nodemon
+  - uuid
+  - ts-node-dev
+
+Ignite React.js
+  - react.js
+  - css
+  - vite
+  - phosphor-react
+
+The Complete Guide to Angular
+  - angular
+  - bootstrap
+  - typescript
+  - date-fns
