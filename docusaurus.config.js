@@ -100,6 +100,14 @@ module.exports = {
           title: 'Projects',
           items: [
             {
+              label: 'Hive',
+              to: 'https://alexbleggi.netlify.app/hive',
+            },
+            {
+              label: 'Website',
+              to: 'https://alexbleggi.netlify.app/',
+            },
+            {
               label: 'Webpack Guide',
               to: 'docs/projects/webpack-guide',
             },
@@ -135,6 +143,10 @@ module.exports = {
             {
               label: 'Ignite React.js',
               to: 'docs/ignite/react-js',
+            },
+            {
+              label: 'JavaScript Unit Testing',
+              to: 'docs/javascript-unit-testing',
             },
             {
               label: 'The Complete Guide to Angular',

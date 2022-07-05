@@ -26,30 +26,6 @@ const Courses = [
 
 const Projects = [
   {
-    url: '../docs/projects/webpack-guide',
-    title: 'Webpack Guide',
-    imageUrl: '../img/projects/webpack-guide.png',
-    description: (
-      <>A compilation of Webpack configurations.</>
-    )
-  },
-  {
-    url: '../docs/projects/rollup-guide',
-    title: 'Rollup Guide',
-    imageUrl: '../img/projects/rollup-guide.png',
-    description: (
-      <>A compilation of Rollup configurations.</>
-    )
-  },
-  {
-    url: '../docs/projects/npm-build-scripts-guide',
-    title: 'npm Build Scripts Guide',
-    imageUrl: '../img/projects/npm-build-scripts-guide.png',
-    description: (
-      <>A compilation of npm build scripts configurations.</>
-    )
-  },
-  {
     url: '../docs/projects/linting-code-quality-rules',
     title: 'Linting - Code-quality Rules',
     imageUrl: '../img/projects/linting-code-quality-rules.png',

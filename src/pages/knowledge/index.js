@@ -25,16 +25,6 @@ const KnowledgeImage = [
     url: 'knowledge/sass',
   },
   {
-    title: 'Less',
-    imageUrl: '../img/knowledge/less.svg',
-    url: 'knowledge/less',
-  },
-  {
-    title: 'PostCSS',
-    imageUrl: '../img/knowledge/postcss.svg',
-    url: 'knowledge/postcss',
-  },
-  {
     title: 'EditorConfig',
     imageUrl: '../img/knowledge/editorconfig.png',
     url: 'knowledge/editorconfig',
@@ -52,29 +42,9 @@ const KnowledgeImage = [
     className: 'invert',
   },
   {
-    title: 'Rollup',
-    imageUrl: '../img/knowledge/rollup.svg',
-    url: 'knowledge/rollup',
-  },
-  {
-    title: 'Webpack',
-    imageUrl: '../img/knowledge/webpack.svg',
-    url: 'knowledge/webpack',
-  },
-  {
     title: 'React',
     imageUrl: '../img/knowledge/react-js.svg',
     url: 'knowledge/react-js',
-  },
-  {
-    title: 'Browserslist',
-    imageUrl: '../img/knowledge/browserslist.svg',
-    url: 'knowledge/browserslist',
-  },
-  {
-    title: 'cleanCSS',
-    imageUrl: '../img/knowledge/cleancss.svg',
-    url: 'knowledge/cleancss',
   },
   {
     title: 'node-sass',
@@ -124,42 +94,6 @@ const KnowledgeText = [
   },
 
   {
-    title: 'clean-css-cli',
-    url: 'knowledge/clean-css-cli',
-  },
-  {
-    title: 'html-minifier',
-    url: 'knowledge/html-minifier',
-  },
-  {
-    title: 'live-server',
-    url: 'knowledge/live-server',
-  },
-  {
-    title: 'npm-run-all',
-    url: 'knowledge/npm-run-all',
-  },
-  {
-    title: 'postcss-cli',
-    url: 'knowledge/postcss-cli',
-  },
-  {
-    title: 'postcss-discard-comments',
-    url: 'knowledge/postcss-discard-comments',
-  },
-  {
-    title: 'postcss-import',
-    url: 'knowledge/postcss-import',
-  },
-  {
-    title: 'postcss-nested',
-    url: 'knowledge/postcss-nested',
-  },
-  {
-    title: 'postcss-preset-env',
-    url: 'knowledge/postcss-preset-env',
-  },
-  {
     title: 'postcss-less',
     url: 'knowledge/postcss-less',
   },
@@ -175,54 +109,6 @@ const KnowledgeText = [
     title: 'postcss-styl',
     url: 'knowledge/postcss-styl',
   },
-  {
-    title: 'replace-in-file',
-    url: 'knowledge/replace-in-file',
-  },
-  {
-    title: 'shx',
-    url: 'knowledge/shx',
-  },
-
-  {
-    title: 'rollup-plugin-styles',
-    url: 'knowledge/rollup-plugin-styles',
-  },
-  {
-    title: '@rollup/plugin-node-resolve',
-    url: 'knowledge/rollup-plugin-node-resolve',
-  },
-
-  {
-    title: 'cross-env',
-    url: 'knowledge/cross-env',
-  },
-  {
-    title: 'webpack-cli',
-    url: 'knowledge/webpack-cli',
-  },
-  {
-    title: 'webpack-dev-server',
-    url: 'knowledge/webpack-dev-server',
-  },
-  {
-    title: 'html-webpack-plugin',
-    url: 'knowledge/html-webpack-plugin',
-  },
-  {
-    title: 'style-loader',
-    url: 'knowledge/style-loader',
-  },
-  {
-    title: 'css-loader',
-    url: 'knowledge/css-loader',
-  },
-
-  {
-    title: 'react-dom',
-    url: 'knowledge/react-dom',
-  },
-
 ];
 
 function Hero() {

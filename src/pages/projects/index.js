@@ -55,7 +55,7 @@ const Personal = [
   {
     url: 'docs/projects/linting-commit',
     title: 'Linting - Commit',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/linting-commit.png',
     description: (
       <>A configuration for commit linting.</>
     )
