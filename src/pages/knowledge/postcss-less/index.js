@@ -13,7 +13,7 @@ const Projects = [
   {
     url: '../docs/projects/linting-code-quality-rules',
     title: 'Linting - Code-quality Rules',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/linting-code-quality-rules.png',
     description: (
       <>A compilation of code-quality rules linting configurations.</>
     )

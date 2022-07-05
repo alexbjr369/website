@@ -22,7 +22,7 @@ const Projects = [
   {
     url: '../docs/projects/webpack-guide',
     title: 'Webpack Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/webpack-guide.png',
     description: (
       <>A compilation of Webpack configurations.</>
     )

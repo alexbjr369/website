@@ -13,7 +13,7 @@ const Projects = [
   {
     url: '../docs/projects/rollup-guide',
     title: 'Rollup Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/rollup-guide.png',
     description: (
       <>A compilation of Rollup configurations.</>
     )

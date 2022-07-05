@@ -4,13 +4,13 @@ import Link from '@docusaurus/Link';
 
 const other = [
   {
-    url: '',
+    url: 'http://www.navitasenglish.edu.au/',
     imageUrl: 'img/certificates/navitas-02.jpg',
     title: 'English',
     description: (<><a href="http://www.navitasenglish.edu.au/courses/general-english/" target="_blank"><strong>General English</strong></a> at <a href="http://www.navitasenglish.edu.au/" target="_blank"><strong>Navitas English, Sydney, Australia</strong></a>.</>)
   },
   {
-    url: '',
+    url: 'http://www.navitasenglish.edu.au/',
     imageUrl: 'img/certificates/navitas-01.jpg',
     title: 'English',
     description: (<><a href="http://www.navitasenglish.edu.au/courses/general-english/" target="_blank"><strong>Power English Evening</strong></a> at <a href="http://www.navitasenglish.edu.au/" target="_blank"><strong>Navitas English, Sydney, Australia</strong></a>.</>)

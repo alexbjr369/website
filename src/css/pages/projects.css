@@ -28,6 +28,10 @@
   max-height: 195.75px;
 }
 
+.projects-feature__image--no-shadow {
+  box-shadow: none;
+}
+
 .projects-feature__image--book {
   width: auto;
   max-height: 195.75px;

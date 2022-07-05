@@ -9,14 +9,6 @@ const notes = '/docs/notes/sass';
 
 const Courses = [
   {
-    url: '../docs/ignite/react-js',
-    title: 'Ignite React.js',
-    imageUrl: '../img/courses/ignite.png',
-    description: (
-      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
-    )
-  },
-  {
     url: '../docs/advanced-css-and-sass',
     title: 'Advanced CSS and Sass',
     imageUrl: '../img/courses/advanced-css-and-sass.jpg',
@@ -28,7 +20,7 @@ const Projects = [
   {
     url: '../docs/projects/linting-code-quality-rules',
     title: 'Linting - Code-quality Rules',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/linting-code-quality-rules.png',
     description: (
       <>A compilation of code-quality rules linting configurations.</>
     )

@@ -1,0 +1,153 @@
+---
+id: implementation
+title: Linting - Code-quality Rules · Stylelint · Stylus · Implementation
+sidebar_label: Implementation
+description: A compilation of Code-quality Rules Linting configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/linting-code-quality-rules/stylelint/stylus/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Implementation
+
+Step by step **Stylelint** configuration for **Stylus**.
+
+## Formatting Rules Linting
+
+Follow the steps in **[Linting - Formatting Rules](/docs/projects/linting-formatting-rules/implementation)**.
+
+## Commit Linting
+
+Follow the steps in **[Linting - Commit](/docs/projects/linting-commit/implementation)**.
+
+## Stylelint
+
+- **[`stylelint`](https://www.npmjs.com/package/stylelint)**
+
+```bash
+# npm
+npm i stylelint -D
+
+# yarn
+yarn add stylelint -D
+```
+
+##### Plugins
+
+- **[`stylelint-config-prettier`](https://www.npmjs.com/package/stylelint-config-prettier)**
+- **[`stylelint-config-rational-order`](https://www.npmjs.com/package/stylelint-config-rational-order)**
+- **[`stylelint-order`](https://www.npmjs.com/package/stylelint-order)**
+- **[`postcss-styl`](https://www.npmjs.com/package/postcss-styl)**
+
+```bash
+# npm
+npm i stylelint-config-prettier stylelint-config-rational-order stylelint-order postcss-styl -D
+
+# yarn
+yarn add stylelint-config-prettier stylelint-config-rational-order stylelint-order postcss-styl -D
+```
+
+##### Configuration
+
+```json {1-4} title=".stylelintrc.json"
+{
+  "extends": ["stylelint-config-rational-order", "stylelint-config-prettier"],
+  "customSyntax": "postcss-styl"
+}
+```
+
+```json {10} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.styl --fix"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+## Format on Save
+
+```json {7} title=".vscode/settings.json"
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "stylelint.validate": ["stylus"]
+}
+```
+
+## lint-staged
+
+##### Configuration
+
+```json {14} title="package.json"
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "commit": "git-cz",
+    "stylelint": "stylelint **/*.styl --fix"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.styl": "npm run stylelint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
+```
+
+## Testing
+
+```stylus {1-14} title="src/index.styl"
+*
+  margin 0
+  padding 0
+
+*,
+*::before,
+*::after
+  box-sizing inherit
+
+html
+  box-sizing border-box
+
+body
+  overflow-x hidden
+```
+
+```bash
+# npm
+npm run commit
+
+# yarn
+yarn commit
+```

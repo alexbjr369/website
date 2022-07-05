@@ -13,7 +13,7 @@ const Projects = [
   {
     url: '../docs/projects/npm-build-scripts-guide',
     title: 'npm Build Scripts Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects//npm-build-scripts-guide.png',
     description: (
       <>A compilation of npm build scripts configurations.</>
     )

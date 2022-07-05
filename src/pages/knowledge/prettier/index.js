@@ -13,7 +13,7 @@ const Projects = [
   {
     url: '../docs/projects/webpack-guide',
     title: 'Webpack Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/webpack-guide.png',
     description: (
       <>A compilation of Webpack configurations.</>
     )
@@ -21,15 +21,15 @@ const Projects = [
   {
     url: '../docs/projects/rollup-guide',
     title: 'Rollup Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/rollup-guide.png',
     description: (
       <>A compilation of Rollup configurations.</>
     )
   },
   {
-    url: '../docs/projects/npm-build-scripts',
+    url: '../docs/projects/npm-build-scripts-guide',
     title: 'npm Build Scripts Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/npm-build-scripts-guide.png',
     description: (
       <>A compilation of npm build scripts configurations.</>
     )
@@ -37,7 +37,7 @@ const Projects = [
   {
     url: '../docs/projects/linting-code-quality-rules',
     title: 'Linting - Code-quality Rules',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/linting-code-quality-rules.png',
     description: (
       <>A compilation of code-quality rules linting configurations.</>
     )
@@ -45,7 +45,7 @@ const Projects = [
   {
     url: '../docs/projects/linting-commit',
     title: 'Linting - Commit',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/linting-commit.png',
     description: (
       <>A configuration for commit linting.</>
     )
@@ -53,7 +53,7 @@ const Projects = [
   {
     url: '../docs/projects/linting-formatting-rules',
     title: 'Linting - Formatting Rules',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/linting-formatting-rules.png',
     description: (
       <>A configuration for formatting rules linting.</>
     )

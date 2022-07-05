@@ -107,6 +107,12 @@ module.exports = {
                 'projects/linting-code-quality-rules/stylelint/scss/implementation',
               ],
             },
+            {
+              Stylus: [
+                'projects/linting-code-quality-rules/stylelint/stylus/introduction',
+                'projects/linting-code-quality-rules/stylelint/stylus/implementation',
+              ],
+            },
           ],
         },
       ],

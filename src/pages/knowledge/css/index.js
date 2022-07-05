@@ -9,6 +9,14 @@ const notes = '/docs/notes/css';
 
 const Courses = [
   {
+    url: '../docs/ignite/react-js',
+    title: 'Ignite React.js',
+    imageUrl: '../img/courses/ignite.png',
+    description: (
+      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
+    )
+  },
+  {
     url: '../docs/advanced-css-and-sass',
     title: 'Advanced CSS and Sass',
     imageUrl: '../img/courses/advanced-css-and-sass.jpg',
@@ -20,7 +28,7 @@ const Projects = [
   {
     url: '../docs/projects/webpack-guide',
     title: 'Webpack Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/webpack-guide.png',
     description: (
       <>A compilation of Webpack configurations.</>
     )
@@ -28,15 +36,15 @@ const Projects = [
   {
     url: '../docs/projects/rollup-guide',
     title: 'Rollup Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/rollup-guide.png',
     description: (
       <>A compilation of Rollup configurations.</>
     )
   },
   {
-    url: '../docs/projects/npm-build-scripts',
+    url: '../docs/projects/npm-build-scripts-guide',
     title: 'npm Build Scripts Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/npm-build-scripts-guide.png',
     description: (
       <>A compilation of npm build scripts configurations.</>
     )
@@ -44,7 +52,7 @@ const Projects = [
   {
     url: '../docs/projects/linting-code-quality-rules',
     title: 'Linting - Code-quality Rules',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/linting-code-quality-rules.png',
     description: (
       <>A compilation of code-quality rules linting configurations.</>
     )

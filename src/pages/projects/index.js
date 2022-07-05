@@ -4,25 +4,26 @@ import Link from '@docusaurus/Link';
 
 const Personal = [
   {
-    url: '../docs/projects/hive',
+    url: 'https://alexbleggi.netlify.app/hive',
     title: 'Hive',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/hive.svg',
+    className: 'projects-feature__image--no-shadow',
     description: (
-      <>Just another UI framework.</>
+      <>Just another UI Framework...</>
     )
   },
   {
-    url: '../docs/projects/monorepo-guide',
-    title: 'Monorepo Guide',
-    imageUrl: '../img/projects/github.png',
+    url: 'https://alexbleggi.netlify.app',
+    title: 'Website',
+    imageUrl: '../img/projects/website.png',
     description: (
-      <>A compilation of Monorepo configurations.</>
+      <>Personal Website.</>
     )
   },
   {
     url: '../docs/projects/webpack-guide',
     title: 'Webpack Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/webpack-guide.png',
     description: (
       <>A compilation of Webpack configurations.</>
     )
@@ -30,7 +31,7 @@ const Personal = [
   {
     url: '../docs/projects/rollup-guide',
     title: 'Rollup Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/rollup-guide.png',
     description: (
       <>A compilation of Rollup configurations.</>
     )
@@ -38,7 +39,7 @@ const Personal = [
   {
     url: '../docs/projects/npm-build-scripts-guide',
     title: 'npm Build Scripts Guide',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/npm-build-scripts-guide.png',
     description: (
       <>A compilation of npm build scripts configurations.</>
     )
@@ -46,7 +47,7 @@ const Personal = [
   {
     url: '../docs/projects/linting-code-quality-rules',
     title: 'Linting - Code-quality Rules',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/linting-code-quality-rules.png',
     description: (
       <>A compilation of code-quality rules linting configurations.</>
     )
@@ -62,7 +63,7 @@ const Personal = [
   {
     url: 'docs/projects/linting-formatting-rules',
     title: 'Linting - Formatting Rules',
-    imageUrl: '../img/projects/github.png',
+    imageUrl: '../img/projects/linting-formatting-rules.png',
     description: (
       <>A configuration for formatting rules linting.</>
     )
@@ -102,13 +103,13 @@ function Feature({ url, imageUrl, title, description }) {
   );
 }
 
-function Feature2({ url, imageUrl, title, description }) {
+function Feature2({ url, imageUrl, title, description, className }) {
   return (
     <div className="col col--4">
       <div className="projects-feature">
         <Link className="projects-feature__link" to={url}>
           <div>
-            <img className="projects-feature__image projects-feature__image--personal" src={imageUrl} alt={title} />
+            <img className={'projects-feature__image projects-feature__image--personal ' + className} src={imageUrl} alt={title} />
             <h3 className="projects-feature__heading">{title}</h3>
           </div>
         </Link>
