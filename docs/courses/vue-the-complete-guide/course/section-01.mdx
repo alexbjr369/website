@@ -1,0 +1,170 @@
+---
+id: section-01
+title: Vue the Complete Guide · Section 01
+sidebar_label: Section 01
+description: Vue the Complete Guide by Academind.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /vue-the-complete-guide/course/section-01
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Getting Started
+
+## [Welcome to the Course!](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463674#overview)
+
+## [What is "Vue.js"?](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463678#overview)
+
+## [Different Ways of Using Vue](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463684#overview)
+
+## [Exploring Vue Alternatives](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463688#overview)
+
+- **[Resources](https://academind.com/tutorials/angular-vs-react-vs-vue-my-thoughts)**
+
+## [Building A First App With Just JavaScript](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463694#overview)
+
+```html title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A First App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <label for="goal">Goal</label>
+        <input type="text" id="goal" />
+        <button>Add Goal</button>
+      </div>
+      <ul></ul>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
+```
+
+```css title="styles.css"
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+#app {
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+label,
+input {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+label {
+  font-weight: bold;
+}
+
+ul {
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+```
+
+```javascript title="app.js"
+const buttonEl = document.querySelector('button');
+const inputEl = document.querySelector('input');
+const listEl = document.querySelector('ul');
+
+function addGoal() {
+  const enteredValue = inputEl.value;
+  const listItemEl = document.createElement('li');
+  listItemEl.textContent = enteredValue;
+  listEl.appendChild(listItemEl);
+  inputEl.value = '';
+}
+
+buttonEl.addEventListener('click', addGoal);
+```
+
+## [Join our Online Learning Community](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/27874738#overview)
+
+## [Re-building the App with Vue](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463708#overview)
+
+```html {13,14,17,20} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A First App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <label for="goal">Goal</label>
+        <input type="text" id="goal" v-model="enteredValue" />
+        <button v-on:click="addGoal">Add Goal</button>
+      </div>
+      <ul>
+        <li v-for="goal in goals">{{ goal }}</li>
+      </ul>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+```
+
+```javascript title="app.js"
+Vue.createApp({
+  data() {
+    return {
+      goals: [],
+      enteredValue: '',
+    };
+  },
+  methods: {
+    addGoal() {
+      this.goals.push(this.enteredValue);
+      this.enteredValue = '';
+    },
+  },
+}).mount('#app');
+```
+
+## [Vue vs "Vanilla JavaScript" (just JavaScript)](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21879226#overview)
+
+## [Setting Up the Course Development Environment](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21879250#overview)
+
+## [Course Outline & What's In The Course](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463712#overview)
+
+<img src={useBaseUrl("img/notes/vue/course-outline-&-what's-in-the-course.png")} alt="Vue the Complete Guide - Course Outline & What's In The Course"/>
+
+## [How To Get The Most Out Of This Course](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463718#overview)
+
+## [Module Resources](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21879296#overview)

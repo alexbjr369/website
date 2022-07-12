@@ -216,6 +216,34 @@ module.exports = {
     },
     {
       type: 'category',
+      label: 'Vue The Complete Guide',
+      items: [
+        'courses/vue-the-complete-guide/vue-the-complete-guide',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'React The Complete Guide',
+      items: [
+        'courses/react-the-complete-guide/react-the-complete-guide',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Web Components and Stencil.js',
+      items: [
+        'courses/web-components-stencil-js/web-components-stencil-js',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Understanding TypeScript',
+      items: [
+        'courses/understanding-typescript/understanding-typescript',
+      ],
+    },
+    {
+      type: 'category',
       label: 'The Complete JavaScript Course',
       items: [
         'courses/the-complete-javascript-course/the-complete-javascript-course',
@@ -251,6 +279,13 @@ module.exports = {
             'courses/advanced-css-and-sass/course/section-06',
           ],
         },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Advanced Animations and Interactions with Ionic',
+      items: [
+        'courses/advanced-animations-and-interactions-with-ionic/advanced-animations-and-interactions-with-ionic',
       ],
     },
   ],

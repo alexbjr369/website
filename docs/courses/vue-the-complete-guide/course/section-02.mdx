@@ -1,0 +1,2198 @@
+---
+id: section-02
+title: Vue the Complete Guide · Section 02
+sidebar_label: Section 02
+description: Vue the Complete Guide by Academind.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /vue-the-complete-guide/course/section-02
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Basics & Core Concepts - DOM Interaction with Vue
+
+## [Module Introduction](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463128#overview)
+
+<img src={useBaseUrl("img/notes/vue/module-introduction-01.png")} alt="Vue the Complete Guide - Module Introduction"/>
+
+<img src={useBaseUrl("img/notes/vue/module-introduction-02.png")} alt="Vue the Complete Guide - Module Introduction"/>
+
+## [Creating and Connecting Vue App Instances](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463130#overview)
+
+```html title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+      <h2>My Course Goal</h2>
+      <p></p>
+    </section>
+  </body>
+</html>
+```
+
+```css title="styles.css"
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  width: 90%;
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  background-color: #4fc08d;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#user-goal {
+  width: 90%;
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#user-goal h2 {
+  margin: 0 0 1rem 0;
+  color: #4fc08d;
+  font-size: 2rem;
+  border-bottom: 4px solid #ccc;
+}
+
+#user-goal p {
+  padding: 0.5rem;
+  color: white;
+  font-weight: bold;
+  font-size: 1.25rem;
+  background-color: #4fc08d;
+  border: 1px solid #4fc08d;
+  border-radius: 25px;
+}
+
+#user-goal input {
+  font: inherit;
+  border: 1px solid #ccc;
+}
+
+#user-goal input:focus {
+  background-color: #d7fdeb;
+  border-color: #1b995e;
+  outline: none;
+}
+
+#user-goal button {
+  padding: 0.05rem 1rem;
+  color: white;
+  font: inherit;
+  background-color: #ff0077;
+  border: 1px solid #ff0077;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+
+#user-goal button:hover,
+#user-goal button:active {
+  background-color: #ec3169;
+  border-color: #ec3169;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+```
+
+```javascript title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoal: 'Finish the course and learn Vue!',
+    };
+  },
+});
+
+app.mount('#user-goal');
+```
+
+## [Interpolation and Data Binding](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463134#overview)
+
+```html {21} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+      <h2>My Course Goal</h2>
+      <p>{{courseGoal}}</p>
+    </section>
+  </body>
+</html>
+```
+
+## [Binding Attributes with the "v-bind" Directive](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463138#overview)
+
+```html {22-24} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+      <h2>My Course Goal</h2>
+      <p>{{courseGoal}}</p>
+      <p>
+        Learn more about <a v-bind:href="vueLink" target="_blank">about Vue</a>.
+      </p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {5} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoal: 'Finish the course and learn Vue!',
+      vueLink: 'https://vuejs.org/',
+    };
+  },
+});
+
+app.mount('#user-goal');
+```
+
+## [Understanding "methods" in Vue Apps](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463140#overview)
+
+```html {21} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+      <h2>My Course Goal</h2>
+      <p>{{outputGoal()}}</p>
+      <p>
+        Learn more about <a v-bind:href="vueLink" target="_blank">about Vue</a>.
+      </p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {8-18} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoal: 'Finish the course and learn Vue!',
+      vueLink: 'https://vuejs.org/',
+    };
+  },
+  methods: {
+    outputGoal() {
+      const randomNumber = Math.random();
+
+      if (randomNumber < 0.5) {
+        return 'Learn Vue!';
+      } else {
+        return 'Master Vue!';
+      }
+    },
+  },
+});
+
+app.mount('#user-goal');
+```
+
+## [Working with Data inside of a Vue App](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463144#overview)
+
+```javascript {4,5,14,16} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoalA: 'Finish the course and learn Vue!',
+      courseGoalB: 'Master Vue and build amazing apps!',
+      vueLink: 'https://vuejs.org/',
+    };
+  },
+  methods: {
+    outputGoal() {
+      const randomNumber = Math.random();
+
+      if (randomNumber < 0.5) {
+        return this.courseGoalA;
+      } else {
+        return this.courseGoalB;
+      }
+    },
+  },
+});
+
+app.mount('#user-goal');
+```
+
+## [Outputting Raw HTML Content with v-html](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463152#overview)
+
+```html {21} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Course Goals</h1>
+    </header>
+    <section id="user-goal">
+      <h2>My Course Goal</h2>
+      <p v-html="outputGoal()"></p>
+      <p>
+        Learn more about <a v-bind:href="vueLink" target="_blank">about Vue</a>.
+      </p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {5} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      courseGoalA: 'Finish the course and learn Vue!',
+      courseGoalB: '<h2>Master Vue and build amazing apps!</h2>',
+      vueLink: 'https://vuejs.org/',
+    };
+  },
+  methods: {
+    outputGoal() {
+      const randomNumber = Math.random();
+
+      if (randomNumber < 0.5) {
+        return this.courseGoalA;
+      } else {
+        return this.courseGoalB;
+      }
+    },
+  },
+});
+
+app.mount('#user-goal');
+```
+
+## [A First Summary](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463156#overview)
+
+## [Assignment 1: Time to Practice: Data Binding](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/practice/1224486#overview)
+
+```html title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <section id="assignment">
+      <!-- 01. output your name -->
+      <h2>{{ name }}</h2>
+      <!-- 02. output your age -->
+      <p>{{ age }}</p>
+      <!-- 03. output your age + 5 -->
+      <p>{{ age + 5 }}</p>
+      <p>{{ calculateAge() }}</p>
+      <!-- 04. output a random number (0 to 1) -->
+      <p>Favorite Number: {{ Math.random() }}</p>
+      <p>Favorite Number: {{ calculateRandom() }}</p>
+      <div>
+        <!-- 05. Display some image you found via Google -->
+        <img v-bind:src="imageUrl" />
+      </div>
+      <!-- 06. prepopulate the input field with your name via the "value" attribute -->
+      <input type="text" v-bind:value="name" />
+    </section>
+  </body>
+</html>
+```
+
+```css title="styles.css"
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+section {
+  margin: 3rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+h2 {
+  margin: 0 0 1rem 0;
+  color: #970076;
+  font-size: 2rem;
+  border-bottom: 4px solid #ccc;
+}
+
+p {
+  padding: 0.5rem;
+  color: white;
+  font-weight: bold;
+  font-size: 1.25rem;
+  background-color: #970076;
+  border-radius: 25px;
+}
+
+input {
+  font: inherit;
+  border: 1px solid #ccc;
+}
+
+input:focus {
+  background-color: #d7fdeb;
+  border-color: #1b995e;
+  outline: none;
+}
+
+button {
+  padding: 0.05rem 1rem;
+  color: white;
+  font: inherit;
+  background-color: #ff0077;
+  border: 1px solid #ff0077;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: #ec3169;
+  border-color: #ec3169;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+```
+
+```javascript title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      name: 'John',
+      age: 36,
+      imageUrl: 'http://placehold.it/320x150',
+    };
+  },
+  methods: {
+    calculateAge() {
+      return this.age + 5;
+    },
+    calculateRandom() {
+      return Math.random();
+    },
+  },
+});
+
+app.mount('#assignment');
+```
+
+## [Understanding Event Binding](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463164#overview)
+
+```html {21,22} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click="counter++">Add</button>
+      <button v-on:click="counter--">Reduce</button>
+      <p>Result: {{ counter }}</p>
+    </section>
+  </body>
+</html>
+```
+
+```css title="styles.css"
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  width: 90%;
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  background-color: #4fc08d;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#events {
+  width: 90%;
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#events h2 {
+  margin: 0 0 1rem 0;
+  color: #4fc08d;
+  font-size: 2rem;
+  border-bottom: 4px solid #ccc;
+}
+
+#events p {
+  padding: 0.5rem;
+  color: white;
+  font-weight: bold;
+  font-size: 1.25rem;
+  background-color: #4fc08d;
+  border: 1px solid #4fc08d;
+  border-radius: 25px;
+}
+
+#events input {
+  font: inherit;
+  border: 1px solid #ccc;
+}
+
+#events input:focus {
+  background-color: #d7fdeb;
+  border-color: #1b995e;
+  outline: none;
+}
+
+#events button {
+  margin: 0 1rem;
+  padding: 0.05rem 1rem;
+  color: white;
+  font: inherit;
+  background-color: #ff0077;
+  border: 1px solid #ff0077;
+  border-radius: 20px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+
+#events button:hover,
+#events button:active {
+  background-color: #ec3169;
+  border-color: #ec3169;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+```
+
+```javascript title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+    };
+  },
+});
+
+app.mount('#events');
+```
+
+## [Events & Methods](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463166#overview)
+
+```html {21,22} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click="counter++">Add</button>
+      <button v-on:click="counter--">Reduce</button>
+      <p>Result: {{ counter }}</p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {7-14} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+    };
+  },
+  methods: {
+    add() {
+      this.counter++;
+    },
+    reduce() {
+      this.counter--;
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+## [Working with Event Arguments](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463168#overview)
+
+```html {21,22} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click="add(5)">Add 5</button>
+      <button v-on:click="reduce(5)">Reduce 5</button>
+      <p>Result: {{ counter }}</p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {8,9,11,12} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+    };
+  },
+  methods: {
+    add(num) {
+      this.counter + num;
+    },
+    reduce(num) {
+      this.counter - num;
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+## [Using the Native Event Object](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463170#overview)
+
+```html {24,25} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click="add(5)">Add 5</button>
+      <button v-on:click="reduce(5)">Reduce 5</button>
+      <p>Result: {{ counter }}</p>
+      <input type="text" v-on:input="setName">
+      <p>Your Name: {{ name }}</p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {5,9-11} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+    };
+  },
+  methods: {
+    setName(event) {
+      this.name = event.target.value;
+    },
+    add(num) {
+      this.counter + num;
+    },
+    reduce(num) {
+      this.counter - num;
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+```html {24} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click="add(5)">Add 5</button>
+      <button v-on:click="reduce(5)">Reduce 5</button>
+      <p>Result: {{ counter }}</p>
+      <input type="text" v-on:input="setName($event, 'Doe')">
+      <p>Your Name: {{ name }}</p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {9-10} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: ''
+    };
+  },
+  methods: {
+    setName(event, lastName) {
+      this.name = `${event.target.value} ${lastName}`;
+    },
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+## [Exploring Event Modifiers](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463172#overview)
+
+```html {26-29} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click="add(5)">Add 5</button>
+      <button v-on:click="reduce(5)">Reduce 5</button>
+      <p>Result: {{ counter }}</p>
+      <input type="text" v-on:input="setName($event, 'Doe')">
+      <p>Your Name: {{ name }}</p>
+      <form v-on:submit="submitForm">
+        <input type="text">
+        <button>Sign Up</button>
+      </form>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {9-12} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: ''
+    };
+  },
+  methods: {
+    submitForm(event) {
+      event.preventDefault();
+      alert('Submitted!');
+    },
+    setName(event, lastName) {
+      this.name = `${event.target.value} ${lastName}`;
+    },
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+```html {21,22,26} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click.left="add(5)">Add 5</button>
+      <button v-on:click.right="reduce(5)">Reduce 5</button>
+      <p>Result: {{ counter }}</p>
+      <input type="text" v-on:input="setName($event, 'Doe')">
+      <p>Your Name: {{ name }}</p>
+      <form v-on:submit.prevent="submitForm">
+        <input type="text">
+        <button>Sign Up</button>
+      </form>
+    </section>
+  </body>
+</html>
+```
+
+```html {24,25} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click.left="add(5)">Add 5</button>
+      <button v-on:click.right="reduce(5)">Reduce 5</button>
+      <p>Result: {{ counter }}</p>
+      <input type="text" v-on:input="setName($event, 'Doe')" v-on:keyup.enter="confirmInput">
+      <p>Your Name: {{ confirmedName }}</p>
+      <form v-on:submit.prevent="submitForm">
+        <input type="text">
+        <button>Sign Up</button>
+      </form>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {6,10-12} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+      confirmedName: ''
+    };
+  },
+  methods: {
+    confirmInput() {
+      this.confirmedName = this.name;
+    },
+    submitForm() {
+      alert('Submitted!');
+    },
+    setName(event, lastName) {
+      this.name = `${event.target.value} ${lastName}`;
+    },
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+## [Locking Content with v-once](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463176#overview)
+
+```html {24} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click.left="add(5)">Add 5</button>
+      <button v-on:click.right="reduce(5)">Reduce 5</button>
+      <p>Result: {{ counter }}</p>
+      <p v-once>Starting Counter: {{ counter }}</p>
+      <input type="text" v-on:input="setName($event, 'Doe')" v-on:keyup.enter="confirmInput">
+      <p>Your Name: {{ confirmedName }}</p>
+      <form v-on:submit.prevent="submitForm">
+        <input type="text">
+        <button>Sign Up</button>
+      </form>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {4} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 10,
+      name: '',
+      confirmedName: '',
+    };
+  },
+  methods: {
+    confirmInput() {
+      this.confirmedName = this.name;
+    },
+    submitForm() {
+      alert('Submitted!');
+    },
+    setName(event, lastName) {
+      this.name = `${event.target.value} ${lastName}`;
+    },
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+## [Assignment 2: Time to Practice: Event Binding](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/practice/1224488#overview)
+
+```html title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Events</h1>
+    </header>
+    <section id="assignment">
+      <h2>Event Practice</h2>
+      <!-- 01. show an alert (any text of your choice) when the button is pressed -->
+      <button v-on:click="showAlert">Show Alert</button>
+      <hr />
+      <!-- 02. register the user input on "keydown" and output it in the paragraph (hint: event.target.value helps) -->
+      <input type="text" v-on:keydown="saveInput" />
+      <p>{{ userInput }}</p>
+      <hr />
+      <!-- 03. repeat 02. but only output the entered value if the "enter" key was pressed -->
+      <input
+        type="text"
+        v-on:keydown="saveInput"
+        v-on:keyup.enter="confirmInput"
+      />
+      <p>{{ confirmedInput }}</p>
+    </section>
+  </body>
+</html>
+```
+
+```css title="styles.css"
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  margin: 3rem;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  background-color: #1b995e;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#assignment {
+  margin: 3rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#assignment h2 {
+  margin: 0 0 1rem 0;
+  color: #1b995e;
+  font-size: 2rem;
+  border-bottom: 4px solid #ccc;
+}
+
+#assignment p {
+  padding: 0.5rem;
+  color: #1f1f1f;
+  font-weight: bold;
+  font-size: 1.25rem;
+  background-color: #8ddba4;
+  border-radius: 25px;
+}
+
+#assignment input {
+  font: inherit;
+  border: 1px solid #ccc;
+}
+
+#assignment input:focus {
+  background-color: #d7fdeb;
+  border-color: #1b995e;
+  outline: none;
+}
+
+#assignment button {
+  padding: 0.05rem 1rem;
+  color: white;
+  font: inherit;
+  background-color: #ff0077;
+  border: 1px solid #ff0077;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+
+#assignment button:hover,
+#assignment button:active {
+  background-color: #ec3169;
+  border-color: #ec3169;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+```
+
+```javascript title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      userInput: '',
+      confirmedInput: '',
+    };
+  },
+  methods: {
+    showAlert() {
+      alert('This works!');
+    },
+    saveInput(event) {
+      this.userInput = event.target.value;
+    },
+    confirmInput() {
+      this.confirmedInput = this.userInput;
+    },
+  },
+});
+
+app.mount('#assignment');
+```
+
+## [Data Binding + Event Binding = Two-Way Binding](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463180#overview)
+
+```html {24,25} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click="add(10)">Add 10</button>
+      <button v-on:click="reduce(5)">Subtract 5</button>
+      <p>Result: {{ counter }}</p>
+      <input type="text" v-model="name" />
+      <button v-on:click="resetInput">Reset Input</button>
+      <p>Your Name: {{ name }}</p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {15-17} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      userInput: '',
+      confirmedInput: '',
+    };
+  },
+  methods: {
+    showAlert() {
+      alert('This works!');
+    },
+    saveInput(event) {
+      this.userInput = event.target.value;
+    },
+    confirmInput() {
+      this.confirmedInput = this.userInput;
+    },
+  },
+});
+
+app.mount('#assignment');
+```
+
+## [Methods used for Data Binding: How It Works](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463188#overview)
+
+**Every time the DOM is updated, Vue re-execute all methods called in interpolations.**
+
+```html {26} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click="add(10)">Add 10</button>
+      <button v-on:click="reduce(5)">Subtract 5</button>
+      <p>Result: {{ counter }}</p>
+      <input type="text" v-model="name" />
+      <button v-on:click="resetInput">Reset Input</button>
+      <p>Your Name: {{ outputFullName() }}</p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {9-14} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+    };
+  },
+  methods: {
+    outputFullName() {
+      if (this.name === '') {
+        return '';
+      }
+      return `${this.name} Doe`;
+    },
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+    resetInput() {
+      this.name = '';
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+## [Introducing Computed Properties](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463196#overview)
+
+**Vue will be aware of Computed Property dependencies and only re-execute them if one of the dependencies changes.**
+
+```html {26} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button v-on:click="add(10)">Add 10</button>
+      <button v-on:click="reduce(5)">Subtract 5</button>
+      <p>Result: {{ counter }}</p>
+      <input type="text" v-model="name" />
+      <button v-on:click="resetInput">Reset Input</button>
+      <p>Your Name: {{ fullName }}</p>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {8-15} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+    };
+  },
+  computed: {
+    fullName() {
+      if (this.name === '') {
+        return '';
+      }
+      return `${this.name} Doe`;
+    },
+  },
+  methods: {
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+    resetInput() {
+      this.name = '';
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+## [Working with Watchers](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463198#overview)
+
+```javascript {9-18} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+      fullName: '',
+    };
+  },
+  watch: {
+    // watching name property
+    name(newValue, oldValue) {
+      if (newValue === '') {
+        this.fullName = '';
+      } else {
+        this.fullName = `${newValue} Doe`;
+      }
+    },
+  },
+  computed: {},
+  methods: {
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+    resetInput() {
+      this.name = '';
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+```javascript {9-15} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+      fullName: '',
+    };
+  },
+  watch: {
+    counter(newValue, oldValue) {
+      if (newValue > 50) {
+        this.counter = 0;
+      }
+    },
+  },
+  computed: {},
+  methods: {
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+    resetInput() {
+      this.name = '';
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+**Watcher vs Computed Properties**
+
+```javascript {7,10-26} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+      fullName: '',
+      lastName: '',
+    };
+  },
+  watch: {
+    // watching name property
+    name(newValue, oldValue) {
+      if (newValue === '') {
+        this.fullName = '';
+      } else {
+        this.fullName = `${newValue} ${this.lastName}`;
+      }
+    },
+    lastName(newValue, oldValue) {
+      if (newValue === '') {
+        this.fullName = '';
+      } else {
+        this.fullName = `${this.mame} ${newValue}`;
+      }
+    },
+  },
+  computed: {},
+  methods: {
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+    resetInput() {
+      this.name = '';
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+```javascript {6,10-17} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      counter: 0,
+      name: '',
+      lastName: '',
+    };
+  },
+  watch: {},
+  computed: {
+    fullName() {
+      if (this.name === '' || this.lastName === '') {
+        return '';
+      }
+      return `${this.name} ${this.lastName}`;
+    },
+  },
+  methods: {
+    add(num) {
+      this.counter = this.counter + num;
+    },
+    reduce(num) {
+      this.counter = this.counter - num;
+    },
+    resetInput() {
+      this.name = '';
+    },
+  },
+});
+
+app.mount('#events');
+```
+
+## [Methods vs Computed Properties vs Watchers](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463202#overview)
+
+## [v-bind and v-on Shorthands](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463206#overview)
+
+```html {21,22,24,25,26} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <button @click="add(10)">Add 10</button>
+      <button @click="reduce(5)">Subtract 5</button>
+      <p>Result: {{ counter }}</p>
+      <input type="text" :value="..." v-model="name" />
+      <input type="text" :value="..." v-model="lastName" />
+      <button @click="resetInput">Reset Input</button>
+      <p>Your Name: {{ fullName }}</p>
+    </section>
+  </body>
+</html>
+```
+
+## [Assignment 3: Time to Practice: Reactivity](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/practice/1224490#overview)
+
+```html title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Reactivity in Action</h1>
+    </header>
+    <section id="assignment">
+      <button @click="addNumber(5)">Add 5</button>
+      <button @click="addNumber(1)">Add 1</button>
+      <!-- 01. connect the buttons and calculate a value (a number) -->
+      <!-- show "Not there yet" until you reach a result of exactly 37 -->
+      <!-- Show "Too much!" if the result is greater than 37 -->
+      <p>Result: {{ result }}</p>
+      <!-- 02. Watch for changes in "result" and reset the value to 0 after 5 seconds -->
+    </section>
+  </body>
+</html>
+```
+
+```css title="styles.css"
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  margin: 3rem;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  background-color: #1b995e;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#assignment {
+  margin: 3rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#assignment h2 {
+  margin: 0 0 1rem 0;
+  color: #1b995e;
+  font-size: 2rem;
+  border-bottom: 4px solid #ccc;
+}
+
+#assignment p {
+  padding: 0.5rem;
+  color: #1f1f1f;
+  font-weight: bold;
+  font-size: 1.25rem;
+  background-color: #8ddba4;
+  border-radius: 25px;
+}
+
+#assignment input {
+  font: inherit;
+  border: 1px solid #ccc;
+}
+
+#assignment input:focus {
+  background-color: #d7fdeb;
+  border-color: #1b995e;
+  outline: none;
+}
+
+#assignment button {
+  padding: 0.05rem 1rem;
+  color: white;
+  font: inherit;
+  background-color: #ff0077;
+  border: 1px solid #ff0077;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+
+#assignment button:hover,
+#assignment button:active {
+  background-color: #ec3169;
+  border-color: #ec3169;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+```
+
+```javascript title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      number: 0,
+    };
+  },
+  computed: {
+    result() {
+      if (this.number < 37) {
+        return 'Not there yet!';
+      } else if (this.number === 37) {
+        return this.number;
+      } else {
+        return 'Too much!';
+      }
+    },
+  },
+  watch: {
+    result(newValue, oldValue) {
+      const that = this;
+      setTimeout(() => {
+        that.number = 0;
+      }, 5000);
+    },
+  },
+  methods: {
+    addNumber(num) {
+      this.number = this.number + num;
+    },
+  },
+});
+
+app.mount('#assignment');
+```
+
+## [Dynamic Styling with Inline Styles](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463210#overview)
+
+```html {22,23,27,28,32,33} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Dynamic Styling</h1>
+    </header>
+    <section id="styling">
+      <div
+        class="demo"
+        :style="{'border-color': boxASelected ? 'red' : '#ccc'}"
+        @click="boxSelected('A')"
+      ></div>
+      <div
+        class="demo"
+        :style="{borderColor: boxBSelected ? 'red' : '#ccc'}"
+        @click="boxSelected('B')"
+      ></div>
+      <div
+        class="demo"
+        :style="{borderColor: boxCSelected ? 'red' : '#ccc'}"
+        @click="boxSelected('C')"
+      ></div>
+    </section>
+  </body>
+</html>
+```
+
+```css title="styles.css"
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  margin: 3rem;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  background-color: #4fc08d;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#styling {
+  margin: 3rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.demo {
+  width: calc(100% - 32px);
+  height: 100px;
+  margin: 16px;
+  border: 2px dashed #ccc;
+}
+```
+
+```javascript title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      boxASelected: false,
+      boxBSelected: false,
+      boxCSelected: false,
+    };
+  },
+  methods: {
+    boxSelected(box) {
+      if (box === 'A') {
+        this.boxASelected = true;
+      } else if (box === 'B') {
+        this.boxBSelected = true;
+      } else if (box === 'C') {
+        this.boxCSelected = true;
+      }
+    },
+  },
+});
+
+app.mount('#styling');
+```
+
+## [Adding CSS Classes Dynamically](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463214#overview)
+
+```html {22,27,32} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Dynamic Styling</h1>
+    </header>
+    <section id="styling">
+      <div
+        class="demo"
+        :class="{active: boxASelected}"
+        @click="boxSelected('A')"
+      ></div>
+      <div
+        class="demo"
+        :class="{active: boxBSelected}"
+        @click="boxSelected('B')"
+      ></div>
+      <div
+        class="demo"
+        :class="{active: boxCSelected}"
+        @click="boxSelected('C')"
+      ></div>
+    </section>
+  </body>
+</html>
+```
+
+```css {38-41} title="styles.css"
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  margin: 3rem;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  background-color: #4fc08d;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#styling {
+  margin: 3rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.demo {
+  width: calc(100% - 32px);
+  height: 100px;
+  margin: 16px;
+  border: 2px dashed #ccc;
+}
+
+.active {
+  border-color: red;
+  background-color: salmon;
+}
+```
+
+## [Classes & Computed Properties](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463218#overview)
+
+```html {20,21,22} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Dynamic Styling</h1>
+    </header>
+    <section id="styling">
+      <div class="demo" :class="boxAClasses" @click="boxSelected('A')"></div>
+      <div class="demo" :class="boxBClasses" @click="boxSelected('B')"></div>
+      <div class="demo" :class="boxCClasses" @click="boxSelected('C')"></div>
+    </section>
+  </body>
+</html>
+```
+
+```javascript {9-19} title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      boxASelected: false,
+      boxBSelected: false,
+      boxCSelected: false,
+    };
+  },
+  computed: {
+    boxAClasses() {
+      return { active: this.boxASelected };
+    },
+    boxBClasses() {
+      return { active: this.boxBSelected };
+    },
+    boxCClasses() {
+      return { active: this.boxCSelected };
+    },
+  },
+  methods: {
+    boxSelected(box) {
+      if (box === 'A') {
+        this.boxASelected = true;
+      } else if (box === 'B') {
+        this.boxBSelected = true;
+      } else if (box === 'C') {
+        this.boxCSelected = true;
+      }
+    },
+  },
+});
+
+app.mount('#styling');
+```
+
+## [Dynamic Classes: Array Syntax](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463224#overview)
+
+```html {21,25,29} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Dynamic Styling</h1>
+    </header>
+    <section id="styling">
+      <div
+        :class="['demo', {active: boxAClasses}]"
+        @click="boxSelected('A')"
+      ></div>
+      <div
+        :class="['demo', {active: boxBClasses}]"
+        @click="boxSelected('B')"
+      ></div>
+      <div
+        :class="['demo', {active: boxCClasses}]"
+        @click="boxSelected('C')"
+      ></div>
+    </section>
+  </body>
+</html>
+```
+
+## [Assignment 4: Time to Practice: Dynamic Styling](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/practice/1224492/#overview)
+
+```html title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Styling</h1>
+    </header>
+    <section id="assignment">
+      <!-- 01. fetch the user input and use it as a CSS class -->
+      <!-- the entered class should be added to the below paragraph -->
+      <!-- (available classes: "user1", "user2") -->
+      <input type="text" v-model="inputClass" />
+      <p :class="inputClass">Style me!</p>
+
+      <!-- 02. use the "visible" and "hidden" classes to show/ hide the above paragraph -->
+      <!-- clicking the button should toggle between the two options -->
+      <p :class="paragraphClasses">Style me!</p>
+      <button @click="toggleParagraphVisibility">Toggle Paragraph</button>
+
+      <!-- 03. add dynamic inline styling to the below paragraph and let the user enter a background-color -->
+      <input type="text" v-modeL="inputBackgroundColor" />
+      <p :style="{backgroundColor: inputBackgroundColor}">Style me inline!</p>
+    </section>
+  </body>
+</html>
+```
+
+```css title="styles.css"
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  margin: 3rem;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  background-color: #1b995e;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#assignment {
+  margin: 3rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+#assignment h2 {
+  margin: 0 0 1rem 0;
+  color: #1b995e;
+  font-size: 2rem;
+  border-bottom: 4px solid #ccc;
+}
+
+p {
+  padding: 0.5rem;
+  color: #1f1f1f;
+  font-weight: bold;
+  font-size: 1.25rem;
+  background-color: #8ddba4;
+  border-radius: 25px;
+}
+
+#assignment input {
+  font: inherit;
+  border: 1px solid #ccc;
+}
+
+#assignment input:focus {
+  background-color: #d7fdeb;
+  border-color: #1b995e;
+  outline: none;
+}
+
+#assignment button {
+  padding: 0.05rem 1rem;
+  color: white;
+  font: inherit;
+  background-color: #ff0077;
+  border: 1px solid #ff0077;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+  cursor: pointer;
+}
+
+#assignment button:hover,
+#assignment button:active {
+  background-color: #ec3169;
+  border-color: #ec3169;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+
+.user1 {
+  color: white;
+  background-color: blue;
+}
+
+.user2 {
+  color: white;
+  background-color: purple;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+```
+
+```javascript title="app.js"
+const app = Vue.createApp({
+  data() {
+    return {
+      inputClass: '',
+      paragraphIsVisible: true,
+      inputBackgroundColor: '',
+    };
+  },
+  computed: {
+    paragraphClasses() {
+      return {
+        user1: this.inputClass === 'user1',
+        user2: this.inputClass === 'user2',
+        visible: this.paragraphIsVisible,
+        hidden: !this.paragraphIsVisible,
+      };
+    },
+  },
+  methods: {
+    toggleParagraphVisibility() {
+      this.paragraphIsVisible = !this.paragraphIsVisible;
+    },
+  },
+});
+
+app.mount('#assignment');
+```
+
+## [Module Summary](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463232#overview)
+
+<img src={useBaseUrl("img/notes/vue/summary-01.png")} alt="Vue the Complete Guide - Summary"/>
+
+## [Module Resources](https://www.udemy.com/course/vuejs-2-the-complete-guide/learn/lecture/21463236#overview)

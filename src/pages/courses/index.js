@@ -63,9 +63,9 @@ const CourseList = [
     )
   },
   {
-    url: '../docs/web-components-stenciljs',
+    url: '../docs/web-components-stencil-js',
     title: 'Web Components and Stencil.js',
-    imageUrl: '../img/courses/web-components-stenciljs.jpg',
+    imageUrl: '../img/courses/web-components-stencil-js.jpg',
     description: (
       <><a href="https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/" target="_blank"><strong>Online course</strong></a> by <a href="https://www.udemy.com/user/academind/" target="_blank"><strong>Academind</strong></a> on <a href="https://www.udemy.com/" target="_blank"><strong>Udemy</strong></a>.</>
     )
