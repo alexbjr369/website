@@ -114,6 +114,14 @@ module.exports = {
               ],
             },
           ],
+          ESLint: [
+            {
+              JavaScript: [
+                'projects/linting-code-quality-rules/eslint/javascript/introduction',
+                'projects/linting-code-quality-rules/eslint/javascript/implementation',
+              ],
+            },
+          ],
         },
       ],
     },
@@ -240,6 +248,7 @@ module.exports = {
             'courses/advanced-css-and-sass/course/section-03',
             'courses/advanced-css-and-sass/course/section-04',
             'courses/advanced-css-and-sass/course/section-05',
+            'courses/advanced-css-and-sass/course/section-06',
           ],
         },
       ],

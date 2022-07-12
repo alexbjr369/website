@@ -1,0 +1,162 @@
+---
+id: implementation
+title: Linting - Code-quality Rules · ESLint · JavaScript · Implementation
+sidebar_label: Implementation
+description: A compilation of Code-quality Rules Linting configurations.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/linting-code-quality-rules/eslint/javascript/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Implementation
+
+Step by step **ESLint** configuration for **JavaScript**.
+
+## Formatting Rules Linting
+
+Follow the steps in **[Linting - Formatting Rules](/docs/projects/linting-formatting-rules/implementation)**.
+
+## Commit Linting
+
+Follow the steps in **[Linting - Commit](/docs/projects/linting-commit/implementation)**.
+
+## ESLint
+
+- **[`eslint`](https://www.npmjs.com/package/eslint)**
+
+```bash
+# npm
+npm i -D eslint
+
+# yarn
+yarn add -D eslint
+```
+
+##### Plugins
+
+- **[`eslint-config-airbnb-base`](https://www.npmjs.com/package/eslint-config-airbnb-base)**
+- **[`eslint-config-prettier`](https://www.npmjs.com/package/eslint-config-prettier)**
+- **[`eslint-plugin-import`](https://www.npmjs.com/package/eslint-plugin-import)**
+- **[`eslint-plugin-prettier`](https://www.npmjs.com/package/eslint-plugin-prettier)**
+
+```bash
+# npm
+npm i -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-import eslint-plugin-prettier
+
+# yarn
+yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-import eslint-plugin-prettier
+```
+
+##### Configuration
+
+```json {1-8} title=".eslintrc.json"
+{
+  "env": {
+    "es2022": true,
+    "browser": true
+  },
+  "extends": ["airbnb-base", "prettier"],
+  "plugins": ["prettier"]
+}
+```
+
+```json {9} title="package.json"
+{
+  "name": "eslint-javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "eslint": "eslint **/*.js --fix",
+    "commit": "git-cz"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.js": "npm run eslint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "keywords": [],
+  "author": "Alex Bleggi",
+  "license": "MIT",
+}
+```
+
+## lint-staged
+
+##### Configuration
+
+```json {14} title="package.json"
+{
+  "name": "eslint-javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "npx husky install",
+    "prettier": "prettier . --write --ignore-unknown",
+    "eslint": "eslint **/*.js --fix",
+    "commit": "git-cz"
+  },
+  "lint-staged": {
+    "**/*": "npm run prettier",
+    "**/*.js": "npm run eslint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "keywords": [],
+  "author": "Alex Bleggi",
+  "license": "MIT"
+}
+```
+
+## Testing
+
+```typescript title="src/a.js"
+const hello = () => {
+  console.log('Hello from a.js');
+};
+
+export default hello;
+```
+
+```typescript title="src/b.js"
+const hello = () => {
+  console.log('Hello from b.js');
+};
+
+export default hello;
+```
+
+```typescript title="src/index.js"
+import * as a from './a';
+import * as b from './b';
+
+a.hello();
+b.hello();
+
+const test = [1, 2, 3].map((n) => n + 1);
+
+console.log(test);
+```
+
+```bash
+# npm
+npm run commit
+
+# yarn
+yarn commit
+```
