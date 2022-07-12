@@ -4,9 +4,19 @@ import Link from '@docusaurus/Link';
 
 const KnowledgeImage = [
   {
+    title: 'HTML',
+    imageUrl: '../img/knowledge/html.svg',
+    url: 'knowledge/html',
+  },
+  {
     title: 'CSS',
     imageUrl: '../img/knowledge/css.svg',
     url: 'knowledge/css',
+  },
+  {
+    title: 'Web Accessibility',
+    imageUrl: '../img/knowledge/web-accessibility.png',
+    url: 'knowledge/web-accessibility',
   },
   {
     title: 'TypeScript',
@@ -18,6 +28,11 @@ const KnowledgeImage = [
     imageUrl: '../img/knowledge/bem-methodology.svg',
     url: 'knowledge/bem-methodology',
     className: 'invert',
+  },
+  {
+    title: 'Sass Guidelines',
+    imageUrl: '../img/knowledge/sass-guidelines.png',
+    url: 'knowledge/sass-guidelines',
   },
   {
     title: 'Sass',

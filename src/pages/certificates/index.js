@@ -51,7 +51,7 @@ const technology = [
     )
   },
   {
-    url: '../docs/web-components-stenciljs#certificate',
+    url: '../docs/web-components-stencil-js#certificate',
     title: 'Web Components and Stencil.js',
     imageUrl: '../img/certificates/UC-ec7230bc-4d01-4ff3-86bf-3146060206cd.jpg',
     description: (
