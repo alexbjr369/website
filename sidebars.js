@@ -277,6 +277,7 @@ module.exports = {
             'courses/advanced-css-and-sass/course/section-04',
             'courses/advanced-css-and-sass/course/section-05',
             'courses/advanced-css-and-sass/course/section-06',
+            'courses/advanced-css-and-sass/course/section-07',
           ],
         },
       ],
