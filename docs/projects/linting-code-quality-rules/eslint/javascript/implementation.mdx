@@ -54,41 +54,40 @@ yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-impor
 
 ##### Configuration
 
-```json {1-8} title=".eslintrc.json"
+```json title=".eslintrc.json"
 {
   "env": {
     "es2022": true,
     "browser": true
   },
   "extends": ["airbnb-base", "prettier"],
-  "plugins": ["prettier"]
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  }
 }
 ```
 
-```json {9} title="package.json"
+```json {10} title="package.json"
 {
-  "name": "eslint-javascript",
+  "name": "project",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
+  "license": "MIT",
   "scripts": {
     "prepare": "npx husky install",
     "prettier": "prettier . --write --ignore-unknown",
-    "eslint": "eslint **/*.js --fix",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "eslint": "eslint **/*.js --fix"
   },
   "lint-staged": {
     "**/*": "npm run prettier",
-    "**/*.js": "npm run eslint"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "keywords": [],
-  "author": "Alex Bleggi",
-  "license": "MIT",
+  }
 }
 ```
 
@@ -105,8 +104,8 @@ yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-impor
   "scripts": {
     "prepare": "npx husky install",
     "prettier": "prettier . --write --ignore-unknown",
-    "eslint": "eslint **/*.js --fix",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "eslint": "eslint **/*.js --fix"
   },
   "lint-staged": {
     "**/*": "npm run prettier",
@@ -116,16 +115,13 @@ yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-impor
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "keywords": [],
-  "author": "Alex Bleggi",
-  "license": "MIT"
+  }
 }
 ```
 
 ## Testing
 
-```typescript title="src/a.js"
+```javascript title="src/script-a.js"
 const hello = () => {
   console.log('Hello from a.js');
 };
@@ -133,7 +129,7 @@ const hello = () => {
 export default hello;
 ```
 
-```typescript title="src/b.js"
+```javascript title="src/script-b.js"
 const hello = () => {
   console.log('Hello from b.js');
 };
@@ -141,9 +137,9 @@ const hello = () => {
 export default hello;
 ```
 
-```typescript title="src/index.js"
-import * as a from './a';
-import * as b from './b';
+```javascript title="src/index.js"
+import * as a from './script-a';
+import * as b from './script-b';
 
 a.hello();
 b.hello();
