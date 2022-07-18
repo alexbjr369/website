@@ -11,7 +11,15 @@ const Courses = [];
 
 const Projects = [
   {
-    url: 'https://alexbleggi.netlify.app/',
+    url: 'https://alexbleggi.netlify.app/hive',
+    title: 'Hive Website',
+    imageUrl: '../img/projects/hive-website.png',
+    description: (
+      <>Hive Website.</>
+    )
+  },
+  {
+    url: 'https://alexbleggi.netlify.app',
     title: 'Website',
     imageUrl: '../img/projects/website.png',
     description: (

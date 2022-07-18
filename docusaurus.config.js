@@ -194,6 +194,10 @@ module.exports = {
               to: 'docs/notes/angular',
             },
             {
+              label: 'JavaScript',
+              to: 'docs/notes/javascript',
+            },
+            {
               label: 'BEM Methodology',
               to: 'docs/notes/bem-methodology',
             },
