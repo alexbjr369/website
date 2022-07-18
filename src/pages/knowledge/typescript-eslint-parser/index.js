@@ -2,21 +2,12 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-const title = 'TypeScript';
-const imgPath = '../img/knowledge/typescript.svg';
-const url = 'https://www.typescriptlang.org/';
+const title = '@typescript-eslint/parser';
+const imgPath = '../img/knowledge/npm-build-scripts.svg';
+const url = 'https://www.npmjs.com/package/@typescript-eslint/parser';
 const notes = '';
 
-const Courses = [
-  {
-    url: '/docs/ignite/react-js',
-    title: 'Ignite React.js',
-    imageUrl: '../img/courses/ignite.png',
-    description: (
-      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
-    )
-  },
-];
+const Courses = [];
 
 const Projects = [
   {
@@ -48,7 +39,7 @@ function Hero() {
           {/* {notes && <Link className="button button--custom" to={notes}>Notes</Link>} */}
         </div>
       </div>
-    </header>
+    </header >
   );
 }
 

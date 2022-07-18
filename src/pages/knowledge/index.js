@@ -19,10 +19,16 @@ const KnowledgeImage = [
     url: 'knowledge/web-accessibility',
   },
   {
+    title: 'JavaScript',
+    imageUrl: '../img/knowledge/javascript.svg',
+    url: 'knowledge/javascript',
+  },
+  {
     title: 'TypeScript',
     imageUrl: '../img/knowledge/typescript.svg',
     url: 'knowledge/typescript',
   },
+
   {
     title: 'Bem Methodology',
     imageUrl: '../img/knowledge/bem-methodology.svg',
@@ -34,11 +40,23 @@ const KnowledgeImage = [
     imageUrl: '../img/knowledge/sass-guidelines.png',
     url: 'knowledge/sass-guidelines',
   },
+
+  {
+    title: 'Less',
+    imageUrl: '../img/knowledge/less.svg',
+    url: 'knowledge/less',
+  },
   {
     title: 'Sass',
     imageUrl: '../img/knowledge/sass.svg',
     url: 'knowledge/sass',
   },
+  {
+    title: 'Stylus',
+    imageUrl: '../img/knowledge/stylus.svg',
+    url: 'knowledge/stylus',
+  },
+
   {
     title: 'EditorConfig',
     imageUrl: '../img/knowledge/editorconfig.png',
@@ -57,10 +75,23 @@ const KnowledgeImage = [
     className: 'invert',
   },
   {
+    title: 'ESLint',
+    imageUrl: '../img/knowledge/eslint.svg',
+    url: 'knowledge/eslint',
+  },
+
+  {
     title: 'React',
     imageUrl: '../img/knowledge/react-js.svg',
     url: 'knowledge/react-js',
   },
+
+  {
+    title: 'docusaurus',
+    imageUrl: '../img/knowledge/docusaurus.svg',
+    url: 'knowledge/docusaurus',
+  },
+
   {
     title: 'node-sass',
     imageUrl: '../img/knowledge/node-sass.svg',
@@ -123,6 +154,31 @@ const KnowledgeText = [
   {
     title: 'postcss-styl',
     url: 'knowledge/postcss-styl',
+  },
+
+  {
+    title: 'eslint-config-airbnb-base',
+    url: 'knowledge/eslint-config-airbnb-base',
+  },
+  {
+    title: 'eslint-config-prettier',
+    url: 'knowledge/eslint-config-prettier',
+  },
+  {
+    title: 'eslint-plugin-import',
+    url: 'knowledge/eslint-plugin-import',
+  },
+  {
+    title: 'eslint-plugin-prettier',
+    url: 'knowledge/eslint-plugin-prettier',
+  },
+  {
+    title: '@typescript-eslint/eslint-plugin',
+    url: 'knowledge/typescript-eslint-eslint-plugin',
+  },
+  {
+    title: '@typescript-eslint/parser',
+    url: 'knowledge/typescript-eslint-parser',
   },
 ];
 

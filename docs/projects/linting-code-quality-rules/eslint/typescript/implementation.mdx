@@ -1,12 +1,12 @@
 ---
 id: implementation
-title: Linting - Code-quality Rules · ESLint · JavaScript · Implementation
+title: Linting - Code-quality Rules · ESLint · TypeScript · Implementation
 sidebar_label: Implementation
 description: A compilation of Code-quality Rules Linting configurations.
 keywords:
   - Alex Bleggi
 image: /static/other/img/profile.png
-slug: /projects/linting-code-quality-rules/eslint/javascript/implementation
+slug: /projects/linting-code-quality-rules/eslint/typescript/implementation
 toc_max_heading_level: 4
 hide_title: true
 ---
@@ -15,7 +15,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 # Implementation
 
-Step by step **ESLint** configuration for **JavaScript**.
+Step by step **ESLint** configuration for **TypeScript**.
 
 ## Formatting Rules Linting
 
@@ -43,13 +43,15 @@ yarn add -D eslint
 - **[`eslint-config-prettier`](https://www.npmjs.com/package/eslint-config-prettier)**
 - **[`eslint-plugin-import`](https://www.npmjs.com/package/eslint-plugin-import)**
 - **[`eslint-plugin-prettier`](https://www.npmjs.com/package/eslint-plugin-prettier)**
+- **[`@typescript-eslint/eslint-plugin`](https://www.npmjs.com/package/@typescript-eslint/eslint-plugin)**
+- **[`@typescript-eslint/parser`](https://www.npmjs.com/package/@typescript-eslint/parser)**
 
 ```bash
 # npm
-npm i -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-import eslint-plugin-prettier
+npm i -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-import eslint-plugin-prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser
 
 # yarn
-yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-import eslint-plugin-prettier
+yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-import eslint-plugin-prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 ##### Configuration
@@ -60,8 +62,9 @@ yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-impor
     "es2022": true,
     "browser": true
   },
+  "parser": "@typescript-eslint/parser",
   "extends": ["airbnb-base", "prettier"],
-  "plugins": ["prettier"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": "error"
   }
@@ -78,7 +81,7 @@ yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-impor
     "prepare": "npx husky install",
     "prettier": "prettier . --write --ignore-unknown",
     "commit": "git-cz",
-    "eslint": "eslint **/*.js --fix"
+    "eslint": "eslint **/*.ts --fix"
   },
   "lint-staged": {
     "**/*": "npm run prettier",
@@ -105,11 +108,11 @@ yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-impor
     "prepare": "npx husky install",
     "prettier": "prettier . --write --ignore-unknown",
     "commit": "git-cz",
-    "eslint": "eslint **/*.js --fix"
+    "eslint": "eslint **/*.ts --fix"
   },
   "lint-staged": {
     "**/*": "npm run prettier",
-    "**/*.js": "npm run eslint"
+    "**/*.ts": "npm run eslint"
   },
   "config": {
     "commitizen": {
@@ -121,23 +124,23 @@ yarn add -D eslint-config-airbnb-base eslint-config-prettier eslint-plugin-impor
 
 ## Testing
 
-```javascript title="src/script-a.js"
+```typescript title="src/script-a.ts"
 const hello = () => {
-  console.log('Hello from script-a.js');
+  console.log('Hello from script-a.ts');
 };
 
 export default hello;
 ```
 
-```javascript title="src/script-b.js"
+```typescript title="src/script-b.ts"
 const hello = () => {
-  console.log('Hello from script-b.js');
+  console.log('Hello from script-b.ts');
 };
 
 export default hello;
 ```
 
-```javascript title="src/index.js"
+```typescript title="src/index.ts"
 import * as scriptA from './script-a';
 import * as scriptB from './script-b';
 

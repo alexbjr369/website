@@ -2,21 +2,12 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-const title = 'TypeScript';
-const imgPath = '../img/knowledge/typescript.svg';
-const url = 'https://www.typescriptlang.org/';
+const title = 'Less';
+const imgPath = '../img/knowledge/less.svg';
+const url = 'https://lesscss.org/';
 const notes = '';
 
-const Courses = [
-  {
-    url: '/docs/ignite/react-js',
-    title: 'Ignite React.js',
-    imageUrl: '../img/courses/ignite.png',
-    description: (
-      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
-    )
-  },
-];
+const Courses = [];
 
 const Projects = [
   {
@@ -58,7 +49,7 @@ function Feature({ url, imageUrl, title, description }) {
       <div className="projects-feature">
         <Link className="projects-feature__link" to={url}>
           <div>
-            <img className="projects-feature__image" src={imageUrl} alt={title} />
+            <img className="projects-feature__image projects-feature__image--book" src={imageUrl} alt={title} />
             <h3 className="projects-feature__heading">{title}</h3>
           </div>
         </Link>

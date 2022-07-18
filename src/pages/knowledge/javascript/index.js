@@ -2,21 +2,12 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-const title = 'TypeScript';
-const imgPath = '../img/knowledge/typescript.svg';
-const url = 'https://www.typescriptlang.org/';
+const title = 'JavaScript';
+const imgPath = '../img/knowledge/javascript.svg';
+const url = 'https://developer.mozilla.org/pt-BR/docs/Web/JavaScript';
 const notes = '';
 
-const Courses = [
-  {
-    url: '/docs/ignite/react-js',
-    title: 'Ignite React.js',
-    imageUrl: '../img/courses/ignite.png',
-    description: (
-      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
-    )
-  },
-];
+const Courses = [];
 
 const Projects = [
   {

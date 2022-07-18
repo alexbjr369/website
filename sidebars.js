@@ -121,6 +121,12 @@ module.exports = {
                 'projects/linting-code-quality-rules/eslint/javascript/implementation',
               ],
             },
+            {
+              Typescript: [
+                'projects/linting-code-quality-rules/eslint/typescript/introduction',
+                'projects/linting-code-quality-rules/eslint/typescript/implementation',
+              ],
+            },
           ],
         },
       ],
