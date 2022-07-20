@@ -427,3 +427,416 @@ export function Comment({ content }) {
   );
 }
 ```
+
+## [Entendendo a key](https://app.rocketseat.com.br/node/chapter-i-6/group/os-motores-do-react/lesson/entendendo-a-key)
+
+**Nunca utilizar o indíce do array como key.**
+
+```jsx {49} title="src/App.jsx"
+import { Header } from './components/Header';
+import { Sidebar } from './components/Sidebar';
+import { Post } from './components/Post';
+
+import './global.css';
+import styles from './App.module.css';
+
+const posts = [
+  {
+    id: 1,
+    author: {
+      avatarUrl: 'https://avatars.githubusercontent.com/u/85613172?v=4',
+      name: 'John Doe',
+      role: 'Web Developer'
+    },
+    content: [
+      { type: 'paragraph', content: 'Lorem, ipsum.'},
+      { type: 'paragraph', content: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse autem excepturi qui, laborum, alias exercitationem assumenda praesentium eligendi suscipit fuga commodi nostrum minus dolores itaque.'},
+      { type: 'link', content: 'Lorem, ipsum dolor.'},
+    ],
+    publishedAt: new Date('2022-06-25 20:00:00')
+  },
+  {
+    id: 2,
+    author: {
+      avatarUrl: 'https://avatars.githubusercontent.com/u/85613172?v=4',
+      name: 'John Doe 2',
+      role: 'Web Developer'
+    },
+    content: [
+      { type: 'paragraph', content: 'Lorem, ipsum.'},
+      { type: 'paragraph', content: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse autem excepturi qui, laborum, alias exercitationem assumenda praesentium eligendi suscipit fuga commodi nostrum minus dolores itaque.'},
+      { type: 'link', content: 'Lorem, ipsum dolor.'},
+    ],
+    publishedAt: new Date('2022-06-26 20:00:00')
+  }
+]
+
+export function App() {
+  return (
+    <div>
+      <Header />
+      <div className={styles.wrapper}>
+        <Sidebar />
+        <main>
+          {posts.map(post => {
+            return (
+              <Post
+                key={post.id}
+                author={post.author}
+                content={post.content}
+                publishedAt={post.publishedAt}
+              />
+            )
+          })}
+        </main>
+      </div>
+    </div>
+  );
+}
+```
+
+```jsx {56,59,82} title="src/components/Post.jsx"
+import { useState } from 'react';
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+import { Avatar } from './Avatar';
+import { Comment } from './Comment';
+import styles from './Post.module.css';
+
+export function Post({ author, publishedAt, content }) {
+  const [comments, setComments] = useState(['Lorem ipsum dolor sit.']);
+
+  const [newCommentText, setNewCommentText] = useState('');
+
+  const publishedDateFormatted = format(
+    publishedAt,
+    "d 'de' LLLL 'às' HH:mm'h'",
+    { locale: ptBR }
+  );
+
+  const publishedDaterelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  });
+
+  function handleCreateNewComment() {
+    event.preventDefault();
+
+    setComments([...comments, newCommentText]);
+
+    setNewCommentText('');
+  }
+
+  function handleNewCommentChange() {
+    setNewCommentText(event.target.value);
+  }
+
+  return (
+    <article className={styles.post}>
+      <header>
+        <div className={styles.author}>
+          <Avatar src={author.avatarUrl} />
+          <div className={styles.authorInfo}>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
+          </div>
+        </div>
+        <time
+          title={publishedDateFormatted}
+          dateTime={publishedAt.toISOString()}
+        >
+          {publishedDaterelativeToNow}
+        </time>
+      </header>
+      <div className={styles.content}>
+        {content.map((line) => {
+          if (line.type === 'paragraph') {
+            return <p key={line.content}>{line.content}</p>;
+          } else if (line.type === 'link') {
+            return (
+              <p key={line.content}>
+                <a href="#">{line.content}</a>
+              </p>
+            );
+          }
+        })}
+      </div>
+
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
+        <strong>Deixe seu feedback</strong>
+        <textarea
+          name="comment"
+          placeholder="Deixe um comentário"
+          value={newCommentText}
+          onChange={handleNewCommentChange}
+        />
+        <footer>
+          <button type="submit">Publicar</button>
+        </footer>
+      </form>
+
+      <div className={styles.commentList}>
+        {comments.map((comment) => {
+          return <Comment key={comment} content={comment} />;
+        })}
+      </div>
+    </article>
+  );
+}
+```
+
+## [Comunicação entre componentes](https://app.rocketseat.com.br/node/chapter-i-6/group/os-motores-do-react/lesson/comunicacao-entre-componentes)
+
+```jsx {36,37,89} title="src/components/Post.jsx"
+import { useState } from 'react';
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+import { Avatar } from './Avatar';
+import { Comment } from './Comment';
+import styles from './Post.module.css';
+
+export function Post({ author, publishedAt, content }) {
+  const [comments, setComments] = useState(['Lorem ipsum dolor sit.']);
+
+  const [newCommentText, setNewCommentText] = useState('');
+
+  const publishedDateFormatted = format(
+    publishedAt,
+    "d 'de' LLLL 'às' HH:mm'h'",
+    { locale: ptBR }
+  );
+
+  const publishedDaterelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  });
+
+  function handleCreateNewComment() {
+    event.preventDefault();
+
+    setComments([...comments, newCommentText]);
+
+    setNewCommentText('');
+  }
+
+  function handleNewCommentChange() {
+    setNewCommentText(event.target.value);
+  }
+
+  function deleteComment(comment) {
+  }
+
+  return (
+    <article className={styles.post}>
+      <header>
+        <div className={styles.author}>
+          <Avatar src={author.avatarUrl} />
+          <div className={styles.authorInfo}>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
+          </div>
+        </div>
+        <time
+          title={publishedDateFormatted}
+          dateTime={publishedAt.toISOString()}
+        >
+          {publishedDaterelativeToNow}
+        </time>
+      </header>
+      <div className={styles.content}>
+        {content.map((line) => {
+          if (line.type === 'paragraph') {
+            return <p key={line.content}>{line.content}</p>;
+          } else if (line.type === 'link') {
+            return (
+              <p key={line.content}>
+                <a href="#">{line.content}</a>
+              </p>
+            );
+          }
+        })}
+      </div>
+
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
+        <strong>Deixe seu feedback</strong>
+        <textarea
+          name="comment"
+          placeholder="Deixe um comentário"
+          value={newCommentText}
+          onChange={handleNewCommentChange}
+        />
+        <footer>
+          <button type="submit">Publicar</button>
+        </footer>
+      </form>
+
+      <div className={styles.commentList}>
+        {comments.map((comment) => {
+          return (
+            <Comment
+              key={comment}
+              content={comment}
+              onDeleteComment={deleteComment}
+            />
+          )
+        })}
+      </div>
+    </article>
+  );
+}
+```
+
+```jsx {5,6-8,29} title="src/components/Comment.jsx"
+import { ThumbsUp, Trash } from 'phosphor-react';
+import { Avatar } from './Avatar';
+import styles from './Comment.module.css';
+
+export function Comment({ content, onDeleteComment }) {
+  function handleDeleteComment() {
+    onDeleteComment(content);
+  }
+
+  return (
+    <div className={styles.comment}>
+      <Avatar
+        hasBorder={false}
+        src="https://avatars.githubusercontent.com/u/85613172?v=4"
+      />
+      <div className={styles.commentBox}>
+        <div className={styles.commentContent}>
+          <header>
+            <div className={styles.authorAndTime}>
+              <strong>John Doe</strong>
+              <time
+                title="01 de julho às 08:00h"
+                dateTime="2022-07-01 08:00:00"
+              >
+                Cerca de 1h atrás
+              </time>
+            </div>
+
+            <button onClick={handleDeleteComment} title="Deletar comentário">
+              <Trash size={24} />
+            </button>
+          </header>
+          <p>{content}</p>
+        </div>
+        <footer>
+          <button>
+            <ThumbsUp />
+            Aplaudir <span>20</span>
+          </button>
+        </footer>
+      </div>
+    </div>
+  );
+}
+```
+
+## [Removendo comentários (imutabilidade)](https://app.rocketseat.com.br/node/chapter-i-6/group/os-motores-do-react/lesson/removendo-comentarios)
+
+**Nunca se altera o valor de uma variavel, cria-se um novo valor (um novo espaço em memória).**
+
+```jsx {36-42} title="src/components/Post.jsx"
+import { useState } from 'react';
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+import { Avatar } from './Avatar';
+import { Comment } from './Comment';
+import styles from './Post.module.css';
+
+export function Post({ author, publishedAt, content }) {
+  const [comments, setComments] = useState(['Lorem ipsum dolor sit.']);
+
+  const [newCommentText, setNewCommentText] = useState('');
+
+  const publishedDateFormatted = format(
+    publishedAt,
+    "d 'de' LLLL 'às' HH:mm'h'",
+    { locale: ptBR }
+  );
+
+  const publishedDaterelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+    addSuffix: true,
+  });
+
+  function handleCreateNewComment() {
+    event.preventDefault();
+
+    setComments([...comments, newCommentText]);
+
+    setNewCommentText('');
+  }
+
+  function handleNewCommentChange() {
+    setNewCommentText(event.target.value);
+  }
+
+  function deleteComment(commentToDelete) {
+    const commentsWithoutDeletedOne = comments.filter(comment => {
+      return comment !== commentToDelete;
+    });
+
+    setComments(commentsWithoutDeletedOne);
+  }
+
+  return (
+    <article className={styles.post}>
+      <header>
+        <div className={styles.author}>
+          <Avatar src={author.avatarUrl} />
+          <div className={styles.authorInfo}>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
+          </div>
+        </div>
+        <time
+          title={publishedDateFormatted}
+          dateTime={publishedAt.toISOString()}
+        >
+          {publishedDaterelativeToNow}
+        </time>
+      </header>
+      <div className={styles.content}>
+        {content.map((line) => {
+          if (line.type === 'paragraph') {
+            return <p key={line.content}>{line.content}</p>;
+          } else if (line.type === 'link') {
+            return (
+              <p key={line.content}>
+                <a href="#">{line.content}</a>
+              </p>
+            );
+          }
+        })}
+      </div>
+
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
+        <strong>Deixe seu feedback</strong>
+        <textarea
+          name="comment"
+          placeholder="Deixe um comentário"
+          value={newCommentText}
+          onChange={handleNewCommentChange}
+        />
+        <footer>
+          <button type="submit">Publicar</button>
+        </footer>
+      </form>
+
+      <div className={styles.commentList}>
+        {comments.map((comment) => {
+          return (
+            <Comment
+              key={comment}
+              content={comment}
+              onDeleteComment={deleteComment}
+            />
+          )
+        })}
+      </div>
+    </article>
+  );
+}
+```
