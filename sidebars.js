@@ -217,6 +217,7 @@ module.exports = {
             'courses/the-complete-guide-to-angular/course/section-10',
             'courses/the-complete-guide-to-angular/course/section-11',
             'courses/the-complete-guide-to-angular/course/section-12',
+            'courses/the-complete-guide-to-angular/course/section-13',
           ],
         },
       ],

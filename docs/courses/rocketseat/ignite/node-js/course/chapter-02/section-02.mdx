@@ -215,3 +215,175 @@ export { categoriesRoutes };
 ```
 
 ## [Criando repositório de categoria](https://app.rocketseat.com.br/node/chapter-ii-2/group/criando-a-api-com-node-js/lesson/criando-repositorio-de-categoria)
+
+```typescript title="src/repositories/CategoriesRepository.ts"
+import { Category } from '../model/category';
+
+// DTO: Data Transfer Object
+interface ICreateCategoryDTO {
+  name: string;
+  description: string;
+}
+
+class CateoriesRepository {
+  private categories: Category[];
+
+  constructor() {
+    this.categories = [];
+  }
+
+  create({ name, description }: ICreateCategoryDTO) {
+    const category = new Category();
+
+    Object.assign(category, { name, description, create_at: new Date() });
+
+    this.categories.push(category);
+  }
+}
+
+export { CateoriesRepository };
+```
+
+```typescript {2,5,10,12} title="src/routes/categories.routes.ts"
+import { Router } from 'express';
+import { CateoriesRepository } from '../repositories/CategoriesRepository';
+
+const categoriesRoutes = Router();
+const categoriesRepository = new CateoriesRepository();
+
+categoriesRoutes.post('/', (request, response) => {
+  const { name, description } = request.body;
+
+  categoriesRepository.create({ name, description });
+
+  return response.status(201).send();
+});
+
+export { categoriesRoutes };
+```
+
+## [Listando as categorias](https://app.rocketseat.com.br/node/chapter-ii-2/group/criando-a-api-com-node-js/lesson/listando-as-categorias)
+
+```typescript {24-26} title="src/repositories/CategoriesRepository.ts"
+import { Category } from '../model/category';
+
+// DTO: Data Transfer Object
+interface ICreateCategoryDTO {
+  name: string;
+  description: string;
+}
+
+class CateoriesRepository {
+  private categories: Category[];
+
+  constructor() {
+    this.categories = [];
+  }
+
+  create({ name, description }: ICreateCategoryDTO) {
+    const category = new Category();
+
+    Object.assign(category, { name, description, create_at: new Date() });
+
+    this.categories.push(category);
+  }
+
+  list(): Category[] {
+    return this.categories;
+  }
+}
+
+export { CateoriesRepository };
+```
+
+```typescript {15-19} title="src/routes/categories.routes.ts"
+import { Router } from 'express';
+import { CateoriesRepository } from '../repositories/CategoriesRepository';
+
+const categoriesRoutes = Router();
+const categoriesRepository = new CateoriesRepository();
+
+categoriesRoutes.post('/', (request, response) => {
+  const { name, description } = request.body;
+
+  categoriesRepository.create({ name, description });
+
+  return response.status(201).send();
+});
+
+categoriesRoutes.get('/', (request, response) => {
+  const all = categoriesRepository.list();
+
+  return response.json(all);
+});
+
+export { categoriesRoutes };
+```
+
+## [Validando o cadastro de categoria](https://app.rocketseat.com.br/node/chapter-ii-2/group/criando-a-api-com-node-js/lesson/validando-o-cadastro-de-categoria)
+
+```typescript {28-31} title="src/repositories/CategoriesRepository.ts"
+import { Category } from '../model/category';
+
+// DTO: Data Transfer Object
+interface ICreateCategoryDTO {
+  name: string;
+  description: string;
+}
+
+class CateoriesRepository {
+  private categories: Category[];
+
+  constructor() {
+    this.categories = [];
+  }
+
+  create({ name, description }: ICreateCategoryDTO) {
+    const category = new Category();
+
+    Object.assign(category, { name, description, create_at: new Date() });
+
+    this.categories.push(category);
+  }
+
+  list(): Category[] {
+    return this.categories;
+  }
+
+  findByName(name: string): Category {
+    const category = this.categories.find((category) => category.name === name);
+    return category;
+  }
+}
+
+export { CateoriesRepository };
+```
+
+```typescript {10,11-13} title="src/routes/categories.routes.ts"
+import { Router } from 'express';
+import { CateoriesRepository } from '../repositories/CategoriesRepository';
+
+const categoriesRoutes = Router();
+const categoriesRepository = new CateoriesRepository();
+
+categoriesRoutes.post('/', (request, response) => {
+  const { name, description } = request.body;
+
+  const categoryAlreadyExists = categoriesRepository.findByName(name);
+  if (categoryAlreadyExists) {
+    return response.status(400).send({ error: 'Category already exists!' });
+  }
+
+  categoriesRepository.create({ name, description });
+
+  return response.status(201).send();
+});
+
+categoriesRoutes.get('/', (request, response) => {
+  const all = categoriesRepository.list();
+
+  return response.json(all);
+});
+
+export { categoriesRoutes };
+```
