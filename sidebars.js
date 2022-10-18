@@ -27,6 +27,14 @@ module.exports = {
   projects: [
     {
       type: 'category',
+      label: 'Medgrupo Color System',
+      items: [
+        'projects/medgrupo-color-system/introduction',
+        'projects/medgrupo-color-system/implementation',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Webpack Guide',
       items: [
         'projects/webpack-guide/introduction',

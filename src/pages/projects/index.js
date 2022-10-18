@@ -13,6 +13,15 @@ const Personal = [
     )
   },
   {
+    url: '../docs/projects/medgrupo-color-system',
+    title: 'Medgrupo Color System',
+    imageUrl: '../img/projects/medgrupo.svg',
+    className: 'projects-feature__image--no-shadow',
+    description: (
+      <>Color system developed for Medgrupo Design System.</>
+    )
+  },
+  {
     url: 'https://alexbleggi.netlify.app/hive',
     title: 'Hive Website',
     imageUrl: '../img/projects/hive-website.png',
