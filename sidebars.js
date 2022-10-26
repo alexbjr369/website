@@ -27,10 +27,10 @@ module.exports = {
   projects: [
     {
       type: 'category',
-      label: 'Medgrupo Color System',
+      label: 'HSL Color System',
       items: [
-        'projects/medgrupo-color-system/introduction',
-        'projects/medgrupo-color-system/implementation',
+        'projects/hsl-color-system/introduction',
+        'projects/hsl-color-system/implementation',
       ],
     },
     {

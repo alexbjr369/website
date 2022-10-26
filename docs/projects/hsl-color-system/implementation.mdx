@@ -1,0 +1,316 @@
+---
+id: implementation
+title: HSL Color System · Implementation
+sidebar_label: Implementation
+description: Color system developed for a fictional design system.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/hsl-color-system/implementation
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Implementation
+
+Step by step implementation.
+
+## The Company
+
+The company has a **main brand color** and **2 distinct product colors**:
+  - **brand**
+  - **product-01**
+  - **product-02**
+
+## Color System Specifications
+
+- The color system must be built using **hsl color values**.
+- The color system must have a **prefix** so the CSS Custom Properties wont clash with 3rd party's:
+  - **med**
+- The color system must have 3 main color classifications:
+  - **main**
+  - **neutral**
+  - **feedback**
+- The **hsl color values** can be changed on the fly.
+
+## Color Standardization
+
+### Main Colors
+
+- The brand and each product may have one or more **color sets**:
+  - **primary**
+	- **secondary**
+  - **...**
+
+- The brand and all products have 5 **color variations** but they may have more in the future:
+  - **100**
+  - **200**
+  - **300**
+  - **400**
+  - **500**
+  - **...**
+
+- Each color variation will have the same **hue** and **saturation** values for either light and dark schemes:
+  - **Dark Scheme:**
+    - **brand:**
+      - **primary-{100-500}:**
+        - **hue:** 24
+        - **saturation:** 80
+    - **product-01:**
+      - **primary-{100-500}:**
+        - **hue:** 188
+        - **saturation:** 80
+      - **secondary-{100-500}:**
+        - **hue:** 168
+        - **saturation:** 80
+    - **product-02:**
+      - **primary-{100-500}:**
+        - **hue:** 200
+        - **saturation:** 80
+      - **secondary-{100-500}:**
+        - **hue:** 268
+        - **saturation:** 80
+
+  - **Light Scheme:**
+    - **brand:**
+      - **primary-{100-500}:**
+        - **hue:** 24
+        - **saturation:** 40
+    - **product-01:**
+      - **primary-{100-500}:**
+        - **hue:** 188
+        - **saturation:** 40
+      - **secondary-{100-500}:**
+        - **hue:** 168
+        - **saturation:** 40
+    - **product-02:**
+      - **primary-{100-500}:**
+        - **hue:** 200
+        - **saturation:** 40
+      - **secondary-{100-500}:**
+        - **hue:** 268
+        - **saturation:** 40
+
+- Each color variation will have the same gradation of **luminosity** value for either light and dark schemes:
+  - **Dark Scheme:**
+    - **100:** 20
+    - **200:** 30
+    - **300:** 50
+    - **400:** 70
+    - **500:** 80
+
+  - **Light Scheme:**
+    - **100:** 80
+    - **200:** 70
+    - **300:** 50
+    - **400:** 30
+    - **500:** 20
+
+<iframe width="100%" height="500" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FIWIb3QoGbrzaVjGldRPBFb%2Fhsl-color-system%3Fnode-id%3D127%253A362" allowfullscreen></iframe>
+
+### Neutral Colors
+
+<iframe width="100%" height="500" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FIWIb3QoGbrzaVjGldRPBFb%2Fhsl-color-system%3Fnode-id%3D114%253A5" allowfullscreen></iframe>
+
+### Feedback Colors
+
+<iframe width="100%" height="500" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FIWIb3QoGbrzaVjGldRPBFb%2Fhsl-color-system%3Fnode-id%3D114%253A2" allowfullscreen></iframe>
+
+## CSS Custom Properties Generation
+
+### Namespace
+
+```scss title="src/styles/_variables.scss"
+$namespace: med;
+```
+
+### Main Colors
+
+#### Names
+
+```scss {7-20} title="src/styles/_variables.scss"
+$namespace: med;
+
+//
+// colors configuration
+// configuration default: dark
+//
+$color-main-hue: (
+  brand: (
+    primary: 24,
+  ),
+  product-01: (
+    primary: 188,
+    secondary: 169,
+  ),
+  product-02: (
+    primary: 200,
+    secondary: 268,
+  ),
+) !default;
+$color-main-variations: 5 !default;
+```
+
+```scss title="src/styles/mixins/_color.scss"
+@use "sass:math";
+
+@mixin generate-color-main($name: null, $set: null, $variations: $color-main-variations) {
+  @for $index from 1 through $variations {
+    $variation: $index * 100;
+
+    --#{$namespace}-color-#{$name}-#{$set}-#{$variation}: ;
+  }
+}
+```
+
+```scss title="src/styles/themes/default.scss"
+@import '../variables';
+@import '../mixins';
+
+//
+// css custom properties
+//
+:root {
+  @each $key, $value in $color-main-hue {
+    $name: $key;
+
+    @each $key-2, $value-2 in $value {
+      $set: $key-2;
+
+      @include generate-color-main($name, $set);
+    }
+  }
+}
+```
+
+### Output
+
+```css title="styles/themes/default.css"
+:root {
+  --med-color-brand-primary-100: ;
+  --med-color-brand-primary-200: ;
+  --med-color-brand-primary-300: ;
+  --med-color-brand-primary-400: ;
+  --med-color-brand-primary-500: ;
+  --med-color-product-01-primary-100: ;
+  --med-color-product-01-primary-200: ;
+  --med-color-product-01-primary-300: ;
+  --med-color-product-01-primary-400: ;
+  --med-color-product-01-primary-500: ;
+  --med-color-product-01-secondary-100: ;
+  --med-color-product-01-secondary-200: ;
+  --med-color-product-01-secondary-300: ;
+  --med-color-product-01-secondary-400: ;
+  --med-color-product-01-secondary-500: ;
+  --med-color-product-02-primary-100: ;
+  --med-color-product-02-primary-200: ;
+  --med-color-product-02-primary-300: ;
+  --med-color-product-02-primary-400: ;
+  --med-color-product-02-primary-500: ;
+  --med-color-product-02-secondary-100: ;
+  --med-color-product-02-secondary-200: ;
+  --med-color-product-02-secondary-300: ;
+  --med-color-product-02-secondary-400: ;
+  --med-color-product-02-secondary-500: ;
+}
+```
+
+#### Values
+
+```scss {21,22-28} title="src/styles/_variables.scss"
+$namespace: med;
+
+//
+// colors configuration
+// configuration default: dark
+//
+$color-main-hue: (
+  brand: (
+    primary: 24,
+  ),
+  product-01: (
+    primary: 188,
+    secondary: 169,
+  ),
+  product-02: (
+    primary: 200,
+    secondary: 268,
+  ),
+) !default;
+$color-main-variations: 5 !default;
+$color-main-saturation: 80% !default;
+$color-main-luminosity: (
+  1: 20%,
+  2: 30%,
+  3: 50%,
+  4: 70%,
+  5: 80%,
+) !default;
+```
+
+```scss {3,6,8} title="src/styles/mixins/_color.scss"
+@use "sass:math";
+
+@mixin generate-color-main($name: null, $set: null, $hue: null, $saturation: $color-main-saturation, $variations: $color-main-variations) {
+  @for $index from 1 through $variations {
+    $variation: $index * 100;
+    $luminosity: map-get($color-main-luminosity, $index);
+
+    --#{$namespace}-color-#{$name}-#{$set}-#{$variation}: hsl(#{$hue}, #{$saturation}, #{$luminosity});
+  }
+}
+```
+
+#### Output
+
+```css title="styles/themes/default.css"
+:root {
+  --med-color-brand-primary-100: hsl(24, 80%, 20%);
+  --med-color-brand-primary-200: hsl(24, 80%, 30%);
+  --med-color-brand-primary-300: hsl(24, 80%, 50%);
+  --med-color-brand-primary-400: hsl(24, 80%, 70%);
+  --med-color-brand-primary-500: hsl(24, 80%, 80%);
+  --med-color-product-01-primary-100: hsl(188, 80%, 20%);
+  --med-color-product-01-primary-200: hsl(188, 80%, 30%);
+  --med-color-product-01-primary-300: hsl(188, 80%, 50%);
+  --med-color-product-01-primary-400: hsl(188, 80%, 70%);
+  --med-color-product-01-primary-500: hsl(188, 80%, 80%);
+  --med-color-product-01-secondary-100: hsl(169, 80%, 20%);
+  --med-color-product-01-secondary-200: hsl(169, 80%, 30%);
+  --med-color-product-01-secondary-300: hsl(169, 80%, 50%);
+  --med-color-product-01-secondary-400: hsl(169, 80%, 70%);
+  --med-color-product-01-secondary-500: hsl(169, 80%, 80%);
+  --med-color-product-02-primary-100: hsl(200, 80%, 20%);
+  --med-color-product-02-primary-200: hsl(200, 80%, 30%);
+  --med-color-product-02-primary-300: hsl(200, 80%, 50%);
+  --med-color-product-02-primary-400: hsl(200, 80%, 70%);
+  --med-color-product-02-primary-500: hsl(200, 80%, 80%);
+  --med-color-product-02-secondary-100: hsl(268, 80%, 20%);
+  --med-color-product-02-secondary-200: hsl(268, 80%, 30%);
+  --med-color-product-02-secondary-300: hsl(268, 80%, 50%);
+  --med-color-product-02-secondary-400: hsl(268, 80%, 70%);
+  --med-color-product-02-secondary-500: hsl(268, 80%, 80%);
+}
+```
+
+### Neutral Colors
+
+#### Names
+
+#### Values
+
+### Feedback Colors
+
+#### Names
+
+#### Values
+
+## CSS Classes Generation
+
+### Main Colors
+
+### Neutral Colors
+
+### Feedback Colors

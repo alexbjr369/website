@@ -13,12 +13,12 @@ const Personal = [
     )
   },
   {
-    url: '../docs/projects/medgrupo-color-system',
-    title: 'Medgrupo Color System',
-    imageUrl: '../img/projects/medgrupo.svg',
+    url: '../docs/projects/hsl-color-system',
+    title: 'HSL Color System',
+    imageUrl: '../img/projects/hsl-color-system.png',
     className: 'projects-feature__image--no-shadow',
     description: (
-      <>Color system developed for Medgrupo Design System.</>
+      <>Color system developed for a fictional design system.</>
     )
   },
   {

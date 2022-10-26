@@ -189,6 +189,10 @@ module.exports = {
               to: 'https://alexbleggi.netlify.app/hive',
             },
             {
+              label: 'HSL Color System',
+              to: 'docs/projects/hsl-color-system',
+            },
+            {
               label: 'Webpack Guide',
               to: 'docs/projects/webpack-guide',
             },
