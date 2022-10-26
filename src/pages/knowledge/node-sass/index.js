@@ -16,7 +16,16 @@ const Courses = [
   },
 ];
 
-const Projects = [];
+const Projects = [
+  {
+    url: '../docs/projects/natours',
+    title: 'Natours',
+    imageUrl: '../img/projects/natours.png',
+    description: (
+      (<>Project developed in the course <a href="https://www.udemy.com/course/advanced-css-and-sass/" target="_blank"><strong>Advanced CSS and Sass</strong></a> by <a href="https://www.udemy.com/user/jonasschmedtmann/" target="_blank"><strong>Jonas Schmedtmann</strong></a> on <a href="https://www.udemy.com/" target="_blank"><strong>Udemy</strong></a>.</>)
+    )
+  },
+];
 
 function Hero() {
   return (

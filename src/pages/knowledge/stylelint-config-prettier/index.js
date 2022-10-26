@@ -18,6 +18,14 @@ const Projects = [
       <>A compilation of code-quality rules linting configurations.</>
     )
   },
+  {
+    url: '../docs/projects/toni-and-guy',
+    title: 'toni&guy',
+    imageUrl: '../img/projects/toni-and-guy.png',
+    description: (
+      (<>Project based on the <a href="https://www.youtube.com/watch?v=kzVgkrCiDEo&list=PL8kd7mPFdvbhpThk9H09UkKbVMXd_zM4_&ab_channel=codicts" target="_blank"><strong>tutorial</strong></a> by <a href="https://www.youtube.com/channel/UCItYqcz88SDtWMZ---R492g" target="_blank"><strong>codicts</strong></a> on <a href="https://www.youtube.com/" target="_blank"><strong>Youtube</strong></a>.</>)
+    )
+  },
 ];
 
 function Hero() {

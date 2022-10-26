@@ -156,6 +156,22 @@ module.exports = {
       ],
     },
   ],
+  courseProjects: [
+    {
+      type: 'category',
+      label: 'Natours',
+      items: [
+        'projects/natours/introduction',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'toni&guy',
+      items: [
+        'projects/toni-and-guy/introduction',
+      ],
+    },
+  ],
   courses: [
     {
       type: 'category',
@@ -303,6 +319,13 @@ module.exports = {
       label: 'Advanced Animations and Interactions with Ionic',
       items: [
         'courses/advanced-animations-and-interactions-with-ionic/advanced-animations-and-interactions-with-ionic',
+        {
+          Course: [
+            'courses/advanced-animations-and-interactions-with-ionic/course/section-01',
+            'courses/advanced-animations-and-interactions-with-ionic/course/section-02',
+            'courses/advanced-animations-and-interactions-with-ionic/course/section-03',
+          ],
+        },
       ],
     },
   ],

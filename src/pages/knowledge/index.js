@@ -56,6 +56,11 @@ const KnowledgeImage = [
     imageUrl: '../img/knowledge/stylus.svg',
     url: 'knowledge/stylus',
   },
+  {
+    title: 'PostCSS',
+    imageUrl: '../img/knowledge/postcss.svg',
+    url: 'knowledge/postcss',
+  },
 
   {
     title: 'EditorConfig',
@@ -93,9 +98,32 @@ const KnowledgeImage = [
   },
 
   {
+    title: 'GreenSock',
+    imageUrl: '../img/knowledge/gsap.svg',
+    url: 'knowledge/gsap',
+  },
+  {
+    title: 'Three.js',
+    imageUrl: '../img/knowledge/three-js.svg',
+    url: 'knowledge/three-js',
+    className: 'invert',
+  },
+
+  {
+    title: 'Vite',
+    imageUrl: '../img/knowledge/vite.svg',
+    url: 'knowledge/vite',
+  },
+
+  {
     title: 'node-sass',
     imageUrl: '../img/knowledge/node-sass.svg',
     url: 'knowledge/node-sass',
+  },
+  {
+    title: 'Autoprefixer',
+    imageUrl: '../img/knowledge/autoprefixer.svg',
+    url: 'knowledge/autoprefixer',
   },
 ];
 
@@ -179,6 +207,28 @@ const KnowledgeText = [
   {
     title: '@typescript-eslint/parser',
     url: 'knowledge/typescript-eslint-parser',
+  },
+
+  {
+    title: 'concat',
+    url: 'knowledge/concat',
+  },
+  {
+    title: 'live-server',
+    url: 'knowledge/live-server',
+  },
+  {
+    title: 'npm-run-all',
+    url: 'knowledge/npm-run-all',
+  },
+  {
+    title: 'postcss-cli',
+    url: 'knowledge/postcss-cli',
+  },
+
+  {
+    title: 'hover-effect',
+    url: 'knowledge/hover-effect',
   },
 ];
 

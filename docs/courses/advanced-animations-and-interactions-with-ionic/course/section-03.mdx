@@ -1,0 +1,148 @@
+---
+id: section-03
+title: Advanced Animations and Interactions with Ionic · Section 03
+sidebar_label: Section 03
+description: The Complete Advanced Animations and Interactions with Ionic by Josh Morony.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /advanced-animations-and-interactions-with-ionic/course/section-03
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Ionic Animations API
+
+## Introduction to the Ionic Animations API
+
+### Ionic Animations API
+
+To summarise some key benefits that the Web Animations API offers:
+
+- **Animations can be handled and optimised by the browser**
+- **Don't need to manipulate the DOM with classes to trigger animations**
+- **Easily use dynamic values in your animations**
+- **Run logic or additional animations once an animation has finished**
+- **Easily control playback and direction of the animation (play forwards, backwards, start from the middle of the animation, etc.)**
+
+and the reasons that we would use the Ionic Animations API instead of the Web Animations API directly include:
+
+- **The Ionic Animations API automatically provides CSS animation fallbacks in environments where the Web Animations API is not supported (so you can just use it and not worry about which browsers support which features)**
+- **The API/syntax better suits the Ionic environment**
+- **Animations can be combined with Ionic gestures**
+- **Easily group and chain animations**
+- **Lifecycle hooks for animations**
+
+###  Web Animations API
+
+```css
+@keyframes myAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.my-element {
+  animation: 1s linear myAnimation infinite;
+}
+```
+
+```js
+const myElement = document.querySelector('.my-element');
+
+myElement.animate([
+  { opacity: 0 },
+  { opacity: 1 },
+  { opacity: 0 }
+], {
+  duration: 1000,
+  iterations: Infinity
+});
+```
+
+## Basic Animation Creation
+
+```html {1} title="src/app/home/home.page.html"
+<div class="my-element" #myElement></div>
+```
+
+```scss {1-5} title="src/app/home/home.page.scss"
+.my-element {
+  width: 100px;
+  height: 100px;
+  background: red;
+}
+```
+
+```typescript {2,10,12,14-24} title="src/app/home/home.page.ts"
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AnimationController, Animation } from '@ionic/angular';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+})
+export class HomePage {
+  @ViewChild('myElement') elementToAnimate: ElementRef;
+
+  constructor(private animationCtrl: AnimationController) {}
+
+  ngAfterViewInit() {
+    const animation: Animation = this.animationCtrl
+      .create()
+      .addElement(this.elementToAnimate.nativeElement)
+      .duration(2000)
+      .easing('ease-in')
+      .fromTo('opacity', '1', '0')
+      .fromTo('transform', 'scale(1)', 'scale(0)');
+
+    animation.play();
+  }
+}
+```
+
+### Before and After
+
+- **[Reference](https://ionicframework.com/docs/utilities/animations#before-and-after-hooks)**
+
+### Chaining and Grouping Animations
+
+- **[Reference](https://ionicframework.com/docs/utilities/animations#grouped-animations)**
+
+```typescript
+// asynchronously
+await animationOne.play();
+await animationTwo.play();
+await animationThree.play();
+
+// in parallel
+animationOne.play();
+animationTwo.play();
+animationThree.play();
+```
+
+```typescript
+const myAnimationGroup = this.animationCtrl.create()
+  .duration(500)
+  .delay(300)
+  .addAnimations([animationOne, animationTwo, animationThree])
+
+myAnimationGroup.play();
+```
+
+## Advanced Configuration and Playback Control
+
+### Keyframes
+
+- **[Reference](https://ionicframework.com/docs/utilities/animations#keyframe-animations)**

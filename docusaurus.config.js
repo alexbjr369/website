@@ -16,7 +16,7 @@ module.exports = {
     },
     announcementBar: {
       // added
-      content: ' <p style="margin: 0;">🚧🚧🚧 Under construction... 🚧🚧🚧</p> ',
+      content: ' <p style="margin: 0;">🚧🚧🚧 Under Eternal Construction... 🚧🚧🚧</p> ',
       isCloseable: false,
     },
     colorMode: {
@@ -94,7 +94,92 @@ module.exports = {
       links: [
         {
           title: 'Knowledge',
-          items: [],
+          items: [
+            {
+              label: 'HTML',
+              to: '/knowledge/html',
+            },
+            {
+              label: 'CSS',
+              to: '/knowledge/css',
+            },
+            {
+              label: 'Web Accessibility',
+              to: '/knowledge/web-accessibility',
+            },
+            {
+              label: 'JavaScript',
+              to: '/knowledge/javascript',
+            },
+            {
+              label: 'TypeScript',
+              to: '/knowledge/typescript',
+            },
+            {
+              label: 'Bem Methodology',
+              to: '/knowledge/bem-methodology',
+            },
+            {
+              label: 'Sass Guidelines',
+              to: '/knowledge/sass-guidelines',
+            },
+            {
+              label: 'Less',
+              to: '/knowledge/less',
+            },
+            {
+              label: 'Sass',
+              to: '/knowledge/sass',
+            },
+            {
+              label: 'Stylus',
+              to: '/knowledge/stylus',
+            },
+            {
+              label: 'PostCSS',
+              to: '/knowledge/postcss',
+            },
+            {
+              label: 'EditorConfig',
+              to: '/knowledge/editorconfig',
+            },
+            {
+              label: 'Prettier',
+              to: '/knowledge/prettier',
+            },
+            {
+              label: 'Stylelint',
+              to: '/knowledge/stylelint',
+            },
+            {
+              label: 'ESLint',
+              to: '/knowledge/eslint',
+            },
+            {
+              label: 'React',
+              to: '/knowledge/react-js',
+            },
+            {
+              label: 'Docusaurus',
+              to: '/knowledge/docusaurus',
+            },
+            {
+              label: 'GreenSock',
+              to: '/knowledge/gsap',
+            },
+            {
+              label: 'Three.js',
+              to: '/knowledge/three-js',
+            },
+            {
+              label: 'Vite',
+              to: '/knowledge/vite',
+            },
+            {
+              label: '...more',
+              to: '/knowledge',
+            },
+          ],
         },
         {
           title: 'Projects',
@@ -102,10 +187,6 @@ module.exports = {
             {
               label: 'Hive',
               to: 'https://alexbleggi.netlify.app/hive',
-            },
-            {
-              label: 'Website',
-              to: 'https://alexbleggi.netlify.app/',
             },
             {
               label: 'Webpack Guide',
@@ -130,6 +211,14 @@ module.exports = {
             {
               label: 'Linting - Formatting Rules',
               to: 'docs/projects/linting-formatting-rules',
+            },
+            {
+              label: 'Natours',
+              to: 'docs/projects/natours',
+            },
+            {
+              label: 'toni&guy',
+              to: 'docs/projects/toni-and-guy',
             },
           ],
         },

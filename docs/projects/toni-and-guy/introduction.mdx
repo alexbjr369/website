@@ -1,0 +1,69 @@
+---
+id: introduction
+title: toni&guy
+sidebar_label: Introduction
+description: Project based on the tutorial by codicts on Youtube.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/toni-and-guy
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export const BuiltWith = ({ url, className, image, title, style }) => (
+  <a className="built-with" href={url}>
+    <img className={`built-with__image ${className}`} src={useBaseUrl(`img/knowledge/${image}`)} alt={title} style={style}/>
+    <div className="built-with__overlay">
+      <h2 className="built-with__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+export const BuiltWithText = ({ url, title }) => (
+  <a className="built-with-text" href={url}>
+    <div className="built-with-text__overlay">
+      <h2 className="built-with-text__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+# toni&guy
+
+Project based on the **[tutorial](https://www.youtube.com/watch?v=kzVgkrCiDEo&list=PL8kd7mPFdvbhpThk9H09UkKbVMXd_zM4_&ab_channel=codicts)** by **[codicts](https://www.youtube.com/channel/UCItYqcz88SDtWMZ---R492g)** on **[Youtube](https://www.youtube.com/)**.
+
+## About
+
+A cover page using **[GreenSock](https://greensock.com/gsap/)** and distortion effect based on **[Three.js](https://threejs.org/)**.
+
+## Links
+
+**[`Preview`](https://github.com/alexbjr369/toni-and-guy)** **[`Repository`](https://alexbleggi.netlify.app/preview/toni-and-guy)**
+
+<img src={useBaseUrl('img/projects/toni-and-guy.png')} alt="toni&guy" />
+
+## Built With
+
+<div className="markdown-code thin-scrollbar">
+  <div className="markdown-code__container">
+    <BuiltWith url="/knowledge/bem-methodology" className="fixed-invert" image="bem-methodology.svg" title="BEM Methodology"></BuiltWith>
+    <BuiltWith url="/knowledge/web-accessibility" image="web-accessibility.png" title="Web Accessibility"></BuiltWith>
+    <BuiltWith url="/knowledge/html" image="html.svg" title="HTML"></BuiltWith>
+    <BuiltWith url="/knowledge/css" image="css.svg" title="CSS"></BuiltWith>
+    <BuiltWith url="/knowledge/sass" image="sass.svg" title="SCSS"></BuiltWith>
+    <BuiltWith className="fixed-invert" url="/knowledge/stylelint" image="stylelint.svg" title="Stylelint"></BuiltWith>
+    <BuiltWith url="/knowledge/typescript" image="typescript.svg" title="TypeScript"></BuiltWith>
+    <BuiltWith url="/knowledge/eslint" image="eslint.svg" title="ESLint"></BuiltWith>
+    <BuiltWith url="/knowledge/gsap" image="gsap.svg" title="GSAP"></BuiltWith>
+    <BuiltWith url="/knowledge/three" className="fixed-invert" image="three-js.svg" title="Three.js"></BuiltWith>
+    <BuiltWith url="/knowledge/vite" image="vite.svg" title="Vite"></BuiltWith>
+    <BuiltWithText url="/knowledge/stylelint-config-prettier" title="stylelint-config-prettier"></BuiltWithText>
+    <BuiltWithText url="/knowledge/stylelint-config-rational-order" title="stylelint-config-rational-order"></BuiltWithText>
+    <BuiltWithText url="/knowledge/stylelint-order" title="stylelint-order"></BuiltWithText>
+    <BuiltWithText url="/knowledge/typescript-eslint-eslint-plugin" title="@typescript-eslint/eslint-plugin"></BuiltWithText>
+    <BuiltWithText url="/knowledge/typescript-eslint-parser" title="@typescript-eslint/parser"></BuiltWithText>
+    <BuiltWithText url="/knowledge/hover-effect" title="hover-effect"></BuiltWithText>
+  </div>
+</div>

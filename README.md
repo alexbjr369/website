@@ -6,7 +6,7 @@ Personal Website.
 
 **[`Website`](https://alexbleggi.netlify.app)**
 
-## [Built With](https://alexbleggi.netlify.app/docs/projects/linting-formatting-rules/#built-with)
+## Built With
 
 <div style="display: inline_block">
   <a href="https://docusaurus.io/" target="_blank">

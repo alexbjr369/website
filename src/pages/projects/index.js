@@ -22,22 +22,6 @@ const Personal = [
     )
   },
   {
-    url: 'https://alexbleggi.netlify.app/hive',
-    title: 'Hive Website',
-    imageUrl: '../img/projects/hive-website.png',
-    description: (
-      <>Hive Website.</>
-    )
-  },
-  {
-    url: 'https://alexbleggi.netlify.app',
-    title: 'Website',
-    imageUrl: '../img/projects/website.png',
-    description: (
-      <>Personal Website.</>
-    )
-  },
-  {
     url: '../docs/projects/webpack-guide',
     title: 'Webpack Guide',
     imageUrl: '../img/projects/webpack-guide.png',
@@ -87,7 +71,24 @@ const Personal = [
   },
 ];
 
-const Course = [];
+const Course = [
+  {
+    url: 'docs/projects/natours',
+    title: 'Natours',
+    imageUrl: '../img/projects/natours.png',
+    description: (
+      (<>Project developed in the course <a href="https://www.udemy.com/course/advanced-css-and-sass/" target="_blank"><strong>Advanced CSS and Sass</strong></a> by <a href="https://www.udemy.com/user/jonasschmedtmann/" target="_blank"><strong>Jonas Schmedtmann</strong></a> on <a href="https://www.udemy.com/" target="_blank"><strong>Udemy</strong></a>.</>)
+    )
+  },
+  {
+    url: 'docs/projects/toni-and-guy',
+    title: 'toni&guy',
+    imageUrl: '../img/projects/toni-and-guy.png',
+    description: (
+      (<>Project based on the <a href="https://www.youtube.com/watch?v=kzVgkrCiDEo&list=PL8kd7mPFdvbhpThk9H09UkKbVMXd_zM4_&ab_channel=codicts" target="_blank"><strong>tutorial</strong></a> by <a href="https://www.youtube.com/channel/UCItYqcz88SDtWMZ---R492g" target="_blank"><strong>codicts</strong></a> on <a href="https://www.youtube.com/" target="_blank"><strong>Youtube</strong></a>.</>)
+    )
+  },
+];
 
 function Hero() {
   return (

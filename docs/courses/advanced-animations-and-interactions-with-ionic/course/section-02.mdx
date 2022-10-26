@@ -1,0 +1,96 @@
+---
+id: section-02
+title: Advanced Animations and Interactions with Ionic · Section 02
+sidebar_label: Section 02
+description: The Complete Advanced Animations and Interactions with Ionic by Josh Morony.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /advanced-animations-and-interactions-with-ionic/course/section-02
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Animating with CSS
+
+## Introduction to CSS Animations
+
+## CSS Transitions
+
+```
+transition: <property> <duration> <timing-function> <delay>;
+```
+
+```scss
+// shorthand
+.my-element {
+  transition: opacity 0.4s linear 0.2s
+}
+
+.my-element {
+  transition-property: opacity;
+  transition-duration: 0.4s;
+  transition-timing-function: linear;
+  transition-delay: 0.2;
+}
+```
+
+## CSS Animations
+
+```
+animation: <name> <duration> <timing-function> <delay> <iteration-count> <direction> <fill-mode> <play-state>;
+```
+
+```scss
+// shorthand
+.my-element {
+  transition: myAnimation 1s ease-in 0.2s 1 normal forwards running;
+}
+
+.my-element {
+  animation-name: myAnimation;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-delay: 0.2s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+@keyframes myAnimation {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+```
+
+## Dynamically Applying Animations
+
+### CSS State Machines
+
+- **[Article](https://gist.github.com/davidkpiano/e715b59bef817d2146164add26a134b0)**
+
+
+
+## Debugging Animations
+
+- **[Reference](https://ionicframework.com/docs/utilities/animations#debugging)**
+
+Animations FPS should be around 60fps or one frame every 17ms.
+
+```
+Ctrl + Shift + P > Animations
+```
+
+```
+Ctrl + Shift + P > Rendering
+```
