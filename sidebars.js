@@ -321,9 +321,18 @@ module.exports = {
         'courses/advanced-animations-and-interactions-with-ionic/advanced-animations-and-interactions-with-ionic',
         {
           Course: [
+            'courses/advanced-animations-and-interactions-with-ionic/course/notes',
             'courses/advanced-animations-and-interactions-with-ionic/course/section-01',
             'courses/advanced-animations-and-interactions-with-ionic/course/section-02',
             'courses/advanced-animations-and-interactions-with-ionic/course/section-03',
+            'courses/advanced-animations-and-interactions-with-ionic/course/section-04',
+            'courses/advanced-animations-and-interactions-with-ionic/course/section-05',
+            'courses/advanced-animations-and-interactions-with-ionic/course/section-06',
+            {
+              'Simple Examples': [
+                'courses/advanced-animations-and-interactions-with-ionic/course/simple-examples/staggered-list',
+              ],
+            },
           ],
         },
       ],
