@@ -289,7 +289,7 @@ console.log(typeof NaN); // result: number
 console.log(String(25), 25); // result: '25' 25
 ```
 
-**type coercion** - when JavaScript automatically convert types
+**Type coercion** - when JavaScript automatically convert types
 
 It happens whenever an operator is dealing with values that have different types.
 
@@ -297,7 +297,7 @@ It happens whenever an operator is dealing with values that have different types
 console.log('Number ' + '25'); // result: 'Number 25'
 console.log('Number ' + 25); // result: 'Number 25' (+ operator triggers String coercion)
 console.log(`Number ${25}`); // result: 'Number 25' (template literals triggers String coercion)
-console.log('25' - '10' - 3); // result: 12 (mathematical operators other than + operator, trigger Number coercion)
+console.log('25 3); // result: 12 (mathematical operators other than + operator, trigger Number coercion)
 console.log('25' > '1'); // result: true (comparison operators trigger Boolean coercion)
 ```
 

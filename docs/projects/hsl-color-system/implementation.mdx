@@ -52,61 +52,63 @@ The company has a **main brand color** and **2 distinct product colors**:
   - **500**
   - **...**
 
-- Each color variation will have the same **hue** and **saturation** values for either light and dark schemes:
+- Each color variation will have the same **hue** value for either light and dark schemes:
+
   - **Dark Scheme:**
     - **brand:**
-      - **primary-{100-500}:**
-        - **hue:** 24
-        - **saturation:** 80
+      - **primary-{100-1000}:** 24
     - **product-01:**
-      - **primary-{100-500}:**
-        - **hue:** 188
-        - **saturation:** 80
-      - **secondary-{100-500}:**
-        - **hue:** 168
-        - **saturation:** 80
+      - **primary-{100-1000}:** 188
+      - **secondary-{100-1000}:** 168
     - **product-02:**
-      - **primary-{100-500}:**
-        - **hue:** 200
-        - **saturation:** 80
-      - **secondary-{100-500}:**
-        - **hue:** 268
-        - **saturation:** 80
+      - **primary-{100-1000}:** 200
+      - **secondary-{100-1000}:** 268
 
   - **Light Scheme:**
     - **brand:**
-      - **primary-{100-500}:**
-        - **hue:** 24
-        - **saturation:** 40
+      - **primary-{100-1000}:** 24
     - **product-01:**
-      - **primary-{100-500}:**
-        - **hue:** 188
-        - **saturation:** 40
-      - **secondary-{100-500}:**
-        - **hue:** 168
-        - **saturation:** 40
+      - **primary-{100-1000}:** 188
+      - **secondary-{100-1000}:** 168
     - **product-02:**
-      - **primary-{100-500}:**
-        - **hue:** 200
-        - **saturation:** 40
-      - **secondary-{100-500}:**
-        - **hue:** 268
-        - **saturation:** 40
+      - **primary-{100-1000}:** 200
+      - **secondary-{100-1000}:** 268
+
+- Each color variation will have the same **saturation** value for either light and dark schemes:
+  - **Dark Scheme:**
+    - **brand:**
+      - **primary-{100-1000}:** 80
+    - **product-01:**
+      - **primary-{100-1000}:** 80
+      - **secondary-{100-1000}:** 80
+    - **product-02:**
+      - **primary-{100-1000}:** 80
+      - **secondary-{100-1000}:** 80
+
+  - **Light Scheme:**
+    - **brand:**
+      - **primary-{100-1000}:** 40
+    - **product-01:**
+      - **primary-{100-1000}:** 40
+      - **secondary-{100-1000}:** 40
+    - **product-02:**
+      - **primary-{100-1000}:** 40
+      - **secondary-{100-1000}:** 40
 
 - Each color variation will have the same gradation of **luminosity** value for either light and dark schemes:
   - **Dark Scheme:**
-    - **100:** 20
-    - **200:** 30
-    - **300:** 50
-    - **400:** 70
-    - **500:** 80
+    - **{color-set}-200:** 20
+    - **{color-set}-300:** 30
+    - **{color-set}-500:** 50
+    - **{color-set}-700:** 70
+    - **{color-set}-800:** 80
 
   - **Light Scheme:**
-    - **100:** 80
-    - **200:** 70
-    - **300:** 50
-    - **400:** 30
-    - **500:** 20
+    - **{color-set}-200:** 80
+    - **{color-set}-300:** 70
+    - **{color-set}-500:** 50
+    - **{color-set}-700:** 30
+    - **{color-set}-800:** 20
 
 <iframe width="100%" height="500" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FIWIb3QoGbrzaVjGldRPBFb%2Fhsl-color-system%3Fnode-id%3D127%253A362" allowfullscreen></iframe>
 
@@ -130,7 +132,7 @@ $namespace: med;
 
 #### Names
 
-```scss {7-20} title="src/styles/_variables.scss"
+```scss {7-19} title="src/styles/_variables.scss"
 $namespace: med;
 
 //
@@ -150,7 +152,6 @@ $color-main-hue: (
     secondary: 268,
   ),
 ) !default;
-$color-main-variations: 5 !default;
 ```
 
 ```scss title="src/styles/mixins/_color.scss"
