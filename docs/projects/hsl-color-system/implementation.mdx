@@ -130,15 +130,9 @@ $namespace: med;
 
 ### Main Colors
 
-#### Names
-
-```scss {7-19} title="src/styles/_variables.scss"
+```scss {3-71} title="src/styles/_variables.scss"
 $namespace: med;
 
-//
-// colors configuration
-// configuration default: dark
-//
 $color-main-hue: (
   brand: (
     primary: 24,
@@ -152,16 +146,83 @@ $color-main-hue: (
     secondary: 268,
   ),
 ) !default;
+$color-main-saturation: (
+  brand: (
+    primary: 80%,
+  ),
+  product-01: (
+    primary: 80%,
+    secondary: 80%,
+  ),
+  product-02: (
+    primary: 80%,
+    secondary: 80%,
+  ),
+) !default;
+$color-main-luminosity: (
+  brand: (
+    primary: (
+      200: 20%,
+      300: 30%,
+      500: 50%,
+      700: 70%,
+      800: 80%,
+    ),
+  ),
+  product-01: (
+    primary: (
+      200: 20%,
+      300: 30%,
+      500: 50%,
+      700: 70%,
+      800: 80%,
+    ),
+    secondary: (
+      200: 20%,
+      300: 30%,
+      500: 50%,
+      700: 70%,
+      800: 80%,
+    ),
+  ),
+  product-02: (
+    primary: (
+      200: 20%,
+      300: 30%,
+      500: 50%,
+      700: 70%,
+      800: 80%,
+    ),
+    secondary: (
+      200: 20%,
+      300: 30%,
+      500: 50%,
+      700: 70%,
+      800: 80%,
+    ),
+  ),
+) !default;
 ```
 
 ```scss title="src/styles/mixins/_color.scss"
 @use "sass:math";
 
-@mixin generate-color-main($name: null, $set: null, $variations: $color-main-variations) {
-  @for $index from 1 through $variations {
-    $variation: $index * 100;
+@mixin generate-color-main($hue-map: null, $saturation-map: null, $luminosity-map: null) {
+  @each $key, $value in $hue-map {
+    $name: $key;
 
-    --#{$namespace}-color-#{$name}-#{$set}-#{$variation}: ;
+    @each $key-2, $value-2 in $value {
+      $set: $key-2;
+      $hue: $value-2;
+      $saturation: map-get(map-get($saturation-map, $key), $key-2);
+      $variation: map-get(map-get($luminosity-map, $key), $key-2);
+
+      @each $key-3, $value-3 in $variation {
+        $luminosity: $value-3;
+
+        --#{$namespace}-color-#{$name}-#{$set}-#{$key-3}: hsl(#{$hue}, #{$saturation}, #{$luminosity});
+      }
+    }
   }
 }
 ```
@@ -170,97 +231,8 @@ $color-main-hue: (
 @import '../variables';
 @import '../mixins';
 
-//
-// css custom properties
-//
 :root {
-  @each $key, $value in $color-main-hue {
-    $name: $key;
-
-    @each $key-2, $value-2 in $value {
-      $set: $key-2;
-
-      @include generate-color-main($name, $set);
-    }
-  }
-}
-```
-
-### Output
-
-```css title="styles/themes/default.css"
-:root {
-  --med-color-brand-primary-100: ;
-  --med-color-brand-primary-200: ;
-  --med-color-brand-primary-300: ;
-  --med-color-brand-primary-400: ;
-  --med-color-brand-primary-500: ;
-  --med-color-product-01-primary-100: ;
-  --med-color-product-01-primary-200: ;
-  --med-color-product-01-primary-300: ;
-  --med-color-product-01-primary-400: ;
-  --med-color-product-01-primary-500: ;
-  --med-color-product-01-secondary-100: ;
-  --med-color-product-01-secondary-200: ;
-  --med-color-product-01-secondary-300: ;
-  --med-color-product-01-secondary-400: ;
-  --med-color-product-01-secondary-500: ;
-  --med-color-product-02-primary-100: ;
-  --med-color-product-02-primary-200: ;
-  --med-color-product-02-primary-300: ;
-  --med-color-product-02-primary-400: ;
-  --med-color-product-02-primary-500: ;
-  --med-color-product-02-secondary-100: ;
-  --med-color-product-02-secondary-200: ;
-  --med-color-product-02-secondary-300: ;
-  --med-color-product-02-secondary-400: ;
-  --med-color-product-02-secondary-500: ;
-}
-```
-
-#### Values
-
-```scss {21,22-28} title="src/styles/_variables.scss"
-$namespace: med;
-
-//
-// colors configuration
-// configuration default: dark
-//
-$color-main-hue: (
-  brand: (
-    primary: 24,
-  ),
-  product-01: (
-    primary: 188,
-    secondary: 169,
-  ),
-  product-02: (
-    primary: 200,
-    secondary: 268,
-  ),
-) !default;
-$color-main-variations: 5 !default;
-$color-main-saturation: 80% !default;
-$color-main-luminosity: (
-  1: 20%,
-  2: 30%,
-  3: 50%,
-  4: 70%,
-  5: 80%,
-) !default;
-```
-
-```scss {3,6,8} title="src/styles/mixins/_color.scss"
-@use "sass:math";
-
-@mixin generate-color-main($name: null, $set: null, $hue: null, $saturation: $color-main-saturation, $variations: $color-main-variations) {
-  @for $index from 1 through $variations {
-    $variation: $index * 100;
-    $luminosity: map-get($color-main-luminosity, $index);
-
-    --#{$namespace}-color-#{$name}-#{$set}-#{$variation}: hsl(#{$hue}, #{$saturation}, #{$luminosity});
-  }
+  @include generate-color-main($color-main-hue, $color-main-saturation, $color-main-luminosity);
 }
 ```
 
@@ -268,31 +240,31 @@ $color-main-luminosity: (
 
 ```css title="styles/themes/default.css"
 :root {
-  --med-color-brand-primary-100: hsl(24, 80%, 20%);
-  --med-color-brand-primary-200: hsl(24, 80%, 30%);
-  --med-color-brand-primary-300: hsl(24, 80%, 50%);
-  --med-color-brand-primary-400: hsl(24, 80%, 70%);
-  --med-color-brand-primary-500: hsl(24, 80%, 80%);
-  --med-color-product-01-primary-100: hsl(188, 80%, 20%);
-  --med-color-product-01-primary-200: hsl(188, 80%, 30%);
-  --med-color-product-01-primary-300: hsl(188, 80%, 50%);
-  --med-color-product-01-primary-400: hsl(188, 80%, 70%);
-  --med-color-product-01-primary-500: hsl(188, 80%, 80%);
-  --med-color-product-01-secondary-100: hsl(169, 80%, 20%);
-  --med-color-product-01-secondary-200: hsl(169, 80%, 30%);
-  --med-color-product-01-secondary-300: hsl(169, 80%, 50%);
-  --med-color-product-01-secondary-400: hsl(169, 80%, 70%);
-  --med-color-product-01-secondary-500: hsl(169, 80%, 80%);
-  --med-color-product-02-primary-100: hsl(200, 80%, 20%);
-  --med-color-product-02-primary-200: hsl(200, 80%, 30%);
-  --med-color-product-02-primary-300: hsl(200, 80%, 50%);
-  --med-color-product-02-primary-400: hsl(200, 80%, 70%);
-  --med-color-product-02-primary-500: hsl(200, 80%, 80%);
-  --med-color-product-02-secondary-100: hsl(268, 80%, 20%);
-  --med-color-product-02-secondary-200: hsl(268, 80%, 30%);
-  --med-color-product-02-secondary-300: hsl(268, 80%, 50%);
-  --med-color-product-02-secondary-400: hsl(268, 80%, 70%);
-  --med-color-product-02-secondary-500: hsl(268, 80%, 80%);
+  --med-color-brand-primary-200: hsl(24, 80%, 20%);
+  --med-color-brand-primary-300: hsl(24, 80%, 30%);
+  --med-color-brand-primary-500: hsl(24, 80%, 50%);
+  --med-color-brand-primary-700: hsl(24, 80%, 70%);
+  --med-color-brand-primary-800: hsl(24, 80%, 80%);
+  --med-color-product-01-primary-200: hsl(188, 80%, 20%);
+  --med-color-product-01-primary-300: hsl(188, 80%, 30%);
+  --med-color-product-01-primary-500: hsl(188, 80%, 50%);
+  --med-color-product-01-primary-700: hsl(188, 80%, 70%);
+  --med-color-product-01-primary-800: hsl(188, 80%, 80%);
+  --med-color-product-01-secondary-200: hsl(169, 80%, 20%);
+  --med-color-product-01-secondary-300: hsl(169, 80%, 30%);
+  --med-color-product-01-secondary-500: hsl(169, 80%, 50%);
+  --med-color-product-01-secondary-700: hsl(169, 80%, 70%);
+  --med-color-product-01-secondary-800: hsl(169, 80%, 80%);
+  --med-color-product-02-primary-200: hsl(200, 80%, 20%);
+  --med-color-product-02-primary-300: hsl(200, 80%, 30%);
+  --med-color-product-02-primary-500: hsl(200, 80%, 50%);
+  --med-color-product-02-primary-700: hsl(200, 80%, 70%);
+  --med-color-product-02-primary-800: hsl(200, 80%, 80%);
+  --med-color-product-02-secondary-200: hsl(268, 80%, 20%);
+  --med-color-product-02-secondary-300: hsl(268, 80%, 30%);
+  --med-color-product-02-secondary-500: hsl(268, 80%, 50%);
+  --med-color-product-02-secondary-700: hsl(268, 80%, 70%);
+  --med-color-product-02-secondary-800: hsl(268, 80%, 80%);
 }
 ```
 
