@@ -1,0 +1,146 @@
+---
+id: section-14
+title: The Complete JavaScript Course · Section 14
+sidebar_label: Section 14
+description: The Complete JavaScript Course by Jonas Schmedtmann on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /the-complete-javascript-course/course/section-14
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Object-Oriented Programming (OOP) With JavaScript
+
+## [Section Intro](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649023#overview)
+
+## [Section Roadmap](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22664029#overview)
+
+## [What is Object-Oriented Programming?](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649033#overview)
+
+## [OOP in JavaScript](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649037#overview)
+
+## [Constructor Functions and the new Operator](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649039#overview)
+
+```js title="srcipt.js"
+'use strict';
+
+// 1. New {} is created
+// 2. function is called, 'this' = {}
+// 3. {} linked to prototype
+// 4. function automatically returns {}
+
+const Person = function (firstName, birthYear) {
+  console.log(this); // result: Person {}
+};
+
+new Person('John', 1986);
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const Person = function (firstName, birthYear) {
+  // instance properties
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+const person = new Person('John', 1986);
+
+console.log(person); // result: Person {firstName: 'John', birthYear: 1986}
+console.log(person instanceof Person); // result: true
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  // bad practice: never create a method inside a constructor function
+  // it will create a copy of this method and attach it into every single object
+  this.calcAge = function () {
+    console.log(2036 - this.birthYear);
+  };
+};
+
+const person = new Person('John', 1986);
+
+console.log(person);
+```
+
+## [Prototypes](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649045#overview)
+
+```js title="srcipt.js"
+'use strict';
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+
+  // this.calcAge = function () {
+  // console.log(2036 - this.birthYear);
+  // };
+};
+
+// there will be only one copy of this method and all the objects created from Person
+// will have access to it
+Person.prototype.calcAge = function () {
+  console.log(2036 - this.birthYear);
+};
+
+const person = new Person('John', 1986);
+
+console.log(person.calcAge()); // result: 50
+```
+
+```js title="srcipt.js"
+'use strict';
+
+// 3. {} linked to prototype, it will create the '__proto__' property and it sets its value to the
+// prototype property of the function that is being called
+// person.__proto__ === Person.prototype
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  console.log(2036 - this.birthYear);
+};
+
+const person = new Person('John', 1986);
+
+console.log(person.__proto__); // result: {calcAge: ƒ, constructor: ƒ}
+console.log(person.__proto__ === Person.prototype); // result: true
+
+// Person.prototype is not the prototype of Person, but it will be used as the prototype of all
+// objects created with the Person constructor function
+console.log(Person.prototype.isPrototypeOf(person)); // result: true
+console.log(Person.prototype.isPrototypeOf(Person)); // result: false
+```
+
+```js title="srcipt.js"
+'use strict';
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+const person = new Person('John', 1986);
+
+Person.prototype.species = 'Homo Sapiens';
+console.log(person.species); // result: 'Homo Sapiens';
+
+console.log(person.hasOwnproperty('species')); // result: false, the property is in 'Person' prototype
+console.log(person.hasOwnproperty('firstName')); // result: true
+```
+
+## [Prototypal Inheritance and The Prototype Chain](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649055#overview)
