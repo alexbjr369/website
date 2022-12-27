@@ -144,3 +144,238 @@ console.log(person.hasOwnproperty('firstName')); // result: true
 ```
 
 ## [Prototypal Inheritance and The Prototype Chain](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649055#overview)
+
+## [Prototypal Inheritance on Built-In Objects](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649059#overview)
+
+```js title="srcipt.js"
+'use strict';
+
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+const person = new Person('John', 1986);
+
+console.log(person.__proto__.__proto__); // result: Object
+console.log(person.__proto__.__proto__.__proto__); // result: null
+console.dir(Person.prototype.constructor); // result: Person(firstName, birthYear)
+```
+
+```js title="srcipt.js"
+// extending built-in objects (never do it)
+const array = [1, 2, 3, 3, 2];
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+
+console.log(array.unique()); // result: [1, 2, 3]
+```
+
+## [Coding Challenge #1](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649063#overview)
+
+## [ES6 Classes](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649069#overview)
+
+```js title="srcipt.js"
+// classes are not hoisted
+// classes are first-class citizens
+// classes are executed in 'strict' mode
+
+// class expression
+const Person = class {};
+
+// class declaration
+class Person {}
+```
+
+```js title="srcipt.js"
+class Person {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  // methods are added to the 'prototype' property
+  calcAge() {
+    console.log(2036 - this.birthYear);
+  }
+}
+
+const person = new Person('John', 1986);
+```
+
+## [Setters and Getters](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649073#overview)
+
+```js title="srcipt.js"
+// setter and getters are called accessor functions
+
+const account = {
+  owner: 'John',
+  movements: [100, 300, 400],
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+  set latest(movement) {
+    this.movements.push(movement);
+  },
+};
+
+// getter
+console.log(account.latest); // result: 400
+// setter
+account.latest = 50;
+console.log(account.movements); // result: [100, 300, 400, 50]
+```
+
+```js title="srcipt.js"
+class Person {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  // methods are added to the 'prototype' property
+  calcAge() {
+    console.log(2036 - this.birthYear);
+  }
+
+  get age() {
+    return 2036 - this.birthYear;
+  }
+}
+
+const person = new Person('John', 1986);
+console.log(person.age); // result: 50
+```
+
+```js title="srcipt.js"
+class Person {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  // methods are added to the 'prototype' property
+  calcAge() {
+    console.log(2036 - this.birthYear);
+  }
+
+  get age() {
+    return 2036 - this.birthYear;
+  }
+
+  set fullName(name) {
+    // '_fullName' convention in case we are setting a property that already exists
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+
+  // creation of a getter of '_fullName'
+  get fullName() {
+    return this._fullName;
+  }
+}
+
+const person = new Person('John Doe', 1986);
+console.log(person);
+```
+
+## [Static Methods](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649077#overview)
+
+**Static Methods are attached to the constructor function and not the prototype.**
+
+```js title="srcipt.js"
+Array.from();
+
+Number.parseFloat();
+```
+
+```js title="srcipt.js"
+// constructor function
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.hey = function () {
+  console.log('hey there!');
+};
+
+Person.hey();
+
+const person = new Person('John', 1986);
+// not inherited
+person.hey();
+```
+
+```js title="srcipt.js"
+// classes
+class Person {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  static hey() {
+    console.log('hey there!');
+  }
+}
+
+Person.hey();
+
+const person = new Person('John', 1986);
+// not inherited
+person.hey();
+```
+
+## [Object.create](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649081#overview)
+
+```js title="srcipt.js"
+const PersonPrototype = {
+  calcAge() {
+    console.log(2036 - this.birthYear);
+  },
+};
+
+const person = Object.create(PersonPrototype);
+// not good
+person.firstName = 'John';
+person.birthYear = 1986;
+
+person.calcAge(); // result: 50
+```
+
+```js title="srcipt.js"
+const PersonPrototype = {
+  calcAge() {
+    console.log(2036 - this.birthYear);
+  },
+};
+
+const person = Object.create(PersonPrototype);
+
+console.log(person.__proto__); // result: {calcAge:}
+console.log(person.__proto__ === PersonPrototype); // result: true
+```
+
+```js title="srcipt.js"
+const PersonPrototype = {
+  calcAge() {
+    console.log(2036 - this.birthYear);
+  },
+  // good way of creating object properties
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const person = Object.create(PersonPrototype);
+person.init('John', 1986);
+
+person.calcAge(); // result: 50
+```
+
+## [Coding Challenge #2](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649083#overview)
+
+## [Inheritance Between "Classes": Constructor Functions](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649085#overview)
