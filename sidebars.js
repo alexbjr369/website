@@ -160,6 +160,13 @@ module.exports = {
   courseProjects: [
     {
       type: 'category',
+      label: 'Nexter',
+      items: [
+        'projects/nexter/introduction',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Trillo',
       items: [
         'projects/trillo/introduction',
