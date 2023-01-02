@@ -1,0 +1,65 @@
+---
+id: introduction
+title: Nexter
+sidebar_label: Introduction
+description: Project developed in the course Advanced CSS and Sass by Jonas Schmedtmann on Udemy.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/nexter
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export const BuiltWith = ({ url, className, image, title, style }) => (
+  <a className="built-with" href={url}>
+    <img className={`built-with__image ${className}`} src={useBaseUrl(`img/knowledge/${image}`)} alt={title} style={style}/>
+    <div className="built-with__overlay">
+      <h2 className="built-with__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+export const BuiltWithText = ({ url, title }) => (
+  <a className="built-with-text" href={url}>
+    <div className="built-with-text__overlay">
+      <h2 className="built-with-text__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+# Nexter
+
+Project developed in the course **[Advanced CSS and Sass](https://www.udemy.com/course/advanced-css-and-sass)** by **[Jonas Schmedtmann](https://www.udemy.com/user/jonasschmedtmann)** on **[Udemy](https://www.udemy.com)**.
+
+## About
+
+A landing page developed to apply the knowledge studied in the course.
+
+## Links
+
+**[`Preview`](https://alexbleggi.netlify.app/preview/nexter)** **[`Repository`](https://github.com/alexbjr369/nexter)**
+
+<img src={useBaseUrl('img/projects/nexter.png')} alt="Nexter" />
+
+## Built With
+
+<div className="markdown-code thin-scrollbar">
+  <div className="markdown-code__container">
+    <BuiltWith url="/knowledge/bem-methodology" className="fixed-invert" image="bem-methodology.svg" title="BEM Methodology"></BuiltWith>
+    <BuiltWith url="/knowledge/web-accessibility" image="web-accessibility.png" title="Web Accessibility"></BuiltWith>
+    <BuiltWith url="/knowledge/sass-guidelines" image="sass-guidelines.png" title="Sass Guidelines"></BuiltWith>
+    <BuiltWith url="/knowledge/html" image="html.svg" title="HTML"></BuiltWith>
+    <BuiltWith url="/knowledge/css" image="css.svg" title="CSS"></BuiltWith>
+    <BuiltWith url="/knowledge/sass" image="sass.svg" title="SCSS"></BuiltWith>
+    <BuiltWith url="/knowledge/postcss" image="postcss.svg" title="PostCSS"></BuiltWith>
+    <BuiltWith url="/knowledge/node-sass" image="node-sass.svg" title="Node Sass"></BuiltWith>
+    <BuiltWith url="/knowledge/autoprefixer" image="autoprefixer.svg" title="Autoprefixer"></BuiltWith>
+    <BuiltWithText url="/knowledge/concat" title="concat"></BuiltWithText>
+    <BuiltWithText url="/knowledge/live-server" title="live-server"></BuiltWithText>
+    <BuiltWithText url="/knowledge/npm-run-all" title="npm-run-all"></BuiltWithText>
+    <BuiltWithText url="/knowledge/postcss-cli" title="postcss-cli"></BuiltWithText>
+  </div>
+</div>

@@ -217,6 +217,10 @@ module.exports = {
               to: 'docs/projects/linting-formatting-rules',
             },
             {
+              label: 'Nexter',
+              to: 'docs/projects/nexter',
+            },
+            {
               label: 'Trillo',
               to: 'docs/projects/trillo',
             },
