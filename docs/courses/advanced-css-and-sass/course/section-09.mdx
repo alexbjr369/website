@@ -14,3 +14,1281 @@ hide_title: true
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Nexter Project - Master CSS Grid Layouts!
+
+## [Project Overview and Setup](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8859702#overview)
+
+```html {1-17} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nexter - your home, your freedom</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body></body>
+</html>
+```
+
+```scss {1-33} title="sass/_base.scss"
+$color-primary: #c69963;
+$color-primary-dark: #b28451;
+
+$color-secondary: #101d2c;
+
+$color-grey-light-1: #f9f7f6;
+$color-grey-light-2: #aaa;
+
+$color-grey-dark-1: #54483a;
+$color-grey-dark-2: #6d5d4b;
+
+$font-primary: 'Nunito', sans-serif;
+$font-display: 'Josefin Sans', sans-serif;
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $font-primary;
+  color: var(--color-grey-dark-2);
+  font-weight: 300;
+  line-height: 1.6;
+}
+```
+
+```scss {1-10} title="sass/main.scss"
+@import 'base';
+@import 'typography';
+@import 'sidebar';
+@import 'header';
+@import 'realtors';
+@import 'features';
+@import 'story';
+@import 'homes';
+@import 'gallery';
+@import 'footer';
+```
+
+## [Building the Overall Layout - Part 1](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8859706#overview)
+
+```html {16-26} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nexter - your home, your freedom</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="container">
+    <div class="sidebar"></div>
+    <header class="header"></header>
+    <div class="realtors"></div>
+    <section class="features"></section>
+    <div class="story__pictures"></div>
+    <div class="story__content"></div>
+    <section class="homes"></section>
+    <section class="gallery"></section>
+    <footer class="footer"></footer>
+  </body>
+</html>
+```
+
+```scss {35-38} title="sass/_base.scss"
+$color-primary: #c69963;
+$color-primary-dark: #b28451;
+
+$color-secondary: #101d2c;
+
+$color-grey-light-1: #f9f7f6;
+$color-grey-light-2: #aaa;
+
+$color-grey-dark-1: #54483a;
+$color-grey-dark-2: #6d5d4b;
+
+$font-primary: 'Nunito', sans-serif;
+$font-display: 'Josefin Sans', sans-serif;
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $font-primary;
+  color: var(--color-grey-dark-2);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 80vh min-content 40vw repeat(3, min-content);
+}
+```
+
+```scss {1-3} title="sass/_features.scss"
+.features {
+  background-color: $color-grey-light-2;
+}
+```
+
+```scss {1-3} title="sass/_footer.scss"
+.footer {
+  background-color: $color-secondary;
+}
+```
+
+```scss {1-3} title="sass/_gallery.scss"
+.homes {
+  background-color: $color-grey-dark-1;
+}
+```
+
+```scss {1-3} title="sass/_header.scss"
+.header {
+  background-color: $color-grey-dark-1;
+}
+```
+
+```scss {1-3} title="sass/_homes.scss"
+.homes {
+  background-color: $color-secondary;
+}
+```
+
+```scss {1-3} title="sass/_realtors.scss"
+.realtors {
+  background-color: $color-secondary;
+}
+```
+
+```scss {1-3} title="sass/_sidebar.scss"
+.sidebar {
+  background-color: $color-primary;
+}
+```
+
+```scss {1-9} title="sass/_story.scss"
+.story {
+  &__pictures {
+    background-color: $color-primary;
+  }
+
+  &__content {
+    background-color: $color-grey-light-1;
+  }
+}
+```
+
+## [Building the Overall Layout - Part 2](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8859708#overview)
+
+```scss {39-43} title="sass/_base.scss"
+$color-primary: #c69963;
+$color-primary-dark: #b28451;
+
+$color-secondary: #101d2c;
+
+$color-grey-light-1: #f9f7f6;
+$color-grey-light-2: #aaa;
+
+$color-grey-dark-1: #54483a;
+$color-grey-dark-2: #6d5d4b;
+
+$font-primary: 'Nunito', sans-serif;
+$font-display: 'Josefin Sans', sans-serif;
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $font-primary;
+  color: var(--color-grey-dark-2);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 80vh min-content 40vw repeat(3, min-content);
+  // grid-template-columns: 8rem 1fr repeat(8, minmax(min-content, 14rem)) 1fr;
+  grid-template-columns:
+    [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr)
+    [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end])
+    [center-end] minmax(6rem, 1fr)
+    [full-end];
+}
+```
+
+```scss {3} title="sass/_features.scss"
+.features {
+  background-color: $color-grey-light-2;
+  grid-column: center-start / center-end;
+}
+```
+
+```scss {3} title="sass/_footer.scss"
+.footer {
+  background-color: $color-secondary;
+  grid-column: full-start / full-end;
+}
+```
+
+```scss {3} title="sass/_gallery.scss"
+.gallery {
+  background-color: $color-grey-dark-1;
+  grid-column: full-start / full-end;
+}
+```
+
+```scss {3} title="sass/_header.scss"
+.header {
+  background-color: $color-grey-dark-1;
+  grid-column: full-start / col-end 6;
+}
+```
+
+```scss {3} title="sass/_homes.scss"
+.homes {
+  background-color: $color-grey-dark-1;
+  grid-column: full-start / full-end;
+}
+```
+
+```scss {3} title="sass/_realtors.scss"
+.realtors {
+  background-color: $color-secondary;
+  grid-column: col-end 7 / full-end;
+}
+```
+
+```scss {3,4} title="sass/_sidebar.scss"
+.sidebar {
+  background-color: $color-primary;
+  grid-column: sidebar-start / sidebar-end;
+  grid-row: 1 / -1;
+}
+```
+
+```scss {4,9} title="sass/_story.scss"
+.story {
+  &__pictures {
+    background-color: $color-primary;
+    grid-column: full-start / col-end 4;
+  }
+
+  &__content {
+    background-color: $color-grey-light-1;
+    grid-column: col-start 5 / full-end;
+  }
+}
+```
+
+## [Building the Features Section - Part 1](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8859714#overview)
+
+```html {20-82} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nexter - your home, your freedom</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="container">
+    <div class="sidebar"></div>
+    <header class="header"></header>
+    <div class="realtors"></div>
+    <section class="features">
+      <!-- .feature{feature $}*6 -->
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-global"></use>
+        </svg>
+        <h4 class="heading-4">World's best luxury homes</h4>
+        <p class="feature__text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+          distinctio necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-trophy"></use>
+        </svg>
+        <h4 class="heading-4">Only the best properties</h4>
+        <p class="feature__text">
+          Voluptatum mollitia quae. Vero ipsum sapiente molestias accusamus
+          rerum sed a eligendi aut quia.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+        </svg>
+        <h4 class="heading-4">All homes in top locations</h4>
+        <p class="feature__text">
+          Tenetur distinctio necessitatibus pariatur voluptatibus quidem
+          consequatur harum.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-key"></use>
+        </svg>
+        <h4 class="heading-4">New home in one week</h4>
+        <p class="feature__text">
+          Vero ipsum sapiente molestias accusamus rerum. Lorem, ipsum dolor sit
+          amet consectetur adipisicing elit.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-presentation"></use>
+        </svg>
+        <h4 class="heading-4">Top 1% realtors</h4>
+        <p class="feature__text">
+          Quidem consequatur harum, voluptatum mollitia quae. Tenetur distinctio
+          necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-lock"></use>
+        </svg>
+        <h4 class="heading-4">Secure payments on nexter</h4>
+        <p class="feature__text">
+          Pariatur voluptatibus quidem consequatur harum, voluptatum mollitia
+          quae.
+        </p>
+      </div>
+    </section>
+    <div class="story__pictures"></div>
+    <div class="story__content"></div>
+    <section class="homes"></section>
+    <section class="gallery"></section>
+    <footer class="footer"></footer>
+  </body>
+</html>
+```
+
+```scss {3-6} title="sass/_features.scss"
+.features {
+  grid-column: center-start / center-end;
+  margin: 15rem 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 6rem;
+}
+```
+
+## [Building the Features Section - Part 2](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8859716#overview)
+
+```html {26,36,46,56,66,76} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nexter - your home, your freedom</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="container">
+    <div class="sidebar"></div>
+    <header class="header"></header>
+    <div class="realtors"></div>
+    <section class="features">
+      <!-- .feature{feature $}*6 -->
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-global"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">World's best luxury homes</h4>
+        <p class="feature__text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+          distinctio necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-trophy"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Only the best properties</h4>
+        <p class="feature__text">
+          Voluptatum mollitia quae. Vero ipsum sapiente molestias accusamus
+          rerum sed a eligendi aut quia.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">All homes in top locations</h4>
+        <p class="feature__text">
+          Tenetur distinctio necessitatibus pariatur voluptatibus quidem
+          consequatur harum.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-key"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">New home in one week</h4>
+        <p class="feature__text">
+          Vero ipsum sapiente molestias accusamus rerum. Lorem, ipsum dolor sit
+          amet consectetur adipisicing elit.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-presentation"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Top 1% realtors</h4>
+        <p class="feature__text">
+          Quidem consequatur harum, voluptatum mollitia quae. Tenetur distinctio
+          necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-lock"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Secure payments on nexter</h4>
+        <p class="feature__text">
+          Pariatur voluptatibus quidem consequatur harum, voluptatum mollitia
+          quae.
+        </p>
+      </div>
+    </section>
+    <div class="story__pictures"></div>
+    <div class="story__content"></div>
+    <section class="homes"></section>
+    <section class="gallery"></section>
+    <footer class="footer"></footer>
+  </body>
+</html>
+```
+
+```scss {5,6,8,11-28} title="sass/_features.scss"
+.features {
+  grid-column: center-start / center-end;
+  margin: 15rem 0;
+  display: grid;
+  // grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  grid-gap: 6rem;
+  align-items: start;
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-row-gap: 1.5rem;
+  grid-column-gap: 2.5rem;
+
+  &__icon {
+    fill: $color-primary;
+    width: 4.5rem;
+    height: 4.5rem;
+    grid-row: 1 / span 2;
+    transform: translateY(-1rem);
+  }
+
+  &__text {
+    font-size: 1.7rem;
+  }
+}
+```
+
+```scss {1-17} title="sass/_typography.scss"
+%heading {
+  font-family: $font-display;
+  font-weight: 400;
+}
+
+.heading-4 {
+  @extend %heading;
+  font-size: 1.9rem;
+
+  &--light {
+    color: $color-grey-light-1;
+  }
+
+  &--dark {
+    color: $color-grey-dark-1;
+  }
+}
+```
+
+## [Building the Story Section - Part 1](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8859718#overview)
+
+```html {85-94} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nexter - your home, your freedom</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="container">
+    <div class="sidebar"></div>
+    <header class="header"></header>
+    <div class="realtors"></div>
+    <section class="features">
+      <!-- .feature{feature $}*6 -->
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-global"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">World's best luxury homes</h4>
+        <p class="feature__text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+          distinctio necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-trophy"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Only the best properties</h4>
+        <p class="feature__text">
+          Voluptatum mollitia quae. Vero ipsum sapiente molestias accusamus
+          rerum sed a eligendi aut quia.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">All homes in top locations</h4>
+        <p class="feature__text">
+          Tenetur distinctio necessitatibus pariatur voluptatibus quidem
+          consequatur harum.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-key"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">New home in one week</h4>
+        <p class="feature__text">
+          Vero ipsum sapiente molestias accusamus rerum. Lorem, ipsum dolor sit
+          amet consectetur adipisicing elit.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-presentation"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Top 1% realtors</h4>
+        <p class="feature__text">
+          Quidem consequatur harum, voluptatum mollitia quae. Tenetur distinctio
+          necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-lock"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Secure payments on nexter</h4>
+        <p class="feature__text">
+          Pariatur voluptatibus quidem consequatur harum, voluptatum mollitia
+          quae.
+        </p>
+      </div>
+    </section>
+    <div class="story__pictures"></div>
+    <div class="story__content">
+      <h3 class="heading-3 mb-sm">Happy Customers</h3>
+      <h2 class="heading-2 heading-2--dark mb-md">
+        &ldquo;The best decision of our lives&rdquo;
+      </h2>
+      <p class="story__text">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+        distinctio necessitatibus pariatur voluptatibus. Quidem consequatur
+        harum volupta!
+      </p>
+      <button class="btn">Find your own home</button>
+    </div>
+    <section class="homes"></section>
+    <section class="gallery"></section>
+    <footer class="footer"></footer>
+  </body>
+</html>
+```
+
+
+```scss {10-17,20-24} title="sass/_story.scss"
+.story {
+  &__pictures {
+    background-color: $color-primary;
+    grid-column: full-start / col-end 4;
+  }
+
+  &__content {
+    background-color: $color-grey-light-1;
+    grid-column: col-start 5 / full-end;
+    padding: 6rem 8vw;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: flex-start;
+    display: grid;
+    align-content: center;
+    justify-items: start;
+  }
+
+  &__text {
+    font-size: 1.5rem;
+    font-style: italic;
+    margin-bottom: 4rem;
+  }
+}
+```
+
+```scss {6-19,21-26,41-56,58-60,62-64,66-68,70-72} title="sass/_typography.scss"
+%heading {
+  font-family: $font-display;
+  font-weight: 400;
+}
+
+.heading-2 {
+  @extend %heading;
+  font-size: 4rem;
+  font-style: italic;
+  line-height: 1;
+
+  &--light {
+    color: $color-grey-light-1;
+  }
+
+  &--dark {
+    color: $color-grey-dark-1;
+  }
+}
+
+.heading-3 {
+  @extend %heading;
+  font-size: 1.6rem;
+  color: $color-primary;
+  text-transform: uppercase;
+}
+
+.heading-4 {
+  @extend %heading;
+  font-size: 1.9rem;
+
+  &--light {
+    color: $color-grey-light-1;
+  }
+
+  &--dark {
+    color: $color-grey-dark-1;
+  }
+}
+
+.btn {
+  background-color: $color-primary;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  font-family: $font-display;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  padding: 1.8rem 3rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+}
+
+.mb-sm {
+  margin-bottom: 2rem;
+}
+
+.mb-md {
+  margin-bottom: 3rem;
+}
+
+.mb-lg {
+  margin-bottom: 4rem;
+}
+
+.mb-hg {
+  margin-bottom: 8rem;
+}
+```
+
+## [Building the Story Section - Part 2](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8859720#overview)
+
+```html {84-89} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nexter - your home, your freedom</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="container">
+    <div class="sidebar"></div>
+    <header class="header"></header>
+    <div class="realtors"></div>
+    <section class="features">
+      <!-- .feature{feature $}*6 -->
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-global"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">World's best luxury homes</h4>
+        <p class="feature__text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+          distinctio necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-trophy"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Only the best properties</h4>
+        <p class="feature__text">
+          Voluptatum mollitia quae. Vero ipsum sapiente molestias accusamus
+          rerum sed a eligendi aut quia.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">All homes in top locations</h4>
+        <p class="feature__text">
+          Tenetur distinctio necessitatibus pariatur voluptatibus quidem
+          consequatur harum.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-key"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">New home in one week</h4>
+        <p class="feature__text">
+          Vero ipsum sapiente molestias accusamus rerum. Lorem, ipsum dolor sit
+          amet consectetur adipisicing elit.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-presentation"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Top 1% realtors</h4>
+        <p class="feature__text">
+          Quidem consequatur harum, voluptatum mollitia quae. Tenetur distinctio
+          necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-lock"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Secure payments on nexter</h4>
+        <p class="feature__text">
+          Pariatur voluptatibus quidem consequatur harum, voluptatum mollitia
+          quae.
+        </p>
+      </div>
+    </section>
+    <div class="story__pictures">
+      <img
+        class="story__img--1"
+        src="img/story-1.jpeg"
+        alt="Couple with new house"
+      />
+      <img class="story__img--2" src="img/story-2.jpeg" alt="New house" />
+    </div>
+    <div class="story__content">
+      <h3 class="heading-3 mb-sm">Happy Customers</h3>
+      <h2 class="heading-2 heading-2--dark mb-md">
+        &ldquo;The best decision of our lives&rdquo;
+      </h2>
+      <p class="story__text">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+        distinctio necessitatibus pariatur voluptatibus. Quidem consequatur
+        harum volupta!
+      </p>
+      <button class="btn">Find your own home</button>
+    </div>
+    <section class="homes"></section>
+    <section class="gallery"></section>
+    <footer class="footer"></footer>
+  </body>
+</html>
+```
+
+
+```scss {5-13,16-21,23-29} title="sass/_story.scss"
+.story {
+  &__pictures {
+    background-color: $color-primary;
+    grid-column: full-start / col-end 4;
+    background-image: linear-gradient(
+        rgba($color-primary, 0.5),
+        rgba($color-primary, 0.5)
+      ),
+      url(../img/back.jpg);
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+  }
+
+  &__img--1 {
+    width: 100%;
+    grid-row: 2 / 6;
+    grid-column: 2 / 6;
+    box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.1);
+  }
+
+  &__img--2 {
+    width: 115%;
+    grid-row: 4 / 6;
+    grid-column: 4 / 7;
+    z-index: 20;
+    box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2);
+  }
+
+  &__content {
+    background-color: $color-grey-light-1;
+    grid-column: col-start 5 / full-end;
+    padding: 6rem 8vw;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: flex-start;
+    display: grid;
+    align-content: center;
+    justify-items: start;
+  }
+
+  &__text {
+    font-size: 1.5rem;
+    font-style: italic;
+    margin-bottom: 4rem;
+  }
+}
+```
+
+## [Building the Homes Section - Part 1](https://www.udemy.com/course/advanced-css-and-sass/learn/lecture/8859726#overview)
+
+```html {103-297} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nexter - your home, your freedom</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="container">
+    <div class="sidebar"></div>
+    <header class="header"></header>
+    <div class="realtors"></div>
+    <section class="features">
+      <!-- .feature{feature $}*6 -->
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-global"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">World's best luxury homes</h4>
+        <p class="feature__text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+          distinctio necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-trophy"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Only the best properties</h4>
+        <p class="feature__text">
+          Voluptatum mollitia quae. Vero ipsum sapiente molestias accusamus
+          rerum sed a eligendi aut quia.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">All homes in top locations</h4>
+        <p class="feature__text">
+          Tenetur distinctio necessitatibus pariatur voluptatibus quidem
+          consequatur harum.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-key"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">New home in one week</h4>
+        <p class="feature__text">
+          Vero ipsum sapiente molestias accusamus rerum. Lorem, ipsum dolor sit
+          amet consectetur adipisicing elit.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-presentation"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Top 1% realtors</h4>
+        <p class="feature__text">
+          Quidem consequatur harum, voluptatum mollitia quae. Tenetur distinctio
+          necessitatibus pariatur voluptatibus.
+        </p>
+      </div>
+      <div class="feature">
+        <svg class="feature__icon">
+          <use xlink:href="img/sprite.svg#icon-lock"></use>
+        </svg>
+        <h4 class="heading-4 heading-4--dark">Secure payments on nexter</h4>
+        <p class="feature__text">
+          Pariatur voluptatibus quidem consequatur harum, voluptatum mollitia
+          quae.
+        </p>
+      </div>
+    </section>
+    <div class="story__pictures">
+      <img
+        class="story__img--1"
+        src="img/story-1.jpeg"
+        alt="Couple with new house"
+      />
+      <img class="story__img--2" src="img/story-2.jpeg" alt="New house" />
+    </div>
+    <div class="story__content">
+      <h3 class="heading-3 mb-sm">Happy Customers</h3>
+      <h2 class="heading-2 heading-2--dark mb-md">
+        &ldquo;The best decision of our lives&rdquo;
+      </h2>
+      <p class="story__text">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+        distinctio necessitatibus pariatur voluptatibus. Quidem consequatur
+        harum volupta!
+      </p>
+      <button class="btn">Find your own home</button>
+    </div>
+    <section class="homes">
+      <!-- .homes{Home card $}*6 -->
+      <div class="home">
+        <img class="home__img" src="img/house-1.jpeg" alt="House 1" />
+        <svg class="home__like">
+          <use xlink:href="img/sprite.svg#icon-heart-full"></use>
+        </svg>
+        <h5 class="home__name">Beautiful Family House</h5>
+        <div class="home__location">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+          </svg>
+          <p>USA</p>
+        </div>
+        <div class="home__rooms">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-profile-male"></use>
+          </svg>
+          <p>5 rooms</p>
+        </div>
+        <div class="home__area">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-expand"></use>
+          </svg>
+          <p>325 m<sup>2</sup></p>
+        </div>
+        <div class="home__price">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-key"></use>
+          </svg>
+          <p>$1.200,000</p>
+        </div>
+        <button class="cta">Contact realtor</button>
+      </div>
+      <div class="home">
+        <img class="home__img" src="img/house-2.jpeg" alt="House 2" />
+        <svg class="home__like">
+          <use xlink:href="img/sprite.svg#icon-heart-full"></use>
+        </svg>
+        <h5 class="home__name">Modern Glass Villa</h5>
+        <div class="home__location">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+          </svg>
+          <p>Canada</p>
+        </div>
+        <div class="home__rooms">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-profile-male"></use>
+          </svg>
+          <p>6 rooms</p>
+        </div>
+        <div class="home__area">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-expand"></use>
+          </svg>
+          <p>450 m<sup>2</sup></p>
+        </div>
+        <div class="home__price">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-key"></use>
+          </svg>
+          <p>$2.750,000</p>
+        </div>
+        <button class="cta">Contact realtor</button>
+      </div>
+      <div class="home">
+        <img class="home__img" src="img/house-3.jpeg" alt="House 3" />
+        <svg class="home__like">
+          <use xlink:href="img/sprite.svg#icon-heart-full"></use>
+        </svg>
+        <h5 class="home__name">Cozy Country House</h5>
+        <div class="home__location">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+          </svg>
+          <p>UK</p>
+        </div>
+        <div class="home__rooms">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-profile-male"></use>
+          </svg>
+          <p>4 rooms</p>
+        </div>
+        <div class="home__area">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-expand"></use>
+          </svg>
+          <p>250 m<sup>2</sup></p>
+        </div>
+        <div class="home__price">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-key"></use>
+          </svg>
+          <p>$850,000</p>
+        </div>
+        <button class="cta">Contact realtor</button>
+      </div>
+      <div class="home">
+        <img class="home__img" src="img/house-4.jpeg" alt="House 4" />
+        <svg class="home__like">
+          <use xlink:href="img/sprite.svg#icon-heart-full"></use>
+        </svg>
+        <h5 class="home__name">Large Rustical Villa</h5>
+        <div class="home__location">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+          </svg>
+          <p>Portugal</p>
+        </div>
+        <div class="home__rooms">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-profile-male"></use>
+          </svg>
+          <p>6 rooms</p>
+        </div>
+        <div class="home__area">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-expand"></use>
+          </svg>
+          <p>480 m<sup>2</sup></p>
+        </div>
+        <div class="home__price">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-key"></use>
+          </svg>
+          <p>$1.950,000</p>
+        </div>
+        <button class="cta">Contact realtor</button>
+      </div>
+      <div class="home">
+        <img class="home__img" src="img/house-5.jpeg" alt="House 5" />
+        <svg class="home__like">
+          <use xlink:href="img/sprite.svg#icon-heart-full"></use>
+        </svg>
+        <h5 class="home__name">Majestic Palace House</h5>
+        <div class="home__location">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+          </svg>
+          <p>Germany</p>
+        </div>
+        <div class="home__rooms">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-profile-male"></use>
+          </svg>
+          <p>18 rooms</p>
+        </div>
+        <div class="home__area">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-expand"></use>
+          </svg>
+          <p>4230 m<sup>2</sup></p>
+        </div>
+        <div class="home__price">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-key"></use>
+          </svg>
+          <p>$9.500,000</p>
+        </div>
+        <button class="cta">Contact realtor</button>
+      </div>
+      <div class="home">
+        <img class="home__img" src="img/house-6.jpeg" alt="House 6" />
+        <svg class="home__like">
+          <use xlink:href="img/sprite.svg#icon-heart-full"></use>
+        </svg>
+        <h5 class="home__name">Modern Family Apartment</h5>
+        <div class="home__location">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-map-pin"></use>
+          </svg>
+          <p>Italy</p>
+        </div>
+        <div class="home__rooms">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-profile-male"></use>
+          </svg>
+          <p>3 rooms</p>
+        </div>
+        <div class="home__area">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-expand"></use>
+          </svg>
+          <p>180 m<sup>2</sup></p>
+        </div>
+        <div class="home__price">
+          <svg>
+            <use xlink:href="img/sprite.svg#icon-key"></use>
+          </svg>
+          <p>$600,000</p>
+        </div>
+        <button class="cta">Contact realtor</button>
+      </div>
+    </section>
+    <section class="gallery"></section>
+    <footer class="footer"></footer>
+  </body>
+</html>
+```
+
+```scss {3-6,9-35} title="sass/_story.scss"
+.homes {
+  grid-column: center-start / center-end;
+  margin: 15rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  grid-gap: 7rem;
+}
+
+.home {
+  background-color: $color-grey-light-1;
+
+  &__img {
+    width: 100%;
+  }
+
+  &__like {
+  }
+
+  &__name {
+  }
+
+  &__location,
+  &__rooms,
+  &__area,
+  &__price {
+    svg {
+      fill: $color-primary;
+      height: 2rem;
+      width: 2rem;
+    }
+
+    p {
+    }
+  }
+}
+```
