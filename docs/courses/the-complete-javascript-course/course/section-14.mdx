@@ -25,7 +25,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## [Constructor Functions and the new Operator](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649039#overview)
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 // 1. New {} is created
@@ -40,7 +40,7 @@ const Person = function (firstName, birthYear) {
 new Person('John', 1986);
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const Person = function (firstName, birthYear) {
@@ -55,7 +55,7 @@ console.log(person); // result: Person {firstName: 'John', birthYear: 1986}
 console.log(person instanceof Person); // result: true
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const Person = function (firstName, birthYear) {
@@ -76,7 +76,7 @@ console.log(person);
 
 ## [Prototypes](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649045#overview)
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const Person = function (firstName, birthYear) {
@@ -99,7 +99,7 @@ const person = new Person('John', 1986);
 console.log(person.calcAge()); // result: 50
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 // 3. {} linked to prototype, it will create the '__proto__' property and it sets its value to the
@@ -126,7 +126,7 @@ console.log(Person.prototype.isPrototypeOf(person)); // result: true
 console.log(Person.prototype.isPrototypeOf(Person)); // result: false
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const Person = function (firstName, birthYear) {
@@ -147,7 +147,7 @@ console.log(person.hasOwnproperty('firstName')); // result: true
 
 ## [Prototypal Inheritance on Built-In Objects](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649059#overview)
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const Person = function (firstName, birthYear) {
@@ -162,7 +162,7 @@ console.log(person.__proto__.__proto__.__proto__); // result: null
 console.dir(Person.prototype.constructor); // result: Person(firstName, birthYear)
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 // extending built-in objects (never do it)
 const array = [1, 2, 3, 3, 2];
 Array.prototype.unique = function () {
@@ -176,7 +176,7 @@ console.log(array.unique()); // result: [1, 2, 3]
 
 ## [ES6 Classes](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649069#overview)
 
-```js title="srcipt.js"
+```js title="script.js"
 // classes are not hoisted
 // classes are first-class citizens
 // classes are executed in 'strict' mode
@@ -188,7 +188,7 @@ const Person = class {};
 class Person {}
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 class Person {
   constructor(firstName, birthYear) {
     this.firstName = firstName;
@@ -206,7 +206,7 @@ const person = new Person('John', 1986);
 
 ## [Setters and Getters](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649073#overview)
 
-```js title="srcipt.js"
+```js title="script.js"
 // setter and getters are called accessor functions
 
 const account = {
@@ -227,7 +227,7 @@ account.latest = 50;
 console.log(account.movements); // result: [100, 300, 400, 50]
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 class Person {
   constructor(firstName, birthYear) {
     this.firstName = firstName;
@@ -248,7 +248,7 @@ const person = new Person('John', 1986);
 console.log(person.age); // result: 50
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 class Person {
   constructor(fullName, birthYear) {
     this.fullName = fullName;
@@ -284,13 +284,13 @@ console.log(person);
 
 **Static Methods are attached to the constructor function and not the prototype.**
 
-```js title="srcipt.js"
+```js title="script.js"
 Array.from();
 
 Number.parseFloat();
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 // constructor function
 const Person = function (firstName, birthYear) {
   this.firstName = firstName;
@@ -308,7 +308,7 @@ const person = new Person('John', 1986);
 person.hey();
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 // classes
 class Person {
   constructor(fullName, birthYear) {
@@ -330,7 +330,7 @@ person.hey();
 
 ## [Object.create](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22649081#overview)
 
-```js title="srcipt.js"
+```js title="script.js"
 const PersonPrototype = {
   calcAge() {
     console.log(2036 - this.birthYear);
@@ -345,7 +345,7 @@ person.birthYear = 1986;
 person.calcAge(); // result: 50
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 const PersonPrototype = {
   calcAge() {
     console.log(2036 - this.birthYear);
@@ -358,7 +358,7 @@ console.log(person.__proto__); // result: {calcAge:}
 console.log(person.__proto__ === PersonPrototype); // result: true
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 const PersonPrototype = {
   calcAge() {
     console.log(2036 - this.birthYear);

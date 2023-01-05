@@ -21,7 +21,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## [Destructuring Arrays](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648521#overview)
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const array = [2, 3, 4];
@@ -29,7 +29,7 @@ const [x, y, z] = array;
 console.log(x, y, z); // result: 2 3 4
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -44,7 +44,7 @@ const [first, second] = restaurant.categories;
 console.log(first, second); // result: 'Italian' 'Pizzeria'
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -61,7 +61,7 @@ console.log(first, second); // result: 'Italian' 'Vegetarian'
 
 **Switching Variables**
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -79,7 +79,7 @@ console.log(main, secondary); // result: 'Italian' 'Vegetarian'
 console.log(main, secondary); // result: 'Vegetarian' 'Italian'
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -100,7 +100,7 @@ console.log(starter, main); // result: 'Garlic Bread' 'Pizza'
 
 **Nested Arrays**
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const nested = [2, 4, [5, 6]];
@@ -109,7 +109,7 @@ const [i, , j] = nested;
 console.log(i, j); // result 2 [5, 6]
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const nested = [2, 4, [5, 6]];
@@ -120,14 +120,14 @@ console.log(i, j, k); // result 2 5 6
 
 **Default Values**
 
-```js title="srcipt.js"
+```js title="script.js"
 const [p = 1, q = 1, r = 1] = [8, 9];
 console.log(p, q, r); // result: 9, 9, 1
 ```
 
 ## [Destructuring Objects](https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648527#overview)
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -162,7 +162,7 @@ const { name, openingHours, categories } = restaurant;
 console.log(name, openingHours, categories); // result: 'Classico italiano' openingHours: { ... } ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad']
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -199,7 +199,7 @@ console.log(restaurantName, hours, tags); // result: 'Classico italiano' opening
 
 **Default Values**
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -217,7 +217,7 @@ console.log(menu, starters); // result: [] ['Focaccia', 'Bruschetta', 'Garlic Br
 
 **Mutating Variables**
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 let a = 111;
@@ -232,7 +232,7 @@ console.log(a, b); // result: 1 2
 
 **Nested Objects**
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -261,7 +261,7 @@ const {
 console.log(open, c); // result: 11 23
 ```
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -286,7 +286,7 @@ restaurant.orderDelivery({
 
 **New Array**
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const array = [7, 8, 9];
@@ -298,7 +298,7 @@ console.log(...newArray); // result: 1 2 7 8 9
 
 **Shallow Array Copy**
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -311,7 +311,7 @@ console.log(mainMenuCopy); // result: ['Pizza', 'Pasta', 'Risotto']
 
 **Merging Arrays**
 
-```js title="srcipt.js"
+```js title="script.js"
 'use strict';
 
 const restaurant = {
@@ -325,7 +325,7 @@ console.log(menu); // result: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Capres
 
 **Iterables:** Arrays, strings, maps, sets, but not objects.
 
-```js title="srcipt.js
+```js title="script.js
 const str = 'John';
 const letters = [...str, ' ', 'S.'];
 console.log(letters); // result: ['J', 'o', 'h', 'n', ' ', 'S.']
@@ -333,7 +333,7 @@ console.log(letters); // result: ['J', 'o', 'h', 'n', ' ', 'S.']
 
 **Arguments**
 
-```js title="srcipt.js
+```js title="script.js
 'use strict';
 
 const restaurant = {
@@ -348,7 +348,7 @@ restaurant.orderPasta(...ingredients);
 
 **New Object (ES2018)**
 
-```js title="srcipt.js
+```js title="script.js
 'use strict';
 
 const restaurant = {
@@ -365,7 +365,7 @@ console.log(newRestaurant);
 
 **Shallow Object Copy**
 
-```js title="srcipt.js
+```js title="script.js
 'use strict';
 
 const restaurant = {

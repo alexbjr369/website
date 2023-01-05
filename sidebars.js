@@ -3,6 +3,7 @@ module.exports = {
     'notes/notes',
     'notes/unit-testing/unit-testing',
     'notes/angular/angular',
+    'notes/web-components/web-components',
     {
       type: 'category',
       label: 'JavaScript',
@@ -280,6 +281,19 @@ module.exports = {
       label: 'Web Components and Stencil.js',
       items: [
         'courses/web-components-stencil-js/web-components-stencil-js',
+        {
+          'Course': [
+            'courses/web-components-stencil-js/course/section-01',
+            'courses/web-components-stencil-js/course/section-02',
+            'courses/web-components-stencil-js/course/section-03',
+            'courses/web-components-stencil-js/course/section-04',
+            'courses/web-components-stencil-js/course/section-05',
+            'courses/web-components-stencil-js/course/section-06',
+            'courses/web-components-stencil-js/course/section-07',
+            'courses/web-components-stencil-js/course/section-09',
+            'courses/web-components-stencil-js/course/section-10',
+          ],
+        },
       ],
     },
     {

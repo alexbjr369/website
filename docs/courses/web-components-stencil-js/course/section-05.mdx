@@ -1,0 +1,1500 @@
+---
+id: section-05
+title: Web Components and Stencil.js · Section 05
+sidebar_label: Section 05
+description: Web Components and Stencil.js by Academind.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /web-components-stencil-js/course/section-05
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Building More Complex Components
+
+## [Module Introduction](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655706#overview)
+
+## [Creating the Basics Modal Component](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655720#overview)
+
+```html {1-23} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 2rem;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <uc-modal></uc-modal>
+    <script src="modal.js"></script>
+  </body>
+</html>
+```
+
+```js {1-22} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+        }
+      </style>
+      <div id="backdrop"></div>
+      <div id="modal"></div>
+    `;
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Adding the Modal Container](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655722#overview)
+
+```js {14,16-25} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+        }
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+        }
+      </style>
+      <div id="backdrop"></div>
+      <div id="modal"></div>
+    `;
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Styling the Modal Elements](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655726#overview)
+
+```html {21-24} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 2rem;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <uc-modal>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
+        recusandae.
+      </p>
+    </uc-modal>
+    <script src="modal.js"></script>
+  </body>
+</html>
+```
+
+```js {26-28,31-33,35-40,42-44,46-48,50-52,57-66} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        header h1 {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <h1>Please Confirm</h1>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button>Cancel</button>
+          <button>Okay</button>
+        </section>
+      </div>
+    `;
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Adding Some General App Logic](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655728#overview)
+
+```html {27,30-37} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 2rem;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <uc-modal>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
+        recusandae.
+      </p>
+    </uc-modal>
+
+    <button>Show details and confirm</button>
+
+    <script src="modal.js"></script>
+    <script>
+      const confirm = document.querySelector('button');
+      const modal = document.querySelector('uc-modal');
+
+      confirm.addEventListener('click', () => {
+        modal.setAttribute('opened', '');
+      });
+    </script>
+  </body>
+</html>
+```
+
+```js {15,16,31,32} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        header h1 {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <h1>Please Confirm</h1>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button>Cancel</button>
+          <button>Okay</button>
+        </section>
+      </div>
+    `;
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Opening the Modal via CSS](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655734#overview)
+
+```js {7-10,12-15,85-94,96-98} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host([opened]) #backdrop {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        :host([opened]) #modal {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        header h1 {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <h1>Please Confirm</h1>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button>Cancel</button>
+          <button>Okay</button>
+        </section>
+      </div>
+    `;
+  }
+
+  /* attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'opened') {
+      if (this.hasAttribute('opened')) {
+        this.shadowRoot.querySelector('#backdrop').style.opacity = 1;
+        this.shadowRoot.querySelector('#backdrop').style.pointerEvents = 'all';
+        this.shadowRoot.querySelector('#modal').style.opacity = 1;
+        this.shadowRoot.querySelector('#modal').style.pointerEvents = 'all';
+      }
+    }
+  } */
+
+  /* static get observedAttributes() {
+    return ['opened'];
+  } */
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Public Methods & Properties](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655742#overview)
+
+```html {35-37} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 2rem;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <uc-modal>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
+        recusandae.
+      </p>
+    </uc-modal>
+
+    <button>Show details and confirm</button>
+
+    <script src="modal.js"></script>
+    <script>
+      const confirm = document.querySelector('button');
+      const modal = document.querySelector('uc-modal');
+
+      confirm.addEventListener('click', () => {
+        if (!modal.isOpen) {
+          modal.open();
+        }
+      });
+    </script>
+  </body>
+</html>
+```
+
+```js {86-94,96-98,100-103} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.isOpen = false;
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host([opened]) #backdrop {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        :host([opened]) #modal {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        header h1 {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <h1>Please Confirm</h1>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button>Cancel</button>
+          <button>Okay</button>
+        </section>
+      </div>
+    `;
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'opened') {
+      if (this.hasAttribute('opened')) {
+        this.isOpen = true;
+      }
+    } else {
+      this.isOpen = false;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['opened'];
+  }
+
+  open() {
+    this.setAttribute('opened', '');
+    this.isOpen = true;
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Understanding Named Slots](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655744#overview)
+
+```html {21} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 2rem;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <uc-modal>
+      <h1 slot="title">Please Confirm</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
+        recusandae.
+      </p>
+    </uc-modal>
+
+    <button>Show details and confirm</button>
+
+    <script src="modal.js"></script>
+    <script>
+      const confirm = document.querySelector('button');
+      const modal = document.querySelector('uc-modal');
+
+      confirm.addEventListener('click', () => {
+        if (!modal.isOpen) {
+          modal.open();
+        }
+      });
+    </script>
+  </body>
+</html>
+```
+
+```js {65,73} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.isOpen = false;
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host([opened]) #backdrop {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        :host([opened]) #modal {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        ::slotted(h1) {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <slot name="title">Please Confirm Payment</slot>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button>Cancel</button>
+          <button>Okay</button>
+        </section>
+      </div>
+    `;
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'opened') {
+      if (this.hasAttribute('opened')) {
+        this.isOpen = true;
+      }
+    } else {
+      this.isOpen = false;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['opened'];
+  }
+
+  open() {
+    this.setAttribute('opened', '');
+    this.isOpen = true;
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## ["slotchange" & Getting Access to Slot Content](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655748#overview)
+
+```js {85-88} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.isOpen = false;
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host([opened]) #backdrop {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        :host([opened]) #modal {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        ::slotted(h1) {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <slot name="title">Please Confirm Payment</slot>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button>Cancel</button>
+          <button>Okay</button>
+        </section>
+      </div>
+    `;
+
+    const slots = this.shadowRoot.querySelectorAll('slot');
+    slots[1].addEventListener('slotchange', (event) => {
+      console.dir(slots[1].assignedNodes());
+    });
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'opened') {
+      if (this.hasAttribute('opened')) {
+        this.isOpen = true;
+      }
+    } else {
+      this.isOpen = false;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['opened'];
+  }
+
+  open() {
+    this.setAttribute('opened', '');
+    this.isOpen = true;
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Closing the Modal with Modal Buttons](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655752#overview)
+
+```html {41-43,45-47} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 2rem;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <uc-modal>
+      <h1 slot="title">Please Confirm</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
+        recusandae.
+      </p>
+    </uc-modal>
+
+    <button>Show details and confirm</button>
+
+    <script src="modal.js"></script>
+    <script>
+      const confirm = document.querySelector('button');
+      const modal = document.querySelector('uc-modal');
+
+      confirm.addEventListener('click', () => {
+        if (!modal.isOpen) {
+          modal.open();
+        }
+      });
+
+      modal.addEventListener('confirm', () => {
+        console.log('Confirmed...');
+      });
+
+      modal.addEventListener('cancel', () => {
+        console.log('Cancelled...');
+      });
+    </script>
+  </body>
+</html>
+```
+
+```js {79,80,90,91,93,94} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.isOpen = false;
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host([opened]) #backdrop {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        :host([opened]) #modal {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        ::slotted(h1) {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <slot name="title">Please Confirm Payment</slot>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button id="cancel-btn">Cancel</button>
+          <button id="confirm-btn">Okay</button>
+        </section>
+      </div>
+    `;
+
+    const slots = this.shadowRoot.querySelectorAll('slot');
+    slots[1].addEventListener('slotchange', (event) => {
+      console.dir(slots[1].assignedNodes());
+    });
+
+    const cancelButton = this.shadowRoot.querySelector('#cancel-btn');
+    const confirmButton = this.shadowRoot.querySelector('#confirm-btn');
+
+    cancelButton.addEventListener('click', this._cancel.bind(this));
+    confirmButton.addEventListener('click', this._confirm.bind(this));
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'opened') {
+      if (this.hasAttribute('opened')) {
+        this.isOpen = true;
+      }
+    } else {
+      this.isOpen = false;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['opened'];
+  }
+
+  open() {
+    this.setAttribute('opened', '');
+    this.isOpen = true;
+  }
+
+  hide() {
+    if (this.hasAttribute('opened')) {
+      this.removeAttribute('opened');
+    }
+    this.isOpen = false;
+  }
+
+  _cancel() {
+    this.hide();
+  }
+
+  _confirm() {
+    this.hide();
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Dispatching Custom Events](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655758#overview)
+
+```js {123,125,126} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.isOpen = false;
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host([opened]) #backdrop {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        :host([opened]) #modal {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        ::slotted(h1) {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <slot name="title">Please Confirm Payment</slot>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button id="cancel-btn">Cancel</button>
+          <button id="confirm-btn">Okay</button>
+        </section>
+      </div>
+    `;
+
+    const slots = this.shadowRoot.querySelectorAll('slot');
+    slots[1].addEventListener('slotchange', (event) => {
+      console.dir(slots[1].assignedNodes());
+    });
+
+    const cancelButton = this.shadowRoot.querySelector('#cancel-btn');
+    const confirmButton = this.shadowRoot.querySelector('#confirm-btn');
+
+    cancelButton.addEventListener('click', this._cancel.bind(this));
+    confirmButton.addEventListener('click', this._confirm.bind(this));
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'opened') {
+      if (this.hasAttribute('opened')) {
+        this.isOpen = true;
+      }
+    } else {
+      this.isOpen = false;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['opened'];
+  }
+
+  open() {
+    this.setAttribute('opened', '');
+    this.isOpen = true;
+  }
+
+  hide() {
+    if (this.hasAttribute('opened')) {
+      this.removeAttribute('opened');
+    }
+    this.isOpen = false;
+  }
+
+  _cancel(event) {
+    this.hide();
+    const cancelEvent = new Event('cancel');
+    event.target.dispatchEvent(cancelEvent);
+  }
+
+  _confirm() {
+    this.hide();
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Configuring Custom Events](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655762#overview)
+
+```js {125,132-137} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.isOpen = false;
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host([opened]) #backdrop {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        :host([opened]) #modal {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        ::slotted(h1) {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <slot name="title">Please Confirm Payment</slot>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button id="cancel-btn">Cancel</button>
+          <button id="confirm-btn">Okay</button>
+        </section>
+      </div>
+    `;
+
+    const slots = this.shadowRoot.querySelectorAll('slot');
+    slots[1].addEventListener('slotchange', (event) => {
+      console.dir(slots[1].assignedNodes());
+    });
+
+    const cancelButton = this.shadowRoot.querySelector('#cancel-btn');
+    const confirmButton = this.shadowRoot.querySelector('#confirm-btn');
+
+    cancelButton.addEventListener('click', this._cancel.bind(this));
+    confirmButton.addEventListener('click', this._confirm.bind(this));
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'opened') {
+      if (this.hasAttribute('opened')) {
+        this.isOpen = true;
+      }
+    } else {
+      this.isOpen = false;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['opened'];
+  }
+
+  open() {
+    this.setAttribute('opened', '');
+    this.isOpen = true;
+  }
+
+  hide() {
+    if (this.hasAttribute('opened')) {
+      this.removeAttribute('opened');
+    }
+    this.isOpen = false;
+  }
+
+  _cancel(event) {
+    this.hide();
+    // composed will leave the shadow DOM tree
+    const cancelEvent = new Event('cancel', { bubbles: true, composed: true });
+    event.target.dispatchEvent(cancelEvent);
+  }
+
+  _confirm() {
+    this.hide();
+    const confirmEvent = new Event('confirm', {
+      bubbles: true,
+      composed: true,
+    });
+    // with 'this' there is no need to use 'bubbles' and 'composed'
+    this.dispatchEvent(confirmEvent);
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Adding Enhancements & Modal Animations](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655768#overview)
+
+```js {90,94} title="modal.js"
+class Modal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.isOpen = false;
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host([opened]) #backdrop {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        :host([opened]) #modal {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        #backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.75);
+          z-index: 10;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #modal {
+          position: fixed;
+          top: 15vh;
+          left: 25%;
+          width: 50%;
+          background-color: #fff;
+          border-radius: 3px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        #main {
+          padding: 1rem;
+        }
+
+        #actions {
+          border-top: 1px solid #ccc;
+          padding: 1rem;
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        #actions button {
+          margin: 0 0.25rem;
+        }
+
+        header {
+          padding: 1rem;
+        }
+
+        ::slotted(h1) {
+          font-size: 1.25rem;
+        }
+      </style>
+
+      <div id="backdrop"></div>
+      <div id="modal">
+        <header>
+          <slot name="title">Please Confirm Payment</slot>
+        </header>
+        <section id="main">
+          <slot></slot>
+        </section>
+        <section id="actions">
+          <button id="cancel-btn">Cancel</button>
+          <button id="confirm-btn">Okay</button>
+        </section>
+      </div>
+    `;
+
+    const slots = this.shadowRoot.querySelectorAll('slot');
+    slots[1].addEventListener('slotchange', (event) => {
+      console.dir(slots[1].assignedNodes());
+    });
+
+    const backdrop = this.shadowRoot.querySelector('#backdrop');
+    const cancelButton = this.shadowRoot.querySelector('#cancel-btn');
+    const confirmButton = this.shadowRoot.querySelector('#confirm-btn');
+
+    backdrop.addEventListener('click', this._cancel.bind(this));
+    cancelButton.addEventListener('click', this._cancel.bind(this));
+    confirmButton.addEventListener('click', this._confirm.bind(this));
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'opened') {
+      if (this.hasAttribute('opened')) {
+        this.isOpen = true;
+      }
+    } else {
+      this.isOpen = false;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['opened'];
+  }
+
+  open() {
+    this.setAttribute('opened', '');
+    this.isOpen = true;
+  }
+
+  hide() {
+    if (this.hasAttribute('opened')) {
+      this.removeAttribute('opened');
+    }
+    this.isOpen = false;
+  }
+
+  _cancel(event) {
+    this.hide();
+    // composed will leave the shadow DOM tree
+    const cancelEvent = new Event('cancel', { bubbles: true, composed: true });
+    event.target.dispatchEvent(cancelEvent);
+  }
+
+  _confirm() {
+    this.hide();
+    const confirmEvent = new Event('confirm', {
+      bubbles: true,
+      composed: true,
+    });
+    // with 'this' there is no need to use 'bubbles' and 'composed'
+    this.dispatchEvent(confirmEvent);
+  }
+}
+
+customElements.define('uc-modal', Modal);
+```
+
+## [Wrap Up](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655770#overview)
+
+## [Useful Resources & Links](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655774#overview)

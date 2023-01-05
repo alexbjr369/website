@@ -295,6 +295,10 @@ module.exports = {
               to: 'docs/notes/angular',
             },
             {
+              label: 'Web Components',
+              to: 'docs/notes/web-components',
+            },
+            {
               label: 'JavaScript',
               to: 'docs/notes/javascript',
             },

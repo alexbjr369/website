@@ -1,0 +1,741 @@
+---
+id: section-04
+title: Web Components and Stencil.js · Section 04
+sidebar_label: Section 04
+description: Web Components and Stencil.js by Academind.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /web-components-stencil-js/course/section-04
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Diving Deeper Into Web Components
+
+## [Module Introduction](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627056#overview)
+
+## [Understanding Shadow DOM Projection](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627066#overview)
+
+## [Styling "slot" Content Outside of the Shadow DOM](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627080#overview)
+
+## [Styling "slot" Content Inside the Shadow DOM](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627084#overview)
+
+```html {14} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <template id="tooltipTemplate"> </template>
+
+    <p>
+      <uc-tooltip text="Web Components is a set of standards.">
+        <span class="highlight">Web Components</span>
+      </uc-tooltip>
+      are awesome!
+    </p>
+
+    <uc-tooltip> </uc-tooltip>
+
+    <a is="uc-confirm-link" href="https://www.google.com/">Google</a>
+
+    <script src="tooltip.js"></script>
+    <script src="confirm-link.js"></script>
+  </body>
+</html>
+```
+
+```js {16-18} title="tooltip.js"
+class Tooltip extends HTMLElement {
+  constructor() {
+    super();
+    this._tooltipContainer;
+    this._tooltipText = 'Some dummy tooltip text.';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        div {
+          background-color: black;
+          color: white;
+          position: absolute;
+          z-index: 10;
+        }
+
+        ::slotted(.highlight) {
+          background-color: red;
+        }
+      </style>
+
+      <slot>Some default</slot>
+      <span> (?)</span>
+    `;
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('text')) {
+      this._tooltipText = this.getAttribute('text');
+    }
+    const tooltipIcon = this.shadowRoot.querySelector('span');
+    tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this));
+    tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this));
+    this.shadowRoot.appendChild(tooltipIcon);
+    this.style.position = 'relative';
+  }
+
+  _showTooltip() {
+    this._tooltipContainer = document.createElement('div');
+    this._tooltipContainer.textContent = this._tooltipText;
+    this.shadowRoot.appendChild(this._tooltipContainer);
+  }
+
+  _hideTooltip() {
+    this.shadowRoot.removeChild(this._tooltipContainer);
+  }
+}
+
+customElements.define('uc-tooltip', Tooltip);
+```
+
+## [Styling the Host Component](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627088#overview)
+
+```js {20-22} title="tooltip.js"
+class Tooltip extends HTMLElement {
+  constructor() {
+    super();
+    this._tooltipContainer;
+    this._tooltipText = 'Some dummy tooltip text.';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        div {
+          background-color: black;
+          color: white;
+          position: absolute;
+          z-index: 10;
+        }
+
+        ::slotted(.highlight) {
+          background-color: red;
+        }
+
+        :host {
+          background-color: #ccc;
+        }
+      </style>
+
+      <slot>Some default</slot>
+      <span> (?)</span>
+    `;
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('text')) {
+      this._tooltipText = this.getAttribute('text');
+    }
+    const tooltipIcon = this.shadowRoot.querySelector('span');
+    tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this));
+    tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this));
+    this.shadowRoot.appendChild(tooltipIcon);
+    this.style.position = 'relative';
+  }
+
+  _showTooltip() {
+    this._tooltipContainer = document.createElement('div');
+    this._tooltipContainer.textContent = this._tooltipText;
+    this.shadowRoot.appendChild(this._tooltipContainer);
+  }
+
+  _hideTooltip() {
+    this.shadowRoot.removeChild(this._tooltipContainer);
+  }
+}
+
+customElements.define('uc-tooltip', Tooltip);
+```
+
+## [Styling Components from Outside](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12796861#overview)
+
+## [Conditional Host Styling](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627090#overview)
+
+```html {14} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <template id="tooltipTemplate"> </template>
+
+    <p>
+      <uc-tooltip
+        class="important"
+        text="Web Components is a set of standards."
+      >
+        <span class="highlight">Web Components</span>
+      </uc-tooltip>
+      are awesome!
+    </p>
+
+    <uc-tooltip> </uc-tooltip>
+
+    <a is="uc-confirm-link" href="https://www.google.com/">Google</a>
+
+    <script src="tooltip.js"></script>
+    <script src="confirm-link.js"></script>
+  </body>
+</html>
+```
+
+```js {20} title="tooltip.js"
+class Tooltip extends HTMLElement {
+  constructor() {
+    super();
+    this._tooltipContainer;
+    this._tooltipText = 'Some dummy tooltip text.';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        div {
+          background-color: black;
+          color: white;
+          position: absolute;
+          z-index: 10;
+        }
+
+        ::slotted(.highlight) {
+          background-color: red;
+        }
+
+        :host(.important) {
+          background-color: #ccc;
+        }
+      </style>
+
+      <slot>Some default</slot>
+      <span> (?)</span>
+    `;
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('text')) {
+      this._tooltipText = this.getAttribute('text');
+    }
+    const tooltipIcon = this.shadowRoot.querySelector('span');
+    tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this));
+    tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this));
+    this.shadowRoot.appendChild(tooltipIcon);
+    this.style.position = 'relative';
+  }
+
+  _showTooltip() {
+    this._tooltipContainer = document.createElement('div');
+    this._tooltipContainer.textContent = this._tooltipText;
+    this.shadowRoot.appendChild(this._tooltipContainer);
+  }
+
+  _hideTooltip() {
+    this.shadowRoot.removeChild(this._tooltipContainer);
+  }
+}
+
+customElements.define('uc-tooltip', Tooltip);
+```
+
+## [Styling with the Host Content in Mind](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627098#overview)
+
+```js {24-26} title="tooltip.js"
+class Tooltip extends HTMLElement {
+  constructor() {
+    super();
+    this._tooltipContainer;
+    this._tooltipText = 'Some dummy tooltip text.';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        div {
+          background-color: black;
+          color: white;
+          position: absolute;
+          z-index: 10;
+        }
+
+        ::slotted(.highlight) {
+          background-color: red;
+        }
+
+        :host(.important) {
+          background-color: #ccc;
+        }
+
+        :host-context(p) {
+          font-weight: bold;
+        }
+      </style>
+
+      <slot>Some default</slot>
+      <span> (?)</span>
+    `;
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('text')) {
+      this._tooltipText = this.getAttribute('text');
+    }
+    const tooltipIcon = this.shadowRoot.querySelector('span');
+    tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this));
+    tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this));
+    this.shadowRoot.appendChild(tooltipIcon);
+    this.style.position = 'relative';
+  }
+
+  _showTooltip() {
+    this._tooltipContainer = document.createElement('div');
+    this._tooltipContainer.textContent = this._tooltipText;
+    this.shadowRoot.appendChild(this._tooltipContainer);
+  }
+
+  _hideTooltip() {
+    this.shadowRoot.removeChild(this._tooltipContainer);
+  }
+}
+
+customElements.define('uc-tooltip', Tooltip);
+```
+
+## [Smart Dynamic Styling with CSS Variables](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627104#overview)
+
+```html {8-12} title="index.html"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html {
+        --color-primary: #a4e6fc;
+      }
+    </style>
+  </head>
+  <body>
+    <template id="tooltipTemplate"> </template>
+
+    <p>
+      <uc-tooltip
+        class="important"
+        text="Web Components is a set of standards."
+      >
+        <span class="highlight">Web Components</span>
+      </uc-tooltip>
+      are awesome!
+    </p>
+
+    <uc-tooltip> </uc-tooltip>
+
+    <a is="uc-confirm-link" href="https://www.google.com/">Google</a>
+
+    <script src="tooltip.js"></script>
+    <script src="confirm-link.js"></script>
+  </body>
+</html>
+```
+
+```js {21} title="tooltip.js"
+class Tooltip extends HTMLElement {
+  constructor() {
+    super();
+    this._tooltipContainer;
+    this._tooltipText = 'Some dummy tooltip text.';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        div {
+          background-color: black;
+          color: white;
+          position: absolute;
+          z-index: 10;
+        }
+
+        ::slotted(.highlight) {
+          background-color: red;
+        }
+
+        :host(.important) {
+          background-color: var(--color-primary, #ccc);
+        }
+
+        :host-context(p) {
+          font-weight: bold;
+        }
+      </style>
+
+      <slot>Some default</slot>
+      <span> (?)</span>
+    `;
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('text')) {
+      this._tooltipText = this.getAttribute('text');
+    }
+    const tooltipIcon = this.shadowRoot.querySelector('span');
+    tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this));
+    tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this));
+    this.shadowRoot.appendChild(tooltipIcon);
+    this.style.position = 'relative';
+  }
+
+  _showTooltip() {
+    this._tooltipContainer = document.createElement('div');
+    this._tooltipContainer.textContent = this._tooltipText;
+    this.shadowRoot.appendChild(this._tooltipContainer);
+  }
+
+  _hideTooltip() {
+    this.shadowRoot.removeChild(this._tooltipContainer);
+  }
+}
+
+customElements.define('uc-tooltip', Tooltip);
+```
+
+## [Cleaning Up Our Overall Styling](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627108#overview)
+
+## [Observing Attribute Changes](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627116#overview)
+
+```js {45,47-49} title="tooltip.js"
+class Tooltip extends HTMLElement {
+  constructor() {
+    super();
+    this._tooltipContainer;
+    this._tooltipText = 'Some dummy tooltip text.';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        div {
+          background-color: black;
+          color: white;
+          position: absolute;
+          z-index: 10;
+        }
+
+        ::slotted(.highlight) {
+          background-color: red;
+        }
+
+        :host(.important) {
+          background-color: var(--color-primary, #ccc);
+        }
+
+        :host-context(p) {
+          font-weight: bold;
+        }
+      </style>
+
+      <slot>Some default</slot>
+      <span> (?)</span>
+    `;
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('text')) {
+      this._tooltipText = this.getAttribute('text');
+    }
+    const tooltipIcon = this.shadowRoot.querySelector('span');
+    tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this));
+    tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this));
+    this.shadowRoot.appendChild(tooltipIcon);
+    this.style.position = 'relative';
+  }
+
+  _showTooltip() {
+    this._tooltipContainer = document.createElement('div');
+    this._tooltipContainer.textContent = this._tooltipText;
+    this.shadowRoot.appendChild(this._tooltipContainer);
+  }
+
+  _hideTooltip() {
+    this.shadowRoot.removeChild(this._tooltipContainer);
+  }
+}
+
+customElements.define('uc-tooltip', Tooltip);
+```
+
+## [Adjusting the Component Behaviour Upon Attribute Changes](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627126#overview)
+
+```js {45-53} title="tooltip.js"
+class Tooltip extends HTMLElement {
+  constructor() {
+    super();
+    this._tooltipContainer;
+    this._tooltipText = 'Some dummy tooltip text.';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        div {
+          background-color: black;
+          color: white;
+          position: absolute;
+          z-index: 10;
+        }
+
+        ::slotted(.highlight) {
+          background-color: red;
+        }
+
+        :host(.important) {
+          background-color: var(--color-primary, #ccc);
+        }
+
+        :host-context(p) {
+          font-weight: bold;
+        }
+      </style>
+
+      <slot>Some default</slot>
+      <span> (?)</span>
+    `;
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('text')) {
+      this._tooltipText = this.getAttribute('text');
+    }
+    const tooltipIcon = this.shadowRoot.querySelector('span');
+    tooltipIcon.addEventListener('mouseenter', this._showTooltip.bind(this));
+    tooltipIcon.addEventListener('mouseleave', this._hideTooltip.bind(this));
+    this.shadowRoot.appendChild(tooltipIcon);
+    this.style.position = 'relative';
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue === newValue) {
+      return;
+    }
+
+    if (name === 'text') {
+      this._tooltipText = newValue;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['text'];
+  }
+
+  _showTooltip() {
+    this._tooltipContainer = document.createElement('div');
+    this._tooltipContainer.textContent = this._tooltipText;
+    this.shadowRoot.appendChild(this._tooltipContainer);
+  }
+
+  _hideTooltip() {
+    this.shadowRoot.removeChild(this._tooltipContainer);
+  }
+}
+
+customElements.define('uc-tooltip', Tooltip);
+```
+
+## [Using "disconnectedcallback"](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627132#overview)
+
+```js {5,23,40-48,51-54} title="tooltip.js"
+class Tooltip extends HTMLElement {
+  constructor() {
+    super();
+    this._tooltipContainer;
+    this._tooltipIcon;
+    this._tooltipText = 'Some dummy tooltip text.';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        div {
+          background-color: black;
+          color: white;
+          position: absolute;
+          z-index: 10;
+        }
+
+        ::slotted(.highlight) {
+          background-color: red;
+        }
+
+        :host(.important) {
+          background-color: var(--color-primary, #ccc);
+          position: relative;
+        }
+
+        :host-context(p) {
+          font-weight: bold;
+        }
+      </style>
+
+      <slot>Some default</slot>
+      <span> (?)</span>
+    `;
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('text')) {
+      this._tooltipText = this.getAttribute('text');
+    }
+    this._tooltipIcon = this.shadowRoot.querySelector('span');
+    this._tooltipIcon.addEventListener(
+      'mouseenter',
+      this._showTooltip.bind(this)
+    );
+    this._tooltipIcon.addEventListener(
+      'mouseleave',
+      this._hideTooltip.bind(this)
+    );
+  }
+
+  disconnectedCallback() {
+    this._tooltipIcon.removeEventListener('mouseenter', this._showTooltip);
+    this._tooltipIcon.removeEventListener('mouseleave', this._hideTooltip);
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue === newValue) {
+      return;
+    }
+
+    if (name === 'text') {
+      this._tooltipText = newValue;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['text'];
+  }
+
+  _showTooltip() {
+    this._tooltipContainer = document.createElement('div');
+    this._tooltipContainer.textContent = this._tooltipText;
+    this.shadowRoot.appendChild(this._tooltipContainer);
+  }
+
+  _hideTooltip() {
+    this.shadowRoot.removeChild(this._tooltipContainer);
+  }
+}
+
+customElements.define('uc-tooltip', Tooltip);
+```
+
+## [Adding a Render Method](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627136#overview)
+
+```js {5,6,50,72-84,87,88,92,93} title="tooltip.js"
+class Tooltip extends HTMLElement {
+  constructor() {
+    super();
+    this._tooltipContainer;
+    this._tooltipIcon;
+    this._tooltipVisible;
+    this._tooltipText = 'Some dummy tooltip text.';
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        div {
+          background-color: black;
+          color: white;
+          position: absolute;
+          z-index: 10;
+        }
+
+        ::slotted(.highlight) {
+          background-color: red;
+        }
+
+        :host(.important) {
+          background-color: var(--color-primary, #ccc);
+          position: relative;
+        }
+
+        :host-context(p) {
+          font-weight: bold;
+        }
+      </style>
+
+      <slot>Some default</slot>
+      <span> (?)</span>
+    `;
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute('text')) {
+      this._tooltipText = this.getAttribute('text');
+    }
+    this._tooltipIcon = this.shadowRoot.querySelector('span');
+    this._tooltipIcon.addEventListener(
+      'mouseenter',
+      this._showTooltip.bind(this)
+    );
+    this._tooltipIcon.addEventListener(
+      'mouseleave',
+      this._hideTooltip.bind(this)
+    );
+    this._render();
+  }
+
+  disconnectedCallback() {
+    this._tooltipIcon.removeEventListener('mouseenter', this._showTooltip);
+    this._tooltipIcon.removeEventListener('mouseleave', this._hideTooltip);
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue === newValue) {
+      return;
+    }
+
+    if (name === 'text') {
+      this._tooltipText = newValue;
+    }
+  }
+
+  static get observedAttributes() {
+    return ['text'];
+  }
+
+  _render() {
+    let tooltipContainer = this.shadowRoot.querySelector('div');
+
+    if (this._tooltipVisible) {
+      tooltipContainer = document.createElement('div');
+      tooltipContainer.textContent = this._tooltipText;
+      this.shadowRoot.appendChild(tooltipContainer);
+    } else {
+      if (tooltipContainer) {
+        this.shadowRoot.removeChild(tooltipContainer);
+      }
+    }
+  }
+
+  _showTooltip() {
+    this._tooltipVisible = true;
+    this._render();
+  }
+
+  _hideTooltip() {
+    this._tooltipVisible = false;
+    this._render();
+  }
+}
+
+customElements.define('uc-tooltip', Tooltip);
+```
+
+## [Wrap Up](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12627140#overview)
+
+## [Useful Resources & Links](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655778#overview)
