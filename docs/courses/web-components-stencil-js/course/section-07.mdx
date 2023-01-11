@@ -18,3 +18,1182 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 ## [Module Introduction](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655812#overview)
 
 ## [Using the Development Server](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655816#overview)
+
+## [MUST READ: Ensuring Correct Imports](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/15259888#overview)
+
+## [Creating a New Stencil Web Component](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655820#overview)
+
+```html {11} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+  </head>
+  <body>
+    <uc-side-drawer></uc-side-drawer>
+  </body>
+</html>
+```
+
+```tsx {1-16} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  render() {
+    return (
+      <div>
+        <h1>Side Drawer</h1>
+      </div>
+    );
+  }
+}
+```
+
+## [Styling a Stencil Component](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655824#overview)
+
+```css {1-10} title="src/components/side-drawer/side-drawer.css"
+aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30rem;
+  max-width: 80%;
+  height: 100vh;
+  background-color: #e9e9e9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+```
+
+```tsx {5,6,11} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  render() {
+    return (
+      <aside>
+        <h1>Side Drawer</h1>
+      </aside>
+    );
+  }
+}
+```
+
+## [Using Props](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655826#overview)
+
+```html {11,13-20} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+  </head>
+  <body>
+    <uc-side-drawer title="Main Menu"></uc-side-drawer>
+
+    <script>
+      const sideDrawer = document.querySelector('ucs-side-drawer');
+
+      setTimeout(() => {
+        // sideDrawer.title = 'It changed!';
+        sideDrawer.setAttribute('title', 'It changed!');
+      }, 3000);
+    </script>
+  </body>
+</html>
+```
+
+```tsx {9,14-19} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Prop } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @Prop() title: string;
+
+  render() {
+    return (
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+        </header>
+        <main>
+          <slot />
+        </main>
+      </aside>
+    );
+  }
+}
+```
+
+## [Important: Reflect Props to Attributes](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/16904052#overview)
+
+## [Configuring Props](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655828#overview)
+
+```html {17,18} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+  </head>
+  <body>
+    <uc-side-drawer title="Main Menu"></uc-side-drawer>
+
+    <script>
+      const sideDrawer = document.querySelector('ucs-side-drawer');
+
+      setTimeout(() => {
+        sideDrawer.title = 'It changed!';
+        // sideDrawer.setAttribute('title', 'It changed!');
+      }, 3000);
+    </script>
+  </body>
+</html>
+```
+
+```tsx {9} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Prop } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @Prop({ reflect: true }) title: string;
+
+  render() {
+    return (
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+        </header>
+        <main>
+          <slot />
+        </main>
+      </aside>
+    );
+  }
+}
+```
+
+## [Using Slots & Styling](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655832#overview)
+
+```html {9-26,30-42} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      .side-nav ul {
+        list-style: none;
+      }
+
+      .side-nav li {
+        margin: 1rem 0;
+      }
+
+      .side-nav a {
+        text-decoration: none;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <uc-side-drawer title="Main Menu">
+      <nav class="side-nav">
+        <ul>
+          <li>
+            <a href="#">link</a>
+          </li>
+          <li>
+            <a href="#">link</a>
+          </li>
+          <li>
+            <a href="#">link</a>
+          </li>
+        </ul>
+      </nav>
+    </uc-side-drawer>
+
+    <script>
+      const sideDrawer = document.querySelector('ucs-side-drawer');
+    </script>
+  </body>
+</html>
+```
+
+```css {12-15,17-21} title="src/components/side-drawer/side-drawer.css"
+aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30rem;
+  max-width: 80%;
+  height: 100vh;
+  background-color: #e9e9e9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+header {
+  padding: 1rem;
+  background-color: #000;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+```
+
+## [Rendering Conditional Content](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655834#overview)
+
+```tsx {10,13,15-26,28} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Prop } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @Prop({ reflect: true }) title: string;
+  @Prop() open: boolean;
+
+  render() {
+    let content = null;
+
+    if (this.open) {
+      content = (
+        <aside>
+          <header>
+            <h1>{this.title}</h1>
+          </header>
+          <main>
+            <slot />
+          </main>
+        </aside>
+      );
+    }
+
+    return content;
+  }
+}
+```
+
+## [Using Attributes for Styling only](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655844#overview)
+
+```css {13-15} title="src/components/side-drawer/side-drawer.css"
+aside {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 30rem;
+  max-width: 80%;
+  height: 100vh;
+  background-color: #e9e9e9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: left 0.3s ease-out;
+}
+
+:host([open]) aside {
+  left: 0;
+}
+
+header {
+  padding: 1rem;
+  background-color: #000;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+```
+
+## [Using Props in Combination with Attributes](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655848#overview)
+
+```html {29,48,50-54} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      .side-nav ul {
+        list-style: none;
+      }
+
+      .side-nav li {
+        margin: 1rem 0;
+      }
+
+      .side-nav a {
+        text-decoration: none;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="side-drawer-btn">Open Side Menu</button>
+    <uc-side-drawer title="Main Menu">
+      <nav class="side-nav">
+        <ul>
+          <li>
+            <a href="#">link</a>
+          </li>
+          <li>
+            <a href="#">link</a>
+          </li>
+          <li>
+            <a href="#">link</a>
+          </li>
+        </ul>
+      </nav>
+    </uc-side-drawer>
+
+    <script>
+      const sideDrawer = document.querySelector('uc-side-drawer');
+      const sideDrawerButton = document.querySelector('#side-drawer-btn');
+
+      sideDrawerButton.addEventListener('click', () => {
+        if (!sideDrawer.open) {
+          sideDrawer.open = true;
+        }
+      });
+    </script>
+  </body>
+</html>
+```
+
+```tsx {10} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Prop } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @Prop({ reflect: true }) title: string;
+  @Prop({ reflect: true }) open: boolean;
+
+  render() {
+    return (
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+        </header>
+        <main>
+          <slot />
+        </main>
+      </aside>
+    );
+  }
+}
+```
+
+## [Understanding Mutable Props](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655852#overview)
+
+```css {20,29-39,41-43} title="src/components/side-drawer/side-drawer.css"
+aside {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 30rem;
+  max-width: 80%;
+  height: 100vh;
+  background-color: #e9e9e9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: left 0.3s ease-out;
+}
+
+:host([open]) aside {
+  left: 0;
+}
+
+header {
+  padding: 1rem;
+  background-color: #000;
+  position: relative;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+header button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  color: #fff;
+  background-color: transparent;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+header button:focus {
+  outline: none;
+}
+```
+
+```tsx {10,12-14,21} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Prop } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @Prop({ reflect: true }) title: string;
+  @Prop({ reflect: true, mutable: true }) open: boolean;
+
+  onCloseDrawer() {
+    this.open = false;
+  }
+
+  render() {
+    return (
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+          <button onClick={this.onCloseDrawer.bind(this)}>x</button>
+        </header>
+        <main>
+          <slot />
+        </main>
+      </aside>
+    );
+  }
+}
+```
+
+## [Preparing Tabs](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655856#overview)
+
+```css {45-50,52-61,63-68,70-72} title="src/components/side-drawer/side-drawer.css"
+aside {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 30rem;
+  max-width: 80%;
+  height: 100vh;
+  background-color: #e9e9e9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: left 0.3s ease-out;
+}
+
+:host([open]) aside {
+  left: 0;
+}
+
+header {
+  padding: 1rem;
+  background-color: #000;
+  position: relative;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+header button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  color: #fff;
+  background-color: transparent;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+header button:focus {
+  outline: none;
+}
+
+#tabs {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+#tabs button {
+  width: 30%;
+  color: #000;
+  background-color: #fff;
+  text-align: center;
+  border: 1px solid #000;
+  font: inherit;
+  padding: 0.15rem 0;
+  cursor: pointer;
+}
+
+#tabs button.active,
+#tabs button:hover,
+#tabs button:active {
+  color: #fff;
+  background-color: #000;
+}
+
+#tabs button:focus {
+  outline: none;
+}
+```
+
+```tsx {23-26} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Prop } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @Prop({ reflect: true }) title: string;
+  @Prop({ reflect: true, mutable: true }) open: boolean;
+
+  onCloseDrawer() {
+    this.open = false;
+  }
+
+  render() {
+    return (
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+          <button onClick={this.onCloseDrawer.bind(this)}>x</button>
+        </header>
+        <section id="tabs">
+          <button class="active">Navigation</button>
+          <button>Contact</button>
+        </section>
+        <main>
+          <slot />
+        </main>
+      </aside>
+    );
+  }
+}
+```
+
+## [Adding More Event Listeners](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655858#overview)
+
+```css {74-76} title="src/components/side-drawer/side-drawer.css"
+aside {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 30rem;
+  max-width: 80%;
+  height: 100vh;
+  background-color: #e9e9e9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: left 0.3s ease-out;
+}
+
+:host([open]) aside {
+  left: 0;
+}
+
+header {
+  padding: 1rem;
+  background-color: #000;
+  position: relative;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+header button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  color: #fff;
+  background-color: transparent;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+header button:focus {
+  outline: none;
+}
+
+#tabs {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+#tabs button {
+  width: 30%;
+  color: #000;
+  background-color: #fff;
+  text-align: center;
+  border: 1px solid #000;
+  font: inherit;
+  padding: 0.15rem 0;
+  cursor: pointer;
+}
+
+#tabs button.active,
+#tabs button:hover,
+#tabs button:active {
+  color: #fff;
+  background-color: #000;
+}
+
+#tabs button:focus {
+  outline: none;
+}
+
+#contact {
+  padding: 0 1rem;
+}
+```
+
+```tsx {16,19,21-31,40-43,45} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Prop } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @Prop({ reflect: true }) title: string;
+  @Prop({ reflect: true, mutable: true }) open: boolean;
+
+  onCloseDrawer() {
+    this.open = false;
+  }
+
+  onContentChange(content: string) {}
+
+  render() {
+    let mainContent = <slot />;
+
+    mainContent = (
+      <div id="contact">
+        <h2>Contact Information</h2>
+        <p>Lorem ipsum dolor sit amet consectetur.</p>
+        <ul>
+          <li>Lorem, ipsum.</li>
+          <li>Lorem, ipsum dolor.</li>
+          <li>Lorem, ipsum.</li>
+        </ul>
+      </div>
+    );
+
+    return (
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+          <button onClick={this.onCloseDrawer.bind(this)}>x</button>
+        </header>
+        <section id="tabs">
+          <button class="active" onClick={this.onContentChange.bind(this, 'nav')}>
+            Navigation
+          </button>
+          <button onClick={this.onContentChange.bind(this, 'contact')}>Contact</button>
+        </section>
+        <main>{mainContent}</main>
+      </aside>
+    );
+  }
+}
+```
+
+## [Using State](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655860#overview)
+
+```tsx {1,9,17-19,24-36,45,48} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Prop, State } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @State() showContactInfo = false;
+  @Prop({ reflect: true }) title: string;
+  @Prop({ reflect: true, mutable: true }) open: boolean;
+
+  onCloseDrawer() {
+    this.open = false;
+  }
+
+  onContentChange(content: string) {
+    this.showContactInfo = content === 'contact';
+  }
+
+  render() {
+    let mainContent = <slot />;
+
+    if (this.showContactInfo) {
+      mainContent = (
+        <div id="contact">
+          <h2>Contact Information</h2>
+          <p>Lorem ipsum dolor sit amet consectetur.</p>
+          <ul>
+            <li>Lorem, ipsum.</li>
+            <li>Lorem, ipsum dolor.</li>
+            <li>Lorem, ipsum.</li>
+          </ul>
+        </div>
+      );
+    }
+
+    return (
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+          <button onClick={this.onCloseDrawer.bind(this)}>x</button>
+        </header>
+        <section id="tabs">
+          <button class={!this.showContactInfo ? 'active' : ''} onClick={this.onContentChange.bind(this, 'nav')}>
+            Navigation
+          </button>
+          <button class={this.showContactInfo ? 'active' : ''} onClick={this.onContentChange.bind(this, 'contact')}>
+            Contact
+          </button>
+        </section>
+        <main>{mainContent}</main>
+      </aside>
+    );
+  }
+}
+```
+
+## [Adding Methods to Components](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655864#overview)
+
+```html {51-54} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      .side-nav ul {
+        list-style: none;
+      }
+
+      .side-nav li {
+        margin: 1rem 0;
+      }
+
+      .side-nav a {
+        text-decoration: none;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="side-drawer-btn">Open Side Menu</button>
+    <uc-side-drawer title="Main Menu">
+      <nav class="side-nav">
+        <ul>
+          <li>
+            <a href="#">link</a>
+          </li>
+          <li>
+            <a href="#">link</a>
+          </li>
+          <li>
+            <a href="#">link</a>
+          </li>
+        </ul>
+      </nav>
+    </uc-side-drawer>
+
+    <script>
+      const sideDrawer = document.querySelector('uc-side-drawer');
+      const sideDrawerButton = document.querySelector('#side-drawer-btn');
+
+      sideDrawerButton.addEventListener('click', () => {
+        if (!sideDrawer.opened) {
+          // sideDrawer.opened = true;
+          sideDrawer.open();
+        }
+      });
+    </script>
+  </body>
+</html>
+```
+
+```css {13} title="src/components/side-drawer/side-drawer.css"
+aside {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 30rem;
+  max-width: 80%;
+  height: 100vh;
+  background-color: #e9e9e9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: left 0.3s ease-out;
+}
+
+:host([opened]) aside {
+  left: 0;
+}
+
+header {
+  padding: 1rem;
+  background-color: #000;
+  position: relative;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+header button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  color: #fff;
+  background-color: transparent;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+header button:focus {
+  outline: none;
+}
+
+#tabs {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+#tabs button {
+  width: 30%;
+  color: #000;
+  background-color: #fff;
+  text-align: center;
+  border: 1px solid #000;
+  font: inherit;
+  padding: 0.15rem 0;
+  cursor: pointer;
+}
+
+#tabs button.active,
+#tabs button:hover,
+#tabs button:active {
+  color: #fff;
+  background-color: #000;
+}
+
+#tabs button:focus {
+  outline: none;
+}
+
+#contact {
+  padding: 0 1rem;
+}
+```
+
+```tsx {1,11,21-24} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Method, Prop, State } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @State() showContactInfo = false;
+  @Prop({ reflect: true }) title: string;
+  @Prop({ reflect: true, mutable: true }) opened: boolean;
+
+  onCloseDrawer() {
+    this.opened = false;
+  }
+
+  onContentChange(content: string) {
+    this.showContactInfo = content === 'contact';
+  }
+
+  @Method()
+  open() {
+    this.opened = true;
+  }
+
+  render() {
+    let mainContent = <slot />;
+
+    if (this.showContactInfo) {
+      mainContent = (
+        <div id="contact">
+          <h2>Contact Information</h2>
+          <p>Lorem ipsum dolor sit amet consectetur.</p>
+          <ul>
+            <li>Lorem, ipsum.</li>
+            <li>Lorem, ipsum dolor.</li>
+            <li>Lorem, ipsum.</li>
+          </ul>
+        </div>
+      );
+    }
+
+    return (
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+          <button onClick={this.onCloseDrawer.bind(this)}>x</button>
+        </header>
+        <section id="tabs">
+          <button class={!this.showContactInfo ? 'active' : ''} onClick={this.onContentChange.bind(this, 'nav')}>
+            Navigation
+          </button>
+          <button class={this.showContactInfo ? 'active' : ''} onClick={this.onContentChange.bind(this, 'contact')}>
+            Contact
+          </button>
+        </section>
+        <main>{mainContent}</main>
+      </aside>
+    );
+  }
+}
+```
+
+## [Adding a Backdrop](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655868#overview)
+
+```css {11,79-91,93-96} title="src/components/side-drawer/side-drawer.css"
+aside {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 30rem;
+  max-width: 80%;
+  height: 100vh;
+  background-color: #e9e9e9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: left 0.3s ease-out;
+  z-index: 100;
+}
+
+:host([opened]) aside {
+  left: 0;
+}
+
+header {
+  padding: 1rem;
+  background-color: #000;
+  position: relative;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+header button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  color: #fff;
+  background-color: transparent;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+header button:focus {
+  outline: none;
+}
+
+#tabs {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+#tabs button {
+  width: 30%;
+  color: #000;
+  background-color: #fff;
+  text-align: center;
+  border: 1px solid #000;
+  font: inherit;
+  padding: 0.15rem 0;
+  cursor: pointer;
+}
+
+#tabs button.active,
+#tabs button:hover,
+#tabs button:active {
+  color: #fff;
+  background-color: #000;
+}
+
+#tabs button:focus {
+  outline: none;
+}
+
+#contact {
+  padding: 0 1rem;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+  cursor: pointer;
+}
+
+:host([opened]) .backdrop {
+  opacity: 1;
+  pointer-events: all;
+}
+```
+
+```tsx {43,44,59,60} title="src/components/side-drawer/side-drawer.tsx"
+import { Component, h, Method, Prop, State } from '@stencil/core';
+
+@Component({
+  tag: 'uc-side-drawer',
+  styleUrl: 'side-drawer.css',
+  shadow: true,
+})
+export class SideDrawer {
+  @State() showContactInfo = false;
+  @Prop({ reflect: true }) title: string;
+  @Prop({ reflect: true, mutable: true }) opened: boolean;
+
+  onCloseDrawer() {
+    this.opened = false;
+  }
+
+  onContentChange(content: string) {
+    this.showContactInfo = content === 'contact';
+  }
+
+  @Method()
+  open() {
+    this.opened = true;
+  }
+
+  render() {
+    let mainContent = <slot />;
+
+    if (this.showContactInfo) {
+      mainContent = (
+        <div id="contact">
+          <h2>Contact Information</h2>
+          <p>Lorem ipsum dolor sit amet consectetur.</p>
+          <ul>
+            <li>Lorem, ipsum.</li>
+            <li>Lorem, ipsum dolor.</li>
+            <li>Lorem, ipsum.</li>
+          </ul>
+        </div>
+      );
+    }
+
+    return [
+      <div class="backdrop" onClick={this.onCloseDrawer.bind(this)}></div>,
+      <aside>
+        <header>
+          <h1>{this.title}</h1>
+          <button onClick={this.onCloseDrawer.bind(this)}>x</button>
+        </header>
+        <section id="tabs">
+          <button class={!this.showContactInfo ? 'active' : ''} onClick={this.onContentChange.bind(this, 'nav')}>
+            Navigation
+          </button>
+          <button class={this.showContactInfo ? 'active' : ''} onClick={this.onContentChange.bind(this, 'contact')}>
+            Contact
+          </button>
+        </section>
+        <main>{mainContent}</main>
+      </aside>,
+    ];
+  }
+}
+```
+
+## [Assignment 2: Time to Practice - Stencil](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/practice/1074702#overview)
+
+## [Wrap Up](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655870#overview)
+
+## [Useful Resources & Links](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12655874#overview)

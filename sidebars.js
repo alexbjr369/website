@@ -290,6 +290,7 @@ module.exports = {
             'courses/web-components-stencil-js/course/section-05',
             'courses/web-components-stencil-js/course/section-06',
             'courses/web-components-stencil-js/course/section-07',
+            'courses/web-components-stencil-js/course/section-08',
             'courses/web-components-stencil-js/course/section-09',
             'courses/web-components-stencil-js/course/section-10',
           ],
