@@ -14,3 +14,1855 @@ hide_title: true
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Advanced Stencil
+
+## [Module Introdution](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710089#overview)
+
+## [Creating a New Component](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710091#overview)
+
+## [Component & API Preparations](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710095#overview)
+
+```tsx {5,6,11} title="src/components/stock-price/stock-price.tsx"
+import { Component, h } from '@stencil/core';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  render() {
+    return [
+      <form>
+        <input id="stock-symbol" />
+        <button type="submit">Fetch</button>
+      </form>,
+      <div>
+        <p>Price: {0}</p>
+      </div>,
+    ];
+  }
+}
+```
+
+## [Submitting Forms](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710097#overview)
+
+```html {11} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+  </head>
+  <body>
+    <uc-stock-price></uc-stock-price>
+  </body>
+</html>
+```
+
+```tsx {9-11,15} title="src/components/stock-price/stock-price.tsx"
+import { Component, h } from '@stencil/core';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFetchStockPrice}>
+        <input id="stock-symbol" />
+        <button type="submit">Fetch</button>
+      </form>,
+      <div>
+        <p>Price: {0}</p>
+      </div>,
+    ];
+  }
+}
+```
+
+## [Styling the Component](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710099#overview)
+
+```css {1-37} title="src/components/stock-price/stock-price.css"
+:host {
+  font-family: sans-serif;
+  border: 2px solid #3b013b;
+  margin: 2rem;
+  padding: 1rem;
+  display: block;
+  width: 20rem;
+  max-width: 100%;
+}
+
+form input {
+  font: inherit;
+  color: #3b013b;
+  padding: 0.1rem 0.25rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+form input:focus,
+form button:focus {
+  outline: none;
+}
+
+form button {
+  font: inherit;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #3b013b;
+  background: #3b013b;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover,
+form button:active {
+  background: #750175;
+  border-color: #750175;
+}
+```
+
+## [HTTP Requests in Components](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710101#overview)
+
+```tsx {1,9,14-23,28,33} title="src/components/stock-price/stock-price.tsx"
+import { Component, h, State } from '@stencil/core';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @State() fetchedPrice: number;
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+
+    fetch('https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=MSFT&apikey=demo')
+      .then(res => {
+        return res.json();
+      })
+      .then(parsedRes => {
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" />
+        <button type="submit">Fetch</button>
+      </form>,
+      <div>
+        <p>Price: ${this.fetchedPrice}</p>
+      </div>,
+    ];
+  }
+}
+```
+
+## [Using the API Key](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710103#overview)
+
+```ts {1,9,14-23,28,33} title="src/global/global.ts"
+export const AV_API_KEY = '...';
+```
+
+```tsx {2,15} title="src/components/stock-price/stock-price.tsx"
+import { Component, h, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @State() fetchedPrice: number;
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=MSFT&apikey=${AV_API_KEY}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(parsedRes => {
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" />
+        <button type="submit">Fetch</button>
+      </form>,
+      <div>
+        <p>Price: ${this.fetchedPrice}</p>
+      </div>,
+    ];
+  }
+}
+```
+
+## [Accessing the Host Element](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710105#overview)
+
+```tsx {10,15,17} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(parsedRes => {
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" />
+        <button type="submit">Fetch</button>
+      </form>,
+      <div>
+        <p>Price: ${this.fetchedPrice}</p>
+      </div>,
+    ];
+  }
+}
+```
+
+## [Using References](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710109#overview)
+
+```tsx {13,17,18,35} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+
+  stockInput: HTMLInputElement;
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    const stockSymbol = this.stockInput.value;
+
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(parsedRes => {
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} />
+        <button type="submit">Fetch</button>
+      </form>,
+      <div>
+        <p>Price: ${this.fetchedPrice}</p>
+      </div>,
+    ];
+  }
+}
+```
+
+## [Two Way Binding & Input Validation](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710113#overview)
+
+```css {39-44} title="src/components/stock-price/stock-price.css"
+:host {
+  font-family: sans-serif;
+  border: 2px solid #3b013b;
+  margin: 2rem;
+  padding: 1rem;
+  display: block;
+  width: 20rem;
+  max-width: 100%;
+}
+
+form input {
+  font: inherit;
+  color: #3b013b;
+  padding: 0.1rem 0.25rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+form input:focus,
+form button:focus {
+  outline: none;
+}
+
+form button {
+  font: inherit;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #3b013b;
+  background: #3b013b;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover,
+form button:active {
+  background: #750175;
+  border-color: #750175;
+}
+
+form button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: white;
+  cursor: not-allowed;
+}
+```
+
+```tsx {12,13,34-42,47-50} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+
+  stockInput: HTMLInputElement;
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    const stockSymbol = this.stockInput.value;
+
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(parsedRes => {
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+
+    if (this.stockUserInput.trim() !== '') {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} value={this.stockUserInput} onInput={this.onUserInput.bind(this)} />
+        <button type="submit" disabled={!this.stockInputValid}>
+          Fetch
+        </button>
+      </form>,
+      <div>
+        <p>Price: ${this.fetchedPrice}</p>
+      </div>,
+    ];
+  }
+}
+```
+
+## [Error Handling](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710115#overview)
+
+```tsx {14,25-27,31-33,35,39,54,56-58,60-62,71} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+  @State() error: string;
+
+  stockInput: HTMLInputElement;
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    const stockSymbol = this.stockInput.value;
+
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Invalid!');
+        }
+        return res.json();
+      })
+      .then(parsedRes => {
+        if (!parsedRes['Global Quote']['05. price']) {
+          throw new Error('Invalid symbol!');
+        }
+
+        this.error = null;
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        this.error = err.message;
+      });
+  }
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+
+    if (this.stockUserInput.trim() !== '') {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+
+  render() {
+    let dataContent = <p>Please enter a symbol!</p>;
+
+    if (this.error) {
+      dataContent = <p>{this.error}</p>;
+    }
+
+    if (this.fetchedPrice) {
+      dataContent = <p>Price: ${this.fetchedPrice}</p>;
+    }
+
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} value={this.stockUserInput} onInput={this.onUserInput.bind(this)} />
+        <button type="submit" disabled={!this.stockInputValid}>
+          Fetch
+        </button>
+      </form>,
+      <div>{dataContent}</div>,
+    ];
+  }
+}
+```
+
+## [Using the "componentdidload" Lifecycle Hook](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710123#overview)
+
+```html {11} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+  </head>
+  <body>
+    <uc-stock-price stock-symbol="AAPL"></uc-stock-price>
+  </body>
+</html>
+```
+
+```tsx {1,15,19-38,40-46,58-62} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, Prop, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+  @State() error: string;
+  @Prop() stockSymbol: string;
+
+  stockInput: HTMLInputElement;
+
+  fetchStockPrice(stockSymbol: string) {
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Invalid!');
+        }
+        return res.json();
+      })
+      .then(parsedRes => {
+        if (!parsedRes['Global Quote']['05. price']) {
+          throw new Error('Invalid symbol!');
+        }
+
+        this.error = null;
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        this.error = err.message;
+      });
+  }
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    const stockSymbol = this.stockInput.value;
+
+    this.fetchStockPrice(stockSymbol);
+  }
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+
+    if (this.stockUserInput.trim() !== '') {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+
+  componentDidLoad() {
+    if (this.stockSymbol) {
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  render() {
+    let dataContent = <p>Please enter a symbol!</p>;
+
+    if (this.error) {
+      dataContent = <p>{this.error}</p>;
+    }
+
+    if (this.fetchedPrice) {
+      dataContent = <p>Price: ${this.fetchedPrice}</p>;
+    }
+
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} value={this.stockUserInput} onInput={this.onUserInput.bind(this)} />
+        <button type="submit" disabled={!this.stockInputValid}>
+          Fetch
+        </button>
+      </form>,
+      <div>{dataContent}</div>,
+    ];
+  }
+}
+```
+
+## [All Lifecycle Hooks](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710129#overview)
+
+```tsx {58-60,63,69-71,73-75,77-79} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, Prop, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+  @State() error: string;
+  @Prop() stockSymbol: string;
+
+  stockInput: HTMLInputElement;
+
+  fetchStockPrice(stockSymbol: string) {
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Invalid!');
+        }
+        return res.json();
+      })
+      .then(parsedRes => {
+        if (!parsedRes['Global Quote']['05. price']) {
+          throw new Error('Invalid symbol!');
+        }
+
+        this.error = null;
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        this.error = err.message;
+      });
+  }
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    const stockSymbol = this.stockInput.value;
+
+    this.fetchStockPrice(stockSymbol);
+  }
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+
+    if (this.stockUserInput.trim() !== '') {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+
+  componentWillLoad() {
+    console.log('componentWillLoad');
+  }
+
+  componentDidLoad() {
+    console.log('componentDidLoad');
+    if (this.stockSymbol) {
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  componentWillUpdate() {
+    console.log('componentWillUpdate');
+  }
+
+  componentDidUpdate() {
+    console.log('componentDidUpdate');
+  }
+
+  disconnectedCallback() {
+    console.log('disconnectedCallback');
+  }
+
+  render() {
+    let dataContent = <p>Please enter a symbol!</p>;
+
+    if (this.error) {
+      dataContent = <p>{this.error}</p>;
+    }
+
+    if (this.fetchedPrice) {
+      dataContent = <p>Price: ${this.fetchedPrice}</p>;
+    }
+
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} value={this.stockUserInput} onInput={this.onUserInput.bind(this)} />
+        <button type="submit" disabled={!this.stockInputValid}>
+          Fetch
+        </button>
+      </form>,
+      <div>{dataContent}</div>,
+    ];
+  }
+}
+```
+
+## [Using Update Lifecycle Hooks](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710135#overview)
+
+```tsx {18,63,64,65,73-77} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, Prop, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+  @State() error: string;
+  @Prop() stockSymbol: string;
+
+  stockInput: HTMLInputElement;
+  initialStockSymbol: string;
+
+  fetchStockPrice(stockSymbol: string) {
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Invalid!');
+        }
+        return res.json();
+      })
+      .then(parsedRes => {
+        if (!parsedRes['Global Quote']['05. price']) {
+          throw new Error('Invalid symbol!');
+        }
+
+        this.error = null;
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        this.error = err.message;
+      });
+  }
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    const stockSymbol = this.stockInput.value;
+
+    this.fetchStockPrice(stockSymbol);
+  }
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+
+    if (this.stockUserInput.trim() !== '') {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+
+  componentWillLoad() {}
+
+  componentDidLoad() {
+    if (this.stockSymbol) {
+      this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.stockInputValid = true;
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  componentWillUpdate() {}
+
+  componentDidUpdate() {
+    if (this.stockSymbol !== this.initialStockSymbol) {
+      this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  disconnectedCallback() {}
+
+  render() {
+    let dataContent = <p>Please enter a symbol!</p>;
+
+    if (this.error) {
+      dataContent = <p>{this.error}</p>;
+    }
+
+    if (this.fetchedPrice) {
+      dataContent = <p>Price: ${this.fetchedPrice}</p>;
+    }
+
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} value={this.stockUserInput} onInput={this.onUserInput.bind(this)} />
+        <button type="submit" disabled={!this.stockInputValid}>
+          Fetch
+        </button>
+      </form>,
+      <div>{dataContent}</div>,
+    ];
+  }
+}
+```
+
+## [Watching Prop Changes](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710143#overview)
+
+```tsx {1,15,16-22,25,51,52,69,79-83} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, Prop, State, Watch } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+  @State() error: string;
+  @Prop({ mutable: true, reflect: true }) stockSymbol: string;
+  @Watch('stockSymbol')
+  stockSymbolChanged(newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this.stockUserInput = newValue;
+      this.fetchStockPrice(newValue);
+    }
+  }
+
+  stockInput: HTMLInputElement;
+  // initialStockSymbol: string;
+
+  fetchStockPrice(stockSymbol: string) {
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Invalid!');
+        }
+        return res.json();
+      })
+      .then(parsedRes => {
+        if (!parsedRes['Global Quote']['05. price']) {
+          throw new Error('Invalid symbol!');
+        }
+
+        this.error = null;
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        this.error = err.message;
+      });
+  }
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    this.stockSymbol = this.stockInput.value;
+    // this.fetchStockPrice(stockSymbol);
+  }
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+
+    if (this.stockUserInput.trim() !== '') {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+
+  componentWillLoad() {}
+
+  componentDidLoad() {
+    if (this.stockSymbol) {
+      // this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.stockInputValid = true;
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  componentWillUpdate() {}
+
+  componentDidUpdate() {
+    /* if (this.stockSymbol !== this.initialStockSymbol) {
+      this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.fetchStockPrice(this.stockSymbol);
+    } */
+  }
+
+  disconnectedCallback() {}
+
+  render() {
+    let dataContent = <p>Please enter a symbol!</p>;
+
+    if (this.error) {
+      dataContent = <p>{this.error}</p>;
+    }
+
+    if (this.fetchedPrice) {
+      dataContent = <p>Price: ${this.fetchedPrice}</p>;
+    }
+
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} value={this.stockUserInput} onInput={this.onUserInput.bind(this)} />
+        <button type="submit" disabled={!this.stockInputValid}>
+          Fetch
+        </button>
+      </form>,
+      <div>{dataContent}</div>,
+    ];
+  }
+}
+```
+
+## [Creating a New Component](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710147#overview)
+
+
+```html {12} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+  </head>
+  <body>
+    <uc-stock-price stock-symbol="AAPL"></uc-stock-price>
+    <uc-stock-finder></uc-stock-finder>
+  </body>
+</html>
+```
+
+```tsx {10,12-25,29-32} title="src/components/stock-finder/stock-finder.tsx"
+import { Component, h } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-finder',
+  styleUrl: 'stock-finder.css',
+  shadow: true,
+})
+export class StockFinder {
+  stockNameInput: HTMLInputElement;
+
+  onFindStocks(event: Event) {
+    event.preventDefault();
+
+    const stockName = this.stockNameInput.value;
+
+    fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${stockName}&apikey=${AV_API_KEY}`)
+      .then(res => res.json())
+      .then(parsedRes => {
+        console.log(parsedRes);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFindStocks.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockNameInput = el)} />
+        <button type="submit">Find!</button>
+      </form>,
+    ];
+  }
+}
+```
+
+## [Styling the New Component](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710149#overview)
+
+```css {1-56} title="src/components/stock-finder/stock-finder.css"
+:host {
+  font-family: sans-serif;
+  border: 2px solid #3b013b;
+  margin: 2rem;
+  padding: 1rem;
+  display: block;
+  width: 20rem;
+  max-width: 100%;
+}
+
+form input {
+  font: inherit;
+  color: #3b013b;
+  padding: 0.1rem 0.25rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+form input:focus,
+form button:focus {
+  outline: none;
+}
+
+form button {
+  font: inherit;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #3b013b;
+  background: #3b013b;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover,
+form button:active {
+  background: #750175;
+  border-color: #750175;
+}
+
+form button:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  color: white;
+  cursor: not-allowed;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  margin: 0.25rem 0;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+}
+```
+
+## [Outputting a List of Elements](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710153#overview)
+
+```tsx {1,10,20-22,36-42} title="src/components/stock-finder/stock-finder.tsx"
+import { Component, h, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-finder',
+  styleUrl: 'stock-finder.css',
+  shadow: true,
+})
+export class StockFinder {
+  @State() searchResults: { symbol: string; name: string }[] = [];
+
+  stockNameInput: HTMLInputElement;
+
+  onFindStocks(event: Event) {
+    event.preventDefault();
+    const stockName = this.stockNameInput.value;
+    fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${stockName}&apikey=${AV_API_KEY}`)
+      .then(res => res.json())
+      .then(parsedRes => {
+        this.searchResults = parsedRes['bestMatches'].map(match => {
+          return { name: match['2. name'], symbol: match['1. symbol'] };
+        });
+        console.log(this.searchResults);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFindStocks.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockNameInput = el)} />
+        <button type="submit">Find!</button>
+      </form>,
+      <ul>
+        {this.searchResults.map(result => (
+          <li>
+            {result.name}
+          </li>
+        ))}
+      </ul>,
+    ];
+  }
+}
+```
+
+## [Styling the List Items](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710157#overview)
+
+```tsx {39} title="src/components/stock-finder/stock-finder.tsx"
+import { Component, h, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-finder',
+  styleUrl: 'stock-finder.css',
+  shadow: true,
+})
+export class StockFinder {
+  @State() searchResults: { symbol: string; name: string }[] = [];
+
+  stockNameInput: HTMLInputElement;
+
+  onFindStocks(event: Event) {
+    event.preventDefault();
+    const stockName = this.stockNameInput.value;
+    fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${stockName}&apikey=${AV_API_KEY}`)
+      .then(res => res.json())
+      .then(parsedRes => {
+        this.searchResults = parsedRes['bestMatches'].map(match => {
+          return { name: match['2. name'], symbol: match['1. symbol'] };
+        });
+        console.log(this.searchResults);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFindStocks.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockNameInput = el)} />
+        <button type="submit">Find!</button>
+      </form>,
+      <ul>
+        {this.searchResults.map(result => (
+          <li>
+            <strong>{result.symbol}</strong> - {result.name}
+          </li>
+        ))}
+      </ul>,
+    ];
+  }
+}
+```
+
+## [Emitting Customs Events](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710159#overview)
+
+```html {14-19} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+  </head>
+  <body>
+    <uc-stock-price stock-symbol="AAPL"></uc-stock-price>
+    <uc-stock-finder></uc-stock-finder>
+
+    <script>
+      const stockFinderEl = document.querySelector('uc-stock-finder');
+      stockFinderEl.addEventListener('ucSymbolSelected', event => {
+        console.log(event);
+      });
+    </script>
+  </body>
+</html>
+```
+
+```css {59-63} title="src/components/stock-finder/stock-finder.css"
+:host {
+  font-family: sans-serif;
+  border: 2px solid #3b013b;
+  margin: 2rem;
+  padding: 1rem;
+  display: block;
+  width: 20rem;
+  max-width: 100%;
+}
+
+form input {
+  font: inherit;
+  color: #3b013b;
+  padding: 0.1rem 0.25rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+form input:focus,
+form button:focus {
+  outline: none;
+}
+
+form button {
+  font: inherit;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #3b013b;
+  background: #3b013b;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover,
+form button:active {
+  background: #750175;
+  border-color: #750175;
+}
+
+form button:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  color: white;
+  cursor: not-allowed;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  margin: 0.25rem 0;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+li:hover,
+li:active {
+  background-color: #3b013b;
+  color: white;
+}
+```
+
+```tsx {1,11,31-33,43} title="src/components/stock-finder/stock-finder.tsx"
+import { Component, Event, EventEmitter, h, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-finder',
+  styleUrl: 'stock-finder.css',
+  shadow: true,
+})
+export class StockFinder {
+  @State() searchResults: { symbol: string; name: string }[] = [];
+  @Event({ bubbles: true, composed: true }) ucSymbolSelected: EventEmitter<string>;
+
+  stockNameInput: HTMLInputElement;
+
+  onFindStocks(event: Event) {
+    event.preventDefault();
+    const stockName = this.stockNameInput.value;
+    fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${stockName}&apikey=${AV_API_KEY}`)
+      .then(res => res.json())
+      .then(parsedRes => {
+        this.searchResults = parsedRes['bestMatches'].map(match => {
+          return { name: match['2. name'], symbol: match['1. symbol'] };
+        });
+        console.log(this.searchResults);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  onSelectSymbol(symbol: string) {
+    this.ucSymbolSelected.emit(symbol);
+  }
+
+  render() {
+    return [
+      <form onSubmit={this.onFindStocks.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockNameInput = el)} />
+        <button type="submit">Find!</button>
+      </form>,
+      <ul>
+        {this.searchResults.map(result => (
+          <li onClick={this.onSelectSymbol.bind(this, result.symbol)}>
+            <strong>{result.symbol}</strong> - {result.name}
+          </li>
+        ))}
+      </ul>,
+    ];
+  }
+}
+```
+
+## [Important: The Listen Decorator](ponents-stenciljs-build-custom-html-elements/learn/lecture/22719235#overview)
+
+## [Using the Listen Decorator](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710169#overview)
+
+```html {15-18} title="src/index.html"
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <script type="module" src="/build/course.esm.js"></script>
+    <script nomodule src="/build/course.js"></script>
+  </head>
+  <body>
+    <uc-stock-price stock-symbol="AAPL"></uc-stock-price>
+    <uc-stock-finder></uc-stock-finder>
+
+    <script>
+      /* const stockFinderEl = document.querySelector('uc-stock-finder');
+      stockFinderEl.addEventListener('ucSymbolSelected', event => {
+        console.log(event);
+      }); */
+    </script>
+  </body>
+</html>
+```
+
+```tsx {1,20,66-71} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, Listen, Prop, State, Watch } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+  @State() error: string;
+  @Prop({ mutable: true, reflect: true }) stockSymbol: string;
+  @Watch('stockSymbol')
+  stockSymbolChanged(newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this.stockUserInput = newValue;
+      this.stockInputValid = true;
+      this.fetchStockPrice(newValue);
+    }
+  }
+
+  stockInput: HTMLInputElement;
+  // initialStockSymbol: string;
+
+  fetchStockPrice(stockSymbol: string) {
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Invalid!');
+        }
+        return res.json();
+      })
+      .then(parsedRes => {
+        if (!parsedRes['Global Quote']['05. price']) {
+          throw new Error('Invalid symbol!');
+        }
+
+        this.error = null;
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        this.error = err.message;
+      });
+  }
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    this.stockSymbol = this.stockInput.value;
+    // this.fetchStockPrice(stockSymbol);
+  }
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+
+    if (this.stockUserInput.trim() !== '') {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+
+  @Listen('ucSymbolSelected', { target: 'body' })
+  onStockSymbolSelected(event: CustomEvent) {
+    if (event.detail && event.detail !== this.stockSymbol) {
+      this.stockSymbol = event.detail;
+    }
+  }
+
+  componentWillLoad() {}
+
+  componentDidLoad() {
+    if (this.stockSymbol) {
+      // this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.stockInputValid = true;
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  componentWillUpdate() {}
+
+  componentDidUpdate() {
+    /* if (this.stockSymbol !== this.initialStockSymbol) {
+      this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.fetchStockPrice(this.stockSymbol);
+    } */
+  }
+
+  disconnectedCallback() {}
+
+  render() {
+    let dataContent = <p>Please enter a symbol!</p>;
+
+    if (this.error) {
+      dataContent = <p>{this.error}</p>;
+    }
+
+    if (this.fetchedPrice) {
+      dataContent = <p>Price: ${this.fetchedPrice}</p>;
+    }
+
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} value={this.stockUserInput} onInput={this.onUserInput.bind(this)} />
+        <button type="submit" disabled={!this.stockInputValid}>
+          Fetch
+        </button>
+      </form>,
+      <div>{dataContent}</div>,
+    ];
+  }
+}
+```
+
+## [Using Hostdata](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710171#overview)
+
+```css {11-13} title="src/components/stock-price/stock-price.css"
+:host {
+  font-family: sans-serif;
+  border: 2px solid #3b013b;
+  margin: 2rem;
+  padding: 1rem;
+  display: block;
+  width: 20rem;
+  max-width: 100%;
+}
+
+:host(.error) {
+  border-color: #e79804;
+}
+
+form input {
+  font: inherit;
+  color: #3b013b;
+  padding: 0.1rem 0.25rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+form input:focus,
+form button:focus {
+  outline: none;
+}
+
+form button {
+  font: inherit;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #3b013b;
+  background: #3b013b;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover,
+form button:active {
+  background: #750175;
+  border-color: #750175;
+}
+
+form button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: white;
+  cursor: not-allowed;
+}
+```
+
+```tsx {46,97-101} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, Listen, Prop, State, Watch } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+  @State() error: string;
+  @Prop({ mutable: true, reflect: true }) stockSymbol: string;
+  @Watch('stockSymbol')
+  stockSymbolChanged(newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this.stockUserInput = newValue;
+      this.stockInputValid = true;
+      this.fetchStockPrice(newValue);
+    }
+  }
+
+  stockInput: HTMLInputElement;
+  // initialStockSymbol: string;
+
+  fetchStockPrice(stockSymbol: string) {
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Invalid!');
+        }
+        return res.json();
+      })
+      .then(parsedRes => {
+        if (!parsedRes['Global Quote']['05. price']) {
+          throw new Error('Invalid symbol!');
+        }
+
+        this.error = null;
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+      })
+      .catch(err => {
+        this.error = err.message;
+        this.fetchedPrice = null;
+      });
+  }
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    this.stockSymbol = this.stockInput.value;
+    // this.fetchStockPrice(stockSymbol);
+  }
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+
+    if (this.stockUserInput.trim() !== '') {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+
+  @Listen('ucSymbolSelected', { target: 'body' })
+  onStockSymbolSelected(event: CustomEvent) {
+    if (event.detail && event.detail !== this.stockSymbol) {
+      this.stockSymbol = event.detail;
+    }
+  }
+
+  componentWillLoad() {}
+
+  componentDidLoad() {
+    if (this.stockSymbol) {
+      // this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.stockInputValid = true;
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  componentWillUpdate() {}
+
+  componentDidUpdate() {
+    /* if (this.stockSymbol !== this.initialStockSymbol) {
+      this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.fetchStockPrice(this.stockSymbol);
+    } */
+  }
+
+  disconnectedCallback() {}
+
+  hostData() {
+    return {
+      class: this.error ? 'hydrated error' : 'hydrated',
+    };
+  }
+
+  render() {
+    let dataContent = <p>Please enter a symbol!</p>;
+
+    if (this.error) {
+      dataContent = <p>{this.error}</p>;
+    }
+
+    if (this.fetchedPrice) {
+      dataContent = <p>Price: ${this.fetchedPrice}</p>;
+    }
+
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} value={this.stockUserInput} onInput={this.onUserInput.bind(this)} />
+        <button type="submit" disabled={!this.stockInputValid}>
+          Fetch
+        </button>
+      </form>,
+      <div>{dataContent}</div>,
+    ];
+  }
+}
+```
+
+## [Adding a Loading Spinner](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710177#questions/13659054)
+
+```css {50-55,57-68,70-72,74-76,78-80,82-89} title="src/components/stock-price/stock-price.css"
+:host {
+  font-family: sans-serif;
+  border: 2px solid #3b013b;
+  margin: 2rem;
+  padding: 1rem;
+  display: block;
+  width: 20rem;
+  max-width: 100%;
+}
+
+:host(.error) {
+  border-color: #e79804;
+}
+
+form input {
+  font: inherit;
+  color: #3b013b;
+  padding: 0.1rem 0.25rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+form input:focus,
+form button:focus {
+  outline: none;
+}
+
+form button {
+  font: inherit;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #3b013b;
+  background: #3b013b;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover,
+form button:active {
+  background: #750175;
+  border-color: #750175;
+}
+
+form button:disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  color: white;
+  cursor: not-allowed;
+}
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 51px;
+  height: 51px;
+  margin: 6px;
+  border: 6px solid #3b013b;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #3b013b transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+```
+
+```tsx {15,30,46,51,119-128,133} title="src/components/stock-price/stock-price.tsx"
+import { Component, Element, h, Listen, Prop, State, Watch } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
+@Component({
+  tag: 'uc-stock-price',
+  styleUrl: 'stock-price.css',
+  shadow: true,
+})
+export class StockPrice {
+  @Element() el: HTMLElement;
+  @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+  @State() error: string;
+  @State() loading = false;
+  @Prop({ mutable: true, reflect: true }) stockSymbol: string;
+  @Watch('stockSymbol')
+  stockSymbolChanged(newValue: string, oldValue: string) {
+    if (newValue !== oldValue) {
+      this.stockUserInput = newValue;
+      this.stockInputValid = true;
+      this.fetchStockPrice(newValue);
+    }
+  }
+
+  stockInput: HTMLInputElement;
+  // initialStockSymbol: string;
+
+  fetchStockPrice(stockSymbol: string) {
+    this.loading = true;
+
+    fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error('Invalid!');
+        }
+        return res.json();
+      })
+      .then(parsedRes => {
+        if (!parsedRes['Global Quote']['05. price']) {
+          throw new Error('Invalid symbol!');
+        }
+
+        this.error = null;
+        this.fetchedPrice = +parsedRes['Global Quote']['05. price'];
+        this.loading = false;
+      })
+      .catch(err => {
+        this.error = err.message;
+        this.fetchedPrice = null;
+        this.loading = false;
+      });
+  }
+
+  onFetchStockPrice(event: Event) {
+    event.preventDefault();
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
+    this.stockSymbol = this.stockInput.value;
+    // this.fetchStockPrice(stockSymbol);
+  }
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+
+    if (this.stockUserInput.trim() !== '') {
+      this.stockInputValid = true;
+    } else {
+      this.stockInputValid = false;
+    }
+  }
+
+  @Listen('ucSymbolSelected', { target: 'body' })
+  onStockSymbolSelected(event: CustomEvent) {
+    if (event.detail && event.detail !== this.stockSymbol) {
+      this.stockSymbol = event.detail;
+    }
+  }
+
+  componentWillLoad() {}
+
+  componentDidLoad() {
+    if (this.stockSymbol) {
+      // this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.stockInputValid = true;
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  componentWillUpdate() {}
+
+  componentDidUpdate() {
+    /* if (this.stockSymbol !== this.initialStockSymbol) {
+      this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.fetchStockPrice(this.stockSymbol);
+    } */
+  }
+
+  disconnectedCallback() {}
+
+  hostData() {
+    return {
+      class: this.error ? 'hydrated error' : 'hydrated',
+    };
+  }
+
+  render() {
+    let dataContent = <p>Please enter a symbol!</p>;
+
+    if (this.error) {
+      dataContent = <p>{this.error}</p>;
+    }
+
+    if (this.fetchedPrice) {
+      dataContent = <p>Price: ${this.fetchedPrice}</p>;
+    }
+
+    if (this.loading) {
+      dataContent = (
+        <div class="lds-ring">
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      );
+    }
+
+    return [
+      <form onSubmit={this.onFetchStockPrice.bind(this)}>
+        <input id="stock-symbol" ref={el => (this.stockInput = el)} value={this.stockUserInput} onInput={this.onUserInput.bind(this)} />
+        <button type="submit" disabled={!this.stockInputValid && this.loading}>
+          Fetch
+        </button>
+      </form>,
+      <div>{dataContent}</div>,
+    ];
+  }
+}
+```
+
+## [Embedding Components Into Components](https://www.udemy.com/course/web-components-stenciljs-build-custom-html-elements/learn/lecture/12710181#questions/13659054)
