@@ -1,0 +1,277 @@
+---
+id: section-06
+title: Understanding TypeScript · Section 06
+sidebar_label: Section 06
+description: A study of the course Understanding TypeScript Course by Academind.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /understanding-typescript/course/section-06
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Advanced Types
+
+## [Module Introduction](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893884#overview)
+
+## [Intersection Types](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893888#overview)
+
+```typescript title="app.ts"
+type Admin = {
+  name: string;
+  privileges: string[];
+}
+
+type Employee = {
+  name: string;
+  startDate: Date;
+}
+
+type SeniorEmployee = Admin & Employee;
+
+const employee: SeniorEmployee = {
+  name: 'John',
+  privileges: ['create-server'],
+  startDate: new Date,
+}
+```
+
+```typescript {1,6} title="app.ts"
+interface Admin {
+  name: string;
+  privileges: string[];
+}
+
+interface Employee {
+  name: string;
+  startDate: Date;
+}
+
+type SeniorEmployee = Admin & Employee;
+
+const employee: SeniorEmployee = {
+  name: 'John',
+  privileges: ['create-server'],
+  startDate: new Date,
+}
+```
+
+```typescript {11} title="app.ts"
+interface Admin {
+  name: string;
+  privileges: string[];
+}
+
+interface Employee {
+  name: string;
+  startDate: Date;
+}
+
+interface SeniorEmployee extends Admin, Employee {
+  name: string;
+  startDate: Date;
+}
+
+const employee: SeniorEmployee = {
+  name: 'John',
+  privileges: ['create-server'],
+  startDate: new Date,
+}
+```
+
+## [More on Type Guards](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893892#overview)
+
+```typescript title="app.ts"
+type Combinable = string | number;
+type Numeric = number | boolean;
+
+type Universal = Combinable & Numeric;
+
+function add(a: Combinable, b: Combinable) {
+  if (typeof a === 'string' || typeof b === 'string') { // type guard using typeof
+    return a.toString() + b.toString();
+  }
+  return a + b;
+}
+```
+
+```typescript title="app.ts"
+type Admin = {
+  name: string;
+  privileges: string[];
+}
+
+type Employee = {
+  name: string;
+  startDate: Date;
+}
+
+type SeniorEmployee = Admin & Employee;
+type UnknownEmployee = Admin | Employee;
+
+const employee: SeniorEmployee = {
+  name: 'John',
+  privileges: ['create-server'],
+  startDate: new Date,
+}
+
+function printEmployeeInformation(employee: UnknownEmployee) {
+  console.log(`name: ${employee.name}`);
+  if ('privileges' in employee) { // type guard using in
+    console.log(`privileges: ${employee.privileges}`);
+  }
+  if ('startDate' in employee) { // type guard using in
+    console.log(`start date: ${employee.startDate}`);
+  }
+}
+
+printEmployeeInformation(employee);
+
+// result:
+// name: John
+// privileges: create-server
+// start date: Fri Sep 17 2021 06:31:57 GMT-0300 (Brasilia Standard Time)
+```
+
+```typescript title="app.ts"
+class Car {
+  drive() {
+    console.log('Driving...');
+  }
+}
+
+class Truck {
+  drive() {
+    console.log('Driving a truck...');
+  }
+
+  loadCargo(amount: number) {
+    console.log(`Loading cargo ... ${amount}`);
+  }
+}
+
+type Vehicle = Car | Truck;
+
+const vehicle1 = new Car();
+const vehicle2 = new Truck();
+
+function useVehicle(vehicle: Vehicle) {
+  vehicle.drive();
+  if (vehicle instanceof Truck) { // type guard using instanceof
+    vehicle.loadCargo;
+  }
+}
+```
+
+## [Discriminated Unions](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893894#overview)
+
+```typescript title="app.ts"
+interface Bird {
+  type: 'bird';
+  flyingSpeed: number;
+}
+
+interface Horse {
+  type: 'horse';
+  runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+  let speed;
+
+  switch (animal.type) {
+    case 'bird':
+      speed = animal.flyingSpeed;
+      break;
+    case 'horse':
+      speed = animal.runningSpeed;
+      break;
+  }
+
+  console.log(`Moving at speed: ${speed}`);
+}
+
+moveAnimal({type: 'bird', flyingSpeed: 10}); // result: Moving at speed: 10
+```
+
+## [Type Casting](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893896#overview)
+
+```typescript title="app.ts"
+const userInputElement = document.querySelector('#user');
+userInputElement.value = 'Hi there!'; // error
+```
+
+```typescript title="app.ts"
+const userInputElement2 = <HTMLInputElement>document.querySelector('#user')!;
+userInputElement2.value = 'Hi there!';
+```
+
+```typescript title="app.ts"
+const userInputElement3 = document.querySelector('#user') as HTMLInputElement;
+userInputElement3.value = 'Hi there!';
+```
+
+## [Index Properties](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893900#overview)
+
+```typescript title="app.ts"
+interface ErrorContainer {
+  [prop: string]: string;
+}
+
+const error: ErrorContainer = {
+  email: 'Not a valid email',
+  username: 'Must start with a capital character!'
+}
+```
+
+## [Function Overloads](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893904#overview)
+
+```typescript title="app.ts"
+type Combinable = string | number;
+
+function add(a: string, b: string): string;
+function add(a: string, b: number): string;
+function add(a: number, b: string): string;
+function add(a: Combinable, b: Combinable) {
+  if (typeof a === 'string' || typeof b === 'string') { // type guard using typeof
+    return a.toString() + b.toString();
+  }
+  return a + b;
+}
+
+const result = add('John', 'Doe');
+result.split(' ');
+```
+
+## [Optional Chaining](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893906#overview)
+
+```typescript title="app.ts"
+const fetchUserData = {
+  id: 'u1',
+  name: 'John',
+  job: {
+    title: 'CEO',
+    description: 'Description...'
+  }
+}
+
+console.log(fetchUserData?.job?.title);
+```
+
+## [Nullish Coalescing](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893908#overview)
+
+```typescript title="app.ts"
+const userInput = null;
+
+// if userInput is null or undefined use the default value
+const storedData = userInput ?? 'DEFAULT';
+```
+
+## [Quiz 7: Advanced Types](https://www.udemy.com/course/understanding-typescript/learn/quiz/4745386#overview)
+
+## [Wrap Up](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893914#overview)
+
+## [Useful Resources & Links](https://www.udemy.com/course/understanding-typescript/learn/lecture/16893918#overview)

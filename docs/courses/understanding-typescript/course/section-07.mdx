@@ -1,0 +1,155 @@
+---
+id: section-07
+title: Understanding TypeScript · Section 07
+sidebar_label: Section 07
+description: A study of the course Understanding TypeScript Course by Academind.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /understanding-typescript/course/section-07
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Generics
+
+## [Module Introduction](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894036#overview)
+
+## [Built-in Generics & What are Generics?](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894042#overview)
+
+```typescript title="app.ts"
+const names: Array<string> = []; // string[]
+
+const promise: Promise<string> = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('This is done!');
+  }, 2000);
+});
+
+promise.then(data => {
+  data.split(' ');
+});
+```
+
+## [Creating a Generic Function](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894048#overview)
+
+```typescript title="app.ts"
+function merge<T, U>(objA: T, objB: U) {
+  return Object.assign(objA, objB)
+}
+
+const mergedObj = merge({ name: 'John' }, { age: 30 });
+
+// now it's possible to access the properties
+console.log(mergedObj.name);
+console.log(mergedObj.age);
+```
+
+## [Working with Constraints](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894050#overview)
+
+```typescript title="app.ts"
+function merge<T extends object, U extends object>(objA: T, objB: U) {
+  return Object.assign(objA, objB)
+}
+
+const mergedObj = merge({ name: 'John' }, 30); // error
+
+// now it's possible to access the properties
+console.log(mergedObj.name);
+```
+
+## [Another Generic Function](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894056#overview)
+
+```typescript title="app.ts"
+interface Lengthy {
+  length: number;
+}
+
+function countAndPrint<T extends Lengthy>(element: T): [T, string] {
+  let descriptionText = 'Got no value.';
+
+  if (element.length === 1) {
+    descriptionText = `Got ${element.length} element.`;
+  } else if (element.length > 1) {
+    descriptionText = `Got ${element.length} elements.`;
+  }
+
+  return [element, descriptionText];
+}
+
+console.log(countAndPrint('Hi there!'));
+```
+
+## [The "keyof" Constraint](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894062#overview)
+
+```typescript title="app.ts"
+function extractAndConvert<T extends object, U extends keyof T>(obj: T, key: U) {
+  return `Value: ${obj[key]}`;
+}
+
+console.log(extractAndConvert({name: 'John'}, 'name'));
+```
+
+## [Generic Classes](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894068#overview)
+
+```typescript title="app.ts"
+class DataStorage<T extends string | number | boolean> {
+  private data: T[] = [];
+
+  additem(item: T) {
+    this.data.push(item);
+  }
+
+  removeItem(item: T) {
+    if (this.data.indexOf(item) === -1) {
+      return;
+    }
+
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+
+  getItems() {
+    return [...this.data];
+  }
+}
+
+const textStorage = new DataStorage<string>();
+textStorage.additem('John');
+textStorage.additem('John 2');
+textStorage.removeItem('John');
+
+const numberStorage = new DataStorage<number>();
+numberStorage.additem(10);
+```
+
+## [A First Summary](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894072#overview)
+
+## [Generic Utility Types](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894076#overview)
+
+```typescript title="app.ts"
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
+}
+
+function createCourseGoal(title: string, description: string, date: Date): CourseGoal {
+  // Partial set all properties as optional
+  let courseGoal: Partial<CourseGoal> = {};
+
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+
+  return courseGoal as CourseGoal;
+}
+
+const names: Readonly<string[]> = ['John', 'John 2'];
+names.push('John 3'); // error
+```
+
+## [Generic Types vs Union Types](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894086#overview)
+
+## [Quiz 8: Generics](https://www.udemy.com/course/understanding-typescript/learn/quiz/4745388#overview)
+
+## [Useful Resources & Links](https://www.udemy.com/course/understanding-typescript/learn/lecture/16894092#overview)

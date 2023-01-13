@@ -3,6 +3,7 @@ module.exports = {
     'notes/notes',
     'notes/unit-testing/unit-testing',
     'notes/angular/angular',
+    'notes/typescript/typescript',
     'notes/web-components/web-components',
     {
       type: 'category',
@@ -302,6 +303,26 @@ module.exports = {
       label: 'Understanding TypeScript',
       items: [
         'courses/understanding-typescript/understanding-typescript',
+        {
+          'Course': [
+            'courses/understanding-typescript/course/section-01',
+            'courses/understanding-typescript/course/section-02',
+            'courses/understanding-typescript/course/section-03',
+            'courses/understanding-typescript/course/section-04',
+            'courses/understanding-typescript/course/section-05',
+            'courses/understanding-typescript/course/section-06',
+            'courses/understanding-typescript/course/section-07',
+            'courses/understanding-typescript/course/section-08',
+            'courses/understanding-typescript/course/section-09',
+            'courses/understanding-typescript/course/section-10',
+            'courses/understanding-typescript/course/section-11',
+            'courses/understanding-typescript/course/section-12',
+            'courses/understanding-typescript/course/section-13',
+            'courses/understanding-typescript/course/section-14',
+            'courses/understanding-typescript/course/section-15',
+            'courses/understanding-typescript/course/section-16',
+          ],
+        },
       ],
     },
     {

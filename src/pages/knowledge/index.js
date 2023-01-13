@@ -24,6 +24,12 @@ const KnowledgeImage = [
     url: 'knowledge/javascript',
   },
   {
+    title: 'Web Components',
+    imageUrl: '../img/knowledge/web-components.png',
+    url: 'knowledge/web-components',
+    className: 'knowledge-feature__image--web-components'
+  },
+  {
     title: 'TypeScript',
     imageUrl: '../img/knowledge/typescript.svg',
     url: 'knowledge/typescript',
@@ -85,6 +91,11 @@ const KnowledgeImage = [
     url: 'knowledge/eslint',
   },
 
+  {
+    title: 'Stencil',
+    imageUrl: '../img/knowledge/stencil-js-gray.svg',
+    url: 'knowledge/stencil-js',
+  },
   {
     title: 'React',
     imageUrl: '../img/knowledge/react-js.svg',
