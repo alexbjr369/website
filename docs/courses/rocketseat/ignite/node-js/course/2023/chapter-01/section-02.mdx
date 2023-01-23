@@ -1,0 +1,106 @@
+---
+id: section-02
+title: Ignite Node.js · 2023 · Chapter 01 · Section 02
+sidebar_label: Section 02
+description: Ignite Node.js by RocketSeat.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /ignite/node-js/course/2023/chapter-01/section-02
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Estrutura da aplicação
+
+## [Rotas de criação e listagem (Métodos HTTP)](https://app.rocketseat.com.br/node/projeto-01-1/group/estrutura-da-aplicacao-7/lesson/rotas-de-criacao-e-listagem-metodos-http)
+
+```js {4,6,8-10,12-14} title="src/server.js"
+import http from 'node:http';
+
+const server = http.createServer((req, res) => {
+  const { method, url } = req;
+
+  console.log(method, url); // result: GET /
+
+  if (method === 'GET' && url === '/users') {
+    return res.end('Listagem de usuários.');
+  }
+
+  if (method === 'POST' && url === '/users') {
+    return res.end('Criação de usuário.');
+  }
+
+  return res.end('Hello World!');
+});
+
+server.listen(3333);
+```
+
+## [Salvando usuários em memória (Headers)](https://app.rocketseat.com.br/node/projeto-01-1/group/estrutura-da-aplicacao-7/lesson/salvando-usuarios-em-memoria-headers)
+
+```js {3,9-11,15-19} title="src/server.js"
+import http from 'node:http';
+
+const users = [];
+
+const server = http.createServer((req, res) => {
+  const { method, url } = req;
+
+  if (method === 'GET' && url === '/users') {
+    return res
+      .setHeader('Content-type', 'application/JSON')
+      .end(JSON.stringify(users));
+  }
+
+  if (method === 'POST' && url === '/users') {
+    users.push({
+      id: 1,
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+    });
+
+    return res.end('Criação de usuário.');
+  }
+
+  return res.end('Hello World!');
+});
+
+server.listen(3333);
+```
+
+## [Conhecendo HTTP status codes](https://app.rocketseat.com.br/node/projeto-01-1/group/estrutura-da-aplicacao-7/lesson/conhecendo-http-status-codes)
+
+- **[MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses)**
+
+```js {21,24} title="src/server.js"
+import http from 'node:http';
+
+const users = [];
+
+const server = http.createServer((req, res) => {
+  const { method, url } = req;
+
+  if (method === 'GET' && url === '/users') {
+    return res
+      .setHeader('Content-type', 'application/JSON')
+      .end(JSON.stringify(users));
+  }
+
+  if (method === 'POST' && url === '/users') {
+    users.push({
+      id: 1,
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+    });
+
+    return res.writeHead(201).end();
+  }
+
+  return res.writeHead(404).end();
+});
+
+server.listen(3333);
+```

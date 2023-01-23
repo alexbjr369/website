@@ -1,0 +1,48 @@
+---
+id: section-03
+title: Ignite Node.js · 2023 · Chapter 01 · Section 03
+sidebar_label: Section 03
+description: Ignite Node.js by RocketSeat.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /ignite/node-js/course/2023/chapter-01/section-03
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Streams no Node.js
+
+## [Entendendo Streams no Node](https://app.rocketseat.com.br/node/projeto-01-1/group/streams-no-node-js/lesson/entendendo-streams-no-node)
+
+## [Criando stream de leitura](https://app.rocketseat.com.br/node/projeto-01-1/group/streams-no-node-js/lesson/criando-stream-de-leitura)
+
+```javascript title="streams/fundamentals.js"
+// tudo que recebe como entrada é encaminhado para saida.
+process.stdin.pipe(process.stdout);
+```
+
+```javascript title="streams/fundamentals.js"
+import { Readable } from 'node:stream';
+
+class OneToHundredStream extends Readable {
+  index = 1;
+
+  _read() {
+    const i = this.index++;
+
+    setTimeout(() => {
+      if (i > 100) {
+        this.push(null); // não há mais informações a serem enviadas da stream
+      } else {
+        const buff = Buffer.from(String(i)); // qual informação queremos converter para o formato buffer
+        this.push(buff);
+      }
+    }, 1000);
+  }
+}
+
+new OneToHundredStream().pipe(process.stdout);
+```

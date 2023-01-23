@@ -1,0 +1,63 @@
+---
+id: section-01
+title: Ignite Node.js · 2023 · Chapter 01 · Section 01
+sidebar_label: Section 01
+description: Ignite Node.js by RocketSeat.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /ignite/node-js/course/2023/chapter-01/section-01
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# Iniciando com Node.js
+
+## [Introdução](https://app.rocketseat.com.br/node/projeto-01-1/group/iniciando-com-node-js/lesson/introducao-51)
+
+## [Criando um projeto Node.js](https://app.rocketseat.com.br/node/projeto-01-1/group/iniciando-com-node-js/lesson/criando-um-projeto-node)
+
+```bash
+npm init -y
+```
+
+```json {6} title="package.json"
+{
+  "name": "course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
+
+```js {1-8} title="src/server.js"
+// const http = require('http'); // commonJS
+import http from 'node:http';
+
+const server = http.createServer((req, res) => {
+  return res.end('Hello World!');
+});
+
+server.listen(3333);
+```
+
+## [node --watch](https://app.rocketseat.com.br/node/projeto-01-1/group/iniciando-com-node-js/lesson/node-watch)
+
+```json {6} title="package.json"
+{
+  ...
+  "scripts": {
+    "dev": "node --watch src/server.js"
+  },
+  ...
+}
+```

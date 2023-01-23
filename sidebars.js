@@ -192,32 +192,59 @@ module.exports = {
   courses: [
     {
       type: 'category',
-      label: 'Ignite Node.js',
+      label: 'Ignite Node.js 2023',
       items: [
         'courses/rocketseat/ignite/node-js/introduction',
         {
           'Chapter 01': [
-            'courses/rocketseat/ignite/node-js/course/chapter-01/section-01',
-            'courses/rocketseat/ignite/node-js/course/chapter-01/section-02',
-            'courses/rocketseat/ignite/node-js/course/chapter-01/section-03',
-          ],
-          'Chapter 02': [
-            'courses/rocketseat/ignite/node-js/course/chapter-02/section-01',
-            'courses/rocketseat/ignite/node-js/course/chapter-02/section-02',
+            'courses/rocketseat/ignite/node-js/course/2023/chapter-01/section-01',
+            'courses/rocketseat/ignite/node-js/course/2023/chapter-01/section-02',
+            'courses/rocketseat/ignite/node-js/course/2023/chapter-01/section-03',
           ],
         },
       ],
     },
     {
       type: 'category',
-      label: 'Ignite React.js',
+      label: 'Ignite Node.js 2022',
+      items: [
+        'courses/rocketseat/ignite/node-js/introduction',
+        {
+          'Chapter 01': [
+            'courses/rocketseat/ignite/node-js/course/2022/chapter-01/section-01',
+            'courses/rocketseat/ignite/node-js/course/2022/chapter-01/section-02',
+            'courses/rocketseat/ignite/node-js/course/2022/chapter-01/section-03',
+          ],
+          'Chapter 02': [
+            'courses/rocketseat/ignite/node-js/course/2022/chapter-02/section-01',
+            'courses/rocketseat/ignite/node-js/course/2022/chapter-02/section-02',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Ignite React Native 2022',
+      items: [
+        'courses/rocketseat/ignite/react-native/introduction',
+        {
+          'Chapter 01': [
+            'courses/rocketseat/ignite/react-native/course/2022/chapter-01/section-01',
+            'courses/rocketseat/ignite/react-native/course/2022/chapter-01/section-02',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Ignite React.js 2022',
       items: [
         'courses/rocketseat/ignite/react-js/introduction',
         {
           'Chapter 01': [
-            'courses/rocketseat/ignite/react-js/course/chapter-01/section-01',
-            'courses/rocketseat/ignite/react-js/course/chapter-01/section-02',
-            'courses/rocketseat/ignite/react-js/course/chapter-01/section-03',
+            'courses/rocketseat/ignite/react-js/course/2022/chapter-01/section-01',
+            'courses/rocketseat/ignite/react-js/course/2022/chapter-01/section-02',
+            'courses/rocketseat/ignite/react-js/course/2022/chapter-01/section-03',
           ],
         },
       ],

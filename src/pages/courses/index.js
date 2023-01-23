@@ -23,6 +23,14 @@ const CourseList = [
     )
   },
   {
+    url: '/docs/ignite/react-native',
+    title: 'Ignite React Native',
+    imageUrl: '../img/courses/ignite.png',
+    description: (
+      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
+    )
+  },
+  {
     url: '/docs/ignite/react-js',
     title: 'Ignite React.js',
     imageUrl: '../img/courses/ignite.png',
