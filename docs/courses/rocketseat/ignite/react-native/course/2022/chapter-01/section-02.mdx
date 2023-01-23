@@ -40,3 +40,200 @@ $ npx create-expo-app --template
 ```bash
 npx expo start
 ```
+
+## [Funcionamento do React Native](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/funcionamento-do-react-native)
+
+## [Refresh e Reload](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/refresh-e-reload)
+
+## [Entendendo o JSX](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/entendendo-o-jsx)
+
+```tsx {5,8} title="App.tsx"
+import { Text } from "react-native";
+
+export default function App() {
+  return (
+    <>
+      <Text>React</Text>
+      <Text>Native</Text>
+    </>
+  );
+}
+```
+
+```tsx {1,6,9} title="App.tsx"
+import { Fragment } from "react";
+import { Text } from "react-native";
+
+export default function App() {
+  return (
+    <Fragment>
+      <Text>React</Text>
+      <Text>Native</Text>
+    </Fragment>
+  );
+}
+```
+
+```tsx {1,5,8} title="App.tsx"
+import { Text, View } from "react-native";
+
+export default function App() {
+  return (
+    <View>
+      <Text>React</Text>
+      <Text>Native</Text>
+    </View>
+  );
+}
+```
+
+## [Entendendo a LogBox](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/entendendo-a-log-box)
+
+## [Estilizando Elementos](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/estilizando-elementos)
+
+```tsx {6-10,13-18,20,23-26,28} title="App.tsx"
+import { Text, View } from 'react-native';
+
+export default function App() {
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#131016',
+        padding: 24,
+      }}
+    >
+      <Text
+        style={{
+          color: '#fdfcfe',
+          fontSize: 24,
+          fontWeight: 'bold',
+          marginTop: 48,
+        }}
+      >
+        Nome do evento
+      </Text>
+      <Text
+        style={{
+          color: '#6b6b6b',
+          fontSize: 16,
+        }}
+      >
+        Sexta, 4 de Novembro de 2022.
+      </Text>
+    </View>
+  );
+}
+```
+
+## [Entendendo densidade de pixel](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/entendendo-densidade-de-pixel)
+
+## [Utilizando StyleSheet](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/utilizando-style-sheet-1)
+
+```tsx {1,5-8,12-28} title="App.tsx"
+import { Text, View, StyleSheet } from 'react-native';
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#131016',
+    padding: 24,
+  },
+  eventName: {
+    color: '#fdfcfe',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 48,
+  },
+  eventDate: {
+    color: '#6b6b6b',
+    fontSize: 16,
+  },
+});
+```
+
+## [Organizando o projeto](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/organizando-o-projeto-1)
+
+```tsx title="src/screens/Home/index.tsx"
+import { Text, View } from 'react-native';
+import { styles } from './styles';
+
+export default function Home() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+    </View>
+  );
+}
+```
+
+```ts title="src/screens/Home/styles.ts"
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#131016',
+    padding: 24,
+  },
+  eventName: {
+    color: '#fdfcfe',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 48,
+  },
+  eventDate: {
+    color: '#6b6b6b',
+    fontSize: 16,
+  },
+});
+```
+
+```tsx {1,5-8,12-28} title="App.tsx"
+import { Text, View, StyleSheet } from 'react-native';
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#131016',
+    padding: 24,
+  },
+  eventName: {
+    color: '#fdfcfe',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 48,
+  },
+  eventDate: {
+    color: '#6b6b6b',
+    fontSize: 16,
+  },
+});
+```
+
+```tsx {1,4} title="App.tsx"
+import Home from './src/screens/Home';
+
+export default function App() {
+  return <Home />;
+}
+```
