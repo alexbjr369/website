@@ -46,3 +46,266 @@ class OneToHundredStream extends Readable {
 
 new OneToHundredStream().pipe(process.stdout);
 ```
+
+## [Stream de escrita e transformação](https://app.rocketseat.com.br/node/projeto-01-1/group/streams-no-node-js/lesson/stream-de-escrita-e-transformacao)
+
+```javascript {1,20-27,29-35,37-39} title="streams/fundamentals.js"
+import { Readable, Writable, Transform } from 'node:stream';
+
+class OneToHundredStream extends Readable {
+  index = 1;
+
+  _read() {
+    const i = this.index++;
+
+    setTimeout(() => {
+      if (i > 100) {
+        this.push(null); // não há mais informações a serem enviadas da stream
+      } else {
+        const buff = Buffer.from(String(i)); // qual informação queremos converter para o formato buffer
+        this.push(buff);
+      }
+    }, 1000);
+  }
+}
+
+class InvertNumberStream extends Transform {
+  _transform(chunk, encoding, callback) {
+    const transformed = Number(chunk.toString() * -1);
+
+    // callback(new Error('Number not valid!'), transformed);
+    callback(null, Buffer.from(String(transformed)));
+  }
+}
+
+class MultiplyByTenStream extends Writable {
+  // apenas processa o dado, nunca transforma o dado
+  _write(chunk, encoding, callback) {
+    console.log(Number(chunk.toString() * 10));
+    callback();
+  }
+}
+
+new OneToHundredStream()
+  .pipe(new InvertNumberStream())
+  .pipe(new MultiplyByTenStream());
+```
+
+## [Aplicando Streams no módulo HTTP](https://app.rocketseat.com.br/node/projeto-01-1/group/streams-no-node-js/lesson/aplicando-streams-no-modulo-http)
+
+```javascript title="streams/stream-http-server.js"
+import http from 'node:http';
+import { Transform } from 'node:stream';
+
+class InvertNumberStream extends Transform {
+  _transform(chunk, encoding, callback) {
+    const transformed = Number(chunk.toString() * -1);
+    console.log(transformed);
+    callback(null, Buffer.from(String(transformed)));
+  }
+}
+
+// req - ReadableStream
+// res - WritableStream
+const server = http.createServer((req, res) => {
+  return req.pipe(new InvertNumberStream()).pipe(res);
+});
+
+server.listen(334);
+```
+
+```javascript title="streams/fake-upload-to-http-stream.js"
+import { Readable } from 'node:stream';
+
+class OneToHundredStream extends Readable {
+  index = 1;
+
+  _read() {
+    const i = this.index++;
+
+    setTimeout(() => {
+      if (i > 100) {
+        this.push(null);
+      } else {
+        const buff = Buffer.from(String(i));
+        this.push(buff);
+      }
+    }, 1000);
+  }
+}
+
+fetch('http://localhost:334', {
+  method: 'POST',
+  body: new OneToHundredStream(),
+});
+```
+
+## [Consumindo uma stream completa](https://app.rocketseat.com.br/node/projeto-01-1/group/streams-no-node-js/lesson/consumindo-uma-stream-completa)
+
+```javascript {14,15,17-19,21,23,25,27} title="streams/stream-http-server.js"
+import http from 'node:http';
+import { Transform } from 'node:stream';
+
+class InvertNumberStream extends Transform {
+  _transform(chunk, encoding, callback) {
+    const transformed = Number(chunk.toString() * -1);
+    console.log(transformed);
+    callback(null, Buffer.from(String(transformed)));
+  }
+}
+
+// req - ReadableStream
+// res - WritableStream
+const server = http.createServer(async (req, res) => {
+  const buffers = [];
+
+  for await (const chunk of req) {
+    buffers.push(chunk);
+  }
+
+  const fullStreamContent = Buffer.concat(buffers).toString();
+
+  console.log(fullStreamContent);
+
+  return res.end(fullStreamContent);
+
+  // return req.pipe(new InvertNumberStream()).pipe(res);
+});
+
+server.listen(334);
+```
+
+```javascript {10,24-29} title="streams/fake-upload-to-http-stream.js"
+import { Readable } from 'node:stream';
+
+class OneToHundredStream extends Readable {
+  index = 1;
+
+  _read() {
+    const i = this.index++;
+
+    setTimeout(() => {
+      if (i > 100) {
+        this.push(null);
+      } else {
+        const buff = Buffer.from(String(i));
+        this.push(buff);
+      }
+    }, 1000);
+  }
+}
+
+fetch('http://localhost:334', {
+  method: 'POST',
+  body: new OneToHundredStream(),
+});
+```
+
+## [Corpo da requisição em JSON (Stream & Buffers)](https://app.rocketseat.com.br/node/projeto-01-1/group/streams-no-node-js/lesson/corpo-da-requisicao-em-json-stream-buffers)
+
+```javascript {7,9-11,13-17,26,30,31} title="src/server.js"
+import http from 'node:http';
+
+const users = [];
+
+const server = http.createServer(async (req, res) => {
+  const { method, url } = req;
+  const buffers = [];
+
+  for await (const chunk of req) {
+    buffers.push(chunk);
+  }
+
+  try {
+    req.body = JSON.parse(Buffer.concat(buffers).toString());
+  } catch {
+    req.body = null;
+  }
+
+  if (method === 'GET' && url === '/users') {
+    return res
+      .setHeader('Content-type', 'application/JSON')
+      .end(JSON.stringify(users));
+  }
+
+  if (method === 'POST' && url === '/users') {
+    const { name, email } = req.body;
+
+    users.push({
+      id: 1,
+      name,
+      email,
+    });
+
+    return res.writeHead(201).end();
+  }
+
+  return res.writeHead(404).end();
+});
+
+server.listen(3333);
+```
+
+## [Entendendo Buffers no Node](https://app.rocketseat.com.br/node/projeto-01-1/group/streams-no-node-js/lesson/entendendo-buffers-no-node)
+
+**Representação de um espaço na memória do computador usado especificamente para transitar dados de maneira rápida.**
+
+```javascript title="src/buffer.js"
+const buff = Buffer.from('ok');
+
+console.log(buff);
+console.log(buff.toJSON());
+```
+
+## [Criando middleware de JSON](https://app.rocketseat.com.br/node/projeto-01-1/group/streams-no-node-js/lesson/criando-middleware-de-json)
+
+```javascript {2,9,12} title="src/middlewares.js"
+export async function json(req, res) {
+  const buffers = [];
+
+  for await (const chunk of req) {
+    buffers.push(chunk);
+  }
+
+  try {
+    req.body = JSON.parse(Buffer.concat(buffers).toString());
+  } catch {
+    req.body = null;
+  }
+
+  res.setHeader('Content-type', 'application/JSON');
+}
+```
+
+```javascript title="src/server.js"
+import http from 'node:http';
+import { json } from './middlewares/json.js';
+
+const users = [];
+
+const server = http.createServer(async (req, res) => {
+  const { method, url } = req;
+
+  await json(req, res);
+
+  if (method === 'GET' && url === '/users') {
+    return res.end(JSON.stringify(users));
+  }
+
+  if (method === 'POST' && url === '/users') {
+    const { name, email } = req.body;
+
+    users.push({
+      id: 1,
+      name,
+      email,
+    });
+
+    return res.writeHead(201).end();
+  }
+
+  return res.writeHead(404).end();
+});
+
+server.listen(3333);
+```
