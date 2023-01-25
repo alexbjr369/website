@@ -163,20 +163,6 @@ const styles = StyleSheet.create({
 
 ## [Organizando o projeto](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/organizando-o-projeto-1)
 
-```tsx title="src/screens/Home/index.tsx"
-import { Text, View } from 'react-native';
-import { styles } from './styles';
-
-export default function Home() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.eventName}>Nome do evento</Text>
-      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
-    </View>
-  );
-}
-```
-
 ```ts title="src/screens/Home/styles.ts"
 import { StyleSheet } from 'react-native';
 
@@ -197,6 +183,20 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+```
+
+```tsx title="src/screens/Home/index.tsx"
+import { Text, View } from 'react-native';
+import { styles } from './styles';
+
+export default function Home() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+    </View>
+  );
+}
 ```
 
 ```tsx {1,5-8,12-28} title="App.tsx"
@@ -237,3 +237,338 @@ export default function App() {
   return <Home />;
 }
 ```
+
+## [Export e Export Default](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/export-e-export-default)
+
+**Default**
+
+```tsx {1} title="src/screens/Home/index.tsx"
+export default function Home() {
+}
+```
+
+```tsx {1} title="App.tsx"
+import Batata from './src/screens/Home';
+```
+
+**Named**
+
+```tsx {1} title="src/screens/Home/index.tsx"
+export function Home() { }
+```
+
+```tsx {1} title="App.tsx"
+import { Home } from './src/screens/Home';
+```
+
+**Default**
+
+```tsx {1} title="src/screens/Home/index.tsx"
+export CONFIG = '';
+
+export default function Home() { }
+```
+
+```tsx {1} title="App.tsx"
+import Home, { Config } from './src/screens/Home';
+```
+
+**Named**
+
+```tsx {1} title="src/screens/Home/index.tsx"
+export CONFIG = '';
+
+export function Home() { }
+```
+
+```tsx {1} title="App.tsx"
+import { Home, CONFIG } from './src/screens/Home';
+```
+
+## [Input de dados](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/input-de-dados)
+
+```ts {10,19-25} title="src/screens/Home/styles.ts"
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#131016',
+    padding: 24,
+  },
+  eventName: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 48,
+  },
+  eventDate: {
+    color: '#6b6b6b',
+    fontSize: 16,
+  },
+  input: {
+    height: 56,
+    backgroundColor: '#1f1e25',
+    borderRadius: 5,
+    color: '#fff',
+    padding: 16,
+  },
+});
+```
+
+```tsx {9-14} title="src/screens/Home/index.tsx"
+import { Text, View, TextInput } from 'react-native';
+import { styles } from './styles';
+
+export function Home() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Nome do participante"
+        placeholderTextColor="#6b6b6b"
+        keyboardType="numeric"
+      />
+    </View>
+  );
+}
+```
+
+## [Botão de Adicionar](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/botao-de-adicionar)
+
+```ts {26-37} title="src/screens/Home/styles.ts"
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#131016',
+    padding: 24,
+  },
+  eventName: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 48,
+  },
+  eventDate: {
+    color: '#6b6b6b',
+    fontSize: 16,
+  },
+  input: {
+    height: 56,
+    backgroundColor: '#1f1e25',
+    borderRadius: 5,
+    color: '#fff',
+    padding: 16,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 24,
+  },
+  button: {
+    width: 56,
+    height: 56,
+    borderRadius: 5,
+    backgroundColor: '#31cf67',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+```
+
+```tsx {5-7,19-21} title="src/screens/Home/index.tsx"
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { styles } from './styles';
+
+export function Home() {
+  function handleParticipantAdd() {
+    console.log('clicked!');
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Nome do participante"
+        placeholderTextColor="#6b6b6b"
+        keyboardType="numeric"
+      />
+      <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+```
+
+## [Criando o Form](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/criando-o-form)
+
+```ts {15-20,31,32} title="src/screens/Home/styles.ts"
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#131016',
+    padding: 24,
+  },
+  eventName: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 48,
+  },
+  form: {
+    width: '100%',
+    flexDirection: 'row',
+    marginTop: 36,
+    marginBottom: 42,
+  },
+  eventDate: {
+    color: '#6b6b6b',
+    fontSize: 16,
+  },
+  input: {
+    height: 56,
+    backgroundColor: '#1f1e25',
+    borderRadius: 5,
+    color: '#fff',
+    padding: 16,
+    flex: 1,
+    marginRight: 12,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 24,
+  },
+  button: {
+    width: 56,
+    height: 56,
+    borderRadius: 5,
+    backgroundColor: '#31cf67',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+```
+
+```tsx {13,23} title="src/screens/Home/index.tsx"
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { styles } from './styles';
+
+export function Home() {
+  function handleParticipantAdd() {
+    console.log('clicked!');
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+      <View style={styles.form}>
+        <TextInput
+          style={styles.input}
+          placeholder="Nome do participante"
+          placeholderTextColor="#6b6b6b"
+          keyboardType="numeric"
+        />
+        <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+```
+
+## [Entendendo Componetização](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/criando-o-form)
+
+## [Criando Componente Participant](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/criando-componente-participant)
+
+```ts title="src/components/Participant/styles.ts"
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    backgroundColor: '#1f1e25',
+    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  name: {
+    flex: 1,
+    fontSize: 16,
+    color: '#fff',
+    marginLeft: 16,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 24,
+  },
+  button: {
+    width: 56,
+    height: 56,
+    borderRadius: 5,
+    backgroundColor: '#e23c44',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+```
+
+```tsx title="src/components/Participant/index.tsx"
+import { Text, TouchableOpacity, View } from 'react-native';
+import { styles } from './styles';
+
+export function Participant() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.name}>Nome do evento</Text>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>-</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+```
+
+```tsx {2,25,26} title="src/screens/Home/index.tsx"
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Participant } from '../../components/Participant/index';
+import { styles } from './styles';
+
+export function Home() {
+  function handleParticipantAdd() {
+    console.log('clicked!');
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+      <View style={styles.form}>
+        <TextInput
+          style={styles.input}
+          placeholder="Nome do participante"
+          placeholderTextColor="#6b6b6b"
+          keyboardType="numeric"
+        />
+        <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+      <Participant />
+      <Participant />
+    </View>
+  );
+}
+```
+
+## [Entendendo o Typescript](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/entendendo-o-typescript)
