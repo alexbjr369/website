@@ -572,3 +572,120 @@ export function Home() {
 ```
 
 ## [Entendendo o Typescript](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/entendendo-o-typescript)
+
+## [Utilizando Propriedades no Componente](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/utilizando-propriedades-no-componente)
+
+```tsx {4-6,8,11} title="src/components/Participant/index.tsx"
+import { Text, TouchableOpacity, View } from 'react-native';
+import { styles } from './styles';
+
+type Props = {
+  name: string;
+};
+
+export function Participant({ name }: Props) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.name}>{name}</Text>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>-</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+```
+
+```tsx {25,26,27,28} title="src/screens/Home/index.tsx"
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Participant } from '../../components/Participant/index';
+import { styles } from './styles';
+
+export function Home() {
+  function handleParticipantAdd() {
+    console.log('clicked!');
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+      <View style={styles.form}>
+        <TextInput
+          style={styles.input}
+          placeholder="Nome do participante"
+          placeholderTextColor="#6b6b6b"
+          keyboardType="numeric"
+        />
+        <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+      <Participant name="John" />
+      <Participant name="John 2" />
+      <Participant name="John 3" />
+      <Participant name="John 4" />
+    </View>
+  );
+}
+```
+
+## [Função Remover](https://app.rocketseat.com.br/node/projeto-01/group/fundamentos-2/lesson/funcao-remover)
+
+```tsx {6,9,13} title="src/components/Participant/index.tsx"
+import { Text, TouchableOpacity, View } from 'react-native';
+import { styles } from './styles';
+
+type Props = {
+  name: string;
+  onRemove: () => void;
+};
+
+export function Participant({ name, onRemove }: Props) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.name}>{name}</Text>
+      <TouchableOpacity style={styles.button} onPress={onRemove}>
+        <Text style={styles.buttonText}>-</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+```
+
+```tsx {10-12,29-32} title="src/screens/Home/index.tsx"
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Participant } from '../../components/Participant/index';
+import { styles } from './styles';
+
+export function Home() {
+  function handleParticipantAdd() {
+    console.log('clicked!');
+  }
+
+  function handleParticipantRemove(name: string) {
+    console.log(`${name} removed!`);
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.eventName}>Nome do evento</Text>
+      <Text style={styles.eventDate}>Sexta, 4 de Novembro de 2022.</Text>
+      <View style={styles.form}>
+        <TextInput
+          style={styles.input}
+          placeholder="Nome do participante"
+          placeholderTextColor="#6b6b6b"
+          keyboardType="numeric"
+        />
+        <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+      <Participant
+        name="John"
+        onRemove={() => handleParticipantRemove('John')}
+      />
+    </View>
+  );
+}
+```

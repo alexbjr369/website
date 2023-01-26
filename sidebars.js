@@ -201,6 +201,7 @@ module.exports = {
             'courses/rocketseat/ignite/node-js/course/2023/chapter-01/section-02',
             'courses/rocketseat/ignite/node-js/course/2023/chapter-01/section-03',
             'courses/rocketseat/ignite/node-js/course/2023/chapter-01/section-04',
+            'courses/rocketseat/ignite/node-js/course/2023/chapter-01/section-05',
           ],
         },
       ],
