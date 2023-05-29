@@ -15,7 +15,15 @@ const Books = [
 
 const CourseList = [
   {
-    url: '/docs/ignite/node-js',
+    url: '/docs/next-level-week',
+    title: 'Next Level Week',
+    imageUrl: '../img/courses/ignite.png',
+    description: (
+      <><a href="https://www.rocketseat.com.br/plus" target="_blank"><strong>Next Level Week</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
+    )
+  },
+  {
+    url: '/docs/ignite/node-js-2023',
     title: 'Ignite Node.js',
     imageUrl: '../img/courses/ignite.png',
     description: (
@@ -27,7 +35,7 @@ const CourseList = [
     title: 'Ignite React Native',
     imageUrl: '../img/courses/ignite.png',
     description: (
-      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React.js</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
+      <><a href="https://www.rocketseat.com.br/ignite" target="_blank"><strong>Ignite React Native</strong></a> by <a href="https://www.rocketseat.com.br/" target="_blank"><strong>RocketSeat</strong></a>.</>
     )
   },
   {

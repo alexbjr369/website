@@ -1,0 +1,41 @@
+---
+id: introduction
+title: Ecoleta
+sidebar_label: Introduction
+description: Project developed in the ... by ...
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /projects/ecoleta
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+export const BuiltWith = ({ url, className, image, title, style }) => (
+  <a className="built-with" href={url}>
+    <img className={`built-with__image ${className}`} src={useBaseUrl(`img/knowledge/${image}`)} alt={title} style={style}/>
+    <div className="built-with__overlay">
+      <h2 className="built-with__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+export const BuiltWithText = ({ url, title }) => (
+  <a className="built-with-text" href={url}>
+    <div className="built-with-text__overlay">
+      <h2 className="built-with-text__heading">{title}</h2>
+    </div>
+  </a>
+);
+
+# Ecoleta
+
+Project developed in the course **[Next Level Week](https://www.rocketseat.com.br/plus)** by **[RocketSeat](https://www.rocketseat.com.br/)**.
+
+## About
+
+**[Figma](https://www.figma.com/file/igHQHnaksre9OKORRWCO3m/Ecoleta-(Booster)-(Copy)?t=T40AlRLSGRVh8WjQ-0)**
+
+## Links

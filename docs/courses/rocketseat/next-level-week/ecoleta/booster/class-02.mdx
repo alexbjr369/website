@@ -1,0 +1,304 @@
+---
+id: class-02
+title: Next Level Week · Ecoleta · Booster · Class 02
+sidebar_label: Class 02
+description: Next Level Week by RocketSeat.
+keywords:
+  - Alex Bleggi
+image: /static/other/img/profile.png
+slug: /next-level-week/ecoleta/booster/class-02
+toc_max_heading_level: 4
+hide_title: true
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+# [Class 02](https://app.rocketseat.com.br/plus/lesson/nlw-1-backend-da-aplicacao)
+
+## Server
+
+### Overview
+
+- **Rota:** http://localhost:3333/users
+- **Recurso:** users
+- **Metodos HTTP:**
+  - **GET:** Buscar uma ou mais informações do back-end.
+    - GET http://localhost:3333/users - Listar usuários.
+    - GET http://localhost:3333/users/5 - Lista usuário com id 5.
+  - **POST:** Criar uma nova informação no back-end.
+    - POST http://localhost:3333/users - Cria um usuário.
+  - **PUT:** Atualizar uma informação existente no back-end.
+  - **DELETE** Remover uma informação existente no back-end.
+- **Request param:** Parâmetros que vem na rota que identificam um recurso.
+  - Buscar um único usuário.
+  - Atualizar um único usuário.
+  - Deletar um único usuário.
+- **Query param:** Parâmetros que vem na rota geramente opcionais para filtros, paginação.
+  - GET http://localhost:3333/users?search=on
+- **Request body:** Parâmetros para criação/atualização de informações.
+
+### GET
+
+Buscar uma ou mais informações do back-end
+
+```
+GET http://localhost:3333/users
+```
+
+```ts title="src/server.ts"
+const users = ['John', 'Doe'];
+
+app.get('/users', (req, res) => {
+  res.json(users);
+});
+```
+
+```
+GET http://localhost:3333/users/0
+```
+
+```ts title="src/server.ts"
+const users = ['John', 'Doe'];
+
+app.get('/users/:id', (req, res) => {
+  const id = Number(req.params.id);
+
+  res.json(users[id]);
+
+  return res.json(users);
+});
+```
+
+### POST
+
+Criar uma nova informação no back-end.
+
+```
+POST http://localhost:3333/users
+```
+
+```ts title="src/server.ts"
+app.post('/users', (req, res) => {
+  const user = {
+    name: 'John',
+    email: 'john@email.com',
+  };
+
+  return res.json(user);
+});
+```
+
+### Query param
+
+Parâmetros que vem na rota geramente opcionais para filtros, paginação.
+
+```
+GET http://localhost:3333/users?search=jo
+```
+
+```ts title="src/server.ts"
+const users = ['John', 'Doe'];
+
+app.get('/users', (req, res) => {
+  const search = String(req.query.search);
+
+  const filtersUsers = search
+    ? users.filter((user) => user.includes(search))
+    : users;
+
+  res.json(filtersUsers);
+});
+```
+
+### Request body
+
+Parâmetros para criação/atualização de informações.
+
+```ts title="src/server.ts"
+app.use(express.json());
+
+app.post('/users', (req, res) => {
+  const data = req.body;
+
+  console.log(data);
+
+  const user = {
+    name: data.name,
+    email: data.email,
+  };
+
+  return res.json(user);
+});
+```
+
+## DB
+
+### Configurando conexão com o DB
+
+```bash
+yarn add knex
+yarn add sqlite3
+```
+
+```ts title="src/server.ts"
+import express from 'express';
+import routes from './routes';
+
+const app = express();
+
+app.use(express.json());
+
+app.use(routes);
+
+app.listen(3333);
+```
+
+```ts title="src/routes.ts"
+import express from 'express';
+
+const routes = express.Router();
+
+routes.get('/', (req, res) => {
+  return res.json({ message: 'Hello World' });
+});
+
+export default routes;
+```
+
+```ts title="src/database/connection.ts"
+import knex from 'knex';
+import path from 'node:path'; // retorna o path conforme o OS
+
+const connection = knex({
+  client: 'sqlite3',
+  connection: {
+    filename: path.resolve(__dirname, 'database.sqlite'),
+  },
+   useNullAsDefault: true,
+});
+
+export default connection;
+```
+
+### Identificando entidades da aplicação
+
+- **points:** pontos de coleta
+  - **image**
+  - **name**
+  - **email**
+  - **whatsapp**
+  - **latitude**
+  - **longitude**
+  - **city**
+  - **uf**
+- **items:** itens para coleta
+  - **image**
+  - **title**
+- **relacionamento:** Muitos para Muitos (N-N) gera tabela pivot **point_items**
+  - **Um ponto de coleta** pode coletar **vários items**.
+  - **Um item** pode ser coletado por **vários pontos de coleta**.
+- **point_items:** relacionamento dos itens de um ponto de coleta
+  - **point_id**
+  - **item_id**
+
+### Knex Migration
+
+- **Histórico do banco de dados.**
+
+Ordem dos arquivos vai ser a ordem que as tabelas vão ser executadas no banco.
+
+- 00_create_points
+- 01_create_items
+- 02_create_point_items
+
+```ts title="src/database/migrations/00_create_points.ts"
+import Knex from 'knex';
+
+export async function up() {
+  // criar a tabela
+}
+
+// faz o inverso que o método up faz
+export async function down() {
+  // deletar a tabela
+}
+```
+
+```ts title="knexfile.ts"
+import path from 'node:path';
+
+module.exports = {
+  client: 'sqlite3',
+  connection: {
+    filename: path.resolve(__dirname, 'src', 'database', 'database.sqlite'),
+  },
+  migrations: {
+    directory: path.resolve(__dirname, 'src', 'database', 'migrations'),
+  },
+  useNullAsDefault: true,
+};
+```
+
+```json {3} title="package.json"
+"scripts": {
+  "dev": "ts-node-dev src/server.ts",
+  "knex:migrate": "knex migrate:latest --knexfile knexfile.ts migrate:latest"
+},
+```
+
+- Instalar extensão [VSCode SQLite](https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite).
+
+```bash
+#
+ctrl + Shift + P
+#
+SQLite Open Database
+```
+
+<img src={useBaseUrl("img/courses/nlw/ecoleta-01.png")} alt="Ecoleta 01"/>
+
+#### Criação de tabelas
+
+```ts {4-14} title="src/database/migrations/00_create_points.ts"
+import { Knex } from 'knex';
+
+export async function up(knex: Knex) {
+  return knex.schema.createTable('points', (table) => {
+    table.increments('id').primary();
+    table.string('image').notNullable();
+    table.string('name').notNullable();
+    table.string('email').notNullable();
+    table.string('whatsapp').notNullable();
+    table.decimal('latitude').notNullable();
+    table.decimal('longitude').notNullable();
+    table.string('city').notNullable();
+    table.string('uf', 2).notNullable();
+  });
+}
+
+export async function down(knex: Knex) { }
+```
+
+#### Deleção de tabelas
+
+```ts {18} title="src/database/migrations/00_create_points.ts"
+import { Knex } from 'knex';
+
+export async function up(knex: Knex) {
+  return knex.schema.createTable('points', (table) => {
+    table.increments('id').primary();
+    table.string('image').notNullable();
+    table.string('name').notNullable();
+    table.string('email').notNullable();
+    table.string('whatsapp').notNullable();
+    table.decimal('latitude').notNullable();
+    table.decimal('longitude').notNullable();
+    table.string('city').notNullable();
+    table.string('uf', 2).notNullable();
+  });
+}
+
+export async function down(knex: Knex) {
+  return knex.schema.dropTable('points');
+}
+```

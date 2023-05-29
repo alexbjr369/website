@@ -33,7 +33,7 @@ module.exports = {
       label: 'HSL Color System',
       items: [
         'projects/hsl-color-system/introduction',
-        'projects/hsl-color-system/implementation',
+        'projects/hsl-color-system/implementation'
       ],
     },
     {
@@ -46,7 +46,7 @@ module.exports = {
             {
               CSS: [
                 'projects/webpack-guide/styling/css/introduction',
-                'projects/webpack-guide/styling/css/implementation',
+                'projects/webpack-guide/styling/css/implementation'
               ],
             },
           ],
@@ -63,7 +63,7 @@ module.exports = {
             {
               CSS: [
                 'projects/rollup-guide/styling/css/introduction',
-                'projects/rollup-guide/styling/css/implementation',
+                'projects/rollup-guide/styling/css/implementation'
               ],
             },
           ],
@@ -80,7 +80,7 @@ module.exports = {
             {
               CSS: [
                 'projects/npm-build-scripts-guide/styling/css/introduction',
-                'projects/npm-build-scripts-guide/styling/css/implementation',
+                'projects/npm-build-scripts-guide/styling/css/implementation'
               ],
             },
           ],
@@ -97,31 +97,31 @@ module.exports = {
             {
               CSS: [
                 'projects/linting-code-quality-rules/stylelint/css/introduction',
-                'projects/linting-code-quality-rules/stylelint/css/implementation',
+                'projects/linting-code-quality-rules/stylelint/css/implementation'
               ],
             },
             {
               Less: [
                 'projects/linting-code-quality-rules/stylelint/less/introduction',
-                'projects/linting-code-quality-rules/stylelint/less/implementation',
+                'projects/linting-code-quality-rules/stylelint/less/implementation'
               ],
             },
             {
               Sass: [
                 'projects/linting-code-quality-rules/stylelint/sass/introduction',
-                'projects/linting-code-quality-rules/stylelint/sass/implementation',
+                'projects/linting-code-quality-rules/stylelint/sass/implementation'
               ],
             },
             {
               SCSS: [
                 'projects/linting-code-quality-rules/stylelint/scss/introduction',
-                'projects/linting-code-quality-rules/stylelint/scss/implementation',
+                'projects/linting-code-quality-rules/stylelint/scss/implementation'
               ],
             },
             {
               Stylus: [
                 'projects/linting-code-quality-rules/stylelint/stylus/introduction',
-                'projects/linting-code-quality-rules/stylelint/stylus/implementation',
+                'projects/linting-code-quality-rules/stylelint/stylus/implementation'
               ],
             },
           ],
@@ -129,13 +129,13 @@ module.exports = {
             {
               JavaScript: [
                 'projects/linting-code-quality-rules/eslint/javascript/introduction',
-                'projects/linting-code-quality-rules/eslint/javascript/implementation',
+                'projects/linting-code-quality-rules/eslint/javascript/implementation'
               ],
             },
             {
               Typescript: [
                 'projects/linting-code-quality-rules/eslint/typescript/introduction',
-                'projects/linting-code-quality-rules/eslint/typescript/implementation',
+                'projects/linting-code-quality-rules/eslint/typescript/implementation'
               ],
             },
           ],
@@ -147,7 +147,7 @@ module.exports = {
       label: 'Linting - Commit',
       items: [
         'projects/linting-commit/introduction',
-        'projects/linting-commit/implementation',
+        'projects/linting-commit/implementation'
       ],
     },
     {
@@ -155,46 +155,78 @@ module.exports = {
       label: 'Linting - Formatting Rules',
       items: [
         'projects/linting-formatting-rules/introduction',
-        'projects/linting-formatting-rules/implementation',
+        'projects/linting-formatting-rules/implementation'
       ],
     },
   ],
   courseProjects: [
     {
       type: 'category',
+      label: 'Ecoleta',
+      items: [
+        'projects/ecoleta/introduction'
+      ],
+    },
+    {
+      type: 'category',
       label: 'Nexter',
       items: [
-        'projects/nexter/introduction',
+        'projects/nexter/introduction'
       ],
     },
     {
       type: 'category',
       label: 'Trillo',
       items: [
-        'projects/trillo/introduction',
+        'projects/trillo/introduction'
       ],
     },
     {
       type: 'category',
       label: 'Natours',
       items: [
-        'projects/natours/introduction',
+        'projects/natours/introduction'
       ],
     },
     {
       type: 'category',
       label: 'toni&guy',
       items: [
-        'projects/toni-and-guy/introduction',
+        'projects/toni-and-guy/introduction'
       ],
     },
   ],
   courses: [
     {
       type: 'category',
+      label: 'Next Level Week',
+      items: [
+        'courses/rocketseat/next-level-week/introduction',
+        {
+          'Ecoleta': {
+            'Starter': [
+              'courses/rocketseat/next-level-week/ecoleta/starter/class-01',
+              'courses/rocketseat/next-level-week/ecoleta/starter/class-02',
+              'courses/rocketseat/next-level-week/ecoleta/starter/class-03',
+              'courses/rocketseat/next-level-week/ecoleta/starter/class-04',
+              'courses/rocketseat/next-level-week/ecoleta/starter/class-05',
+            ],
+            'Booster': [
+              'courses/rocketseat/next-level-week/ecoleta/booster/class-01',
+              'courses/rocketseat/next-level-week/ecoleta/booster/class-02',
+              'courses/rocketseat/next-level-week/ecoleta/booster/class-03',
+              'courses/rocketseat/next-level-week/ecoleta/booster/class-04',
+              'courses/rocketseat/next-level-week/ecoleta/booster/class-05',
+            ],
+          }
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: 'Ignite Node.js 2023',
       items: [
-        'courses/rocketseat/ignite/node-js/introduction',
+        'courses/rocketseat/ignite/node-js/course/2023/introduction',
         {
           'Chapter 01': [
             'courses/rocketseat/ignite/node-js/course/2023/chapter-01/section-01',
@@ -210,16 +242,16 @@ module.exports = {
       type: 'category',
       label: 'Ignite Node.js 2022',
       items: [
-        'courses/rocketseat/ignite/node-js/introduction',
+        'courses/rocketseat/ignite/node-js/course/2022/introduction',
         {
           'Chapter 01': [
             'courses/rocketseat/ignite/node-js/course/2022/chapter-01/section-01',
             'courses/rocketseat/ignite/node-js/course/2022/chapter-01/section-02',
-            'courses/rocketseat/ignite/node-js/course/2022/chapter-01/section-03',
+            'courses/rocketseat/ignite/node-js/course/2022/chapter-01/section-03'
           ],
           'Chapter 02': [
             'courses/rocketseat/ignite/node-js/course/2022/chapter-02/section-01',
-            'courses/rocketseat/ignite/node-js/course/2022/chapter-02/section-02',
+            'courses/rocketseat/ignite/node-js/course/2022/chapter-02/section-02'
           ],
         },
       ],
@@ -232,7 +264,7 @@ module.exports = {
         {
           'Chapter 01': [
             'courses/rocketseat/ignite/react-native/course/2022/chapter-01/section-01',
-            'courses/rocketseat/ignite/react-native/course/2022/chapter-01/section-02',
+            'courses/rocketseat/ignite/react-native/course/2022/chapter-01/section-02'
           ],
         },
       ],
@@ -246,7 +278,7 @@ module.exports = {
           'Chapter 01': [
             'courses/rocketseat/ignite/react-js/course/2022/chapter-01/section-01',
             'courses/rocketseat/ignite/react-js/course/2022/chapter-01/section-02',
-            'courses/rocketseat/ignite/react-js/course/2022/chapter-01/section-03',
+            'courses/rocketseat/ignite/react-js/course/2022/chapter-01/section-03'
           ],
         },
       ],
@@ -296,14 +328,14 @@ module.exports = {
       type: 'category',
       label: 'Vue The Complete Guide',
       items: [
-        'courses/vue-the-complete-guide/vue-the-complete-guide',
+        'courses/vue-the-complete-guide/vue-the-complete-guide'
       ],
     },
     {
       type: 'category',
       label: 'React The Complete Guide',
       items: [
-        'courses/react-the-complete-guide/react-the-complete-guide',
+        'courses/react-the-complete-guide/react-the-complete-guide'
       ],
     },
     {
@@ -312,7 +344,7 @@ module.exports = {
       items: [
         'courses/web-components-stencil-js/web-components-stencil-js',
         {
-          'Course': [
+          Course: [
             'courses/web-components-stencil-js/course/section-01',
             'courses/web-components-stencil-js/course/section-02',
             'courses/web-components-stencil-js/course/section-03',
@@ -333,7 +365,7 @@ module.exports = {
       items: [
         'courses/understanding-typescript/understanding-typescript',
         {
-          'Course': [
+          Course: [
             'courses/understanding-typescript/course/section-01',
             'courses/understanding-typescript/course/section-02',
             'courses/understanding-typescript/course/section-03',
@@ -360,7 +392,7 @@ module.exports = {
       items: [
         'courses/the-complete-javascript-course/the-complete-javascript-course',
         {
-          'Course': [
+          Course: [
             'courses/the-complete-javascript-course/course/section-01',
             'courses/the-complete-javascript-course/course/section-02',
             'courses/the-complete-javascript-course/course/section-03',
@@ -413,9 +445,7 @@ module.exports = {
             'courses/advanced-animations-and-interactions-with-ionic/course/section-05',
             'courses/advanced-animations-and-interactions-with-ionic/course/section-06',
             {
-              'Simple Examples': [
-                'courses/advanced-animations-and-interactions-with-ionic/course/simple-examples/staggered-list',
-              ],
+              'Simple Examples': ['courses/advanced-animations-and-interactions-with-ionic/course/simple-examples/staggered-list'],
             },
           ],
         },

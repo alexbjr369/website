@@ -217,6 +217,10 @@ module.exports = {
               to: 'docs/projects/linting-formatting-rules',
             },
             {
+              label: 'Ecoleta',
+              to: 'docs/projects/ecoleta',
+            },
+            {
               label: 'Nexter',
               to: 'docs/projects/nexter',
             },
@@ -229,6 +233,10 @@ module.exports = {
               to: 'docs/projects/natours',
             },
             {
+              label: 'Reindeer',
+              to: 'docs/projects/reindeer',
+            },
+            {
               label: 'toni&guy',
               to: 'docs/projects/toni-and-guy',
             },
@@ -238,8 +246,16 @@ module.exports = {
           title: 'Courses',
           items: [
             {
+              label: 'Next Level Week',
+              to: 'docs/next-level-week',
+            },
+            {
               label: 'Ignite Node.js',
-              to: 'docs/ignite/node-js',
+              to: 'docs/ignite/node-js-2023',
+            },
+            {
+              label: 'Ignite React Native',
+              to: 'docs/ignite/react-native',
             },
             {
               label: 'Ignite React.js',
